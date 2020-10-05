@@ -53,7 +53,7 @@
                         android:id="@+id/tv_symbol"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="2dp"
-                        android:text="@string/bcs"
+                        android:text="@string/sbercoin"
                         android:textColor="@color/white"
                         app:typefaceAsset="@string/proximaNovaBold"/>
                 </LinearLayout>
@@ -91,7 +91,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:layout_marginLeft="8dp"
-                        android:text="@string/bcs"
+                        android:text="@string/sbercoin"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         app:typefaceAsset="@string/proximaNovaBold"/>
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="48dp"
                     android:gravity="center"
-                    android:text="@string/transactionBCS"
+                    android:text="@string/transactionSBER"
                     android:textColor="@color/white"
                     android:textSize="@dimen/toolbar_text_size"
                     app:typefaceAsset="@string/proximaNovaSemibold"/>

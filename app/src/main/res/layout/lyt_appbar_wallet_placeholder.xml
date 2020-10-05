@@ -44,7 +44,7 @@
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_placeholder_symbol"
                 android:layout_marginLeft="4dp"
-                android:text="@string/bcs"
+                android:text="@string/sbercoin"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -94,7 +94,7 @@
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_placeholder_not_confirmed_symbol"
                 android:layout_marginLeft="4dp"
-                android:text="@string/bcs"
+                android:text="@string/sbercoin"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"

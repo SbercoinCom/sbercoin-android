@@ -33,7 +33,7 @@
     <org.sbercoin.wallet.utils.FontTextView
         android:id="@+id/cost"
         android:maxLines="1"
-        android:layout_toLeftOf="@+id/bcs"
+        android:layout_toLeftOf="@+id/sbercoin"
         android:layout_centerVertical="true"
         android:scaleType="center"
         android:textSize="18sp"
@@ -47,13 +47,13 @@
         android:layout_height="match_parent" />
 
     <org.sbercoin.wallet.utils.FontTextView
-        android:id="@+id/bcs"
+        android:id="@+id/sbercoin"
         android:maxLines="1"
         android:layout_marginTop="4dp"
         android:layout_alignParentEnd="true"
         android:scaleType="center"
         android:textSize="12sp"
-        android:text="@string/bcs"
+        android:text="@string/sbercoin"
         android:textColor="@color/colorPrimary"
         app:typefaceAsset="@string/simplonMonoMedium"
         android:gravity="center"

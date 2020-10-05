@@ -12,7 +12,7 @@
 
     <string name="my_wallet">Мой кошелек</string>
     <string name="public_key">Публичный ключ</string>
-    <string name="bcs">SBER</string>
+    <string name="sbercoin">SBER</string>
     <string name="receive">Получить</string>
     <string name="send">Отправить</string>
     <string name="org.sbercoin.wallet.activity">Активность</string>
@@ -33,7 +33,7 @@
     <string name="received">Получено</string>
     <string name="sent">Отправлено</string>
     <string name="received_time">Время получения</string>
-    <string name="transactionBCS">Транзакция</string>
+    <string name="transactionSBER">Транзакция</string>
     <string name="from">Отправитель</string>
     <string name="to">Получатель</string>
     <string name="import_button">Импорт</string>
@@ -134,7 +134,7 @@
     <string name="contract_created_successfully">Контракт создан успешно</string>
     <string name="restored_successfully">Восстановление прошло успшно</string>
 
-    <string name="login_to_bcs_using_touch_id">Войти в Sbercoin.com,\nиспользуя Touch ID</string>
+    <string name="login_to_sbercoin_using_touch_id">Войти в Sbercoin.com,\nиспользуя Touch ID</string>
     <string name="touch_id">Touch ID</string>
     <string name="enable_touch_id">Включить touch id</string>
     <string name="not_now">Не сейчас</string>
@@ -161,7 +161,7 @@
     <string name="smart_contract_parameters">Параметры смарт-контракта</string>
     <!-- <string name="switch_theme">Сменить тему</string> -->
     <string name="confirmation">Подтверждение…</string>
-    <string name="bcs_address">SBER адрес</string>
+    <string name="sbercoin_address">SBER адрес</string>
     <string name="not_confirmed_yet">Пока не подтверждено…</string>
     <string name="confirmed">Подтверждено</string>
     <string name="preview">Превью</string>
@@ -183,7 +183,7 @@
     <string name="contract_details">Детали контракта</string>
     <string name="sent_time">Время отправления</string>
     <string name="you_have_insufficient_funds_for_this_transaction">У вас недостаточно средств для этой транзакции или сумма слишком мала</string>
-    <string name="invalid_bcs_address">Неверный SBER адрес</string>
+    <string name="invalid_sbercoin_address">Неверный SBER адрес</string>
     <string name="fail_to_get_contract_methods">Неудалось получить методы контракта</string>
     <string name="fail_to_get_contracts">Неудалось получить контракт</string>
     <string name="trending_now">Популярно сейчас</string>
@@ -193,7 +193,7 @@
     <string name="token_not_found">Токен не найден</string>
     <string name="copied">Скопировано</string>
     <string name="new_confirmed_transaction">Нвая подтвержденная транзакция</string>
-    <string name="_2017_bcs_n_skynet_testnet_version">© 2020 Sbercoin.com \n </string>
+    <string name="_2017_sbercoin_n_skynet_testnet_version">© 2020 Sbercoin.com \n </string>
     <string name="touch_to_open_transaction_history">Нажмите, чтобы открыть историю транзкций</string>
     <string name="functions">Функции</string>
     <string name="wallet_backup">Бэкап кошелька</string>

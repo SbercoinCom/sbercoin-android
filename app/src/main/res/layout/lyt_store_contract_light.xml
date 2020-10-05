@@ -113,12 +113,12 @@
                     app:typefaceAsset="@string/proximaNovaBold" />
 
                 <org.sbercoin.wallet.utils.FontTextView
-                    android:id="@+id/tv_bcs"
+                    android:id="@+id/tv_sbercoin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:gravity="center"
-                    android:text="@string/bcs"
+                    android:text="@string/sbercoin"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:typefaceAsset="@string/proximaNovaRegular" />

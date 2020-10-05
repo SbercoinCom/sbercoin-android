@@ -8,7 +8,7 @@
     <string name="wallet_name">钱包名称</string>
     <string name="my_wallet">我的钱包</string>
     <string name="public_key">公钥</string>
-    <string name="bcs">SBER</string>
+    <string name="sbercoin">SBER</string>
     <string name="receive">接收</string>
     <string name="send">发送</string>
     <string name="org.sbercoin.wallet.activity">活动</string>
@@ -28,7 +28,7 @@
     <string name="received">已接收</string>
     <string name="sent">发送</string>
     <string name="received_time">接收时间</string>
-    <string name="transactionBCS">交易</string>
+    <string name="transactionSBER">交易</string>
     <string name="from">从</string>
     <string name="to">到</string>
     <string name="import_button">导入</string>
@@ -118,7 +118,7 @@
     <string name="enable_touch_id">启用touch id</string>
     <string name="error">错误</string>
     <string name="login">登录</string>
-    <string name="login_to_bcs_using_touch_id">使用Touch ID登录BCS</string>
+    <string name="login_to_sbercoin_using_touch_id">使用Touch ID登录SBER</string>
     <string name="no_internet_connection">无网络连接</string>
     <string name="not_now">暂不启用</string>
     <string name="payment_completed_successfully">成功完成支付</string>
@@ -137,7 +137,7 @@
     <string name="token">Token</string>
     <string name="smart_contract_parameters">智能合约参数</string>
     <string name="confirmation">确认…</string>
-    <string name="bcs_address">BCS地址</string>
+    <string name="sbercoin_address">SBER地址</string>
     <string name="not_confirmed_yet">还未确认…</string>
     <string name="confirmed">已确认</string>
     <string name="preview">预览</string>
@@ -170,9 +170,9 @@
 
     <!--FONT PATHS-->
     <string name="sent_time">发送时间</string>
-    <string name="invalid_bcs_address">不合法的BCS地址</string>
+    <string name="invalid_sbercoin_address">不合法的SBER地址</string>
     <string name="invalid_qr_code">无效的二维码格式</string>
-    <string name="_2017_bcs_n_skynet_testnet_version">"© 2020 SBER Chain \n "</string>
+    <string name="_2017_sbercoin_n_skynet_testnet_version">"© 2020 SBER Chain \n "</string>
     <string name="functions">函数</string>
     <string name="wallet_backup">钱包备份</string>
     <string name="news_placeholder">请关注我们的社交媒体账号获取更多最新动态</string>
@@ -223,7 +223,7 @@
     <string name="invalid_fee">不正确的手续费</string>
     <string name="_fee">手续费</string>
     <string name="token_unsupported">不支持</string>
-    <string name="token_unsupported_reason">对不起，这个代币超出了128位小数位的限制，所以不能被BCS应用支持</string>
+    <string name="token_unsupported_reason">对不起，这个代币超出了128位小数位的限制，所以不能被SBER应用支持</string>
     <string name="your_balance_was_last_updated_at">你的余额最后更新于</string>
     <string name="internal_transaction">内部交易</string>
 

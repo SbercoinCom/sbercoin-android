@@ -58,17 +58,17 @@
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="500dp"
             android:layout_height="272dp"
-            app:srcCompat="@drawable/ic_bcs_logo_with_text"
+            app:srcCompat="@drawable/ic_sbercoin_logo_with_text"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="135dp"/>
 
         <org.sbercoin.wallet.utils.FontTextView
-            android:id="@+id/tv_bcs_version"
+            android:id="@+id/tv_sbercoin_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/_2017_bcs_n_skynet_testnet_version"
+            android:text="@string/_2017_sbercoin_n_skynet_testnet_version"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             app:typefaceAsset="@string/avenir"

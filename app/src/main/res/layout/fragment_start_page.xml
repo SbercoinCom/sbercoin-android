@@ -86,7 +86,7 @@
             android:layout_height="140dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/bcs_logo_filled" />
+            app:srcCompat="@drawable/sbercoin_logo_filled" />
 
         <LinearLayout
             android:orientation="vertical"

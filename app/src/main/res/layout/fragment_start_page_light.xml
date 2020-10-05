@@ -94,7 +94,7 @@
             android:layout_alignParentTop="true"
             android:tint="@color/primary_text_color"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/bcs_logo_filled" />
+            app:srcCompat="@drawable/sbercoin_logo_filled" />
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_start_page_you_dont_have"
