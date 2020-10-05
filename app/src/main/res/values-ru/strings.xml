@@ -1,0 +1,254 @@
+<resources>
+    <string name="app_name">Sbercoin.com</string>
+
+    <string name="create_new">Создать</string>
+    <string name="import_wallet">Импорт</string>
+    <string name="create_the_first_one_or_restore_n_the_previous_wallet_key">Создайте или восстановите \n ключ кошелька.</string>
+    <string name="you_don_t_have_a_wallet_yet">У вас пока нет кошелька.</string>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+
+    <string name="wallet_name">Имя кошелька</string>
+
+    <string name="my_wallet">Мой кошелек</string>
+    <string name="public_key">Публичный ключ</string>
+    <string name="bcs">SBER</string>
+    <string name="receive">Получить</string>
+    <string name="send">Отправить</string>
+    <string name="org.sbercoin.wallet.activity">Активность</string>
+    <string name="receiver_s_address">Адрес получателя</string>
+    <string name="amount">Сумма</string>
+    <string name="available_balance">"Доступный баланс"</string>
+    <string name="copy_wallet_address">Скопировать адрес кошелька</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="cancel">Отменить</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="profile">Профиль</string>
+    <string name="wallet">Кошелек</string>
+    <string name="news">Новости</string>
+    <string name="create_pin">Создать пин</string>
+    <string name="enter_pin">Введите пин</string>
+    <string name="confirm_fingerprint_or_pin">Введите пин или \nиспользуйте TouchID </string>
+    <string name="incorrect_pin">Неверный пин</string>
+    <string name="received">Получено</string>
+    <string name="sent">Отправлено</string>
+    <string name="received_time">Время получения</string>
+    <string name="transactionBCS">Транзакция</string>
+    <string name="from">Отправитель</string>
+    <string name="to">Получатель</string>
+    <string name="import_button">Импорт</string>
+    <string name="language">Язык</string>
+    <string name="description">Описание:</string>
+
+    <string name="published_date">Дата публикации:</string>
+    <string name="size">Размер:</string>
+    <string name="compiled_on">Compiled On:</string>
+    <string name="source_code">Source Code:</string>
+    <string name="published_by">Published By:</string>
+    <string name="downloads">Downloads:</string>
+
+    <string name="purchase">Покупка</string>
+
+    <string name="confirm_purchase">Подтвердить покупку</string>
+
+    <string name="tags">Tags:</string>
+    <string name="qstore">Магазин</string>
+    <string name="search_by_name">Искать по имени</string>
+    <string name="search_by_tag">Искать по хэштегу</string>
+    <string name="view_details">Детали</string>
+    <string name="view_source_code">Посмотреть исходный код</string>
+    <string name="change_pin">Сменить пин</string>
+    <string name="export_passphrase">Экспортировать seed-фразу</string>
+    <string name="about">О проекте</string>
+    <string name="empty_name">Пустое имя</string>
+    <string name="incorrect_repeated_pin">Неверное повторение пин</string>
+    <string name="your_brain_code">Ваша seed-фраза</string>
+    <string name="copy_brain_code">Копировать seed-фразу</string>
+    <string name="copy_brain_code_n_to_use_it_in_another_app">Скопировать seed-фразу, чтобы восстановить кошелек на другом устройстве</string>
+    <string name="choose_another_address">Выберите другой адрес</string>
+    <string name="log_out">Выйти</string>
+    <string name="qr_code">QR код</string>
+    <string name="_continue">Продолжить</string>
+    <string name="you_can_skip_this_step_and_export_your_brain_code_at_any_time_you_want">Вы можете пропустить этот шаг и экспортировать seed-фразу в любое время</string>
+    <string name="copy">Скопировать</string>
+    <string name="addresses">Адреса</string>
+    <string name="subscribe_tokens">Отслеживаемые токены</string>
+    <string name="next">Далее</string>
+    <string name="initial_supply">Начальная эмиссия</string>
+    <string name="decimal_units">Количество десятков</string>
+    <string name="back">Назад</string>
+    <string name="finish">Финиш</string>
+    <string name="token_name">Имя токена</string>
+    <string name="mine_address">Адрес майнера</string>
+    <string name="fee">Комиссия</string>
+    <string name="currency">Валюта</string>
+    <string name="search">Поиск</string>
+    <string name="chose_to_subscribe">Отслеживаемые токены</string>
+    <string name="enter_pin_lower_case">введите пин</string>
+    <string name="enter_new_pin">введите новый пин</string>
+    <string name="repeat_pin">повторите пин</string>
+    <string name="enter_old_pin">введите старый пин</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="are_you_sure">Вы уверены?</string>
+    <string name="skip">Пропустить</string>
+    <string name="not_confirmed_balance">Неподтвержденный баланс</string>
+    <string name="templates">Шаблоны</string>
+    <string name="step_1_2">Шаг 1 из 2</string>
+    <string name="step_2_2">Шаг 2 из 2</string>
+    <string name="ok">OK</string>
+    <string name="other_tokens">Другие токены</string>
+    <string name="token_address">Адрес токена</string>
+
+    <!--FONT PATHS-->
+    <string name="euclidFlexMedium" translatable="false">fonts/proximanovaregular.ttf</string>
+    <string name="simplonMonoMedium" translatable="false">fonts/proximanovasemibold.ttf</string>
+    <string name="simplonMonoRegular" translatable="false">fonts/proximanovaregular.ttf</string>
+    <string name="avenir" translatable="false">fonts/avenir.ttc</string>
+    <string name="proximaNovaBold" translatable="false">fonts/proximanovabold.ttf</string>
+    <string name="proximaNovaLight" translatable="false">fonts/proximanovalight.ttf</string>
+    <string name="proximaNovaRegular" translatable="false">fonts/proximanovaregular.ttf</string>
+    <string name="proximaNovaSemibold" translatable="false">fonts/proximanovasemibold.ttf</string>
+
+    <string name="retry">Повторить</string>
+
+    <string name="smart_contracts">Смарт-контракты</string>
+    <string name="contracts_store">Список контрактов</string>
+    <string name="call">Вызвать</string>
+    <string name="function_detail">Детали функции</string>
+    <string name="contracts">Контракты</string>
+
+    <string name="contract_address">Адрес контракта</string>
+    <string name="unconfirmed">Неподтверждено</string>
+    <string name="watch_contract">Наблюдать за контрактом</string>
+    <string name="watch_token">Наблюдать за токеном</string>
+    <string name="restore_contracts">Восстановить контракты</string>
+    <string name="backup_contracts">Бэкап контрактов</string>
+    <string name="select_back_up_file">Выберите бэкап-файл</string>
+    <string name="please_wait_a_few_seconds">Пожалуйста, подождите</string>
+    <string name="payment_completed_successfully">Платеж совершен успешно</string>
+    <string name="default_currency">(валюта по-умолчанию)</string>
+    <string name="error">Ошибка</string>
+    <string name="no_internet_connection">Нет интернет-соединения</string>
+    <string name="please_check_your_network_settings">Пожалуйста, проверьте настройки сети</string>
+    <string name="contract_created_successfully">Контракт создан успешно</string>
+    <string name="restored_successfully">Восстановление прошло успшно</string>
+
+    <string name="login_to_bcs_using_touch_id">Войти в Sbercoin.com,\nиспользуя Touch ID</string>
+    <string name="touch_id">Touch ID</string>
+    <string name="enable_touch_id">Включить touch id</string>
+    <string name="not_now">Не сейчас</string>
+    <string name="login">Войти</string>
+
+
+    <string name="contract_name">Название контракта:</string>
+    <string name="contract_type">Тип контракта:</string>
+    <string name="price">Цена:</string>
+    <string name="miner_address">Добыто:</string>
+    <string name="Fee">Комиссия:</string>
+    <string name="Source_code">Исходный код</string>
+    <string name="store_categories">Qstore Categories</string>
+    <string name="tap_to_save_the_file">Нажмите для сохранения файла</string>
+    <string name="my_new_contracts">Мои шаблоны контрактов</string>
+    <string name="my_published_contracts">Мои опубликованные контракты</string>
+    <string name="not_confirmed_transaction">Неподтвержденная транзакция</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="copy_to_share">Скопировать, чтобы поделиться</string>
+    <string name="copy_address">Скопировать адрес</string>
+    <string name="copy_abi">Скопировать ABI</string>
+    <string name="abi_interface">Интерфейс ABI</string>
+    <string name="token">Токен</string>
+    <string name="smart_contract_parameters">Параметры смарт-контракта</string>
+    <!-- <string name="switch_theme">Сменить тему</string> -->
+    <string name="confirmation">Подтверждение…</string>
+    <string name="bcs_address">SBER адрес</string>
+    <string name="not_confirmed_yet">Пока не подтверждено…</string>
+    <string name="confirmed">Подтверждено</string>
+    <string name="preview">Превью</string>
+    <string name="restore">Восстановить</string>
+    <string name="token_was_added_to_your_wallet">Токен добавлен в ваш кошелек</string>
+    <string name="abi_doesnt_match_qrc20_standard">ABI не совпадает со стандартом ERC20</string>
+    <string name="token_with_same_address_already_exists">Токен с таким адресом уже существует</string>
+    <string name="invalid_token_address">Неверный адрес токена</string>
+    <string name="address_list">Список адресов</string>
+    <string name="transfer_balance">Transfer Balance</string>
+    <string name="transfer">Отправить</string>
+    <string name="enter_valid_amount_value">Введте корректную сумму</string>
+    <string name="transaction_amount_cant_be_zero">Сумма транзакции не может равняться 0. Пожалуйста, исправьте данные и попробуйте снова</string>
+    <string name="address_book">Адресная книга</string>
+    <string name="complete">Готово</string>
+    <string name="address_manage">Управление адресами</string>
+    <string name="view_abi">Посмотреть ABI</string>
+    <string name="contract_management">Управление контрактами</string>
+    <string name="contract_details">Детали контракта</string>
+    <string name="sent_time">Время отправления</string>
+    <string name="you_have_insufficient_funds_for_this_transaction">У вас недостаточно средств для этой транзакции или сумма слишком мала</string>
+    <string name="invalid_bcs_address">Неверный SBER адрес</string>
+    <string name="fail_to_get_contract_methods">Неудалось получить методы контракта</string>
+    <string name="fail_to_get_contracts">Неудалось получить контракт</string>
+    <string name="trending_now">Популярно сейчас</string>
+    <string name="whats_new">Что нового?</string>
+    <string name="error_qrcode_recognition_try_again">Не удалось распознать QR-код. Попробуйте ещё раз</string>
+    <string name="invalid_qr_code">Неверный QR код</string>
+    <string name="token_not_found">Токен не найден</string>
+    <string name="copied">Скопировано</string>
+    <string name="new_confirmed_transaction">Нвая подтвержденная транзакция</string>
+    <string name="_2017_bcs_n_skynet_testnet_version">© 2020 Sbercoin.com \n </string>
+    <string name="touch_to_open_transaction_history">Нажмите, чтобы открыть историю транзкций</string>
+    <string name="functions">Функции</string>
+    <string name="wallet_backup">Бэкап кошелька</string>
+    <string name="news_placeholder">Later</string>
+    <string name="news_placeholder_link">Later</string>
+    <string name="no_transaction_available_yet">Транзакции не найдены</string>
+    <string name="_fee">Комиссия</string>
+    <string name="invalid_fee">Неверная комиссия</string>
+    <string name="insufficient_fee_lease_use_minimum_of">Нехватка комиссии. Пожалуйста, используйте минимум </string>
+    <string name="no_tokens_found">Токены не найдены</string>
+    <string name="no_contracts_found">Контракты не найдены</string>
+    <string name="close">Закрыть</string>
+    <string name="edit">Редактировать</string>
+    <string name="receive_version_error">Ошибка получения версии</string>
+    <string name="sorry_please_try_again_in">Пожалуйста, повторите через</string>
+    <string name="minutes">минут</string>
+    <string name="warning">Предупреждение</string>
+    <string name="you_are_about_to_exit_your_account_all_account_data_will_be_erased_from_the_device_please_make_sure_you_have_saved_backups_of_your_passphrase_and_required_contracts">Вы собираетесь выйти из аккаунта. Все данные учетной записи будут удалены с устройства. Пожалуйста, убедитесь, что вы сохранили резервные копии вашей seed-фразы и необходимые контракты</string>
+    <string name="amount_too_big">Сумма слишком большая</string>
+    <string name="swipe_left_to_unsubscribe_or_delete_contract">Свайпните влево, чтобы отписаться или удалить контракт</string>
+    <string name="query">Очередь</string>
+    <string name="query_result">Query Result</string>
+    <string name="default_address">Адрес по-умолчанию</string>
+    <string name="choose_from_library"><![CDATA[Choose from library >]]></string>
+    <string name="contract_address_">Адрес контракта</string>
+    <string name="contract_name_">Имя контракта</string>
+    <string name="name">Имя</string>
+    <string name="purchase_date">Дата покупки</string>
+    <string name="please_put_the_words_from_passphrase_into_correct_order">Пожалуйста, расположите слова seed-фразы в верном порядке</string>
+    <string name="reset_all">Сбросить все</string>
+    <string name="the_passphrase_is_not_correct_please_click_quot_reset_all_quot_to_clear_the_field_and_try_again">Seed-фраза не верна. Пожалуйста, кликните \"Сбросить все\", чтобы очистить поле и повторить снова</string>
+    <string name="please_note_that_you_won_t_be_able_to_restore_your_wallet_without_passphrase_and_all_funds_can_be_lost">Обратите внимание, что вы не сможете восстановить свой кошелек без пароля и все средства могут быть потеряны.</string>
+    <string name="repeat_passphrase">Повторите seed-фразу</string>
+    <string name="overview">Обзор</string>
+    <string name="event_log">Логи событий</string>
+    <string name="address">Адрес</string>
+    <string name="topics">Topics</string>
+    <string name="getting_info">Getting transaction receipt</string>
+    <string name="received_contract">Контракт \nПолучен</string>
+    <string name="sent_contract">Контракт \nОтправлен</string>
+    <string name="data">Данные</string>
+    <string name="hex">Hex</string>
+    <string name="number">Число</string>
+    <string name="text">Текст</string>
+    <string name="change_contract_name">Изменить имя контракта</string>
+    <string name="change">Изменить</string>
+    <string name="contract_was_deleted_by_its_author_and_is_no_longer_available_you_can_unsubscribe_to_remove_it_from_your_wallet">Контракт был удален его автором и более недоступен. Вы можете отписаться, чтобы удалить его из вашего кошелька.</string>
+    <string name="unsubscribe">Отписаться</string>
+    <string name="valid_contract_name_symbol" translatable="false">0123456789qwertzuiopasdfghjklyxcvbnmабвгдеёжзийклмнопрстуфхцчшщъыьэюяQWERTZUIOPASDFGHJKLYXCVBNMАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ</string>
+    <string name="token_unsupported">Unsupported</string>
+    <string name="token_unsupported_reason">Извините, этот токен превышает ограничение в 128 знаков после запятой, поэтому он не может быть поддержан в приложении SBER</string>
+    <string name="your_balance_was_last_updated_at">Ваш баланс был обновлен </string>
+    <string name="internal_transaction">Внутрення транзакция</string>
+    <string name="confirm_passphrase">Подтвердите seed-фразу</string>
+
+    <string name="confirm_logout">Выйти</string>
+    <string name="cancel_logout">Отменить</string>
+</resources>

@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "735676586222",
+    "firebase_url": "https://test-4e269.firebaseio.com",
+    "project_id": "test-4e269",
+    "storage_bucket": "test-4e269.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735676586222:android:ff35571502acad8e347bff",
+        "android_client_info": {
+          "package_name": "org.sbercoin.wallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735676586222-8qnbe16dk58hn2npo6p67p3fsrism0qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCM60UlSGnXqTzUYxWUPM-yqSZZWvmJEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735676586222-8qnbe16dk58hn2npo6p67p3fsrism0qr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735676586222:android:a3b143b044724aa2347bff",
+        "android_client_info": {
+          "package_name": "org.sbercoin.wallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735676586222-8qnbe16dk58hn2npo6p67p3fsrism0qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCM60UlSGnXqTzUYxWUPM-yqSZZWvmJEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735676586222-8qnbe16dk58hn2npo6p67p3fsrism0qr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
