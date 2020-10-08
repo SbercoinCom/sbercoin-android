@@ -22,7 +22,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class TransactionPresenterTest {
+public class TransactionPresenterTest
+{
 
     private static final RealmList<Vout> vouts = new RealmList<>();//Arrays.asList(new Vout("address"), new Vout("address"));
     private static final RealmList<Vin> vins = new RealmList<>();//Arrays.asList(new Vin("address"), new Vin("address"));
@@ -36,14 +37,16 @@ public class TransactionPresenterTest {
     private TransactionPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new TransactionPresenterImpl(view, interactor);
     }
 
     @Test
-    public void openTransactionView_FullDate() {
+    public void openTransactionView_FullDate()
+    {
         when(interactor.getHistory(anyString()))
                 .thenReturn(TEST_HISTORY_WITH_BLOCK_TIME);
         when(interactor.getFullDate(anyLong()))
@@ -58,7 +61,8 @@ public class TransactionPresenterTest {
     }
 
     @Test
-    public void openTransactionView_UnconfirmedDate() {
+    public void openTransactionView_UnconfirmedDate()
+    {
         when(interactor.getHistory(anyString()))
                 .thenReturn(TEST_HISTORY_WITHOUT_BLOCK_TIME);
         when(interactor.getFullDate(anyLong()))

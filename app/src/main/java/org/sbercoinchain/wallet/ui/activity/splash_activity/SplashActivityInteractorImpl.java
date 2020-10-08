@@ -4,16 +4,19 @@ import android.content.Context;
 
 import org.sbercoin.wallet.datastorage.FileStorageManager;
 
-class SplashActivityInteractorImpl implements SplashActivityInteractor {
+class SplashActivityInteractorImpl implements SplashActivityInteractor
+{
 
     private Context mContext;
 
-    SplashActivityInteractorImpl(Context context) {
+    SplashActivityInteractorImpl(Context context)
+    {
         mContext = context;
     }
 
     @Override
-    public void migrateDefaultContracts() {
+    public void migrateDefaultContracts()
+    {
         FileStorageManager.getInstance().migrateDefaultContracts(mContext);
     }
 }

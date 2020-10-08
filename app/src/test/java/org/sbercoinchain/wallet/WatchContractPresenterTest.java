@@ -25,8 +25,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class WatchContractPresenterTest {
+public class WatchContractPresenterTest
+{
 
+    private static final String TEST_NAME = "Name";
+    private static final String TEST_ADDRESS = "Address";
+    private static final String TEST_ABIINTERFACE = "Interface";
+    private static final List<Contract> TEST_CONTRACTS_WITH_DUPLICATE_TOKEN_ADDRESS = Arrays.asList(new Contract("some address"),
+            new Contract(TEST_ADDRESS));
+    private static final List<Contract> TEST_VALID_CONTRACTS = Arrays.asList(new Contract("some address"),
+            new Contract("other address"));
     @Mock
     private WatchContractView view;
     @Mock
@@ -34,26 +42,25 @@ public class WatchContractPresenterTest {
     private WatchContractPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new WatchContractPresenterImpl(view, interactor);
     }
 
     @Test
-    public void initialize() {
+    public void initialize()
+    {
 
         presenter.initializeViews();
 
         verify(view, times(1)).setUpTemplatesList(anyList(), (OnTemplateClickListener) any());
     }
 
-    private static final String TEST_NAME = "Name";
-    private static final String TEST_ADDRESS = "Address";
-    private static final String TEST_ABIINTERFACE = "Interface";
-
     @Test
-    public void onOkClick_InvalidContractAddressError() {
+    public void onOkClick_InvalidContractAddressError()
+    {
         when(interactor.isValidContractAddress(anyString()))
                 .thenReturn(false);
 
@@ -64,11 +71,9 @@ public class WatchContractPresenterTest {
 
     }
 
-    private static final List<Contract> TEST_CONTRACTS_WITH_DUPLICATE_TOKEN_ADDRESS = Arrays.asList(new Contract("some address"),
-            new Contract(TEST_ADDRESS));
-
     @Test
-    public void onOkClick_DuplicateTokenError() {
+    public void onOkClick_DuplicateTokenError()
+    {
         when(interactor.isValidContractAddress(anyString()))
                 .thenReturn(true);
         when(interactor.getContracts())
@@ -80,11 +85,9 @@ public class WatchContractPresenterTest {
         verify(view, never()).setAlertDialog(anyInt(), anyString(), anyInt(), (BaseFragment.PopUpType) any(), (BaseFragment.AlertDialogCallBack) any());
     }
 
-    private static final List<Contract> TEST_VALID_CONTRACTS = Arrays.asList(new Contract("some address"),
-            new Contract("other address"));
-
     @Test
-    public void onOkClick_ContractWithoutToken_Success() {
+    public void onOkClick_ContractWithoutToken_Success()
+    {
         when(interactor.isValidContractAddress(anyString()))
                 .thenReturn(true);
         when(interactor.getContracts())
@@ -99,7 +102,8 @@ public class WatchContractPresenterTest {
     }
 
     @Test
-    public void onTemplateClick() {
+    public void onTemplateClick()
+    {
         presenter.onTemplateClick(new ContractTemplate());
 
         verify(interactor, times(1)).readAbiContract(anyString());

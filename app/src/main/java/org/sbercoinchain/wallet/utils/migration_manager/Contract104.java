@@ -6,7 +6,8 @@ import org.sbercoin.wallet.model.contract.ContractCreationStatus;
 
 import java.io.Serializable;
 
-public class Contract104 implements Serializable {
+public class Contract104 implements Serializable
+{
 
     @SerializedName("contractAddress")
     protected String mContractAddress;
@@ -23,7 +24,8 @@ public class Contract104 implements Serializable {
     @SerializedName("isSubscribe")
     protected boolean mIsSubscribe;
 
-    public Contract104(String contractAddress, String uiid, ContractCreationStatus creationStatus, String date, String senderAddress, String contractName) {
+    public Contract104(String contractAddress, String uiid, ContractCreationStatus creationStatus, String date, String senderAddress, String contractName)
+    {
         this.mContractAddress = contractAddress;
         this.mUiid = uiid;
         this.mCreationStatus = creationStatus;
@@ -34,60 +36,73 @@ public class Contract104 implements Serializable {
     }
 
 
-
-    public String getContractAddress() {
+    public String getContractAddress()
+    {
         return mContractAddress;
     }
 
-    public void setContractAddress(String contractAddress) {
+    public void setContractAddress(String contractAddress)
+    {
         this.mContractAddress = contractAddress;
     }
 
-    public String getUiid() {
+    public String getUiid()
+    {
         return mUiid;
     }
 
-    public void setUiid(String uiid) {
+    public void setUiid(String uiid)
+    {
         this.mUiid = uiid;
     }
 
-    public ContractCreationStatus getCreationStatus() {
+    public ContractCreationStatus getCreationStatus()
+    {
         return mCreationStatus;
     }
 
-    public void setCreationStatus(ContractCreationStatus creationStatus) {
+    public void setCreationStatus(ContractCreationStatus creationStatus)
+    {
         mCreationStatus = creationStatus;
     }
 
-    public String getDate() {
+    public String getDate()
+    {
         return mDate;
     }
 
-    public void setDate(String date) {
+    public void setDate(String date)
+    {
         this.mDate = date;
     }
 
-    public String getContractName() {
+    public String getContractName()
+    {
         return mContractName;
     }
 
-    public void setContractName(String contractName) {
+    public void setContractName(String contractName)
+    {
         this.mContractName = contractName;
     }
 
-    public String getSenderAddress() {
+    public String getSenderAddress()
+    {
         return mSenderAddress;
     }
 
-    public void setSenderAddress(String senderAddress) {
+    public void setSenderAddress(String senderAddress)
+    {
         this.mSenderAddress = senderAddress;
     }
 
-    public boolean isSubscribe() {
+    public boolean isSubscribe()
+    {
         return mIsSubscribe;
     }
 
-    public void setSubscribe(boolean subscribe) {
+    public void setSubscribe(boolean subscribe)
+    {
         mIsSubscribe = subscribe;
     }
 }

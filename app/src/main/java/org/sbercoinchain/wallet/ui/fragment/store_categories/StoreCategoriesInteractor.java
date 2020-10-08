@@ -6,6 +6,7 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface StoreCategoriesInteractor {
+public interface StoreCategoriesInteractor
+{
     Observable<List<QstoreContractType>> contractTypesObservable();
 }

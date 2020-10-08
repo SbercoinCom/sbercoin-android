@@ -5,7 +5,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.io.File;
 
-public interface RestoreContractsView extends BaseFragmentView {
+public interface RestoreContractsView extends BaseFragmentView
+{
     void setFile(String name, String size);
 
     void deleteFile();

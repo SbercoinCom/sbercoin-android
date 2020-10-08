@@ -11,23 +11,23 @@ import android.view.ViewTreeObserver;
 
 import org.sbercoin.wallet.R;
 
-public class FontTextView extends android.support.v7.widget.AppCompatTextView {
+public class FontTextView extends android.support.v7.widget.AppCompatTextView
+{
 
     Typeface tf;
 
-    public Typeface getTypeface() {
-        return tf;
-    }
-
-    public FontTextView(Context context) {
+    public FontTextView(Context context)
+    {
         this(context, null);
     }
 
-    public FontTextView(Context context, AttributeSet attrs) {
+    public FontTextView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public FontTextView(Context context, AttributeSet attrs, int defStyle) {
+    public FontTextView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
 
         if (isInEditMode())
@@ -35,10 +35,12 @@ public class FontTextView extends android.support.v7.widget.AppCompatTextView {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FontTextView);
 
-        if (ta != null) {
+        if (ta != null)
+        {
             String fontAsset = ta.getString(R.styleable.FontTextView_typefaceAsset);
 
-            if (!TextUtils.isEmpty(fontAsset)) {
+            if (!TextUtils.isEmpty(fontAsset))
+            {
                 tf = FontManager.getInstance().getFont(fontAsset);
                 int style = Typeface.NORMAL;
 
@@ -53,36 +55,51 @@ public class FontTextView extends android.support.v7.widget.AppCompatTextView {
         }
     }
 
-    public void setLongNumberText(final String number) {
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    public Typeface getTypeface()
+    {
+        return tf;
+    }
+
+    public void setLongNumberText(final String number)
+    {
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+        {
             @Override
-            public void onGlobalLayout() {
+            public void onGlobalLayout()
+            {
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                if (allowWidthNumber(number)) {
+                if (allowWidthNumber(number))
+                {
                     setText(number);
-                } else {
+                } else
+                {
                     setText(ContractBuilder.getShortBigNumberRepresentation(number));
                 }
             }
         });
     }
 
-    public void setLongNumberText(final String number, int allowWidth) {
-        if (allowWidthNumber(number, allowWidth)) {
+    public void setLongNumberText(final String number, int allowWidth)
+    {
+        if (allowWidthNumber(number, allowWidth))
+        {
             setText(number);
-        } else {
+        } else
+        {
             setText(ContractBuilder.getShortBigNumberRepresentation(number));
         }
     }
 
-    private boolean allowWidthNumber(String number) {
+    private boolean allowWidthNumber(String number)
+    {
         Paint p = new Paint();
         p.setTypeface(getTypeface()); // if custom font use `TypeFace.createFromFile`
         p.setTextSize(getTextSize());
         return p.measureText(number) < getWidth();
     }
 
-    private boolean allowWidthNumber(String number, int allowWidth) {
+    private boolean allowWidthNumber(String number, int allowWidth)
+    {
         Paint p = new Paint();
         p.setTypeface(getTypeface()); // if custom font use `TypeFace.createFromFile`
         p.setTextSize(getTextSize());

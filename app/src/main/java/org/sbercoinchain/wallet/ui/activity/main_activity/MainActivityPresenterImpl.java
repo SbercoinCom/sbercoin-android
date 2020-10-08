@@ -18,7 +18,8 @@ import rx.schedulers.Schedulers;
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.AUTHENTICATION_AND_SEND;
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.CHECK_AUTHENTICATION;
 
-public class MainActivityPresenterImpl extends BasePresenterImpl implements MainActivityPresenter {
+public class MainActivityPresenterImpl extends BasePresenterImpl implements MainActivityPresenter
+{
 
     private MainActivityView mMainActivityView;
     private MainActivityInteractor mMainActivityInteractor;
@@ -30,78 +31,105 @@ public class MainActivityPresenterImpl extends BasePresenterImpl implements Main
 
     private LanguageChangeListener mLanguageChangeListener;
 
-    public MainActivityPresenterImpl(MainActivityView mainActivityView, MainActivityInteractor mainActivityInteractor) {
+    public MainActivityPresenterImpl(MainActivityView mainActivityView, MainActivityInteractor mainActivityInteractor)
+    {
         mMainActivityView = mainActivityView;
         mMainActivityInteractor = mainActivityInteractor;
     }
 
+    public static void triggerRebirth(Context context, Activity activity)
+    {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+        ComponentName componentName = intent.getComponent();
+        Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+        context.startActivity(mainIntent);
+//        activity.finish();
+    }
+
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         super.onStop();
-        if (mAuthenticationFlag && !mCheckAuthenticationShowFlag) {
+        if (mAuthenticationFlag && !mCheckAuthenticationShowFlag)
+        {
             mCheckAuthenticationFlag = true;
         }
     }
 
     @Override
-    public void resetAuthFlags() {
+    public void resetAuthFlags()
+    {
         mCheckAuthenticationFlag = true;
         mCheckAuthenticationShowFlag = false;
     }
 
     @Override
-    public void onPostResume() {
+    public void onPostResume()
+    {
         super.onPostResume();
-        if (mAuthenticationFlag && mCheckAuthenticationFlag && !mCheckAuthenticationShowFlag) {
+        if (mAuthenticationFlag && mCheckAuthenticationFlag && !mCheckAuthenticationShowFlag)
+        {
             getView().openPinFragment(CHECK_AUTHENTICATION);
             mCheckAuthenticationFlag = false;
             mCheckAuthenticationShowFlag = true;
         }
     }
 
-    public void setCheckAuthenticationFlag(boolean check) {
+    public void setCheckAuthenticationFlag(boolean check)
+    {
         this.mCheckAuthenticationFlag = check;
     }
 
-    public boolean isCheckAuthenticationShowFlag() {
+    public boolean isCheckAuthenticationShowFlag()
+    {
         return mCheckAuthenticationShowFlag;
     }
 
-    public void setCheckAuthenticationShowFlag(boolean checkAuthenticationShowFlag) {
+    public void setCheckAuthenticationShowFlag(boolean checkAuthenticationShowFlag)
+    {
         mCheckAuthenticationShowFlag = checkAuthenticationShowFlag;
     }
 
     @Override
-    public boolean shouldShowPin(){
+    public boolean shouldShowPin()
+    {
         return !mCheckAuthenticationFlag && mCheckAuthenticationShowFlag;
     }
 
     @Override
-    public MainActivityView getView() {
+    public MainActivityView getView()
+    {
         return mMainActivityView;
     }
 
-    private MainActivityInteractor getInteractor() {
+    private MainActivityInteractor getInteractor()
+    {
         return mMainActivityInteractor;
     }
 
     @Override
-    public void onLogin() {
+    public void onLogin()
+    {
         mAuthenticationFlag = true;
     }
 
     @Override
-    public void onLogout() {
+    public void onLogout()
+    {
         mAuthenticationFlag = false;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
 
-        mLanguageChangeListener = new LanguageChangeListener() {
+        mLanguageChangeListener = new LanguageChangeListener()
+        {
             @Override
-            public void onLanguageChange() {
+            public void onLanguageChange()
+            {
                 getView().resetMenuText();
 
 //                Activity current = mMainActivityView.getActivity();
@@ -117,64 +145,72 @@ public class MainActivityPresenterImpl extends BasePresenterImpl implements Main
         openStartFragment();
     }
 
-    public static void triggerRebirth(Context context, Activity activity) {
-        PackageManager packageManager = context.getPackageManager();
-        Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
-        ComponentName componentName = intent.getComponent();
-        Intent mainIntent = Intent.makeRestartActivityTask(componentName);
-        context.startActivity(mainIntent);
-//        activity.finish();
-    }
-
-    private void openStartFragment() {
-        if (getInteractor().getKeyGeneratedInstance()) {
-            if (mSendFromIntent) {
+    private void openStartFragment()
+    {
+        if (getInteractor().getKeyGeneratedInstance())
+        {
+            if (mSendFromIntent)
+            {
                 getView().openPinFragmentRoot(AUTHENTICATION_AND_SEND);
-            } else if (!mAuthenticationFlag) {
+            } else if (!mAuthenticationFlag)
+            {
                 getView().openStartPageFragment(true);
             }
-        } else {
+        } else
+        {
             getView().openStartPageFragment(false);
         }
     }
 
     @Override
-    public void updateNetworkSate(boolean networkConnectedFlag) {
-        if (networkConnectedFlag) {
-            if (!getInteractor().isDGPInfoLoaded()) {
+    public void updateNetworkSate(boolean networkConnectedFlag)
+    {
+        if (networkConnectedFlag)
+        {
+            if (!getInteractor().isDGPInfoLoaded())
+            {
                 getInteractor().getDGPInfo()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<DGPInfo>() {
+                        .subscribe(new Subscriber<DGPInfo>()
+                        {
                             @Override
-                            public void onCompleted() {
+                            public void onCompleted()
+                            {
                             }
 
                             @Override
-                            public void onError(Throwable e) {
+                            public void onError(Throwable e)
+                            {
                             }
 
                             @Override
-                            public void onNext(DGPInfo dgpInfo) {
+                            public void onNext(DGPInfo dgpInfo)
+                            {
                                 getInteractor().setDGPInfo(dgpInfo);
                             }
                         });
             }
-            if (!getInteractor().isFeePerkbLoaded()) {
+            if (!getInteractor().isFeePerkbLoaded())
+            {
                 getInteractor().getFeePerKb()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<FeePerKb>() {
+                        .subscribe(new Subscriber<FeePerKb>()
+                        {
                             @Override
-                            public void onCompleted() {
+                            public void onCompleted()
+                            {
                             }
 
                             @Override
-                            public void onError(Throwable e) {
+                            public void onError(Throwable e)
+                            {
                             }
 
                             @Override
-                            public void onNext(FeePerKb feePerKb) {
+                            public void onNext(FeePerKb feePerKb)
+                            {
                                 getInteractor().setFeePerKb(feePerKb);
                             }
                         });
@@ -183,17 +219,20 @@ public class MainActivityPresenterImpl extends BasePresenterImpl implements Main
     }
 
     @Override
-    public boolean getAuthenticationFlag() {
+    public boolean getAuthenticationFlag()
+    {
         return mAuthenticationFlag;
     }
 
     @Override
-    public void setSendFromIntent(boolean sendFromIntent) {
+    public void setSendFromIntent(boolean sendFromIntent)
+    {
         mSendFromIntent = sendFromIntent;
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         getInteractor().clearStatic();
         getView().clearService();

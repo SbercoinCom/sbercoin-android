@@ -27,18 +27,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class OverviewFragment extends BaseFragment implements OverviewView {
+public abstract class OverviewFragment extends BaseFragment implements OverviewView
+{
 
-    OverviewPresenter mOverviewPresenter;
     public static String TX_HASH = "tx_hash";
     public static String HISTORY_TYPE = "history_type";
-
     @BindView(R.id.recycler_view_overview)
     protected
     RecyclerView mRecyclerViewOverview;
     protected OverviewAdapter mOverviewAdapter;
+    OverviewPresenter mOverviewPresenter;
 
-    public static Fragment newInstance(Context context, String txHash, HistoryType historyType) {
+    public static Fragment newInstance(Context context, String txHash, HistoryType historyType)
+    {
         Bundle args = new Bundle();
         args.putString(TX_HASH, txHash);
         args.putSerializable(HISTORY_TYPE, historyType);
@@ -48,28 +49,38 @@ public abstract class OverviewFragment extends BaseFragment implements OverviewV
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mOverviewPresenter = new OverviewPresenterImpl(this, new OverviewIteractorImpl(getContext(), getMainActivity().getRealm()));
     }
 
     @Override
-    protected OverviewPresenter getPresenter() {
+    protected OverviewPresenter getPresenter()
+    {
         return mOverviewPresenter;
     }
 
     @Override
-    public String getTxHash() {
+    public String getTxHash()
+    {
         return getArguments().getString(TX_HASH);
     }
 
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         mRecyclerViewOverview.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    class OverviewViewHolder extends RecyclerView.ViewHolder {
+    public HistoryType getHistoryType()
+    {
+        return (HistoryType) getArguments().getSerializable(HISTORY_TYPE);
+    }
+
+    class OverviewViewHolder extends RecyclerView.ViewHolder
+    {
 
         @BindView(R.id.tv_title)
         TextView mTextViewTitle;
@@ -79,15 +90,19 @@ public abstract class OverviewFragment extends BaseFragment implements OverviewV
         ImageView mImageViewCopy;
         CopyableOverviewItem mOverviewItem;
 
-        public OverviewViewHolder(final View itemView) {
+        public OverviewViewHolder(final View itemView)
+        {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     String explorerURL = "";
 
-                    switch (mOverviewItem.getTitle()) {
+                    switch (mOverviewItem.getTitle())
+                    {
                         case "TxHash":
                             explorerURL = "https://sbercoinchain.info/tx/" + mOverviewItem.getValue();
                             break;
@@ -103,12 +118,16 @@ public abstract class OverviewFragment extends BaseFragment implements OverviewV
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener()
+            {
                 @Override
-                public boolean onLongClick(View view) {
-                    ClipboardUtils.copyToClipBoard(mImageViewCopy.getContext(), mOverviewItem.getValue(), new ClipboardUtils.CopyCallback() {
+                public boolean onLongClick(View view)
+                {
+                    ClipboardUtils.copyToClipBoard(mImageViewCopy.getContext(), mOverviewItem.getValue(), new ClipboardUtils.CopyCallback()
+                    {
                         @Override
-                        public void onCopyToClipBoard() {
+                        public void onCopyToClipBoard()
+                        {
                             Toast.makeText(mImageViewCopy.getContext(), mImageViewCopy.getContext().getString(R.string.copied), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -117,7 +136,8 @@ public abstract class OverviewFragment extends BaseFragment implements OverviewV
             });
         }
 
-        public void bindOverview(CopyableOverviewItem overview) {
+        public void bindOverview(CopyableOverviewItem overview)
+        {
             mOverviewItem = overview;
             mTextViewTitle.setText(overview.getTitle());
             mTextViewValue.setText(overview.getValue());
@@ -126,37 +146,38 @@ public abstract class OverviewFragment extends BaseFragment implements OverviewV
 
     }
 
-    protected class OverviewAdapter extends RecyclerView.Adapter<OverviewViewHolder> {
+    protected class OverviewAdapter extends RecyclerView.Adapter<OverviewViewHolder>
+    {
 
         List<CopyableOverviewItem> mOverview;
         @LayoutRes
         int mResId;
 
-        public OverviewAdapter(List<CopyableOverviewItem> overview, @LayoutRes int resId) {
+        public OverviewAdapter(List<CopyableOverviewItem> overview, @LayoutRes int resId)
+        {
             mOverview = overview;
             mResId = resId;
         }
 
         @Override
-        public OverviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public OverviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(mResId, parent, false);
             return new OverviewViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(OverviewViewHolder holder, int position) {
+        public void onBindViewHolder(OverviewViewHolder holder, int position)
+        {
             holder.bindOverview(mOverview.get(position));
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return mOverview.size();
         }
 
-    }
-
-    public HistoryType getHistoryType() {
-        return (HistoryType) getArguments().getSerializable(HISTORY_TYPE);
     }
 }

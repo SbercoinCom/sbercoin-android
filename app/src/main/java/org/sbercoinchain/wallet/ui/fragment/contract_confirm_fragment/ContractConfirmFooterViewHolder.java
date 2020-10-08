@@ -8,17 +8,20 @@ import org.sbercoin.wallet.utils.FontTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContractConfirmFooterViewHolder extends RecyclerView.ViewHolder {
+public class ContractConfirmFooterViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(org.sbercoin.wallet.R.id.miner_value)
     FontTextView minerValue;
 
-    public ContractConfirmFooterViewHolder(View itemView) {
+    public ContractConfirmFooterViewHolder(View itemView)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(String address) {
+    public void bind(String address)
+    {
         minerValue.setText(address);
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
-    android:padding="16dp"
-    android:clickable="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <org.sbercoin.wallet.utils.FontTextView
         android:id="@+id/available_balance_title"
@@ -17,53 +17,53 @@
         app:typefaceAsset="@string/proximaNovaRegular" />
 
     <LinearLayout
+        android:id="@+id/ll_balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_balance"
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_balance"
-            android:text="0.0 SBER"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:typefaceAsset="@string/proximaNovaSemibold"
+            android:text="0.0 SBER"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            app:typefaceAsset="@string/proximaNovaSemibold" />
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:typefaceAsset="@string/proximaNovaSemibold"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            app:typefaceAsset="@string/proximaNovaSemibold" />
 
     </LinearLayout>
 
     <org.sbercoin.wallet.utils.FontTextView
-        android:layout_marginTop="8dp"
+        android:id="@+id/unconfirmed_balance_title"
+        style="@style/appbar_wallet_alpha_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/unconfirmed_balance_title"
-        app:typefaceAsset="@string/proximaNovaRegular"
+        android:layout_marginTop="8dp"
         android:text="@string/not_confirmed_balance"
-        style="@style/appbar_wallet_alpha_title"/>
+        app:typefaceAsset="@string/proximaNovaRegular" />
 
     <org.sbercoin.wallet.utils.FontTextView
+        android:id="@+id/tv_unconfirmed_balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textColor="@color/white"
-        app:typefaceAsset="@string/proximaNovaSemibold"
         android:text="0.0 SBER"
-        android:id="@+id/tv_unconfirmed_balance"/>
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:typefaceAsset="@string/proximaNovaSemibold" />
 
     <LinearLayout
-        android:layout_marginTop="8dp"
         android:id="@+id/token_addr_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         android:orientation="horizontal">
 
@@ -77,17 +77,17 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:weightSum="2"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <org.sbercoin.wallet.utils.FontTextView
+                style="@style/appbar_wallet_alpha_title"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:padding="2dp"
-                style="@style/appbar_wallet_alpha_title"
                 android:layout_weight="1"
                 android:gravity="bottom"
+                android:padding="2dp"
                 android:text="@string/sbercoin_address"
                 app:typefaceAsset="@string/proximaNovaRegular" />
 
@@ -95,14 +95,14 @@
                 android:id="@+id/tv_token_address"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:padding="2dp"
                 android:layout_weight="1"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:gravity="top"
+                android:maxLines="1"
+                android:padding="2dp"
                 android:paddingEnd="16dp"
                 android:textColor="@color/white"
-                app:typefaceAsset="@string/proximaNovaSemibold"/>
+                app:typefaceAsset="@string/proximaNovaSemibold" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

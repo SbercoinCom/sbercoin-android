@@ -4,14 +4,13 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 
 import java.math.BigDecimal;
 
-public interface ReceivePresenter extends BaseFragmentPresenter {
+public interface ReceivePresenter extends BaseFragmentPresenter
+{
     void changeAmount(String s);
 
     void setTokenAddress(String address);
 
     void changeAddress();
-
-    void setModuleWidth(int qrCodeWidth);
 
     void calcModuleWidth(boolean isDataPixel, int x, int y);
 
@@ -20,6 +19,8 @@ public interface ReceivePresenter extends BaseFragmentPresenter {
     int getTopOffsetHeight();
 
     int getModuleWidth();
+
+    void setModuleWidth(int qrCodeWidth);
 
     CharSequence getCurrentReceiveAddress();
 

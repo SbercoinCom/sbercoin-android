@@ -23,7 +23,6 @@ import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.gson.history.DisplayedData;
 import org.sbercoin.wallet.utils.ThemeUtils;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 
@@ -31,7 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ChooseDialogFragment extends DialogFragment {
+public class ChooseDialogFragment extends DialogFragment
+{
 
     static final String MARGIN_TOP = "margin_top";
     static final String DATA = "data";
@@ -48,7 +48,8 @@ public class ChooseDialogFragment extends DialogFragment {
     LinearLayout mViewTypeContainer;
 
 
-    public static ChooseDialogFragment newInstance(int marginTop, String data) {
+    public static ChooseDialogFragment newInstance(int marginTop, String data)
+    {
 
         Bundle args = new Bundle();
         args.putInt(MARGIN_TOP, marginTop);
@@ -60,22 +61,27 @@ public class ChooseDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         View view = LayoutInflater.from(getActivity()).inflate(ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK) ? R.layout.dialog_fragment_choose : R.layout.dialog_fragment_choose_light, null);
-        view.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 getDialog().dismiss();
             }
         });
         ButterKnife.bind(this, view);
         Dialog dialog = new Dialog(getContext());
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
         dialog.setContentView(view);
         dialog.setCanceledOnTouchOutside(false);
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
 
@@ -83,18 +89,21 @@ public class ChooseDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         if (getDialog() != null)
             getDialog().dismiss();
     }
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         Dialog dialog = getDialog();
 
-        if (dialog != null) {
+        if (dialog != null)
+        {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
@@ -110,7 +119,8 @@ public class ChooseDialogFragment extends DialogFragment {
         Point size = new Point();
         display.getSize(size);
         int height = size.y - getResources().getDimensionPixelSize(getResources().getIdentifier("status_bar_height", "dimen", "android"));
-        if ((height - marginTop) < pxH) {
+        if ((height - marginTop) < pxH)
+        {
             marginTop = height - pxH;
         }
 
@@ -119,32 +129,40 @@ public class ChooseDialogFragment extends DialogFragment {
         mViewTypeContainer.setLayoutParams(params);
         final String data = getArguments().getString(DATA);
 
-        mTextViewAddress.setOnClickListener(new View.OnClickListener() {
+        mTextViewAddress.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String newData = data.substring(24, 64);
                 ((EventLogFragment) getTargetFragment()).onViewTypeChoose(new DisplayedData("Address", data, newData));
                 getDialog().dismiss();
             }
         });
-        mTextViewHex.setOnClickListener(new View.OnClickListener() {
+        mTextViewHex.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 ((EventLogFragment) getTargetFragment()).onViewTypeChoose(new DisplayedData("Hex", data, data));
                 getDialog().dismiss();
             }
         });
-        mTextViewNumber.setOnClickListener(new View.OnClickListener() {
+        mTextViewNumber.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String newData = new BigInteger(Hex.decode(data)).toString();
                 ((EventLogFragment) getTargetFragment()).onViewTypeChoose(new DisplayedData("Number", data, newData));
                 getDialog().dismiss();
             }
         });
-        mTextViewText.setOnClickListener(new View.OnClickListener() {
+        mTextViewText.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String newData = "";
                 newData = new String(Hex.decode(data), StandardCharsets.US_ASCII);
                 ((EventLogFragment) getTargetFragment()).onViewTypeChoose(new DisplayedData("Text", data, newData));

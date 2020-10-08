@@ -16,17 +16,17 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:contentInsetLeft="0dp"
-            android:contentInsetStart="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            android:contentInsetRight="0dp"
-            android:contentInsetEnd="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <RelativeLayout
@@ -37,39 +37,39 @@
                     android:id="@+id/ibt_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_ibtn_back"
-                    android:paddingBottom="10dp"
                     android:layout_centerVertical="true"
+                    android:background="@drawable/background_ibtn_back"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="10dp"
-                    app:srcCompat="@drawable/ic_back_indicator"/>
+                    android:paddingRight="16dp"
+                    android:paddingBottom="10dp"
+                    app:srcCompat="@drawable/ic_back_indicator" />
 
                 <ImageButton
                     android:id="@+id/ibt_categories"
                     android:layout_width="56dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackground"
                     android:padding="32dp"
-                    app:srcCompat="@drawable/ic_burger_menu"/>
+                    app:srcCompat="@drawable/ic_burger_menu" />
 
                 <ImageButton
                     android:id="@+id/ibt_add"
                     android:layout_width="56dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
                     android:layout_toLeftOf="@+id/ibt_categories"
+                    android:background="?attr/selectableItemBackground"
                     android:padding="32dp"
-                    app:srcCompat="@drawable/ic_add"/>
+                    app:srcCompat="@drawable/ic_add" />
 
                 <org.sbercoin.wallet.utils.FontTextView
                     android:id="@+id/tv_toolbar_qstore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="48dp"
                     android:layout_centerInParent="true"
+                    android:layout_marginEnd="48dp"
                     android:gravity="center"
                     android:text="@string/qstore"
                     android:textColor="@color/background"
@@ -77,10 +77,10 @@
                     app:typefaceAsset="@string/euclidFlexMedium" />
 
                 <View
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/background"/>
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/background" />
 
             </RelativeLayout>
 
@@ -90,51 +90,51 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <org.sbercoin.wallet.utils.SearchBar
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            app:lytSearchView="@layout/lyt_search_view"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            app:lytSearchView="@layout/lyt_search_view" />
 
         <LinearLayout
             android:id="@+id/search_type_menu"
-            android:visibility="gone"
-            android:padding="4dp"
-            android:background="#242931"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#242931"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:visibility="gone">
 
             <org.sbercoin.wallet.utils.FontCheckBox
                 android:id="@+id/cb_by_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:checkBoxTypeface="@string/simplonMonoRegular"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:drawablePadding="8dp"
-                android:clickable="true"
                 android:button="@null"
+                android:clickable="true"
                 android:drawableStart="@drawable/checkbox_selector"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/search_by_name"
                 android:textColor="@color/colorPrimary"
-                android:text="@string/search_by_name"/>
+                android:textSize="14sp"
+                app:checkBoxTypeface="@string/simplonMonoRegular" />
 
             <org.sbercoin.wallet.utils.FontCheckBox
                 android:id="@+id/cb_by_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:gravity="center"
                 android:layout_marginStart="16dp"
+                android:button="@null"
                 android:clickable="true"
-                android:drawablePadding="8dp"
                 android:drawableStart="@drawable/checkbox_selector"
+                android:drawablePadding="8dp"
+                android:gravity="center"
                 android:text="@string/search_by_tag"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"

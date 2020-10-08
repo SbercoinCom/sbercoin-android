@@ -8,39 +8,25 @@ import android.view.View;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.ui.fragment.source_code.SourceCodeFragment;
-import org.sbercoin.wallet.ui.fragment.store_contract.dialogs.ViewABIDialogFragment;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
+import org.sbercoin.wallet.model.gson.qstore.PurchaseItem;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.contract_management_fragment.ContractManagementFragment;
 import org.sbercoin.wallet.ui.fragment.qstore.QStoreFragment;
+import org.sbercoin.wallet.ui.fragment.source_code.SourceCodeFragment;
 import org.sbercoin.wallet.ui.fragment.store_contract.dialogs.ConfirmPurchaseDialogFragment;
 import org.sbercoin.wallet.ui.fragment.store_contract.dialogs.PurchaseClickListener;
+import org.sbercoin.wallet.ui.fragment.store_contract.dialogs.ViewABIDialogFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.FontButton;
 import org.sbercoin.wallet.utils.FontTextView;
-
-import org.sbercoin.wallet.model.gson.qstore.PurchaseItem;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class StoreContractFragment extends BaseFragment implements StoreContractView, TagClickListener, PurchaseClickListener {
+public abstract class StoreContractFragment extends BaseFragment implements StoreContractView, TagClickListener, PurchaseClickListener
+{
 
     public static final String CONTRACT_ID = "CONTRACT_ID";
-
-    private StoreContractPresenter presenter;
-
-    private ConfirmPurchaseDialogFragment confirmPurchase;
-    private ViewABIDialogFragment ABIDialogFragment;
-
-    public static BaseFragment newInstance(Context context, String id) {
-        Bundle args = new Bundle();
-        args.putString(CONTRACT_ID, id);
-        BaseFragment fragment = Factory.instantiateFragment(context, StoreContractFragment.class);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @BindView(R.id.tv_toolbar_title)
     public FontTextView toolbarTitle;
     @BindView(R.id.tv_cost)
@@ -61,30 +47,44 @@ public abstract class StoreContractFragment extends BaseFragment implements Stor
     public FontTextView tvPublishedBy;
     @BindView(R.id.tv_downloads)
     public FontTextView tvDownloads;
+    @BindView(R.id.btn_view_source_code)
+    FontButton btnViewSourceCode;
+    @BindView(R.id.btn_purchase)
+    FontButton purchaseBtn;
+    private StoreContractPresenter presenter;
+    private ConfirmPurchaseDialogFragment confirmPurchase;
+    private ViewABIDialogFragment ABIDialogFragment;
+
+    public static BaseFragment newInstance(Context context, String id)
+    {
+        Bundle args = new Bundle();
+        args.putString(CONTRACT_ID, id);
+        BaseFragment fragment = Factory.instantiateFragment(context, StoreContractFragment.class);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @OnClick(R.id.ibt_back)
-    public void onBackClick() {
+    public void onBackClick()
+    {
         getActivity().onBackPressed();
     }
 
-    @BindView(R.id.btn_view_source_code)
-    FontButton btnViewSourceCode;
-
     @OnClick(R.id.btn_view_source_code)
-    public void onViewSourceCodeClick() {
+    public void onViewSourceCodeClick()
+    {
         presenter.getSourceCode();
     }
 
     @OnClick(R.id.tv_view_details)
-    public void onViewDetailsClick() {
+    public void onViewDetailsClick()
+    {
         presenter.getDetails();
     }
 
-    @BindView(R.id.btn_purchase)
-    FontButton purchaseBtn;
-
     @OnClick(R.id.btn_purchase)
-    public void onPurchaseClick() {
+    public void onPurchaseClick()
+    {
         Bundle arguments = new Bundle();
         arguments.putSerializable(ConfirmPurchaseDialogFragment.CONTRACT, presenter.getContract());
         confirmPurchase = new ConfirmPurchaseDialogFragment();
@@ -94,17 +94,20 @@ public abstract class StoreContractFragment extends BaseFragment implements Stor
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         presenter = new StoreContractPresenter(this);
     }
 
     @Override
-    protected StoreContractPresenter getPresenter() {
+    protected StoreContractPresenter getPresenter()
+    {
         return presenter;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         presenter.getContractById(getArguments().getString(CONTRACT_ID));
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(getContext())
@@ -113,13 +116,15 @@ public abstract class StoreContractFragment extends BaseFragment implements Stor
     }
 
     @Override
-    public void openSourceCode(String sourceCode) {
+    public void openSourceCode(String sourceCode)
+    {
         BaseFragment sourceCodeFragment = SourceCodeFragment.newInstance(getContext(), sourceCode);
         openFragment(sourceCodeFragment);
     }
 
     @Override
-    public void openAbiViewer(String abi) {
+    public void openAbiViewer(String abi)
+    {
         Bundle args = new Bundle();
         args.putString(ViewABIDialogFragment.ABI, abi);
         ABIDialogFragment = new ViewABIDialogFragment();
@@ -128,15 +133,18 @@ public abstract class StoreContractFragment extends BaseFragment implements Stor
     }
 
     @Override
-    public void openDetails(String abi) {
+    public void openDetails(String abi)
+    {
         openFragment(ContractManagementFragment.newInstance(getContext(), abi));
     }
 
     @Override
-    public void setContractPayStatus(String status) {
+    public void setContractPayStatus(String status)
+    {
         purchaseBtn.setVisibility(View.VISIBLE);
         btnViewSourceCode.setVisibility(View.GONE);
-        switch (status) {
+        switch (status)
+        {
             case PurchaseItem.PAID_STATUS:
                 purchaseBtn.setVisibility(View.GONE);
                 btnViewSourceCode.setVisibility(View.VISIBLE);
@@ -151,21 +159,25 @@ public abstract class StoreContractFragment extends BaseFragment implements Stor
     }
 
     @Override
-    public void onTagClick(String tag) {
+    public void onTagClick(String tag)
+    {
         QStoreFragment invoker = (QStoreFragment) getTargetFragment();
-        if (invoker != null) {
+        if (invoker != null)
+        {
             invoker.setSearchTag(tag);
         }
         onBackClick();
     }
 
     @Override
-    public void onPurchaseConfirm() {
+    public void onPurchaseConfirm()
+    {
         presenter.sendBuyRequest();
     }
 
     @Override
-    public void disablePurchase() {
+    public void disablePurchase()
+    {
         purchaseBtn.setEnabled(false);
     }
 }

@@ -21,22 +21,27 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 import rx.Observable;
 
-public class WalletInteractorImpl implements WalletInteractor {
+public class WalletInteractorImpl implements WalletInteractor
+{
 
     private Context context;
     private Realm realm;
     private RealmResults<History> mHistories;
     private HistoryInDbChangeListener<History> mHistoryInDbChangeListener;
 
-    public WalletInteractorImpl(Context context, Realm realm) {
+    public WalletInteractorImpl(Context context, Realm realm)
+    {
         this.context = context;
         this.realm = realm;
         mHistories = realm.where(History.class).findAll().sort("txTime", Sort.DESCENDING);
         mHistories.removeAllChangeListeners();
-        mHistories.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<History>>() {
+        mHistories.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<History>>()
+        {
             @Override
-            public void onChange(RealmResults<History> histories, @Nullable OrderedCollectionChangeSet changeSet) {
-                if(mHistoryInDbChangeListener!=null){
+            public void onChange(RealmResults<History> histories, @Nullable OrderedCollectionChangeSet changeSet)
+            {
+                if (mHistoryInDbChangeListener != null)
+                {
                     mHistoryInDbChangeListener.onHistoryChange(histories, changeSet);
                 }
             }
@@ -44,34 +49,42 @@ public class WalletInteractorImpl implements WalletInteractor {
     }
 
     @Override
-    public Observable<HistoryResponse> getHistoryList(int limit, int offest) {
+    public Observable<HistoryResponse> getHistoryList(int limit, int offest)
+    {
         return SBERService.newInstance().getHistoryListForSeveralAddresses(getAddresses(), limit, offest);
     }
 
     @Override
-    public List<String> getAddresses() {
+    public List<String> getAddresses()
+    {
         return KeyStorage.getInstance().getAddresses();
     }
 
     @Override
-    public String getAddress() {
+    public String getAddress()
+    {
         String s = KeyStorage.getInstance().getCurrentAddress();
-        if (!TextUtils.isEmpty(s)) {
+        if (!TextUtils.isEmpty(s))
+        {
             SBERSharedPreference.getInstance().saveCurrentAddress(context, s);
         }
         return s;
     }
 
     @Override
-    public Observable<List<TransactionReceipt>> getTransactionReceipt(String txHash) {
+    public Observable<List<TransactionReceipt>> getTransactionReceipt(String txHash)
+    {
         return SBERService.newInstance().getTransactionReceipt(txHash);
     }
 
     @Override
-    public void updateHistoryInRealm(final List<History> histories) {
-        realm.executeTransaction(new Realm.Transaction() {
+    public void updateHistoryInRealm(final List<History> histories)
+    {
+        realm.executeTransaction(new Realm.Transaction()
+        {
             @Override
-            public void execute(Realm realm) {
+            public void execute(Realm realm)
+            {
                 realm.insertOrUpdate(histories);
             }
         });
@@ -79,10 +92,13 @@ public class WalletInteractorImpl implements WalletInteractor {
     }
 
     @Override
-    public void updateHistoryInRealm(final History histories) {
-        realm.executeTransaction(new Realm.Transaction() {
+    public void updateHistoryInRealm(final History histories)
+    {
+        realm.executeTransaction(new Realm.Transaction()
+        {
             @Override
-            public void execute(Realm realm) {
+            public void execute(Realm realm)
+            {
                 realm.insertOrUpdate(histories);
             }
         });
@@ -90,10 +106,13 @@ public class WalletInteractorImpl implements WalletInteractor {
     }
 
     @Override
-    public void updateReceiptInRealm(final TransactionReceipt transactionReceipt) {
-        realm.executeTransaction(new Realm.Transaction() {
+    public void updateReceiptInRealm(final TransactionReceipt transactionReceipt)
+    {
+        realm.executeTransaction(new Realm.Transaction()
+        {
             @Override
-            public void execute(Realm realm) {
+            public void execute(Realm realm)
+            {
                 realm.insertOrUpdate(transactionReceipt);
             }
         });
@@ -101,15 +120,19 @@ public class WalletInteractorImpl implements WalletInteractor {
     }
 
     @Override
-    public TransactionReceipt getReceiptByRxhHashFromRealm(String txHash) {
+    public TransactionReceipt getReceiptByRxhHashFromRealm(String txHash)
+    {
         return realm.where(TransactionReceipt.class).equalTo("transactionHash", txHash).findFirst();
     }
 
     @Override
-    public void setUpHistoryReceipt(final String txHash, final boolean isContract) {
-        realm.executeTransaction(new Realm.Transaction() {
+    public void setUpHistoryReceipt(final String txHash, final boolean isContract)
+    {
+        realm.executeTransaction(new Realm.Transaction()
+        {
             @Override
-            public void execute(Realm realm) {
+            public void execute(Realm realm)
+            {
                 History history = realm.where(History.class).equalTo("txHash", txHash).findFirst();
                 history.setReceiptUpdated(true);
                 history.setContractType(isContract);
@@ -119,22 +142,26 @@ public class WalletInteractorImpl implements WalletInteractor {
     }
 
     @Override
-    public void addHistoryInDbChangeListener(HistoryInDbChangeListener listener) {
+    public void addHistoryInDbChangeListener(HistoryInDbChangeListener listener)
+    {
         mHistoryInDbChangeListener = listener;
     }
 
     @Override
-    public int getHistoryDbCount() {
+    public int getHistoryDbCount()
+    {
         return mHistories.size();
     }
 
     @Override
-    public List<History> getHistorySubList(int startIndex, int length) {
+    public List<History> getHistorySubList(int startIndex, int length)
+    {
         return mHistories.subList(startIndex, length);
     }
 
     @Override
-    public History getHistory(String txHash) {
+    public History getHistory(String txHash)
+    {
         return realm.where(History.class).equalTo("txHash", txHash).findFirst();
     }
 }

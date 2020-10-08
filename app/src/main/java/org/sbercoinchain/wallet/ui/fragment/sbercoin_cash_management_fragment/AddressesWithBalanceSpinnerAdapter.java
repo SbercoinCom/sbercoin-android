@@ -16,32 +16,38 @@ import org.sbercoin.wallet.utils.FontTextView;
 import java.math.BigDecimal;
 import java.util.List;
 
-public abstract class AddressesWithBalanceSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public abstract class AddressesWithBalanceSpinnerAdapter extends BaseAdapter implements SpinnerAdapter
+{
 
     private Context mContext;
     private List<AddressWithBalance> mKeyWithBalanceList;
 
-    public AddressesWithBalanceSpinnerAdapter(@NonNull Context context, List<AddressWithBalance> keyWithBalanceList) {
+    public AddressesWithBalanceSpinnerAdapter(@NonNull Context context, List<AddressWithBalance> keyWithBalanceList)
+    {
         mContext = context;
         mKeyWithBalanceList = keyWithBalanceList;
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return mKeyWithBalanceList.size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public Object getItem(int i)
+    {
         return mKeyWithBalanceList.get(i);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
-    public View getCustomView(int position, int resId, @NonNull ViewGroup parent) {
+    public View getCustomView(int position, int resId, @NonNull ViewGroup parent)
+    {
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(resId, parent, false);
         FontTextView textViewAddress = view.findViewById(R.id.address_name);
@@ -51,7 +57,8 @@ public abstract class AddressesWithBalanceSpinnerAdapter extends BaseAdapter imp
 
         BigDecimal balance = new BigDecimal("0");
         BigDecimal amount;
-        for (UnspentOutput unspentOutput : mKeyWithBalanceList.get(position).getUnspentOutputList()) {
+        for (UnspentOutput unspentOutput : mKeyWithBalanceList.get(position).getUnspentOutputList())
+        {
             amount = new BigDecimal(String.valueOf(unspentOutput.getAmount()));
             balance = balance.add(amount);
         }

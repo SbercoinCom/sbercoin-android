@@ -9,16 +9,19 @@ import java.lang.ref.WeakReference;
 
 import io.realm.Realm;
 
-class AddressesDetailInteractorImpl implements AddressesDetailInteractor {
+class AddressesDetailInteractorImpl implements AddressesDetailInteractor
+{
 
     WeakReference<Context> mContext;
 
-    public AddressesDetailInteractorImpl(Context context) {
+    public AddressesDetailInteractorImpl(Context context)
+    {
         mContext = new WeakReference<Context>(context);
     }
 
     @Override
-    public History getHistory(String txHash) {
+    public History getHistory(String txHash)
+    {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(History.class)
                 .equalTo("txHash", txHash)
@@ -26,7 +29,8 @@ class AddressesDetailInteractorImpl implements AddressesDetailInteractor {
     }
 
     @Override
-    public TokenHistory getTokenHistory(String txHash) {
+    public TokenHistory getTokenHistory(String txHash)
+    {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(TokenHistory.class)
                 .equalTo("txHash", txHash)

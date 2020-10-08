@@ -13,11 +13,11 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/smart_contracts_list"
-        android:splitMotionEvents="false"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/smart_contracts_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:splitMotionEvents="false" />
 
     </LinearLayout>
 
@@ -31,9 +31,9 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:contentInsetStart="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
+            app:contentInsetStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageButton
@@ -41,10 +41,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_ibtn_back"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
                 app:srcCompat="@drawable/ic_back_indicator" />
 
             <org.sbercoin.wallet.utils.FontTextView

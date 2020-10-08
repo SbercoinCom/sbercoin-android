@@ -19,7 +19,8 @@ import android.widget.TextView;
 
 import org.sbercoin.wallet.R;
 
-public class SearchBar extends RelativeLayout implements View.OnClickListener{
+public class SearchBar extends RelativeLayout implements View.OnClickListener
+{
 
     private View view;
     private LinearLayout placeholder;
@@ -36,20 +37,24 @@ public class SearchBar extends RelativeLayout implements View.OnClickListener{
 
     private ResizeAnimation resizeAnimation;
 
-    public SearchBar(Context context) {
+    public SearchBar(Context context)
+    {
         super(context);
     }
 
-    public SearchBar(Context context, AttributeSet attrs) {
+    public SearchBar(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.SearchBar,
                 0, 0);
         int res = R.layout.lyt_search_view;
-        try {
+        try
+        {
             res = a.getResourceId(R.styleable.SearchBar_lytSearchView, R.layout.lyt_search_view);
-        } finally {
+        } finally
+        {
             a.recycle();
         }
         view = LayoutInflater.from(getContext()).inflate(res, this, false);
@@ -57,29 +62,35 @@ public class SearchBar extends RelativeLayout implements View.OnClickListener{
         build();
     }
 
-    public SearchBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SearchBar(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public SearchBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SearchBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setText(String text){
+    public String getText()
+    {
+        return input.getText().toString();
+    }
+
+    public void setText(String text)
+    {
         input.requestFocus();
         this.input.setText(text);
     }
 
-    public String getText(){
-        return input.getText().toString();
-    }
-
-    public void setListener(SearchBarListener listener){
+    public void setListener(SearchBarListener listener)
+    {
         this.listener = listener;
     }
 
-    private void build(){
+    private void build()
+    {
         setClickable(true);
         placeholderIcon = findViewById(R.id.icon);
         placeholderText = findViewById(R.id.text);
@@ -89,10 +100,13 @@ public class SearchBar extends RelativeLayout implements View.OnClickListener{
 
         clearSearch = findViewById(R.id.bt_clear_search);
 
-        clearSearch.setOnClickListener(new OnClickListener() {
+        clearSearch.setOnClickListener(new OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if(!input.getText().toString().equals("")) {
+            public void onClick(View v)
+            {
+                if (!input.getText().toString().equals(""))
+                {
                     input.setText("");
                 }
             }
@@ -100,36 +114,46 @@ public class SearchBar extends RelativeLayout implements View.OnClickListener{
         resizeAnimation = new ResizeAnimation(input);
         resizeAnimation.setDuration(300);
         setOnClickListener(this);
-        cancel.setOnClickListener(new OnClickListener() {
+        cancel.setOnClickListener(new OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 input.clearFocus();
             }
         });
-        input.addTextChangedListener(new TextWatcher() {
+        input.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if(listener != null){
+            public void afterTextChanged(Editable s)
+            {
+                if (listener != null)
+                {
                     listener.onRequestSearch(s.toString());
                 }
             }
         });
 
-        input.setOnFocusChangeListener(new OnFocusChangeListener() {
+        input.setOnFocusChangeListener(new OnFocusChangeListener()
+        {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+            public void onFocusChange(View v, boolean hasFocus)
+            {
                 input.setText("");
                 OnFocusChange(hasFocus);
-                if(hasFocus) {
-                    initialInputWidth = (initialInputWidth == 0)? input.getWidth() : initialInputWidth;
+                if (hasFocus)
+                {
+                    initialInputWidth = (initialInputWidth == 0) ? input.getWidth() : initialInputWidth;
                     placeholderText.animate().alpha(0).setDuration(300).start();
                     placeholder.animate().x(input.getX()).setDuration(300).start();
                     cancel.setVisibility(VISIBLE);
@@ -138,18 +162,23 @@ public class SearchBar extends RelativeLayout implements View.OnClickListener{
                     cancel.animate().alpha(1).setDuration(300).start();
                     clearSearch.animate().alpha(1).setDuration(300).start();
                     resizeAnimation.setParams(initialInputWidth, initialInputWidth - cancel.getWidth());
-                } else {
+                } else
+                {
                     placeholderText.animate().alpha(1).setDuration(300).start();
-                    placeholder.animate().x(getWidth()/2 - placeholder.getWidth()/2).setDuration(300).start();
-                    cancel.animate().alpha(0).setDuration(300).withEndAction(new Runnable() {
+                    placeholder.animate().x(getWidth() / 2 - placeholder.getWidth() / 2).setDuration(300).start();
+                    cancel.animate().alpha(0).setDuration(300).withEndAction(new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             cancel.setVisibility(INVISIBLE);
                         }
                     }).start();
-                    clearSearch.animate().alpha(0).setDuration(100).withEndAction(new Runnable() {
+                    clearSearch.animate().alpha(0).setDuration(100).withEndAction(new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             clearSearch.setVisibility(INVISIBLE);
                         }
                     }).start();
@@ -161,24 +190,31 @@ public class SearchBar extends RelativeLayout implements View.OnClickListener{
         });
     }
 
-    private void hideKeyboard(){
+    private void hideKeyboard()
+    {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
     }
 
-    private void OnFocusChange(boolean focus){
-        if(listener != null){
-            if(focus){
+    private void OnFocusChange(boolean focus)
+    {
+        if (listener != null)
+        {
+            if (focus)
+            {
                 listener.onActivate();
-            } else {
+            } else
+            {
                 listener.onDeactivate();
             }
         }
     }
 
     @Override
-    public void onClick(View v) {
-        if(!isActive) {
+    public void onClick(View v)
+    {
+        if (!isActive)
+        {
         }
     }
 }

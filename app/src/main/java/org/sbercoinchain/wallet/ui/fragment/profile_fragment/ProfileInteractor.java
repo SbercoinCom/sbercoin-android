@@ -2,7 +2,8 @@ package org.sbercoin.wallet.ui.fragment.profile_fragment;
 
 import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
 
-public interface ProfileInteractor {
+public interface ProfileInteractor
+{
     void clearWallet();
 
     void setupLanguageChangeListener(LanguageChangeListener listener);

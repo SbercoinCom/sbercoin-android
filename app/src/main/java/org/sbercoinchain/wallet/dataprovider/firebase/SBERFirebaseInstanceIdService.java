@@ -3,11 +3,13 @@ package org.sbercoin.wallet.dataprovider.firebase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-public class SBERFirebaseInstanceIdService extends FirebaseInstanceIdService {
+public class SBERFirebaseInstanceIdService extends FirebaseInstanceIdService
+{
     private static final String TAG = "FirebaseIDService";
 
     @Override
-    public void onTokenRefresh() {
+    public void onTokenRefresh()
+    {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         sendRegistrationToServer(refreshedToken);
     }
@@ -20,7 +22,8 @@ public class SBERFirebaseInstanceIdService extends FirebaseInstanceIdService {
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(String token)
+    {
         FirebaseSharedPreferences.getInstance().saveFirebaseToken(getApplicationContext(), token);
     }
 }

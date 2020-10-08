@@ -6,8 +6,11 @@ import org.sbercoin.wallet.ui.fragment.transaction_fragment.HistoryType;
 
 import java.util.List;
 
-public interface OverviewView extends BaseFragmentView{
+public interface OverviewView extends BaseFragmentView
+{
     String getTxHash();
+
     HistoryType getHistoryType();
+
     void setUpOverview(List<CopyableOverviewItem> overview);
 }

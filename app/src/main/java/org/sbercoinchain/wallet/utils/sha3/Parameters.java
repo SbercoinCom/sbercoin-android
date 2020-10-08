@@ -1,6 +1,7 @@
 package org.sbercoin.wallet.utils.sha3;
 
-public enum Parameters {
+public enum Parameters
+{
 
     KECCAK_224(1152, 28, "01"),
     KECCAK_256(1088, 32, "01"),
@@ -19,21 +20,25 @@ public enum Parameters {
 
     private final String d;
 
-    Parameters(int r, int outputLength, String d) {
+    Parameters(int r, int outputLength, String d)
+    {
         this.r = r;
         this.outputLength = outputLength;
         this.d = d;
     }
 
-    public int getR() {
+    public int getR()
+    {
         return r;
     }
 
-    public int getOutputLength() {
+    public int getOutputLength()
+    {
         return outputLength;
     }
 
-    public String getD() {
+    public String getD()
+    {
         return d;
     }
 }

@@ -31,7 +31,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class QStoreByTypePresenterTest {
+public class QStoreByTypePresenterTest
+{
 
     @Mock
     private QStoreByTypeView view;
@@ -40,17 +41,22 @@ public class QStoreByTypePresenterTest {
     private QStoreByTypePresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -59,7 +65,8 @@ public class QStoreByTypePresenterTest {
     }
 
     @Test
-    public void searchItems_Error() {
+    public void searchItems_Error()
+    {
         when(interactor.searchContractsObservable(anyInt(), anyString(), anyString(), anyBoolean()))
                 .thenReturn(Observable.<List<QSearchItem>>error(new Throwable("Search Contracts Exception")));
 
@@ -69,7 +76,8 @@ public class QStoreByTypePresenterTest {
     }
 
     @Test
-    public void searchItems_Success() {
+    public void searchItems_Success()
+    {
         when(interactor.searchContractsObservable(anyInt(), anyString(), anyString(), anyBoolean()))
                 .thenReturn(Observable.just(Arrays.asList(new QSearchItem(), new QSearchItem())));
 
@@ -79,7 +87,8 @@ public class QStoreByTypePresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

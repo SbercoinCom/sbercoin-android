@@ -20,45 +20,53 @@ import java.util.regex.Pattern;
 
 import rx.Observable;
 
-public class WatchTokenInteractorImpl implements WatchTokenInteractor {
+public class WatchTokenInteractorImpl implements WatchTokenInteractor
+{
 
     private WeakReference<Context> mContext;
 
-    public WatchTokenInteractorImpl(Context context) {
+    public WatchTokenInteractorImpl(Context context)
+    {
         this.mContext = new WeakReference<>(context);
     }
 
     @Override
-    public List<ContractTemplate> getContractTemplates() {
+    public List<ContractTemplate> getContractTemplates()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         return tinyDB.getContractTemplateList();
     }
 
     @Override
-    public List<Contract> getContracts() {
+    public List<Contract> getContracts()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         return tinyDB.getContractList();
     }
 
     @Override
-    public int compareDates(String date, String date1) {
+    public int compareDates(String date, String date1)
+    {
         return DateCalculator.equals(date, date1);
     }
 
     @Override
-    public String readAbiContract(String uuid) {
+    public String readAbiContract(String uuid)
+    {
         return FileStorageManager.getInstance().readAbiContract(mContext.get(), uuid);
     }
 
     @Override
-    public boolean isValidContractAddress(String address) {
+    public boolean isValidContractAddress(String address)
+    {
         Pattern p = Pattern.compile("^[a-zA-Z0-9]{40,}$");
         Matcher m = p.matcher(address);
         return m.matches();
     }
 
     @Override
-    public String handleContractWithToken(String name, String address, String ABIInterface) {
+    public String handleContractWithToken(String name, String address, String ABIInterface)
+    {
         ContractTemplate contractTemplate = FileStorageManager.getInstance().importTemplate(mContext.get(), null, null, ABIInterface, "token", "no_name",
                 DateCalculator.getCurrentDate(), UUID.randomUUID().toString());
         TinyDB tinyDB = new TinyDB(mContext.get());
@@ -71,10 +79,13 @@ public class WatchTokenInteractorImpl implements WatchTokenInteractor {
     }
 
     @Override
-    public String getQRC20TokenStandardAbi() {
+    public String getQRC20TokenStandardAbi()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
-        for(ContractTemplate template: tinyDB.getContractTemplateList()){
-            if(template.getName().equals("QRC20TokenStandard")) {
+        for (ContractTemplate template : tinyDB.getContractTemplateList())
+        {
+            if (template.getName().equals("QRC20TokenStandard"))
+            {
                 return FileStorageManager.getInstance().readAbiContract(mContext.get(), template.getUuid());
             }
         }
@@ -82,7 +93,8 @@ public class WatchTokenInteractorImpl implements WatchTokenInteractor {
     }
 
     @Override
-    public Observable<ContractParams> getContractParams(String contractAddress) {
+    public Observable<ContractParams> getContractParams(String contractAddress)
+    {
         return SBERService.newInstance().getContractParams(contractAddress);
     }
 }

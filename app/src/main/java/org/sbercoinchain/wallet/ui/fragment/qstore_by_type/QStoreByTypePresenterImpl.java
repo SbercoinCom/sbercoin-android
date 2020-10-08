@@ -9,25 +9,29 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class QStoreByTypePresenterImpl extends BaseFragmentPresenterImpl implements QStoreByTypePresenter {
+public class QStoreByTypePresenterImpl extends BaseFragmentPresenterImpl implements QStoreByTypePresenter
+{
 
     private QStoreByTypeView view;
     private QStoreByTypeInteractor interactor;
     private int searchOffset;
     private String mType;
 
-    public QStoreByTypePresenterImpl(QStoreByTypeView view, QStoreByTypeInteractor interactor) {
+    public QStoreByTypePresenterImpl(QStoreByTypeView view, QStoreByTypeInteractor interactor)
+    {
         this.view = view;
         this.interactor = interactor;
     }
 
     @Override
-    public QStoreByTypeView getView() {
+    public QStoreByTypeView getView()
+    {
         return view;
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated()
+    {
         super.onViewCreated();
         mType = getView().getType();
         getView().setUpTitle(mType);
@@ -36,30 +40,36 @@ public class QStoreByTypePresenterImpl extends BaseFragmentPresenterImpl impleme
     }
 
     @Override
-    public void searchItems(String tag, boolean byTag) {
+    public void searchItems(String tag, boolean byTag)
+    {
         searchOffset = 0;
         getInteractor().searchContractsObservable(searchOffset, mType, tag, byTag)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<QSearchItem>>() {
+                .subscribe(new Subscriber<List<QSearchItem>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(List<QSearchItem> qstoreItems) {
+                    public void onNext(List<QSearchItem> qstoreItems)
+                    {
                         getView().setSearchResult(qstoreItems);
                     }
                 });
     }
 
-    public QStoreByTypeInteractor getInteractor() {
+    public QStoreByTypeInteractor getInteractor()
+    {
         return interactor;
     }
 }

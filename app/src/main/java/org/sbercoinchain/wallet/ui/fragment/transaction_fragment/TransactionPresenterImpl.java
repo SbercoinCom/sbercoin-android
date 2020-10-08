@@ -7,33 +7,39 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
 import java.math.BigDecimal;
 
-public class TransactionPresenterImpl extends BaseFragmentPresenterImpl implements TransactionPresenter {
+public class TransactionPresenterImpl extends BaseFragmentPresenterImpl implements TransactionPresenter
+{
 
     private TransactionView mTransactionView;
     private TransactionInteractor mTransactionInteractor;
 
-    public TransactionPresenterImpl(TransactionView view, TransactionInteractor interactor) {
+    public TransactionPresenterImpl(TransactionView view, TransactionInteractor interactor)
+    {
         mTransactionView = view;
         mTransactionInteractor = interactor;
     }
 
     @Override
-    public TransactionView getView() {
+    public TransactionView getView()
+    {
         return mTransactionView;
     }
 
-    private TransactionInteractor getInteractor() {
+    private TransactionInteractor getInteractor()
+    {
         return mTransactionInteractor;
     }
 
     @Override
-    public void openTransactionView(final String txHash, HistoryType historyType) {
+    public void openTransactionView(final String txHash, HistoryType historyType)
+    {
         String dateString;
         Long dateLong = 0L;
         String fee = "";
         String changeInBalance = "";
         String symbol = "";
-        switch (historyType){
+        switch (historyType)
+        {
             case History:
                 final History history = getInteractor().getHistory(txHash);
                 dateLong = history.getBlockTime();
@@ -49,14 +55,16 @@ public class TransactionPresenterImpl extends BaseFragmentPresenterImpl implemen
                 break;
         }
 
-        if (dateLong != null) {
+        if (dateLong != null)
+        {
             dateString = getInteractor().getFullDate(dateLong * 1000L);
-        } else {
+        } else
+        {
             dateString = getInteractor().getUnconfirmedDate();
         }
         TransactionReceipt transactionReceipt = getInteractor().getHistoryReceipt(getView().getRealm(), txHash);
-        getView().setUpTransactionData(changeInBalance, symbol,fee, dateString,
-                dateLong!=null && dateLong > 0, transactionReceipt != null && transactionReceipt.getLog() != null && !transactionReceipt.getLog().isEmpty());
+        getView().setUpTransactionData(changeInBalance, symbol, fee, dateString,
+                dateLong != null && dateLong > 0, transactionReceipt != null && transactionReceipt.getLog() != null && !transactionReceipt.getLog().isEmpty());
 
 
     }

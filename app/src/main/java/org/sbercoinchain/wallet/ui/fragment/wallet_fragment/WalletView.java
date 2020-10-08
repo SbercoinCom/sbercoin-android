@@ -9,7 +9,8 @@ import javax.annotation.Nullable;
 
 import io.realm.OrderedCollectionChangeSet;
 
-public interface WalletView extends BaseFragmentView {
+public interface WalletView extends BaseFragmentView
+{
     void updateHistory(List<History> histories, @Nullable OrderedCollectionChangeSet changeSet, int visibleItemCount);
 
     void updateHistory(List<History> histories, int startIndex, int insertCount);

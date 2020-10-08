@@ -1,12 +1,13 @@
 package org.sbercoin.wallet.model.gson.token_balance;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TokenBalance {
+import java.math.BigDecimal;
+import java.util.List;
+
+public class TokenBalance
+{
 
     @SerializedName("contract_address")
     @Expose
@@ -18,29 +19,43 @@ public class TokenBalance {
     /**
      * Constructor for unit testing
      */
-    public TokenBalance() {
+    public TokenBalance()
+    {
     }
 
-    public TokenBalance(List<Balance> balances) {
+    public TokenBalance(List<Balance> balances)
+    {
         this.balances = balances;
     }
 
-    public String getContractAddress() {
+    public String getContractAddress()
+    {
         return contractAddress;
     }
 
-    public void setContractAddress(String contractAddress) {
+    public void setContractAddress(String contractAddress)
+    {
         this.contractAddress = contractAddress;
     }
 
-    public List<Balance> getBalances() {
+    public List<Balance> getBalances()
+    {
         return balances;
     }
 
-    public Balance getBalanceForAddress(String contractAddress) {
-        if (balances != null) {
-            for (Balance b : balances) {
-                if (contractAddress.equals(b.getAddress())) {
+    public void setBalances(List<Balance> balances)
+    {
+        this.balances = balances;
+    }
+
+    public Balance getBalanceForAddress(String contractAddress)
+    {
+        if (balances != null)
+        {
+            for (Balance b : balances)
+            {
+                if (contractAddress.equals(b.getAddress()))
+                {
                     return b;
                 }
             }
@@ -48,11 +63,15 @@ public class TokenBalance {
         return null;
     }
 
-    public BigDecimal getMaxBalance() {
+    public BigDecimal getMaxBalance()
+    {
         BigDecimal maxBalance = new BigDecimal(0);
-        if (balances != null && balances.size() > 0) {
-            for (Balance balance : balances) {
-                if (maxBalance.intValue() < balance.getBalance().intValue()) {
+        if (balances != null && balances.size() > 0)
+        {
+            for (Balance balance : balances)
+            {
+                if (maxBalance.intValue() < balance.getBalance().intValue())
+                {
                     maxBalance = balance.getBalance();
                 }
             }
@@ -60,17 +79,16 @@ public class TokenBalance {
         return maxBalance;
     }
 
-    public BigDecimal getTotalBalance() {
+    public BigDecimal getTotalBalance()
+    {
         BigDecimal summaryBalance = new BigDecimal(0);
-        if (balances != null && balances.size() > 0) {
-            for (Balance balance : balances) {
+        if (balances != null && balances.size() > 0)
+        {
+            for (Balance balance : balances)
+            {
                 summaryBalance = summaryBalance.add(balance.getBalance());
             }
         }
         return summaryBalance;
-    }
-
-    public void setBalances(List<Balance> balances) {
-        this.balances = balances;
     }
 }

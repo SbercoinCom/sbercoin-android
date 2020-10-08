@@ -6,7 +6,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.util.List;
 
-public interface WatchContractView extends BaseFragmentView {
+public interface WatchContractView extends BaseFragmentView
+{
     void setABIInterface(String name, String abiInterface);
 
     void setUpTemplatesList(List<ContractTemplate> contractTemplateList, OnTemplateClickListener listener);

@@ -14,16 +14,16 @@
 
         <ImageView
             android:id="@+id/iv_qr_code"
-            android:scaleType="centerInside"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerInside" />
 
         <ProgressBar
-            android:indeterminateTint="@color/background"
             android:id="@+id/progress_bar"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/background" />
 
     </FrameLayout>
 </android.support.wear.widget.BoxInsetLayout>

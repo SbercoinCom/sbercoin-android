@@ -5,7 +5,9 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 import java.util.List;
 
 
-public interface ConfirmPassphrasePresenter extends BaseFragmentPresenter{
+public interface ConfirmPassphrasePresenter extends BaseFragmentPresenter
+{
     void onResetAllClick();
+
     void seedEntered(List<String> seed);
 }

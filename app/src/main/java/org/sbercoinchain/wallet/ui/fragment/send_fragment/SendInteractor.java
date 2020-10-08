@@ -9,7 +9,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface SendInteractor {
+public interface SendInteractor
+{
     void getUnspentOutputs(SendInteractorImpl.GetUnspentListCallBack callBack);
 
     void getUnspentOutputs(String address, final SendInteractorImpl.GetUnspentListCallBack callBack);

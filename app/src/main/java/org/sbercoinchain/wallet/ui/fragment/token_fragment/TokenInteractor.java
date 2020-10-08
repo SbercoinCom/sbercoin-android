@@ -11,7 +11,8 @@ import java.util.List;
 import rx.Observable;
 import rx.Subscriber;
 
-public interface TokenInteractor {
+public interface TokenInteractor
+{
 
     String getCurrentAddress();
 

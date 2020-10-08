@@ -34,20 +34,26 @@ import javax.security.auth.x500.X500Principal;
 
 import static java.security.spec.RSAKeyGenParameterSpec.F4;
 
-public class KeyStoreHelper {
+public class KeyStoreHelper
+{
 
     public static final String TAG = "KeyStoreHelper";
+    public final static String SBER_PIN_ALIAS = "sbercoin_alias";
 
     /**
      * Creates a public and private key and stores it using the Android Key
      * Store, so that only this application will be able to access the keys.
      */
     public static void createKeys(Context context, String alias) throws NoSuchProviderException,
-            NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        if (!isSigningKey(alias)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NoSuchAlgorithmException, InvalidAlgorithmParameterException
+    {
+        if (!isSigningKey(alias))
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
                 createKeysM(alias, false);
-            } else {
+            } else
+            {
                 createKeysJBMR2(context, alias);
             }
         }
@@ -55,7 +61,8 @@ public class KeyStoreHelper {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     static void createKeysJBMR2(Context context, String alias) throws NoSuchProviderException,
-            NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+            NoSuchAlgorithmException, InvalidAlgorithmParameterException
+    {
 
         Calendar start = new GregorianCalendar();
         Calendar end = new GregorianCalendar();
@@ -78,8 +85,10 @@ public class KeyStoreHelper {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    static void createKeysM(String alias, boolean requireAuth) {
-        try {
+    static void createKeysM(String alias, boolean requireAuth)
+    {
+        try
+        {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(
                     KeyProperties.KEY_ALGORITHM_RSA, SecurityConstants.KEYSTORE_PROVIDER_ANDROID_KEYSTORE);
             keyPairGenerator.initialize(
@@ -97,7 +106,8 @@ public class KeyStoreHelper {
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             Log.d(TAG, "Public Key is: " + keyPair.getPublic().toString());
 
-        } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
+        } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidAlgorithmParameterException e)
+        {
             throw new RuntimeException(e);
         }
     }
@@ -106,17 +116,22 @@ public class KeyStoreHelper {
      * JBMR2+ If Key with the default alias exists, returns true, else false.
      * on pre-JBMR2 returns true always.
      */
-    public static boolean isSigningKey(String alias) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
+    public static boolean isSigningKey(String alias)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
+            try
+            {
                 KeyStore keyStore = KeyStore.getInstance(SecurityConstants.KEYSTORE_PROVIDER_ANDROID_KEYSTORE);
                 keyStore.load(null);
                 return keyStore.containsAlias(alias);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 Log.e(TAG, e.getMessage(), e);
                 return false;
             }
-        } else {
+        } else
+        {
             return false;
         }
     }
@@ -124,93 +139,117 @@ public class KeyStoreHelper {
     /**
      * Returns the private key signature on JBMR2+ or else null.
      */
-    public static String getSigningKey(String alias) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+    public static String getSigningKey(String alias)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
             Certificate cert = getPrivateKeyEntry(alias).getCertificate();
-            if (cert == null) {
+            if (cert == null)
+            {
                 return null;
             }
-            try {
+            try
+            {
                 return Base64.encodeToString(cert.getEncoded(), Base64.NO_WRAP);
-            } catch (CertificateEncodingException e) {
+            } catch (CertificateEncodingException e)
+            {
                 e.printStackTrace();
                 return null;
             }
-        } else {
+        } else
+        {
             return null;
         }
     }
 
-    private static KeyStore.PrivateKeyEntry getPrivateKeyEntry(String alias) {
-        try {
+    private static KeyStore.PrivateKeyEntry getPrivateKeyEntry(String alias)
+    {
+        try
+        {
             KeyStore ks = KeyStore
                     .getInstance(SecurityConstants.KEYSTORE_PROVIDER_ANDROID_KEYSTORE);
             ks.load(null);
             KeyStore.Entry entry = ks.getEntry(alias, null);
 
-            if (entry == null) {
+            if (entry == null)
+            {
                 Log.w(TAG, "No key found under alias: " + alias);
                 Log.w(TAG, "Exiting signData()...");
                 return null;
             }
 
-            if (!(entry instanceof KeyStore.PrivateKeyEntry)) {
+            if (!(entry instanceof KeyStore.PrivateKeyEntry))
+            {
                 Log.w(TAG, "Not an instance of a PrivateKeyEntry");
                 Log.w(TAG, "Exiting signData()...");
                 return null;
             }
             return (KeyStore.PrivateKeyEntry) entry;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }
     }
 
-    public static String encrypt(String alias, String plaintext) {
-        try {
+    public static String encrypt(String alias, String plaintext)
+    {
+        try
+        {
             PublicKey publicKey = getPrivateKeyEntry(alias).getCertificate().getPublicKey();
             Cipher cipher = getCipher();
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Base64.encodeToString(cipher.doFinal(plaintext.getBytes()), Base64.NO_WRAP);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public static String encryptBytes(String alias, byte[] plaintext) {
-        try {
+    public static String encryptBytes(String alias, byte[] plaintext)
+    {
+        try
+        {
             PublicKey publicKey = getPrivateKeyEntry(alias).getCertificate().getPublicKey();
             Cipher cipher = getCipher();
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Base64.encodeToString(cipher.doFinal(plaintext), Base64.NO_WRAP);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public static String decrypt(String alias, String ciphertext) {
-        try {
+    public static String decrypt(String alias, String ciphertext)
+    {
+        try
+        {
             PrivateKey privateKey = getPrivateKeyEntry(alias).getPrivateKey();
             Cipher cipher = getCipher();
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             return new String(cipher.doFinal(Base64.decode(ciphertext, Base64.NO_WRAP)));
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public static byte[] decryptToBytes(String alias, String ciphertext) {
-        try {
+    public static byte[] decryptToBytes(String alias, String ciphertext)
+    {
+        try
+        {
             PrivateKey privateKey = getPrivateKeyEntry(alias).getPrivateKey();
             Cipher cipher = getCipher();
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             return cipher.doFinal(Base64.decode(ciphertext, Base64.NO_WRAP));
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    private static Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
+    private static Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException
+    {
         return Cipher.getInstance(
                 String.format("%s/%s/%s",
                         SecurityConstants.TYPE_RSA,
@@ -218,18 +257,8 @@ public class KeyStoreHelper {
                         SecurityConstants.PADDING_TYPE));
     }
 
-    public interface SecurityConstants {
-        String KEYSTORE_PROVIDER_ANDROID_KEYSTORE = "AndroidKeyStore";
-        String TYPE_RSA = "RSA";
-        String PADDING_TYPE = "PKCS1Padding";
-        String BLOCKING_MODE = "NONE";
-        String SIGNATURE_SHA256withRSA = "SHA256withRSA";
-        String SIGNATURE_SHA512withRSA = "SHA512withRSA";
-    }
-
-    public final static String SBER_PIN_ALIAS = "sbercoin_alias";
-
-    public static String getSeed(Context context, @NonNull String pin) {
+    public static String getSeed(Context context, @NonNull String pin)
+    {
         String cryptoSaltPassphrase = SBERSharedPreference.getInstance().getSeed(context);
 
         cryptoSaltPassphrase = trimEndSpaces(cryptoSaltPassphrase);
@@ -238,12 +267,25 @@ public class KeyStoreHelper {
         return AESUtil.decryptBytes(pin, saltPassphrase);
     }
 
-    public static String trimEndSpaces(String value){
-        if(!TextUtils.isEmpty(value)) {
-            if(value.length() - value.trim().length() == 5){
+    public static String trimEndSpaces(String value)
+    {
+        if (!TextUtils.isEmpty(value))
+        {
+            if (value.length() - value.trim().length() == 5)
+            {
                 value = value.trim() + "\n";
             }
         }
         return value;
+    }
+
+    public interface SecurityConstants
+    {
+        String KEYSTORE_PROVIDER_ANDROID_KEYSTORE = "AndroidKeyStore";
+        String TYPE_RSA = "RSA";
+        String PADDING_TYPE = "PKCS1Padding";
+        String BLOCKING_MODE = "NONE";
+        String SIGNATURE_SHA256withRSA = "SHA256withRSA";
+        String SIGNATURE_SHA512withRSA = "SHA512withRSA";
     }
 }

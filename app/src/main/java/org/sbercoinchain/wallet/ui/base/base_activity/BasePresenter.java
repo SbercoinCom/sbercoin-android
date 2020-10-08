@@ -3,7 +3,8 @@ package org.sbercoin.wallet.ui.base.base_activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public interface BasePresenter {
+public interface BasePresenter
+{
 
     void onCreate();
 

@@ -8,15 +8,18 @@ import org.sbercoin.wallet.ui.fragment.store_categories.StoreCategoryViewHolder;
 
 import java.util.List;
 
-public class StoreCategoriesFragmentDark extends StoreCategoriesFragment {
+public class StoreCategoriesFragmentDark extends StoreCategoriesFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.lyt_store_categories;
     }
 
     @Override
-    public void setUpCategoriesList(List<QstoreContractType> list, StoreCategoryViewHolder.OnCategoryClickListener listener) {
+    public void setUpCategoriesList(List<QstoreContractType> list, StoreCategoryViewHolder.OnCategoryClickListener listener)
+    {
         adapter = new StoreCategoriesAdapter(list, R.layout.lyt_store_category_list_item, listener);
         contentList.setAdapter(adapter);
     }

@@ -4,7 +4,8 @@ package org.sbercoin.wallet.model.gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ContractParams {
+public class ContractParams
+{
 
     @SerializedName("symbol")
     @Expose
@@ -19,35 +20,43 @@ public class ContractParams {
     @Expose
     private String totalSupply;
 
-    public String getSymbol() {
+    public String getSymbol()
+    {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
+    public void setSymbol(String symbol)
+    {
         this.symbol = symbol;
     }
 
-    public String getDecimals() {
+    public String getDecimals()
+    {
         return decimals;
     }
 
-    public void setDecimals(String decimals) {
+    public void setDecimals(String decimals)
+    {
         this.decimals = decimals;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getTotalSupply() {
+    public String getTotalSupply()
+    {
         return totalSupply;
     }
 
-    public void setTotalSupply(String totalSupply) {
+    public void setTotalSupply(String totalSupply)
+    {
         this.totalSupply = totalSupply;
     }
 

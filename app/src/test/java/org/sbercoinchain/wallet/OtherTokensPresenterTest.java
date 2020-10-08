@@ -29,7 +29,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class OtherTokensPresenterTest {
+public class OtherTokensPresenterTest
+{
     @Mock
     private OtherTokensView view;
     @Mock
@@ -37,17 +38,22 @@ public class OtherTokensPresenterTest {
     private OtherTokensPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -56,7 +62,8 @@ public class OtherTokensPresenterTest {
     }
 
     @Test
-    public void notifyNewToken_Error() {
+    public void notifyNewToken_Error()
+    {
         when(interactor.getTokenObservable())
                 .thenReturn(Observable.<List<Token>>error(new Throwable("Getting Token error")));
 
@@ -66,7 +73,8 @@ public class OtherTokensPresenterTest {
     }
 
     @Test
-    public void notifyNewToken_EmptyTokens() {
+    public void notifyNewToken_EmptyTokens()
+    {
         when(interactor.getTokenObservable())
                 .thenReturn(Observable.just(Collections.<Token>emptyList()));
 
@@ -76,7 +84,8 @@ public class OtherTokensPresenterTest {
     }
 
     @Test
-    public void notifyNewToken_Success() {
+    public void notifyNewToken_Success()
+    {
         when(interactor.getTokenObservable())
                 .thenReturn(Observable.just(Arrays.asList(new Token(), new Token())));
 
@@ -86,7 +95,8 @@ public class OtherTokensPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

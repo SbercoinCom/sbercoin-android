@@ -10,16 +10,21 @@ import org.sbercoin.wallet.datastorage.SBERSettingSharedPreference;
 import org.sbercoin.wallet.ui.fragment.language_fragment.LanguageHolder;
 import org.sbercoin.wallet.ui.fragment.language_fragment.OnLanguageIntemClickListener;
 
-public class LanguageHolderLight extends LanguageHolder {
-    public LanguageHolderLight(View itemView, OnLanguageIntemClickListener listener) {
+public class LanguageHolderLight extends LanguageHolder
+{
+    public LanguageHolderLight(View itemView, OnLanguageIntemClickListener listener)
+    {
         super(itemView, listener);
     }
 
-    public void bindLanguage(Pair<String, String> language) {
-        if (language.first.equals(SBERSettingSharedPreference.getInstance().getLanguage(mTextViewLanguage.getContext()))) {
+    public void bindLanguage(Pair<String, String> language)
+    {
+        if (language.first.equals(SBERSettingSharedPreference.getInstance().getLanguage(mTextViewLanguage.getContext())))
+        {
             mImageViewCheckIndicator.setVisibility(View.VISIBLE);
             mLinearLayoutAddress.setBackgroundColor(ContextCompat.getColor(mTextViewLanguage.getContext(), R.color.qr_code_background));
-        } else {
+        } else
+        {
             mImageViewCheckIndicator.setVisibility(View.GONE);
             mLinearLayoutAddress.setBackgroundColor(Color.TRANSPARENT);
         }

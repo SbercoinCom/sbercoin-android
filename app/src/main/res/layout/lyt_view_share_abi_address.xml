@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,8 +16,8 @@
         <org.sbercoin.wallet.utils.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
             android:gravity="center"
             android:text="@string/copy_to_share"
             android:textSize="18sp"
@@ -50,10 +50,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:background="@color/background"
-            android:paddingBottom="8dp"
-            android:paddingEnd="32dp"
             android:paddingStart="32dp"
             android:paddingTop="8dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="8dp"
             android:text="@string/copy_address"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
@@ -72,12 +72,12 @@
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_abi"
             android:layout_width="match_parent"
-            android:gravity="left"
-            android:maxLines="5"
-            android:maxHeight="100dp"
-            android:scrollbars="vertical"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:gravity="left"
+            android:maxHeight="100dp"
+            android:maxLines="5"
+            android:scrollbars="vertical"
             android:textSize="16sp"
             app:typefaceAsset="@string/simplonMonoRegular" />
 
@@ -89,10 +89,10 @@
             android:layout_marginTop="16dp"
             android:background="@color/background"
             android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingEnd="48dp"
             android:paddingStart="48dp"
             android:paddingTop="8dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="8dp"
             android:text="@string/copy_abi"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"

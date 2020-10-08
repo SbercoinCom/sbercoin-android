@@ -9,44 +9,53 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class WalletMainPresenterImpl extends BaseFragmentPresenterImpl implements WalletMainPresenter {
+public class WalletMainPresenterImpl extends BaseFragmentPresenterImpl implements WalletMainPresenter
+{
 
     private WalletMainInteractor mWalletMainFragmentInteractor;
     private WalletMainView mWalletMainView;
 
-    public WalletMainPresenterImpl(WalletMainView view, WalletMainInteractor interactor) {
+    public WalletMainPresenterImpl(WalletMainView view, WalletMainInteractor interactor)
+    {
         mWalletMainView = view;
         mWalletMainFragmentInteractor = interactor;
     }
 
     @Override
-    public WalletMainView getView() {
+    public WalletMainView getView()
+    {
         return mWalletMainView;
     }
 
     @Override
-    public void checkOtherTokens() {
+    public void checkOtherTokens()
+    {
         getInteractor().getTokensObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Token>>() {
+                .subscribe(new Subscriber<List<Token>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(List<Token> tokens) {
+                    public void onNext(List<Token> tokens)
+                    {
                         getView().showOtherTokens(tokens != null && tokens.size() > 0);
                     }
                 });
     }
 
-    private WalletMainInteractor getInteractor() {
+    private WalletMainInteractor getInteractor()
+    {
         return mWalletMainFragmentInteractor;
     }
 }

@@ -20,28 +20,34 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressesListFragmentTokenDark extends AddressesListFragmentToken {
+public class AddressesListFragmentTokenDark extends AddressesListFragmentToken
+{
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.fragment_address_list;
     }
 
     @Override
-    public void updateAddressList(List<AddressWithTokenBalance> deterministicKeyWithBalance, String currency) {
-        if (mRecyclerView != null) {
+    public void updateAddressList(List<AddressWithTokenBalance> deterministicKeyWithBalance, String currency)
+    {
+        if (mRecyclerView != null)
+        {
             adapter = new TokenAddressesAdapter(deterministicKeyWithBalance, org.sbercoin.wallet.R.layout.item_address, this, currency, getPresenter().getDecimalUnits());
             mRecyclerView.setAdapter(adapter);
         }
     }
 
     @Override
-    public void onItemClick(AddressWithTokenBalance item) {
+    public void onItemClick(AddressWithTokenBalance item)
+    {
         List<AddressWithTokenBalance> deterministicKeyWithBalances = new ArrayList<>(getPresenter().getKeysWithTokenBalance());
         deterministicKeyWithBalances.remove(item);
         showTransferDialogFragment(item, deterministicKeyWithBalances, getPresenter().getDecimalUnits());
     }
 
-    protected void showTransferDialogFragment(final AddressWithTokenBalance keyWithBalanceTo, List<AddressWithTokenBalance> keyWithBalanceList, final int decimalUnits) {
+    protected void showTransferDialogFragment(final AddressWithTokenBalance keyWithBalanceTo, List<AddressWithTokenBalance> keyWithBalanceList, final int decimalUnits)
+    {
         View view = LayoutInflater.from(getContext()).inflate(org.sbercoin.wallet.R.layout.dialog_transfer_balance_fragment, null);
         final TextInputEditText mEditTextAmount = view.findViewById(R.id.et_amount);
         final Spinner spinner = view.findViewById(R.id.spinner_transfer);
@@ -51,9 +57,11 @@ public class AddressesListFragmentTokenDark extends AddressesListFragmentToken {
         mEditTextAddressTo.setText(keyWithBalanceTo.getAddress());
         AddressesWithTokenBalanceSpinnerAdapterDark spinnerAdapter = new AddressesWithTokenBalanceSpinnerAdapterDark(getContext(), keyWithBalanceList, getPresenter().getCurrency(), decimalUnits);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
                 AddressWithTokenBalance item = (AddressWithTokenBalance) spinner.getItemAtPosition(i);
                 getPresenter().setKeyWithTokenBalanceFrom(item);
 
@@ -65,20 +73,25 @@ public class AddressesListFragmentTokenDark extends AddressesListFragmentToken {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
             }
         });
 
-        view.findViewById(org.sbercoin.wallet.R.id.bt_back).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(org.sbercoin.wallet.R.id.bt_back).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 mTransferDialog.dismiss();
             }
         });
 
-        view.findViewById(org.sbercoin.wallet.R.id.bt_transfer).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(org.sbercoin.wallet.R.id.bt_transfer).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 setProgressDialog();
                 getPresenter().transfer(keyWithBalanceTo, getPresenter().getKeyWithTokenBalanceFrom(), mEditTextAmount.getText().toString());
             }
@@ -89,7 +102,8 @@ public class AddressesListFragmentTokenDark extends AddressesListFragmentToken {
                 .setView(view)
                 .create();
 
-        if (mTransferDialog.getWindow() != null) {
+        if (mTransferDialog.getWindow() != null)
+        {
             mTransferDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 

@@ -9,53 +9,63 @@ import java.io.File;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class BackupContractsPresenterImpl extends BaseFragmentPresenterImpl implements BackupContractsPresenter {
+public class BackupContractsPresenterImpl extends BaseFragmentPresenterImpl implements BackupContractsPresenter
+{
 
     private BackupContractsView mBackupContractsFragmentView;
     private BackupContractsInteractor mBackupContractsInteractor;
+    private File mBackUpFile;
 
-    public BackupContractsPresenterImpl(BackupContractsView backupContractsFragmentView, BackupContractsInteractor backupContractsInteractor) {
+    public BackupContractsPresenterImpl(BackupContractsView backupContractsFragmentView, BackupContractsInteractor backupContractsInteractor)
+    {
         mBackupContractsFragmentView = backupContractsFragmentView;
         mBackupContractsInteractor = backupContractsInteractor;
     }
 
-    private File mBackUpFile;
-
     @Override
-    public BackupContractsView getView() {
+    public BackupContractsView getView()
+    {
         return mBackupContractsFragmentView;
     }
 
     @Override
-    public void onBackUpClick() {
+    public void onBackUpClick()
+    {
         getView().checkPermissionForBackupFile();
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        if (mBackUpFile != null) {
+        if (mBackUpFile != null)
+        {
             mBackUpFile.delete();
         }
     }
 
-    public void permissionGrantedForCreateBackUpFile() {
+    public void permissionGrantedForCreateBackUpFile()
+    {
         getView().setProgressDialog();
         getInteractor().createBackUpFile()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<File>() {
+                .subscribe(new Subscriber<File>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().setAlertDialog(R.string.error, R.string.cancel, BaseFragment.PopUpType.error);
                     }
 
                     @Override
-                    public void onNext(File file) {
+                    public void onNext(File file)
+                    {
                         String backUpFileSize = (int) Math.ceil(file.length() / 1024.0) + " Kb";
                         getView().dismissProgressDialog();
                         getView().setUpFile(backUpFileSize);
@@ -65,23 +75,28 @@ public class BackupContractsPresenterImpl extends BaseFragmentPresenterImpl impl
 
     }
 
-    public void permissionGrantedForCreateAndBackUpFile() {
+    public void permissionGrantedForCreateAndBackUpFile()
+    {
         getView().setProgressDialog();
         getInteractor().createBackUpFile()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<File>() {
+                .subscribe(new Subscriber<File>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().setAlertDialog(R.string.error, R.string.cancel, BaseFragment.PopUpType.error);
                     }
 
                     @Override
-                    public void onNext(File file) {
+                    public void onNext(File file)
+                    {
                         String backUpFileSize = (int) Math.ceil(file.length() / 1024.0) + " Kb";
                         getView().dismissProgressDialog();
                         getView().setUpFile(backUpFileSize);
@@ -93,20 +108,25 @@ public class BackupContractsPresenterImpl extends BaseFragmentPresenterImpl impl
     }
 
     @Override
-    public void permissionGrantedForChooseShareMethod() {
-        if (mBackUpFile!=null && mBackUpFile.exists()) {
+    public void permissionGrantedForChooseShareMethod()
+    {
+        if (mBackUpFile != null && mBackUpFile.exists())
+        {
             String authority = "org.sbercoin.wallet.FileProvider";
             getView().chooseShareMethod(authority, mBackUpFile);
-        } else {
+        } else
+        {
             getView().setAlertDialog(R.string.error, R.string.cancel, BaseFragment.PopUpType.error);
         }
     }
 
-    public void setBackUpFile(File backUpFile) {
+    public void setBackUpFile(File backUpFile)
+    {
         mBackUpFile = backUpFile;
     }
 
-    private BackupContractsInteractor getInteractor() {
+    private BackupContractsInteractor getInteractor()
+    {
         return mBackupContractsInteractor;
     }
 

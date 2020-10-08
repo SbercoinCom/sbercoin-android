@@ -1,6 +1,7 @@
 package org.sbercoin.wallet.utils;
 
-public class SBERIntent {
+public class SBERIntent
+{
     public static final String OPEN_FROM_NOTIFICATION = "sbercoin.intent.action.OPEN_FROM_NOTIFICATION";
     public static final String SEND_FROM_SDK = "sbercoin.intent.action.SEND_FROM_SDK";
     public static final String SEND_ADDRESS = "sbercoin.intent.extra.SEND_ADDRESS";

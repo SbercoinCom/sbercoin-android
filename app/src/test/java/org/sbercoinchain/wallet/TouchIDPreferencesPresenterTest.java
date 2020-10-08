@@ -12,7 +12,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-public class TouchIDPreferencesPresenterTest {
+public class TouchIDPreferencesPresenterTest
+{
 
     @Mock
     private TouchIDPreferenceView view;
@@ -21,14 +22,16 @@ public class TouchIDPreferencesPresenterTest {
     private TouchIDPreferencePresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new TouchIDPreferencePresenterImpl(view, interractor);
     }
 
     @Test
-    public void onEnableTouchIdClick() {
+    public void onEnableTouchIdClick()
+    {
         presenter.onEnableTouchIdClick();
 
         verify(interractor, times(1)).saveTouchIDEnabled();

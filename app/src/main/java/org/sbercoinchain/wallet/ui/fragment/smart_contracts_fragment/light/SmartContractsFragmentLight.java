@@ -6,17 +6,20 @@ import org.sbercoin.wallet.ui.fragment.smart_contracts_fragment.SmartContractsFr
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmartContractsFragmentLight extends SmartContractsFragment {
+public class SmartContractsFragmentLight extends SmartContractsFragment
+{
 
     private List<SettingObject> settingsData;
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.fragment_smart_contracts_light;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         settingsData = new ArrayList<>();
         settingsData.add(new SettingObject(org.sbercoin.wallet.R.string.my_new_contracts, org.sbercoin.wallet.R.drawable.ic_my_new_contracts_light, 0));

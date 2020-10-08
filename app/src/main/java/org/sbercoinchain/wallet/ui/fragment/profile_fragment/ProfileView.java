@@ -4,7 +4,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import io.realm.Realm;
 
-public interface ProfileView extends BaseFragmentView {
+public interface ProfileView extends BaseFragmentView
+{
     void startDialogFragmentForResult();
 
     void resetText();

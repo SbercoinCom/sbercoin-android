@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_receive"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true"
-    android:id="@+id/cl_receive"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -17,13 +17,13 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/title_color_light"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/title_color_light"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <LinearLayout
@@ -37,18 +37,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/background_ibtn_back"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="10dp"
                     android:tint="@color/white"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="10dp"
-                    app:srcCompat="@drawable/ic_back_indicator"/>
+                    app:srcCompat="@drawable/ic_back_indicator" />
 
                 <org.sbercoin.wallet.utils.FontTextView
                     android:id="@+id/tv_toolbar_send"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/receive"
                     android:textColor="@color/white"
@@ -59,12 +59,12 @@
                     android:id="@+id/bt_share"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:tint="@color/white"
-                    android:padding="6dp"
                     android:layout_margin="9dp"
                     android:background="@drawable/background_pressed_alpha_white"
+                    android:padding="6dp"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/ic_share_light"/>
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/ic_share_light" />
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -133,8 +133,8 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/tv_single_string"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
                     android:padding="4dp">
 
                     <ImageView
@@ -175,22 +175,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="8dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/activity_horizontal_margin">
 
             <org.sbercoin.wallet.utils.FontButton
                 android:id="@+id/bt_copy_wallet_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/bt_choose_another_address"
                 android:layout_alignStart="@+id/bt_choose_another_address"
+                android:layout_alignEnd="@+id/bt_choose_another_address"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/btn_sea_corner_background_light"
                 android:gravity="center"
-                android:paddingBottom="16dp"
-                android:paddingEnd="32dp"
                 android:paddingStart="32dp"
                 android:paddingTop="16dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="16dp"
                 android:stateListAnimator="@null"
                 android:text="@string/copy_wallet_address"
                 android:textAllCaps="true"
@@ -205,13 +205,13 @@
                 android:layout_below="@id/bt_copy_wallet_address"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/btn_gray_corner_background_light"
-                android:paddingBottom="16dp"
-                android:paddingEnd="32dp"
                 android:paddingStart="32dp"
                 android:paddingTop="16dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="16dp"
                 android:stateListAnimator="@null"
                 android:text="@string/choose_another_address"
                 android:textAllCaps="true"

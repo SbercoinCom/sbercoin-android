@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:clickable="true"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:background="@color/background"
-                                                 android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clickable="true"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -23,15 +23,15 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageButton
+                android:id="@+id/ibt_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_ibtn_back"
-                android:id="@+id/ibt_back"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
+                android:paddingTop="10dp"
                 android:paddingRight="16dp"
-                app:srcCompat="@drawable/ic_back_indicator"/>
+                android:paddingBottom="10dp"
+                app:srcCompat="@drawable/ic_back_indicator" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_currency_title"
@@ -48,11 +48,11 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
+        android:id="@+id/ll_currency"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true"
-        android:id="@+id/ll_currency"
         android:focusableInTouchMode="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -71,11 +71,11 @@
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:id="@+id/recycler_view">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -83,14 +83,14 @@
             android:id="@+id/place_holder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:gravity="center"
-            android:visibility="gone"
             android:text="@string/no_tokens_found"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
-            app:typefaceAsset="@string/simplonMonoRegular"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:visibility="gone"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
     </RelativeLayout>
 

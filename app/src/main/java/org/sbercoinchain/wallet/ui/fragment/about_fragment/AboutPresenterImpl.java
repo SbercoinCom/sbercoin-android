@@ -5,35 +5,42 @@ import org.sbercoin.wallet.model.Version;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
-public class AboutPresenterImpl extends BaseFragmentPresenterImpl implements AboutPresenter {
+public class AboutPresenterImpl extends BaseFragmentPresenterImpl implements AboutPresenter
+{
 
     private AboutView mAboutFragmentView;
     private AboutInteractor mAboutInteractor;
 
-    public AboutPresenterImpl(AboutView aboutFragmentView, AboutInteractor aboutInteractor) {
+    public AboutPresenterImpl(AboutView aboutFragmentView, AboutInteractor aboutInteractor)
+    {
         mAboutFragmentView = aboutFragmentView;
         mAboutInteractor = aboutInteractor;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
-        try {
+        try
+        {
             int versionCode = getInteractor().getCodeVersion();
             String version = getInteractor().getVersion();
             getView().updateVersion(new Version(version, versionCode));
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             getView().setAlertDialog(R.string.receive_version_error, R.string.cancel, BaseFragment.PopUpType.error);
         }
 
     }
 
     @Override
-    public AboutView getView() {
+    public AboutView getView()
+    {
         return mAboutFragmentView;
     }
 
-    private AboutInteractor getInteractor() {
+    private AboutInteractor getInteractor()
+    {
         return mAboutInteractor;
     }
 }

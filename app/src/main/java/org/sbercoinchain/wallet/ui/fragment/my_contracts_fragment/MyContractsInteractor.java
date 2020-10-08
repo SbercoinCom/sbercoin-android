@@ -8,16 +8,17 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface MyContractsInteractor {
+public interface MyContractsInteractor
+{
     List<Contract> getContracts();
 
     List<Contract> getContractsWithoutTokens();
 
     List<Token> getTokens();
 
-    void setContractWithoutTokens(List<Contract> contracts);
-
     void setTokens(List<Token> tokens);
+
+    void setContractWithoutTokens(List<Contract> contracts);
 
     boolean isShowWizard();
 

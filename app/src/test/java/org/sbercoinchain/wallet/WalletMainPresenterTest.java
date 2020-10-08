@@ -28,7 +28,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class WalletMainPresenterTest {
+public class WalletMainPresenterTest
+{
 
     @Mock
     private WalletMainView view;
@@ -37,17 +38,22 @@ public class WalletMainPresenterTest {
     private WalletMainPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -56,7 +62,8 @@ public class WalletMainPresenterTest {
     }
 
     @Test
-    public void checkOtherTokens_Success() {
+    public void checkOtherTokens_Success()
+    {
         when(interactor.getTokensObservable())
                 .thenReturn(Observable.just(Arrays.asList(new Token(), new Token())));
 
@@ -66,7 +73,8 @@ public class WalletMainPresenterTest {
     }
 
     @Test
-    public void checkOtherTokens_Error() {
+    public void checkOtherTokens_Error()
+    {
         when(interactor.getTokensObservable())
                 .thenReturn(Observable.<List<Token>>error(new Throwable("Tokens error")));
 
@@ -77,7 +85,8 @@ public class WalletMainPresenterTest {
 
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

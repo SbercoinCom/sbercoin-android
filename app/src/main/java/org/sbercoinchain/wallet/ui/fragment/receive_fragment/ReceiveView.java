@@ -7,9 +7,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import rx.Subscription;
 
-public interface ReceiveView extends BaseFragmentView {
-    void setQrCode(Bitmap bitmap);
-
+public interface ReceiveView extends BaseFragmentView
+{
     void showSpinner();
 
     void hideSpinner();
@@ -18,12 +17,13 @@ public interface ReceiveView extends BaseFragmentView {
 
     void updateBalance(String balance, String unconfirmedBalance, String symbol);
 
-
     void showToast();
 
     void openFragmentForResult(Fragment fragment);
 
     Bitmap getQrCode();
+
+    void setQrCode(Bitmap bitmap);
 
     Subscription imageEncodeObservable(final String param);
 

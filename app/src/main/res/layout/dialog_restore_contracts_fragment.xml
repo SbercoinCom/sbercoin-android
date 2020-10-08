@@ -1,96 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:orientation="vertical"
-              android:background="@color/colorPrimary"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <org.sbercoin.wallet.utils.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:maxLines="1"
         android:layout_margin="32dp"
+        android:maxLines="1"
         android:text="Restore Contracts"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:editTextTypeface="@string/simplonMonoMedium"/>
+        app:editTextTypeface="@string/simplonMonoMedium" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:layout_weight="1"
             android:text="Back-up Date"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
+            android:id="@+id/tv_back_up_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:text="Back-up Date"
             android:textColor="@color/black"
-            android:id="@+id/tv_back_up_date"/>
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:layout_weight="1"
             android:text="Back-up App Version"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
+            android:id="@+id/tv_back_up_app_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:text="Back-up Date"
             android:textColor="@color/black"
-            android:id="@+id/tv_back_up_app_version"/>
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
     </LinearLayout>
-    
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/background"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"/>
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/background" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
@@ -101,77 +101,77 @@
             android:text="Templates"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:typefaceAsset="@string/simplonMonoRegular"/>
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
+            android:id="@+id/tv_templates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:text="Back-up Date"
             android:textColor="@color/black"
-            android:id="@+id/tv_templates"/>
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:layout_weight="1"
             android:text="Contracts"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
+            android:id="@+id/tv_contracts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:text="Back-up Date"
             android:textColor="@color/black"
-            android:id="@+id/tv_contracts"/>
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:layout_weight="1"
             android:text="Tokens"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
+            android:id="@+id/tv_tokens"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:text="Back-up Date"
             android:textColor="@color/black"
-            android:id="@+id/tv_tokens"/>
+            android:textSize="14sp"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -182,27 +182,27 @@
             android:id="@+id/bt_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:text="BACK"
             android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="BACK"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textSize="@dimen/button_text"/>
+            android:textSize="@dimen/button_text" />
 
         <org.sbercoin.wallet.utils.FontButton
             android:id="@+id/bt_restore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:gravity="center"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="16dp"
             android:text="RESTORE"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textSize="@dimen/button_text"/>
+            android:textSize="@dimen/button_text" />
     </LinearLayout>
 
 </LinearLayout>

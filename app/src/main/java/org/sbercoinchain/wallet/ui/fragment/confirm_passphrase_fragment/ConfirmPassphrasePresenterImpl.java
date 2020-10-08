@@ -1,7 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment;
 
 
-
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
 import java.util.Arrays;
@@ -12,29 +11,35 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class ConfirmPassphrasePresenterImpl extends BaseFragmentPresenterImpl implements org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphrasePresenter {
+public class ConfirmPassphrasePresenterImpl extends BaseFragmentPresenterImpl implements org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphrasePresenter
+{
 
     org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView mConfirmPassphraseView;
     org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor mConfirmPassphraseInteractor;
     boolean isDataLoaded = false;
 
     List<String> wordsList;
-    ConfirmPassphrasePresenterImpl(org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView confirmPassphraseView, org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor confirmPassphraseInteractor){
+
+    ConfirmPassphrasePresenterImpl(org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView confirmPassphraseView, org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor confirmPassphraseInteractor)
+    {
         mConfirmPassphraseView = confirmPassphraseView;
         mConfirmPassphraseInteractor = confirmPassphraseInteractor;
     }
 
     @Override
-    public org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView getView() {
+    public org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView getView()
+    {
         return mConfirmPassphraseView;
     }
 
-    public org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor getInteractor() {
+    public org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor getInteractor()
+    {
         return mConfirmPassphraseInteractor;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         String seed = getView().getSeed();
         wordsList = Arrays.asList(seed.split("\\W+"));
@@ -42,45 +47,56 @@ public class ConfirmPassphrasePresenterImpl extends BaseFragmentPresenterImpl im
     }
 
     @Override
-    public void onResetAllClick(){
+    public void onResetAllClick()
+    {
         getView().hideError();
         getView().resetAll(wordsList);
     }
 
     @Override
-    public void seedEntered(List<String> seed) {
-        if(seed.size()==12){
-            for(int i=0;i<12;i++){
-                if(!seed.get(i).equals(wordsList.get(i))){
+    public void seedEntered(List<String> seed)
+    {
+        if (seed.size() == 12)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                if (!seed.get(i).equals(wordsList.get(i)))
+                {
                     getView().showError();
                     return;
                 }
             }
             confirmSeed();
-        }else{
+        } else
+        {
             getView().hideError();
         }
     }
 
-    private void confirmSeed(){
+    private void confirmSeed()
+    {
         getView().setProgressDialog();
         String passphrase = getView().getSeed();
         getInteractor().createWallet(passphrase)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new Subscriber<String>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
 
                     }
 
                     @Override
-                    public void onNext(String s) {
+                    public void onNext(String s)
+                    {
                         getInteractor().setKeyGeneratedInstance(true);
                         isDataLoaded = true;
                         getView().onLogin();
@@ -91,9 +107,11 @@ public class ConfirmPassphrasePresenterImpl extends BaseFragmentPresenterImpl im
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        if(isDataLoaded){
+        if (isDataLoaded)
+        {
             getView().dismissProgressDialog();
             getView().onLogin();
         }

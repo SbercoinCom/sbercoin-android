@@ -6,16 +6,19 @@ import org.sbercoin.wallet.ui.fragment.my_contracts_fragment.MyContractsFragment
 
 import java.util.List;
 
-public class MyContractsFragmentDark extends MyContractsFragment {
+public class MyContractsFragmentDark extends MyContractsFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.fragment_my_contracts;
     }
 
 
     @Override
-    public void setUpRecyclerView(List<Contract> contractList, ContractItemListener contractItemListener) {
+    public void setUpRecyclerView(List<Contract> contractList, ContractItemListener contractItemListener)
+    {
         mContractAdapter = new ContractAdapter(contractList, org.sbercoin.wallet.R.layout.item_contract_list, contractItemListener);
         mRecyclerView.setAdapter(mContractAdapter);
     }

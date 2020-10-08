@@ -9,32 +9,38 @@ import org.sbercoin.wallet.model.contract.ContractMethodParameter;
 import java.util.List;
 
 
-public class ParameterAdapter extends RecyclerView.Adapter<ParameterViewHolder> {
+public class ParameterAdapter extends RecyclerView.Adapter<ParameterViewHolder>
+{
 
     List<ContractMethodParameter> params;
     int mResId;
 
-    public List<ContractMethodParameter> getParams() {
-        return params;
-    }
-
-    public ParameterAdapter(List<ContractMethodParameter> params, int resId) {
+    public ParameterAdapter(List<ContractMethodParameter> params, int resId)
+    {
         this.params = params;
         mResId = resId;
     }
 
+    public List<ContractMethodParameter> getParams()
+    {
+        return params;
+    }
+
     @Override
-    public ParameterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ParameterViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         return new ParameterViewHolder(LayoutInflater.from(parent.getContext()).inflate(mResId, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ParameterViewHolder holder, int position) {
+    public void onBindViewHolder(ParameterViewHolder holder, int position)
+    {
         holder.bind(params.get(position), position == getItemCount() - 1);
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return params.size();
     }
 }

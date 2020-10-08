@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:background="@color/background"
-                                                 android:clickable="true"
-                                                 android:id="@+id/cl_back_up_wallet"
-                                                 android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_back_up_wallet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clickable="true"
+    android:fitsSystemWindows="true"
     android:focusable="true">
 
     <android.support.design.widget.AppBarLayout
@@ -33,18 +33,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/background_ibtn_back"
-                    android:paddingBottom="10dp"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="10dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="10dp"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_back_indicator"/>
+                    app:srcCompat="@drawable/ic_back_indicator" />
 
                 <org.sbercoin.wallet.utils.FontTextView
                     android:id="@+id/tv_toolbar_title"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/copy_brain_code"
                     android:textColor="@color/colorPrimary"
@@ -55,12 +55,12 @@
                     android:id="@+id/bt_share"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:padding="6dp"
-                    android:tint="@color/colorPrimary"
                     android:layout_margin="9dp"
                     android:background="@android:color/transparent"
+                    android:padding="6dp"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/ic_share"/>
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_share" />
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -78,15 +78,15 @@
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_brain_code"
             android:layout_width="match_parent"
-            app:editTextTypeface="@string/simplonMonoMedium"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/background_et_import_wallet"
             android:gravity="center"
-            android:textSize="16sp"
             android:padding="6dp"
             android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/colorPrimary"/>
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="16sp"
+            app:editTextTypeface="@string/simplonMonoMedium" />
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_copy_brain_code_to_use"
@@ -99,7 +99,7 @@
             android:text="@string/copy_brain_code_n_to_use_it_in_another_app"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
-            app:typefaceAsset="@string/simplonMonoMedium"/>
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
     </RelativeLayout>
 
@@ -112,46 +112,46 @@
 
         <org.sbercoin.wallet.utils.FontButton
             android:id="@+id/bt_copy_brain_code"
-            android:layout_toEndOf="@+id/bt_continue"
-            android:layout_toStartOf="@+id/bt_copy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/bt_copy"
+            android:layout_toEndOf="@+id/bt_continue"
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/copy_brain_code"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/button_text"/>
+            android:textSize="@dimen/button_text" />
 
         <org.sbercoin.wallet.utils.FontButton
             android:id="@+id/bt_copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="33dp"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
             android:text="@string/copy"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/button_text"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:textSize="@dimen/button_text" />
 
         <org.sbercoin.wallet.utils.FontButton
             android:id="@+id/bt_continue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="32dp"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
             android:text="@string/_continue"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/button_text"/>
+            android:textSize="@dimen/button_text" />
 
     </RelativeLayout>
 

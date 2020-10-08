@@ -21,14 +21,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class QrCodeRecognitionFragment extends Fragment implements ZXingScannerView.ResultHandler {
-
-    private ZXingScannerView mZXingScannerView;
+public class QrCodeRecognitionFragment extends Fragment implements ZXingScannerView.ResultHandler
+{
 
     @BindView(org.sbercoin.wallet.R.id.camera_container)
     FrameLayout mLinearLayout;
+    private ZXingScannerView mZXingScannerView;
 
-    public static QrCodeRecognitionFragment newInstance() {
+    public static QrCodeRecognitionFragment newInstance()
+    {
 
         Bundle args = new Bundle();
 
@@ -39,12 +40,14 @@ public class QrCodeRecognitionFragment extends Fragment implements ZXingScannerV
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         return inflater.inflate(org.sbercoin.wallet.R.layout.fragment_qrcode_camera, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
@@ -52,9 +55,11 @@ public class QrCodeRecognitionFragment extends Fragment implements ZXingScannerV
         mZXingScannerView.setResultHandler(this);
         mLinearLayout.addView(mZXingScannerView);
 
-        mLinearLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        mLinearLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+        {
             @Override
-            public void onGlobalLayout() {
+            public void onGlobalLayout()
+            {
                 mLinearLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 ViewGroup.LayoutParams layoutParams = mZXingScannerView.getLayoutParams();
                 layoutParams.width = mLinearLayout.getWidth();
@@ -65,35 +70,42 @@ public class QrCodeRecognitionFragment extends Fragment implements ZXingScannerV
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         ((SendFragment) getParentFragment()).qrCodeRecognitionToolBar();
         mZXingScannerView.startCamera();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         ((SendFragment) getParentFragment()).sendToolBar();
         mZXingScannerView.stopCamera();
     }
 
-    public void dismiss() {
+    public void dismiss()
+    {
         getFragmentManager().beginTransaction().remove(this).commit();
     }
 
     @Override
-    public void handleResult(Result result) {
+    public void handleResult(Result result)
+    {
         String receiveAddr = "", tokenAddr = "", amount = "0.0";
 
         Pattern pattern = Pattern.compile("sbercoin:(.*?)\\?");
         Matcher matcher = pattern.matcher(result.getText());
-        if (matcher.find()) {
+        if (matcher.find())
+        {
             receiveAddr = matcher.group(1);
-        } else {
+        } else
+        {
             pattern = Pattern.compile("sbercoin:(.*?)$");
             matcher = pattern.matcher(result.getText());
-            if (matcher.find()) {
+            if (matcher.find())
+            {
                 receiveAddr = matcher.group(1);
             }
         }
@@ -107,23 +119,30 @@ public class QrCodeRecognitionFragment extends Fragment implements ZXingScannerV
         matcher = pattern.matcher(result.getText());
         if (matcher.find())
             amount = matcher.group(1);
-            if(amount.equals(".")){
-                amount="0.0";
-            }
-        if (!TextUtils.isEmpty(receiveAddr)) {
-            try {
+        if (amount.equals("."))
+        {
+            amount = "0.0";
+        }
+        if (!TextUtils.isEmpty(receiveAddr))
+        {
+            try
+            {
                 Double.valueOf(amount);
-            } catch(Exception e) {
+            } catch (Exception e)
+            {
                 amount = "0.0";
             }
             receiveAddr = receiveAddr.trim();
             ((SendFragment) getParentFragment()).onResponse(receiveAddr, Double.valueOf(amount), tokenAddr);
-        } else {
+        } else
+        {
             pattern = Pattern.compile("^$|^[sS][a-km-zA-HJ-NP-Z1-9]{0,33}$");
             matcher = pattern.matcher(result.getText());
-            if (matcher.matches()) {
+            if (matcher.matches())
+            {
                 ((SendFragment) getParentFragment()).onResponse(result.getText(), Double.valueOf(0.0), "");
-            } else {
+            } else
+            {
                 ((SendFragment) getParentFragment()).onResponseError();
             }
         }

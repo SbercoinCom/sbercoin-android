@@ -5,6 +5,7 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.util.List;
 
-public interface TemplatesView extends BaseFragmentView {
+public interface TemplatesView extends BaseFragmentView
+{
     void setUpTemplateList(List<ContractTemplate> contractTemplateList);
 }

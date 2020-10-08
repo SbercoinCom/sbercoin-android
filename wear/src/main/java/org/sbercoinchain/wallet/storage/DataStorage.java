@@ -19,7 +19,8 @@ import static org.sbercoin.wallet.entity.HeaderData.INITIAL_BALANCE;
  * Created by kirillvolkov on 22.11.2017.
  */
 
-public class DataStorage {
+public class DataStorage
+{
 
     private static final String STORAGE = "SBER_STORAGE";
     private static final String LAST_HISTORY = "LAST_HISTORY";
@@ -28,47 +29,57 @@ public class DataStorage {
     private static final String UNC_BALANCE = "UNC_LAST_BALANCE";
     private static final String ADDRESS = "WALLET_ADDRESS";
 
-    public static void saveLastHistory(Context context, String history) {
+    public static void saveLastHistory(Context context, String history)
+    {
         SharedPreferences preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(LAST_HISTORY, history);
         edit.apply();
     }
 
-    public static List<History> loadLastHistory(Context context) {
+    public static List<History> loadLastHistory(Context context)
+    {
         SharedPreferences preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         String data = preferences.getString(LAST_HISTORY, null);
-        if(data == null){
+        if (data == null)
+        {
             return new ArrayList<History>();
-        } else {
+        } else
+        {
             Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<History>>(){}.getType();
-            return gson.fromJson(data,listType);
+            Type listType = new TypeToken<ArrayList<History>>()
+            {
+            }.getType();
+            return gson.fromJson(data, listType);
         }
     }
 
-    public static void setLastBalance(Context context, String balance){
+    public static void setLastBalance(Context context, String balance)
+    {
         SharedPreferences preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(BALANCE, balance);
         edit.apply();
     }
 
-    public static void setLastUncBalance(Context context, String balance){
+    public static void setLastUncBalance(Context context, String balance)
+    {
         SharedPreferences preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(UNC_BALANCE, balance);
         edit.apply();
     }
 
-    public static void setAddress(Context context, String address){
+    public static void setAddress(Context context, String address)
+    {
         SharedPreferences preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(ADDRESS, address);
         edit.apply();
     }
 
-    public static HeaderData getHeaderData(Context context) {
+    public static HeaderData getHeaderData(Context context)
+    {
         HeaderData headerData = new HeaderData();
         SharedPreferences preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         headerData.setBalance(preferences.getString(BALANCE, INITIAL_BALANCE));
@@ -77,7 +88,8 @@ public class DataStorage {
         return headerData;
     }
 
-    public static void setHeaderData(Context context, String balance, String uncBalance, String address) {
+    public static void setHeaderData(Context context, String balance, String uncBalance, String address)
+    {
         SharedPreferences preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(BALANCE, balance);

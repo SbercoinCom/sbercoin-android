@@ -5,11 +5,17 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 import java.util.List;
 
 
-public interface ConfirmPassphraseView extends BaseFragmentView{
+public interface ConfirmPassphraseView extends BaseFragmentView
+{
     String getSeed();
+
     void setUpRecyclerViews(List<String> seed);
+
     void resetAll(List<String> seed);
+
     void showError();
+
     void hideError();
+
     void onLogin();
 }

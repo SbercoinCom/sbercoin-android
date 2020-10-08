@@ -1,19 +1,23 @@
 package org.sbercoin.wallet.model;
 
-public class Location {
+public class Location
+{
     int locationStart;
     int locationEnd;
 
-    public Location(int locationStart, int locationEnd) {
+    public Location(int locationStart, int locationEnd)
+    {
         this.locationStart = locationStart;
         this.locationEnd = locationEnd;
     }
 
-    public int getLocationEnd() {
+    public int getLocationEnd()
+    {
         return locationEnd;
     }
 
-    public int getLocationStart() {
+    public int getLocationStart()
+    {
         return locationStart;
     }
 }

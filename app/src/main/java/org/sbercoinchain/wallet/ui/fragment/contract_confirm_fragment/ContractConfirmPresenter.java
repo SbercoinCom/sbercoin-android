@@ -5,10 +5,11 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 
 import java.util.List;
 
-public interface ContractConfirmPresenter extends BaseFragmentPresenter {
+public interface ContractConfirmPresenter extends BaseFragmentPresenter
+{
     void onConfirmContract(final String uiid, final int gasLimit, final int gasPrice, final String fee, String passphrase);
 
-    void setContractMethodParameterList(List<ContractMethodParameter> contractMethodParameterList);
-
     List<ContractMethodParameter> getContractMethodParameterList();
+
+    void setContractMethodParameterList(List<ContractMethodParameter> contractMethodParameterList);
 }

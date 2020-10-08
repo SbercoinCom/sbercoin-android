@@ -10,17 +10,20 @@ import java.net.URLDecoder;
 
 import butterknife.BindView;
 
-public class TagIframeViewHolder extends TagViewHolder {
+public class TagIframeViewHolder extends TagViewHolder
+{
 
     @BindView(R.id.tv_tag_p)
     FontTextView mTextView;
 
-    public TagIframeViewHolder(View itemView) {
+    public TagIframeViewHolder(View itemView)
+    {
         super(itemView);
     }
 
     @Override
-    public void bindElement(Element element) {
+    public void bindElement(Element element)
+    {
         String attr = element.attr("src");
         attr = attr.substring(attr.indexOf("url=") + 4);
         attr = attr.substring(0, attr.indexOf("&image="));

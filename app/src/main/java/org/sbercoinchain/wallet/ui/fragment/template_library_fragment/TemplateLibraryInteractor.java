@@ -4,7 +4,8 @@ import org.sbercoin.wallet.model.ContractTemplate;
 
 import java.util.List;
 
-public interface TemplateLibraryInteractor {
+public interface TemplateLibraryInteractor
+{
     List<ContractTemplate> getContactTemplates();
 
     int compareDates(String date, String date1);

@@ -14,7 +14,8 @@ import org.sbercoin.wallet.utils.FontTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PrefViewHolder extends RecyclerView.ViewHolder {
+public class PrefViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.icon)
     ImageView icon;
@@ -35,34 +36,44 @@ public class PrefViewHolder extends RecyclerView.ViewHolder {
 
     private SettingObject setting;
 
-    public PrefViewHolder(View itemView, final OnSettingClickListener listener) {
+    public PrefViewHolder(View itemView, final OnSettingClickListener listener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.listener = listener;
     }
 
-    public void bind(final SettingObject setting) {
-        if (setting instanceof SettingSwitchObject) {
+    public void bind(final SettingObject setting)
+    {
+        if (setting instanceof SettingSwitchObject)
+        {
             arrow.setVisibility(View.INVISIBLE);
             mSwitch.setVisibility(View.VISIBLE);
             mSwitch.setChecked(((SettingSwitchObject) setting).isChecked());
-            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+            {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+                {
                     listener.onSwitchChange(setting.getTitleRes(), b);
                 }
             });
             mSwitch.setChecked(SBERSharedPreference.getInstance().isTouchIdEnable(title.getContext()));
-            rootLayout.setOnClickListener(new View.OnClickListener() {
+            rootLayout.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     mSwitch.setChecked(!mSwitch.isChecked());
                 }
             });
-        } else {
-            rootLayout.setOnClickListener(new View.OnClickListener() {
+        } else
+        {
+            rootLayout.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     listener.onSettingClick(setting.getTitleRes());
                 }
             });

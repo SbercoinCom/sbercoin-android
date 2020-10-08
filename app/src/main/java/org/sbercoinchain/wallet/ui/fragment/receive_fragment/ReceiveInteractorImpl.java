@@ -4,31 +4,37 @@ import android.content.Context;
 
 import org.sbercoin.wallet.datastorage.KeyStorage;
 
-class ReceiveInteractorImpl implements org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveInteractor {
+class ReceiveInteractorImpl implements org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveInteractor
+{
 
     private Context mContext;
 
-    ReceiveInteractorImpl(Context context) {
+    ReceiveInteractorImpl(Context context)
+    {
         mContext = context;
     }
 
     @Override
-    public String getCurrentReceiveAddress() {
+    public String getCurrentReceiveAddress()
+    {
         return KeyStorage.getInstance().getCurrentAddress();
     }
 
     @Override
-    public String formatReceiveAddress(String addr) {
+    public String formatReceiveAddress(String addr)
+    {
         return String.format("sbercoin:%s?", addr);
     }
 
     @Override
-    public String formatAmount(String amount) {
+    public String formatAmount(String amount)
+    {
         return String.format("amount=%s&", amount);
     }
 
     @Override
-    public String formatTokenAddress(String addr) {
+    public String formatTokenAddress(String addr)
+    {
         return String.format("&tokenAddress=%s", addr);
     }
 

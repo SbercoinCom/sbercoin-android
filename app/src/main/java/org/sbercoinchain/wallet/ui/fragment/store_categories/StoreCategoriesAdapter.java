@@ -8,35 +8,41 @@ import org.sbercoin.wallet.model.gson.QstoreContractType;
 
 import java.util.List;
 
-public class StoreCategoriesAdapter extends RecyclerView.Adapter<StoreCategoryViewHolder> {
+public class StoreCategoriesAdapter extends RecyclerView.Adapter<StoreCategoryViewHolder>
+{
 
-    private List<QstoreContractType> items;
     int resId;
     StoreCategoryViewHolder.OnCategoryClickListener mListener;
+    private List<QstoreContractType> items;
 
-    public StoreCategoriesAdapter(List<QstoreContractType> items, int resId, StoreCategoryViewHolder.OnCategoryClickListener listener) {
+    public StoreCategoriesAdapter(List<QstoreContractType> items, int resId, StoreCategoryViewHolder.OnCategoryClickListener listener)
+    {
         this.items = items;
         this.resId = resId;
         mListener = listener;
     }
 
-    public void updateItems(List<QstoreContractType> items) {
+    public void updateItems(List<QstoreContractType> items)
+    {
         this.items = items;
         notifyDataSetChanged();
     }
 
     @Override
-    public StoreCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StoreCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         return new StoreCategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(resId, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(StoreCategoryViewHolder holder, int position) {
+    public void onBindViewHolder(StoreCategoryViewHolder holder, int position)
+    {
         holder.bind(items.get(position), mListener);
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return items.size();
     }
 }

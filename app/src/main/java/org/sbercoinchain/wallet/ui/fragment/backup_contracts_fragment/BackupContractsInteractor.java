@@ -4,6 +4,7 @@ import java.io.File;
 
 import rx.Observable;
 
-public interface BackupContractsInteractor {
+public interface BackupContractsInteractor
+{
     Observable<File> createBackUpFile();
 }

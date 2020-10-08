@@ -14,26 +14,28 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class BackUpWalletPresenterTests {
+public class BackUpWalletPresenterTests
+{
 
+    private static final String pin = "4444";
+    private static final String passphrase = "TestPassPhrase";
     @Mock
     BackUpWalletView view;
     @Mock
     BackUpWalletInteractor interactor;
     BackUpWalletPresenterImpl presenter;
 
-    private static final String pin = "4444";
-    private static final String passphrase = "TestPassPhrase";
-
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new BackUpWalletPresenterImpl(view, interactor);
     }
 
     @Test
-    public void initializeView_test() {
+    public void initializeView_test()
+    {
         when(view.getPin()).thenReturn(pin);
         when(interactor.getPassphrase(pin)).thenReturn(passphrase);
         presenter.initializeViews();
@@ -41,7 +43,8 @@ public class BackUpWalletPresenterTests {
     }
 
     @Test
-    public void onCopyBrainCodeClick_test() {
+    public void onCopyBrainCodeClick_test()
+    {
         when(interactor.getPassphrase(anyString())).thenReturn(passphrase);
         presenter.initializeViews();
         presenter.onCopyBrainCodeClick();
@@ -50,7 +53,8 @@ public class BackUpWalletPresenterTests {
     }
 
     @Test
-    public void onShareClick_test() {
+    public void onShareClick_test()
+    {
         when(interactor.getPassphrase(anyString())).thenReturn(passphrase);
         presenter.initializeViews();
         presenter.onShareClick();

@@ -13,34 +13,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.dataprovider.receivers.network_state_receiver.NetworkStateReceiver;
 import org.sbercoin.wallet.dataprovider.receivers.network_state_receiver.listeners.NetworkStateListener;
 import org.sbercoin.wallet.model.news.News;
+import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_nav_fragment.BaseNavFragment;
 import org.sbercoin.wallet.ui.fragment.news_detail_fragment.NewsDetailFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class NewsFragment extends BaseNavFragment implements NewsView {
+public abstract class NewsFragment extends BaseNavFragment implements NewsView
+{
 
-    private NewsPresenter mNewsFragmentPresenter;
     protected NewsAdapter mNewsAdapter;
-
     @BindView(R.id.recycler_view)
     protected RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private NewsPresenter mNewsFragmentPresenter;
     private NetworkStateReceiver mNetworkStateReceiver;
     private NetworkStateListener mNetworkStateListener;
 
-    public static NewsFragment newInstance(Context context) {
+    public static NewsFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         NewsFragment fragment = (NewsFragment) Factory.instantiateFragment(context, NewsFragment.class);
         fragment.setArguments(args);
@@ -48,32 +48,39 @@ public abstract class NewsFragment extends BaseNavFragment implements NewsView {
     }
 
     @Override
-    public int getRootView() {
+    public int getRootView()
+    {
         return R.id.fragment_container;
     }
 
     @Override
-    public String getNavigationTag() {
+    public String getNavigationTag()
+    {
         return NewsFragment.class.getCanonicalName();
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mNewsFragmentPresenter = new NewsPresenterImpl(this, new NewsInteractorImpl(getContext()));
     }
 
     @Override
-    protected NewsPresenter getPresenter() {
+    protected NewsPresenter getPresenter()
+    {
         return mNewsFragmentPresenter;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         mNetworkStateReceiver = getMainActivity().getNetworkReceiver();
-        mNetworkStateListener = new NetworkStateListener() {
+        mNetworkStateListener = new NetworkStateListener()
+        {
             @Override
-            public void onNetworkStateChanged(boolean networkConnectedFlag) {
+            public void onNetworkStateChanged(boolean networkConnectedFlag)
+            {
                 getPresenter().onNetworkStateChanged(networkConnectedFlag);
             }
         };
@@ -81,11 +88,14 @@ public abstract class NewsFragment extends BaseNavFragment implements NewsView {
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager manager = ((LinearLayoutManager) recyclerView.getLayoutManager());
                 if (!mSwipeRefreshLayout.isRefreshing())
@@ -96,25 +106,53 @@ public abstract class NewsFragment extends BaseNavFragment implements NewsView {
             }
         });
         mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.colorAccent));
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
             @Override
-            public void onRefresh() {
+            public void onRefresh()
+            {
                 getPresenter().onRefresh();
             }
         });
     }
 
     @Override
-    public void setAdapterNull() {
+    public void setAdapterNull()
+    {
         mNewsAdapter = null;
     }
 
     @Override
-    public void startRefreshAnimation() {
+    public void startRefreshAnimation()
+    {
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    class NewsHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void activateTab()
+    {
+        getMainActivity().setIconChecked(2);
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        mNetworkStateReceiver.removeNetworkStateListener(mNetworkStateListener);
+        setAdapterNull();
+    }
+
+    @Override
+    public void stopRefreshRecyclerAnimation()
+    {
+        if (mSwipeRefreshLayout != null)
+        {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    class NewsHolder extends RecyclerView.ViewHolder
+    {
 
         @BindView(R.id.tv_description)
         TextView mTextViewDescription;
@@ -123,11 +161,14 @@ public abstract class NewsFragment extends BaseNavFragment implements NewsView {
         @BindView(R.id.tv_date)
         TextView mTextViewDate;
 
-        NewsHolder(View itemView) {
+        NewsHolder(View itemView)
+        {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     BaseFragment newsDetailFragment = NewsDetailFragment.newInstance(getContext(), getAdapterPosition());
                     addChild(newsDetailFragment);
                 }
@@ -135,61 +176,48 @@ public abstract class NewsFragment extends BaseNavFragment implements NewsView {
             ButterKnife.bind(this, itemView);
         }
 
-        void bindNews(News news) {
+        void bindNews(News news)
+        {
             mTextViewTitle.setText(news.getTitle());
             mTextViewDate.setText(news.getFormattedPubDate());
             mTextViewDescription.setText(news.getDocument().select("p").get(0).text());
         }
     }
 
-    @Override
-    public void activateTab() {
-        getMainActivity().setIconChecked(2);
-    }
-    
-    public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+    {
 
-        private List<News> mNewsList;
         News mNews;
+        private List<News> mNewsList;
         private @LayoutRes
         int mResId;
 
-        public NewsAdapter(List<News> newsList, @LayoutRes int resId) {
+        public NewsAdapter(List<News> newsList, @LayoutRes int resId)
+        {
             mNewsList = newsList;
             mResId = resId;
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(mResId, parent, false);
             return new NewsHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        {
             mNews = mNewsList.get(position);
             ((NewsHolder) holder).bindNews(mNews);
 
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return mNewsList.size();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mNetworkStateReceiver.removeNetworkStateListener(mNetworkStateListener);
-        setAdapterNull();
-    }
-
-    @Override
-    public void stopRefreshRecyclerAnimation() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 }

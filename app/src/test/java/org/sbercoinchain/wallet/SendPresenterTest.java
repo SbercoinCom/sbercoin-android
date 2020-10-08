@@ -44,7 +44,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class SendPresenterTest {
+public class SendPresenterTest
+{
 
     private static final String TEST_CURRENCY_VALUE = "SBER";
     private static final List<Token> TEST_LIST_TOKENS = Arrays.asList(new Token(true, ""), new Token(true, TEST_CURRENCY_VALUE));
@@ -54,7 +55,23 @@ public class SendPresenterTest {
     private static final BigDecimal TEST_FEE_PER_KB_DOUBLE_VALUE = new BigDecimal(10.0);
     private static final int TEST_MIN_GAS_PRISE = 10;
     private static final double TEST_FEE_DEFAULT_VALUE = 0.0;
-
+    private static final String TEST_ADDRESS = "address";
+    private static final String TEST_TOKEN_ADDRESS = "token address";
+    private static final String TEST_CONTRACT_NAME = "contract name";
+    private static final double TEST_AMOUNT = 10.0;
+    private static final double TEST_MIN_FEE = 0.1;
+    private static final double TEST_MAX_FEE = 0.2;
+    private static final String TEST_INVALID_FEE_VALUE = "0.3";
+    private static final String TEST_VALID_FEE_VALUE = "0.16";
+    private static final String TEST_FROM_ADDRESS = "from address";
+    private static final String TEST_ADDRESS_INPUT = "address input";
+    private static final String TEST_AMOUNT_INPUT = "0.2";
+    private static final String TEST_FEE_INPUT = "0.15";
+    private static final String TEST_CURRENCY_NAME_WITHOUT_PREF = "name";
+    private static final String TEST_CURRENCY_NAME_WITH_PREF = "SBER name";
+    private static final String TEST_CONTACT_ADDRESS = "contract address";
+    private static final Token TEST_TOKEN = new Token(true, TEST_CONTACT_ADDRESS);
+    private static final BigDecimal TEST_CURRENT_BALANCE_VALUE = new BigDecimal("20.0");
     @Mock
     private SendView view;
     @Mock
@@ -62,17 +79,22 @@ public class SendPresenterTest {
     private SendPresenterImpl presenter;
 
     @Before
-    public void init() {
+    public void init()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -81,7 +103,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void initialize_WithTokens() {
+    public void initialize_WithTokens()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_LIST_TOKENS);
         when(interactor.getFeePerKb())
@@ -103,7 +126,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void initialize_EmptyTokens() {
+    public void initialize_EmptyTokens()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_EMPTY_LIST_TOKENS);
         when(interactor.getFeePerKb())
@@ -124,7 +148,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void initialize_TokensWithUnsubscribedItems() {
+    public void initialize_TokensWithUnsubscribedItems()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_LIST_TOKENS_WITH_UNSUBSCRIBED_ITEMS);
         when(interactor.getFeePerKb())
@@ -147,14 +172,16 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void handleBalanceChanges_BalanceNotNull() {
+    public void handleBalanceChanges_BalanceNotNull()
+    {
         presenter.handleBalanceChanges(new BigDecimal("10.0"), new BigDecimal("10.0"));
 
         verify(view, times(1)).handleBalanceUpdating(anyString(), (BigDecimal) any());
     }
 
     @Test
-    public void setupCurrency_Success() {
+    public void setupCurrency_Success()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_LIST_TOKENS);
 
@@ -164,7 +191,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void setupCurrency_EmptyTokens() {
+    public void setupCurrency_EmptyTokens()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_EMPTY_LIST_TOKENS);
 
@@ -174,19 +202,16 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void currencyChoose() {
+    public void currencyChoose()
+    {
         presenter.onCurrencyChoose(new Currency(TEST_CURRENCY_VALUE));
 
         verify(view, times(1)).setUpCurrencyField(Matchers.<CurrencyToken>any());
     }
 
-    private static final String TEST_ADDRESS = "address";
-    private static final String TEST_TOKEN_ADDRESS = "token address";
-    private static final String TEST_CONTRACT_NAME = "contract name";
-    private static final double TEST_AMOUNT = 10.0;
-
     @Test
-    public void onResponse_Success() {
+    public void onResponse_Success()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_LIST_TOKENS);
         when(view.isTokenEmpty(anyString()))
@@ -201,7 +226,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void onResponse_Error() {
+    public void onResponse_Error()
+    {
         when(view.isTokenEmpty(anyString()))
                 .thenReturn(false);
         when(interactor.validateTokenExistance(anyString()))
@@ -213,14 +239,9 @@ public class SendPresenterTest {
         verify(view, times(1)).setAlertDialog(anyInt(), anyString(), (BaseFragment.PopUpType) any());
     }
 
-
-    private static final double TEST_MIN_FEE = 0.1;
-    private static final double TEST_MAX_FEE = 0.2;
-    private static final String TEST_INVALID_FEE_VALUE = "0.3";
-    private static final String TEST_VALID_FEE_VALUE = "0.16";
-
     @Test
-    public void send_NetworkConnectedSuccess_InvalidFee() {
+    public void send_NetworkConnectedSuccess_InvalidFee()
+    {
         when(view.getFeeInput())
                 .thenReturn(TEST_INVALID_FEE_VALUE);
 
@@ -236,7 +257,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void send_NetworkConnectedSuccess_InvalidAmount() {
+    public void send_NetworkConnectedSuccess_InvalidAmount()
+    {
         when(view.isValidAmount())
                 .thenReturn(false);
         when(view.getFeeInput())
@@ -251,7 +273,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void send_NetworkConnectedSuccess_ValidParams() {
+    public void send_NetworkConnectedSuccess_ValidParams()
+    {
         when(view.isValidAmount())
                 .thenReturn(true);
         when(view.getFeeInput())
@@ -266,22 +289,17 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void send_NetworkNotConnected() {
+    public void send_NetworkNotConnected()
+    {
         presenter.updateNetworkSate(false);
 
         verify(view, never()).showPinDialog();
         verify(view, never()).setAlertDialog(anyInt(), anyString(), (BaseFragment.PopUpType) any());
     }
 
-    private static final String TEST_FROM_ADDRESS = "from address";
-    private static final String TEST_ADDRESS_INPUT = "address input";
-    private static final String TEST_AMOUNT_INPUT = "0.2";
-    private static final String TEST_FEE_INPUT = "0.15";
-    private static final String TEST_CURRENCY_NAME_WITHOUT_PREF = "name";
-    private static final String TEST_CURRENCY_NAME_WITH_PREF = "SBER name";
-
     @Test
-    public void onPin_SendTx() {
+    public void onPin_SendTx()
+    {
         when(view.getCurrency())
                 .thenReturn(new Currency(TEST_CURRENCY_NAME_WITH_PREF));
         when(view.getFromAddress())
@@ -301,12 +319,9 @@ public class SendPresenterTest {
         verify(interactor, times(1)).sendTx(anyString(), anyString(), anyString(), anyString(), (SendInteractorImpl.SendTxCallBack) any());
     }
 
-    private static final String TEST_CONTACT_ADDRESS = "contract address";
-    private static final Token TEST_TOKEN = new Token(true, TEST_CONTACT_ADDRESS);
-    private static final BigDecimal TEST_CURRENT_BALANCE_VALUE = new BigDecimal("20.0");
-
     @Test
-    public void onPin_NotEqualsCurrenciesNames_WithFromAddress_ItemWithExceptedVal() {
+    public void onPin_NotEqualsCurrenciesNames_WithFromAddress_ItemWithExceptedVal()
+    {
         when(view.getCurrency())
                 .thenReturn(new CurrencyToken(TEST_CURRENCY_NAME_WITH_PREF, TEST_TOKEN));
         when(view.getFromAddress())
@@ -327,7 +342,7 @@ public class SendPresenterTest {
 
         when(interactor.createAbiMethodParamsObservable(anyString(), anyString(), anyString()))
                 .thenReturn(Observable.just("test"));
-        when(interactor.callSmartContractObservable((Token) any(), anyString(),anyString()))
+        when(interactor.callSmartContractObservable((Token) any(), anyString(), anyString()))
                 .thenReturn(Observable.just(new CallSmartContractResponse(Arrays.asList(new Item("Test")))));
 
         presenter.setTokenList(Arrays.asList(TEST_TOKEN));
@@ -343,7 +358,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void onPin_NotEqualsCurrenciesNames_WithFromAddress_ItemWithoutExcepted() {
+    public void onPin_NotEqualsCurrenciesNames_WithFromAddress_ItemWithoutExcepted()
+    {
         when(view.getCurrency())
                 .thenReturn(new CurrencyToken(TEST_CURRENCY_NAME_WITH_PREF, TEST_TOKEN));
         when(view.getFromAddress())
@@ -364,7 +380,7 @@ public class SendPresenterTest {
 
         when(interactor.createAbiMethodParamsObservable(anyString(), anyString(), anyString()))
                 .thenReturn(Observable.just("test"));
-        when(interactor.callSmartContractObservable((Token) any(), anyString(),anyString()))
+        when(interactor.callSmartContractObservable((Token) any(), anyString(), anyString()))
                 .thenReturn(Observable.just(new CallSmartContractResponse(Arrays.asList(new Item("None")))));
 
         presenter.setTokenList(Arrays.asList(TEST_TOKEN));
@@ -380,7 +396,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void onPin_NotEqualsCurrenciesNames_WithoutFromAddress_ItemWithExceptedVal() {
+    public void onPin_NotEqualsCurrenciesNames_WithoutFromAddress_ItemWithExceptedVal()
+    {
         when(view.getCurrency())
                 .thenReturn(new CurrencyToken(TEST_CURRENCY_NAME_WITH_PREF, TEST_TOKEN));
         when(view.getFromAddress())
@@ -403,7 +420,7 @@ public class SendPresenterTest {
 
         when(interactor.createAbiMethodParamsObservable(anyString(), anyString(), anyString()))
                 .thenReturn(Observable.just("test"));
-        when(interactor.callSmartContractObservable((Token) any(), anyString(),anyString()))
+        when(interactor.callSmartContractObservable((Token) any(), anyString(), anyString()))
                 .thenReturn(Observable.just(new CallSmartContractResponse(Arrays.asList(new Item("Test")))));
 
         presenter.setTokenList(Arrays.asList(TEST_TOKEN));
@@ -419,7 +436,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void onPin_NotEqualsCurrenciesNames_WithoutFromAddress_ItemWithoutExceptedVal() {
+    public void onPin_NotEqualsCurrenciesNames_WithoutFromAddress_ItemWithoutExceptedVal()
+    {
         when(view.getCurrency())
                 .thenReturn(new CurrencyToken(TEST_CURRENCY_NAME_WITH_PREF, TEST_TOKEN));
         when(view.getFromAddress())
@@ -442,7 +460,7 @@ public class SendPresenterTest {
 
         when(interactor.createAbiMethodParamsObservable(anyString(), anyString(), anyString()))
                 .thenReturn(Observable.just("test"));
-        when(interactor.callSmartContractObservable((Token) any(), anyString(),anyString()))
+        when(interactor.callSmartContractObservable((Token) any(), anyString(), anyString()))
                 .thenReturn(Observable.just(new CallSmartContractResponse(Arrays.asList(new Item("None")))));
 
         presenter.setTokenList(Arrays.asList(TEST_TOKEN));
@@ -458,7 +476,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void onPin_NotEqualsCurrenciesNames_WithFromAddress_Error() {
+    public void onPin_NotEqualsCurrenciesNames_WithFromAddress_Error()
+    {
         when(view.getCurrency())
                 .thenReturn(new CurrencyToken(TEST_CURRENCY_NAME_WITH_PREF, TEST_TOKEN));
         when(view.getFromAddress())
@@ -479,7 +498,7 @@ public class SendPresenterTest {
 
         when(interactor.createAbiMethodParamsObservable(anyString(), anyString(), anyString()))
                 .thenReturn(Observable.just("test"));
-        when(interactor.callSmartContractObservable((Token) any(), anyString(),anyString()))
+        when(interactor.callSmartContractObservable((Token) any(), anyString(), anyString()))
                 .thenReturn(Observable.<CallSmartContractResponse>error(new Throwable("Params creation error")));
 
         presenter.setTokenList(Arrays.asList(TEST_TOKEN));
@@ -495,7 +514,8 @@ public class SendPresenterTest {
     }
 
     @Test
-    public void onPin_NotEqualsCurrenciesNames_InvalidAvailableAddress() {
+    public void onPin_NotEqualsCurrenciesNames_InvalidAvailableAddress()
+    {
         when(view.getCurrency())
                 .thenReturn(new CurrencyToken(TEST_CURRENCY_NAME_WITH_PREF, TEST_TOKEN));
         when(view.getFromAddress())
@@ -524,7 +544,8 @@ public class SendPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

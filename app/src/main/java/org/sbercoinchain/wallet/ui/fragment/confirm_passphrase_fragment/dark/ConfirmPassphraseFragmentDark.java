@@ -9,31 +9,36 @@ import org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassph
 import java.util.List;
 
 
-public class ConfirmPassphraseFragmentDark extends ConfirmPassphraseFragment {
+public class ConfirmPassphraseFragmentDark extends ConfirmPassphraseFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_confirm_passphrase;
     }
 
     @Override
-    public void showError() {
+    public void showError()
+    {
         mEditTextError.setVisibility(View.VISIBLE);
-        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_output_seed_error));
+        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_output_seed_error));
     }
 
     @Override
-    public void hideError() {
+    public void hideError()
+    {
         mEditTextError.setVisibility(View.INVISIBLE);
-        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_et_import_wallet));
+        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_et_import_wallet));
     }
 
     @Override
-    public void setUpRecyclerViews(List<String> seed) {
+    public void setUpRecyclerViews(List<String> seed)
+    {
         super.setUpRecyclerViews(seed);
-        wordsAdapterInput = new WordsAdapter(inputSeed,inputSeedListener,R.layout.item_seed_chips_input);
+        wordsAdapterInput = new WordsAdapter(inputSeed, inputSeedListener, R.layout.item_seed_chips_input);
 
-        wordsAdapterOutput = new WordsAdapter(outputSeed,outputSeedListener,R.layout.item_seed_chips_output);
+        wordsAdapterOutput = new WordsAdapter(outputSeed, outputSeedListener, R.layout.item_seed_chips_output);
 
         mRecyclerViewInput.setAdapter(wordsAdapterInput);
         mRecyclerViewOutput.setAdapter(wordsAdapterOutput);

@@ -3,28 +3,33 @@ package org.sbercoin.wallet.ui.fragment.set_your_token_fragment;
 import org.sbercoin.wallet.model.contract.ContractMethod;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
-public class SetYourTokenPresenterImpl extends BaseFragmentPresenterImpl implements SetYourTokenPresenter {
+public class SetYourTokenPresenterImpl extends BaseFragmentPresenterImpl implements SetYourTokenPresenter
+{
 
     private SetYourTokenView view;
     private SetYourTokenInteractor interactor;
     private ContractMethod contractMethod;
 
-    public SetYourTokenPresenterImpl(SetYourTokenView view, SetYourTokenInteractor interactor) {
+    public SetYourTokenPresenterImpl(SetYourTokenView view, SetYourTokenInteractor interactor)
+    {
         this.view = view;
         this.interactor = interactor;
     }
 
     @Override
-    public SetYourTokenView getView() {
+    public SetYourTokenView getView()
+    {
         return view;
     }
 
-    public void getConstructorByUiid(String uiid) {
+    public void getConstructorByUiid(String uiid)
+    {
         contractMethod = getInteractor().getContractConstructor(uiid);
         getView().onContractConstructorPrepared(contractMethod.getInputParams());
     }
 
-    public SetYourTokenInteractor getInteractor() {
+    public SetYourTokenInteractor getInteractor()
+    {
         return interactor;
     }
 }

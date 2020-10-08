@@ -8,10 +8,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import org.sbercoin.wallet.R;
+import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenBalanceChangeListener;
 import org.sbercoin.wallet.datastorage.TinyDB;
 import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.model.gson.token_balance.TokenBalance;
-import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenBalanceChangeListener;
 import org.sbercoin.wallet.ui.fragment.token_fragment.TokenFragment;
 import org.sbercoin.wallet.utils.ContractManagementHelper;
 import org.sbercoin.wallet.utils.FontTextView;
@@ -22,7 +22,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class TokenViewHolder extends RecyclerView.ViewHolder implements TokenBalanceChangeListener {
+public class TokenViewHolder extends RecyclerView.ViewHolder implements TokenBalanceChangeListener
+{
 
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
@@ -53,22 +54,27 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements TokenBal
 
     private UpdateSocketInstance socketInstance;
 
-    public TokenViewHolder(View itemView, UpdateSocketInstance socketInstance, Context context, final OnTokenClickListener listener) {
+    public TokenViewHolder(View itemView, UpdateSocketInstance socketInstance, Context context, final OnTokenClickListener listener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.socketInstance = socketInstance;
         mContext = context;
-        rootLayout.setOnClickListener(new View.OnClickListener() {
+        rootLayout.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if(spinner.getVisibility() == View.GONE) {
+            public void onClick(View v)
+            {
+                if (spinner.getVisibility() == View.GONE)
+                {
                     listener.onTokenClick(getAdapterPosition());
                 }
             }
         });
     }
 
-    public void bind(final Token token) {
+    public void bind(final Token token)
+    {
         unsupportedIcon.setVisibility(View.GONE);
         unsupportedView.setVisibility(View.GONE);
         balanceRootView.setVisibility(View.VISIBLE);
@@ -76,7 +82,8 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements TokenBal
         tokenBalanceView.setText("0.0");
         mTextViewSymbol.setText("");
 
-        if (this.mToken != null) {
+        if (this.mToken != null)
+        {
             socketInstance.getSocketInstance().removeTokenBalanceChangeListener(token.getContractAddress(), this);
         }
 
@@ -85,19 +92,24 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements TokenBal
         ContractManagementHelper.getPropertyValue(TokenFragment.symbol, token, mContext)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new Subscriber<String>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                     }
 
                     @Override
-                    public void onNext(String string) {
+                    public void onNext(String string)
+                    {
                         spinner.setVisibility(View.GONE);
-                        if (TextUtils.isEmpty(tokenBalanceView.getText().toString())) {
+                        if (TextUtils.isEmpty(tokenBalanceView.getText().toString()))
+                        {
                             tokenBalanceView.setVisibility(View.VISIBLE);
                             tokenBalanceView.setText("0.0");
                         }
@@ -111,32 +123,39 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements TokenBal
         tokenName.setText(token.getContractName());
         tokenBalanceView.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
-        if (socketInstance.getSocketInstance() != null) {
+        if (socketInstance.getSocketInstance() != null)
+        {
             socketInstance.getSocketInstance().addTokenBalanceChangeListener(token.getContractAddress(), this);
         }
     }
 
 
     @Override
-    public void onBalanceChange(final TokenBalance tokenBalance) {
-        if (mToken.getContractAddress().equals(tokenBalance.getContractAddress())) {
+    public void onBalanceChange(final TokenBalance tokenBalance)
+    {
+        if (mToken.getContractAddress().equals(tokenBalance.getContractAddress()))
+        {
             mToken.setLastBalance(tokenBalance.getTotalBalance());
             ContractManagementHelper.getPropertyValue(TokenFragment.decimals, mToken, itemView.getContext())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<String>() {
+                    .subscribe(new Subscriber<String>()
+                    {
                         @Override
-                        public void onCompleted() {
+                        public void onCompleted()
+                        {
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(Throwable e)
+                        {
                             mToken = new TinyDB(itemView.getContext()).setTokenDecimals(mToken, 129);
-                           updateBalance();
+                            updateBalance();
                         }
 
                         @Override
-                        public void onNext(String string) {
+                        public void onNext(String string)
+                        {
                             mToken = new TinyDB(itemView.getContext()).setTokenDecimals(mToken, Integer.valueOf(string));
                             updateBalance();
                         }
@@ -144,17 +163,21 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements TokenBal
         }
     }
 
-    private void updateBalance() {
-        rootLayout.post(new Runnable() {
+    private void updateBalance()
+    {
+        rootLayout.post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
 
                 spinner.setVisibility(View.GONE);
                 String s = mToken.getTokenBalanceWithDecimalUnits().toString();
                 tokenBalanceView.setLongNumberText(s, itemView.getContext().getResources().getDisplayMetrics().widthPixels / 2);
                 tokenBalanceView.setVisibility(View.VISIBLE);
 
-                if(!mToken.getSupportFlag()){
+                if (!mToken.getSupportFlag())
+                {
                     unsupportedIcon.setVisibility(View.VISIBLE);
                     unsupportedView.setVisibility(View.VISIBLE);
                     balanceRootView.setVisibility(View.INVISIBLE);

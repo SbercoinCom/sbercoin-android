@@ -7,58 +7,67 @@ import org.sbercoin.wallet.ui.fragment.wallet_fragment.HistoryCountChangeListene
 
 import java.util.List;
 
-public abstract class TokenHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class TokenHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+{
 
-    protected List<TokenHistory> mHistoryList;
-    protected TokenHistory mHistory;
     protected final int TYPE_PROGRESS_BAR = 0;
     protected final int TYPE_TRANSACTION = 1;
+    protected List<TokenHistory> mHistoryList;
+    protected TokenHistory mHistory;
     protected boolean mLoadingFlag = false;
     protected String mSymbol = "";
     protected HistoryCountChangeListener mHistoryCountChangeListener;
-
-    public TokenHistory getItem(int position){
-        return mHistoryList.get(position);
-    }
-
     protected TokenHistoryClickListener listener;
     protected int decimalUnits = 0;
-
-    public TokenHistoryAdapter(List<TokenHistory> historyList, TokenHistoryClickListener listener, int decimalUnits) {
+    public TokenHistoryAdapter(List<TokenHistory> historyList, TokenHistoryClickListener listener, int decimalUnits)
+    {
         mHistoryList = historyList;
         this.listener = listener;
         this.decimalUnits = decimalUnits;
     }
 
+    public TokenHistory getItem(int position)
+    {
+        return mHistoryList.get(position);
+    }
+
     @Override
-    public int getItemViewType(int position) {
-        if(position == mHistoryList.size()){
+    public int getItemViewType(int position)
+    {
+        if (position == mHistoryList.size())
+        {
             return TYPE_PROGRESS_BAR;
         }
         return TYPE_TRANSACTION;
     }
 
     @Override
-    public int getItemCount() {
-        return mHistoryList.size()+1;
+    public int getItemCount()
+    {
+        return mHistoryList.size() + 1;
     }
 
-    public void setHistoryList(List<TokenHistory> historyList) {
+    public void setHistoryList(List<TokenHistory> historyList)
+    {
         mHistoryList = historyList;
-        if(mHistoryCountChangeListener!=null){
+        if (mHistoryCountChangeListener != null)
+        {
             mHistoryCountChangeListener.onCountChange(mHistoryList.size());
         }
     }
 
-    public void setLoadingFlag(boolean loadingFlag) {
+    public void setLoadingFlag(boolean loadingFlag)
+    {
         mLoadingFlag = loadingFlag;
     }
 
-    public void setSymbol(String symbol) {
+    public void setSymbol(String symbol)
+    {
         mSymbol = symbol;
     }
 
-    public void setHistoryCountChangeListener(HistoryCountChangeListener historyCountChangeListener) {
+    public void setHistoryCountChangeListener(HistoryCountChangeListener historyCountChangeListener)
+    {
         mHistoryCountChangeListener = historyCountChangeListener;
     }
 }

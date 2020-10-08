@@ -5,7 +5,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 
 import java.math.BigDecimal;
 
-public interface SendPresenter extends BaseFragmentPresenter {
+public interface SendPresenter extends BaseFragmentPresenter
+{
     void onResponse(String publicAddress, double amount, String tokenAddress);
 
     void onResponseError();

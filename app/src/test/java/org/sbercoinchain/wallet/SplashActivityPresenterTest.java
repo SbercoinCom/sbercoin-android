@@ -14,7 +14,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-public class SplashActivityPresenterTest {
+public class SplashActivityPresenterTest
+{
 
     @Mock
     SplashActivityView view;
@@ -23,15 +24,17 @@ public class SplashActivityPresenterTest {
     SplashActivityPresenter presenter;
 
     @Before
-    public void setup(){
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
-        presenter = new SplashActivityPresenterImpl(view,interactor);
+        presenter = new SplashActivityPresenterImpl(view, interactor);
     }
 
 
     @Test
-    public void initializeViews_test(){
+    public void initializeViews_test()
+    {
         presenter.initializeViews();
 
         verify(interactor, times(1)).migrateDefaultContracts();

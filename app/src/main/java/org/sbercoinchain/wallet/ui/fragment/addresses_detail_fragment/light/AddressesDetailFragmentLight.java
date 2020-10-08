@@ -7,17 +7,20 @@ import org.sbercoin.wallet.ui.fragment.addresses_detail_fragment.AddressesDetail
 
 import java.util.List;
 
-public class AddressesDetailFragmentLight extends AddressesDetailFragment {
+public class AddressesDetailFragmentLight extends AddressesDetailFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_addresses_detail_light;
     }
 
     @Override
-    public void setUpRecyclerView(List<Vin> transactionFrom, List<Vout> transactionTo, String symbol) {
-        mAddressesDetailAdapterTo = new AddressesDetailAdapterLight<>(transactionTo,symbol);
-        mAddressesDetailAdapterFrom = new AddressesDetailAdapterLight<>(transactionFrom,symbol);
+    public void setUpRecyclerView(List<Vin> transactionFrom, List<Vout> transactionTo, String symbol)
+    {
+        mAddressesDetailAdapterTo = new AddressesDetailAdapterLight<>(transactionTo, symbol);
+        mAddressesDetailAdapterFrom = new AddressesDetailAdapterLight<>(transactionFrom, symbol);
         mRecyclerViewFrom.setAdapter(mAddressesDetailAdapterFrom);
         mRecyclerViewTo.setAdapter(mAddressesDetailAdapterTo);
     }

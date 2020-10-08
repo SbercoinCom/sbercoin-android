@@ -3,97 +3,96 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-<RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:background="@drawable/background_progress_bar"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:id="@+id/ll_title"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_progress_bar"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-        <ImageView
-            android:id="@+id/iv_icon"
-            android:layout_gravity="top"
-            android:layout_marginEnd="8dp"
-            app:srcCompat="@drawable/ic_error"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top"
+                android:layout_marginEnd="8dp"
+                app:srcCompat="@drawable/ic_error" />
+
+            <org.sbercoin.wallet.utils.FontTextView
+                android:id="@+id/tv_pop_up_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Title"
+                android:textSize="18sp"
+                app:typefaceAsset="@string/proximaNovaSemibold" />
+
+        </LinearLayout>
 
         <org.sbercoin.wallet.utils.FontTextView
-            android:text="Title"
-            android:gravity="center"
-            android:textSize="18sp"
-            app:typefaceAsset="@string/proximaNovaSemibold"
-            android:id="@+id/tv_pop_up_title"
+            android:id="@+id/tv_pop_up_message"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <org.sbercoin.wallet.utils.FontTextView
-        android:text="Notification Message"
-        android:textSize="16sp"
-        android:gravity="center"
-        app:typefaceAsset="@string/proximaNovaLight"
-        android:textColor="@color/grey"
-        android:id="@+id/tv_pop_up_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_title"
-        android:layout_centerHorizontal="true" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/tv_pop_up_message"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-        <org.sbercoin.wallet.utils.FontButton
-            android:id="@+id/bt_pop_up"
-            android:background="@drawable/btn_sea_corner_background_light"
-            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_title"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:text="@string/ok"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="Notification Message"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            app:typefaceAsset="@string/proximaNovaLight" />
 
-        <org.sbercoin.wallet.utils.FontButton
-            android:id="@+id/bt_pop_up2"
-            android:background="@drawable/btn_sea_corner_background_light"
-            android:padding="16dp"
-            android:maxLines="1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="@string/ok"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_pop_up_message"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <org.sbercoin.wallet.utils.FontButton
+                android:id="@+id/bt_pop_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_sea_corner_background_light"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="16dp"
+                android:text="@string/ok"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <org.sbercoin.wallet.utils.FontButton
+                android:id="@+id/bt_pop_up2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_sea_corner_background_light"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="16dp"
+                android:text="@string/ok"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
 
 
-</RelativeLayout>
-    </FrameLayout>
+    </RelativeLayout>
+</FrameLayout>

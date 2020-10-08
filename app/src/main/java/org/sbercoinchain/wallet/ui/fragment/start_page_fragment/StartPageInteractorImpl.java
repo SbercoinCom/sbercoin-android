@@ -10,29 +10,35 @@ import java.lang.ref.WeakReference;
 
 import io.realm.Realm;
 
-public class StartPageInteractorImpl implements StartPageInteractor {
+public class StartPageInteractorImpl implements StartPageInteractor
+{
 
     private WeakReference<Context> mContext;
     private Realm mRealm;
 
-    public StartPageInteractorImpl(Context context, Realm realm) {
+    public StartPageInteractorImpl(Context context, Realm realm)
+    {
         mContext = new WeakReference<>(context);
         mRealm = realm;
     }
 
     @Override
-    public boolean getGeneratedKey() {
+    public boolean getGeneratedKey()
+    {
         return SBERSharedPreference.getInstance().getKeyGeneratedInstance(mContext.get());
     }
 
     @Override
-    public void clearWallet() {
+    public void clearWallet()
+    {
         SBERSharedPreference.getInstance().clear(mContext.get());
         KeyStorage.getInstance().clearKeyStorage();
         mRealm.removeAllChangeListeners();
-        mRealm.executeTransaction(new Realm.Transaction() {
+        mRealm.executeTransaction(new Realm.Transaction()
+        {
             @Override
-            public void execute(Realm realm) {
+            public void execute(Realm realm)
+            {
                 realm.deleteAll();
             }
         });

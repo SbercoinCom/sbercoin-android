@@ -7,7 +7,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface QStoreInteractor {
+public interface QStoreInteractor
+{
     Observable<List<QSearchItem>> searchContracts(int searchOffset, String emptyType, String tag, boolean byTag);
 
     Observable<List<QstoreItem>> getWhatsNewObservable();

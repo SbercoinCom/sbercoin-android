@@ -5,15 +5,18 @@ import org.sbercoin.wallet.ui.fragment.send_fragment.AddressWithTokenBalanceSpin
 import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;
 import org.sbercoin.wallet.utils.FontManager;
 
-public class SendFragmentDark extends SendFragment {
+public class SendFragmentDark extends SendFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.fragment_send;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         mTextInputEditTextAddress.setTypeface(FontManager.getInstance().getFont(getString(org.sbercoin.wallet.R.string.simplonMonoRegular)));
         mTextInputEditTextAmount.setTypeface(FontManager.getInstance().getFont(getString(org.sbercoin.wallet.R.string.simplonMonoRegular)));
@@ -24,12 +27,15 @@ public class SendFragmentDark extends SendFragment {
     }
 
     @Override
-    public void setUpSpinner(TokenBalance tokenBalance, Integer decimalUnits) {
-        if(adapter!=null &&
-                ((AddressWithTokenBalanceSpinnerAdapter)mSpinner.getAdapter()).getTokenBalance().getContractAddress().equals(tokenBalance.getContractAddress())) {
+    public void setUpSpinner(TokenBalance tokenBalance, Integer decimalUnits)
+    {
+        if (adapter != null &&
+                ((AddressWithTokenBalanceSpinnerAdapter) mSpinner.getAdapter()).getTokenBalance().getContractAddress().equals(tokenBalance.getContractAddress()))
+        {
             adapter.setTokenBalance(tokenBalance);
             adapter.notifyDataSetChanged();
-        } else {
+        } else
+        {
             adapter = new AddressWithTokenBalanceSpinnerAdapterDark(getContext(), tokenBalance, "", decimalUnits);
             mSpinner.setAdapter(adapter);
         }

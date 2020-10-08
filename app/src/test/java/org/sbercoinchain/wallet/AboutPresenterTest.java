@@ -19,7 +19,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class AboutPresenterTest {
+public class AboutPresenterTest
+{
 
     private final static int TEST_CODE_VERSION = 0;
     private final static String TEST_VERSION = "TEST_VERSION";
@@ -31,14 +32,16 @@ public class AboutPresenterTest {
     private AboutPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new AboutPresenterImpl(view, interactor);
     }
 
     @Test
-    public void updateVersion_Success() throws Exception {
+    public void updateVersion_Success() throws Exception
+    {
         when(interactor.getCodeVersion()).thenReturn(TEST_CODE_VERSION);
         when(interactor.getVersion()).thenReturn(TEST_VERSION);
         presenter.initializeViews();
@@ -46,7 +49,8 @@ public class AboutPresenterTest {
     }
 
     @Test
-    public void updateVersion_versionError() throws Exception {
+    public void updateVersion_versionError() throws Exception
+    {
         when(interactor.getCodeVersion()).thenReturn(TEST_CODE_VERSION);
         when(interactor.getVersion()).thenThrow(new Exception());
         presenter.initializeViews();
@@ -54,7 +58,8 @@ public class AboutPresenterTest {
     }
 
     @Test
-    public void updateVersion_codeVersionError() throws Exception {
+    public void updateVersion_codeVersionError() throws Exception
+    {
         when(interactor.getCodeVersion()).thenThrow(new Exception());
         when(interactor.getVersion()).thenReturn(TEST_VERSION);
         presenter.initializeViews();

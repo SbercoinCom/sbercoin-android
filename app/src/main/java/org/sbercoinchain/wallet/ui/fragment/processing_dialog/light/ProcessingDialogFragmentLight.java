@@ -16,19 +16,23 @@ import butterknife.ButterKnife;
  * Created by kirillvolkov on 06.07.17.
  */
 
-public class ProcessingDialogFragmentLight extends ProcessingDialogFragment {
+public class ProcessingDialogFragmentLight extends ProcessingDialogFragment
+{
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(org.sbercoin.wallet.R.layout.lyt_processing_dialog_light,null);
-        ButterKnife.bind(this,view);
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
+        View view = LayoutInflater.from(getActivity()).inflate(org.sbercoin.wallet.R.layout.lyt_processing_dialog_light, null);
+        ButterKnife.bind(this, view);
         Dialog dialog = new Dialog(getContext());
-        if(dialog.getWindow()!=null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
         dialog.setContentView(view);
         dialog.setCanceledOnTouchOutside(false);
-        if(dialog.getWindow()!=null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         return dialog;

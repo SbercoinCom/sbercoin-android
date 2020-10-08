@@ -13,8 +13,8 @@ import android.view.View;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.FontTextView;
 
 import java.io.File;
@@ -22,24 +22,31 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class BackupContractsFragment extends BaseFragment implements BackupContractsView {
+public abstract class BackupContractsFragment extends BaseFragment implements BackupContractsView
+{
 
-    private BackupContractsPresenter mBackupContractsFragmentPresenter;
-
-    @BindView(R.id.tv_file_size)
-    FontTextView mTextViewFileSize;
-
-    private boolean PERMISION_GRANT = false;
-
-    String STATE;
     private final String CHECK_PERMISSION_AND_BACKUP = "check_permission_and_backup";
     private final String CHECK_PERMISSION_AND_CREATE = "check_permission_and_create";
-
     private final int WRITE_EXTERNAL_STORAGE_CODE = 5;
+    @BindView(R.id.tv_file_size)
+    FontTextView mTextViewFileSize;
+    String STATE;
+    private BackupContractsPresenter mBackupContractsFragmentPresenter;
+    private boolean PERMISION_GRANT = false;
+
+    public static BaseFragment newInstance(Context context)
+    {
+        Bundle args = new Bundle();
+        BaseFragment fragment = Factory.instantiateFragment(context, BackupContractsFragment.class);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @OnClick({R.id.ibt_back, R.id.rl_back_up_file})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.ibt_back:
                 getActivity().onBackPressed();
                 break;
@@ -48,22 +55,20 @@ public abstract class BackupContractsFragment extends BaseFragment implements Ba
         }
     }
 
-    public static BaseFragment newInstance(Context context) {
-        Bundle args = new Bundle();
-        BaseFragment fragment = Factory.instantiateFragment(context, BackupContractsFragment.class);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         checkPermissionForCreateFile();
-        getMainActivity().addPermissionResultListener(new MainActivity.PermissionsResultListener() {
+        getMainActivity().addPermissionResultListener(new MainActivity.PermissionsResultListener()
+        {
             @Override
-            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-                if (requestCode == WRITE_EXTERNAL_STORAGE_CODE) {
-                    if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+            {
+                if (requestCode == WRITE_EXTERNAL_STORAGE_CODE)
+                {
+                    if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED))
+                    {
                         PERMISION_GRANT = true;
                     }
                 }
@@ -72,27 +77,34 @@ public abstract class BackupContractsFragment extends BaseFragment implements Ba
     }
 
     @Override
-    public void checkPermissionForCreateFile() {
-        if (getMainActivity().checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+    public void checkPermissionForCreateFile()
+    {
+        if (getMainActivity().checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
             getPresenter().permissionGrantedForCreateBackUpFile();
-        } else {
+        } else
+        {
             STATE = CHECK_PERMISSION_AND_CREATE;
             getMainActivity().loadPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE_CODE);
         }
     }
 
     @Override
-    public void checkPermissionForBackupFile() {
-        if (getMainActivity().checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+    public void checkPermissionForBackupFile()
+    {
+        if (getMainActivity().checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
             getPresenter().permissionGrantedForChooseShareMethod();
-        } else {
+        } else
+        {
             STATE = CHECK_PERMISSION_AND_BACKUP;
             getMainActivity().loadPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE_CODE);
         }
     }
 
     @Override
-    public void chooseShareMethod(String authority, File file) {
+    public void chooseShareMethod(String authority, File file)
+    {
 
         String absolutePath = FileProvider.getUriForFile(
                 getView().getContext(),
@@ -111,10 +123,13 @@ public abstract class BackupContractsFragment extends BaseFragment implements Ba
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        if (PERMISION_GRANT) {
-            switch (STATE) {
+        if (PERMISION_GRANT)
+        {
+            switch (STATE)
+            {
                 case CHECK_PERMISSION_AND_BACKUP:
                     getPresenter().permissionGrantedForCreateAndBackUpFile();
                     break;
@@ -127,23 +142,27 @@ public abstract class BackupContractsFragment extends BaseFragment implements Ba
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mBackupContractsFragmentPresenter = new BackupContractsPresenterImpl(this, new BackupContractsInteractorImpl(getContext()));
     }
 
     @Override
-    protected BackupContractsPresenter getPresenter() {
+    protected BackupContractsPresenter getPresenter()
+    {
         return mBackupContractsFragmentPresenter;
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         getMainActivity().removePermissionResultListener();
     }
 
     @Override
-    public void setUpFile(String fileSize) {
+    public void setUpFile(String fileSize)
+    {
         mTextViewFileSize.setText(fileSize);
     }
 }

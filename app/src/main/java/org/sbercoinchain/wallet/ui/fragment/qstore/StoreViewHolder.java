@@ -11,30 +11,29 @@ import org.sbercoin.wallet.ui.fragment.qstore.categories.QstoreCategory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StoreViewHolder extends RecyclerView.ViewHolder {
+public class StoreViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(org.sbercoin.wallet.R.id.section_name)
     TextView sectionName;
 
     @BindView(org.sbercoin.wallet.R.id.list)
     RecyclerView list;
-
+    int itemResId;
     private GridLayoutManager manager;
-
     private StoreTokensAdapter adapter;
-
     private StoreItemClickListener listener;
 
-    int itemResId;
-
-    public StoreViewHolder(View itemView, StoreItemClickListener listener, int itemResId) {
+    public StoreViewHolder(View itemView, StoreItemClickListener listener, int itemResId)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.listener = listener;
         this.itemResId = itemResId;
     }
 
-    public void bind(QstoreCategory item) {
+    public void bind(QstoreCategory item)
+    {
         sectionName.setText(item.getTitle());
         manager = new GridLayoutManager(list.getContext(), (item.getItems().size() <= 5) ? 1 : item.getItems().size() / 5, LinearLayoutManager.HORIZONTAL, false);
         list.setLayoutManager(manager);

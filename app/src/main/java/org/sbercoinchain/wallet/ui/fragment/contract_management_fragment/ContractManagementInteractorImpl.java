@@ -10,24 +10,30 @@ import org.sbercoin.wallet.model.contract.ContractMethod;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class ContractManagementInteractorImpl implements ContractManagementInteractor {
+public class ContractManagementInteractorImpl implements ContractManagementInteractor
+{
 
     WeakReference<Context> mContext;
 
-    ContractManagementInteractorImpl(Context context) {
+    ContractManagementInteractorImpl(Context context)
+    {
         mContext = new WeakReference<Context>(context);
     }
 
     @Override
-    public List<ContractMethod> getContractListByAbi(String abi) {
+    public List<ContractMethod> getContractListByAbi(String abi)
+    {
         return FileStorageManager.getInstance().getContractMethodsByAbiString(mContext.get(), abi);
     }
 
     @Override
-    public Contract getContractByAddress(String address) {
+    public Contract getContractByAddress(String address)
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
-        for (Contract contract : tinyDB.getContractList()) {
-            if (contract.getContractAddress().equals(address)) {
+        for (Contract contract : tinyDB.getContractList())
+        {
+            if (contract.getContractAddress().equals(address))
+            {
                 return contract;
             }
         }
@@ -35,7 +41,8 @@ public class ContractManagementInteractorImpl implements ContractManagementInter
     }
 
     @Override
-    public List<ContractMethod> getContractListByUiid(String uiid) {
+    public List<ContractMethod> getContractListByUiid(String uiid)
+    {
         return FileStorageManager.getInstance().getContractMethods(mContext.get(), uiid);
     }
 }

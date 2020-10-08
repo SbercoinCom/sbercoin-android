@@ -21,7 +21,8 @@ import butterknife.OnLongClick;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class TokenHistoryHolderDark extends RecyclerView.ViewHolder {
+public class TokenHistoryHolderDark extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.tv_value)
     TextView mTextViewValue;
@@ -50,22 +51,14 @@ public class TokenHistoryHolderDark extends RecyclerView.ViewHolder {
 
     int decimalUnits;
 
-    @OnLongClick(R.id.tv_id)
-    public boolean onIdLongClick() {
-        ClipboardUtils.copyToClipBoard(mTextViewID.getContext(), mTextViewID.getText().toString(), new ClipboardUtils.CopyCallback() {
-            @Override
-            public void onCopyToClipBoard() {
-                Toast.makeText(mTextViewID.getContext(), mTextViewID.getContext().getString(R.string.copied), Toast.LENGTH_SHORT).show();
-            }
-        });
-        return true;
-    }
-
-    public TokenHistoryHolderDark(View itemView, final TokenHistoryClickListener listener, int decimalUnits) {
+    public TokenHistoryHolderDark(View itemView, final TokenHistoryClickListener listener, int decimalUnits)
+    {
         super(itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 listener.onTokenHistoryClick(mTokenHistory.getTxHash());
             }
         });
@@ -73,35 +66,59 @@ public class TokenHistoryHolderDark extends RecyclerView.ViewHolder {
         this.decimalUnits = decimalUnits;
     }
 
-    void bindTransactionData(final TokenHistory history, String symbol) {
+    @OnLongClick(R.id.tv_id)
+    public boolean onIdLongClick()
+    {
+        ClipboardUtils.copyToClipBoard(mTextViewID.getContext(), mTextViewID.getText().toString(), new ClipboardUtils.CopyCallback()
+        {
+            @Override
+            public void onCopyToClipBoard()
+            {
+                Toast.makeText(mTextViewID.getContext(), mTextViewID.getContext().getString(R.string.copied), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return true;
+    }
+
+    void bindTransactionData(final TokenHistory history, String symbol)
+    {
         mTokenHistory = history;
-        if (mSubscription != null) {
+        if (mSubscription != null)
+        {
             mSubscription.unsubscribe();
         }
         mSymbol = symbol;
-        if (history.getTxTime() != null) {
-            mSubscription = DateCalculator.getUpdater().subscribe(new Subscriber() {
+        if (history.getTxTime() != null)
+        {
+            mSubscription = DateCalculator.getUpdater().subscribe(new Subscriber()
+            {
                 @Override
-                public void onCompleted() {
+                public void onCompleted()
+                {
                 }
 
                 @Override
-                public void onError(Throwable e) {
+                public void onError(Throwable e)
+                {
                 }
 
                 @Override
-                public void onNext(Object o) {
+                public void onNext(Object o)
+                {
                     mTextViewDate.setText(DateCalculator.getShortDate(history.getTxTime() * 1000L));
                 }
             });
             mTextViewDate.setText(DateCalculator.getShortDate(history.getTxTime() * 1000L));
 
-        } else {
+        } else
+        {
             mTextViewDate.setText(mTextViewDate.getContext().getString(R.string.unconfirmed));
         }
         progressIndicator.setVisibility(View.GONE);
-        if (history.isReceiptUpdated()) {
-            switch (history.getHistoryType()) {
+        if (history.isReceiptUpdated())
+        {
+            switch (history.getHistoryType())
+            {
                 case Sent:
                     mImageViewIcon.setImageResource(R.drawable.ic_sent);
                     break;
@@ -111,7 +128,8 @@ public class TokenHistoryHolderDark extends RecyclerView.ViewHolder {
                 case Internal_Transaction:
                     mImageViewIcon.setImageResource(R.drawable.ic_sent_to_myself_dark);
             }
-        } else {
+        } else
+        {
             mTextViewOperationType.setText(R.string.getting_info);
             progressIndicator.setVisibility(View.VISIBLE);
             mImageViewIcon.setVisibility(View.GONE);
@@ -121,7 +139,8 @@ public class TokenHistoryHolderDark extends RecyclerView.ViewHolder {
 
         String resultamount = history.getAmount();
 
-        if(decimalUnits > 0) {
+        if (decimalUnits > 0)
+        {
             resultamount = new BigDecimal(history.getAmount()).divide(new BigDecimal("10").pow(decimalUnits)).toString();
         }
 

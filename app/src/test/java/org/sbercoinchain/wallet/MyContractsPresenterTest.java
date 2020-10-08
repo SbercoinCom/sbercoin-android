@@ -23,7 +23,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class MyContractsPresenterTest {
+public class MyContractsPresenterTest
+{
 
     @Mock
     private MyContractsView view;
@@ -32,14 +33,16 @@ public class MyContractsPresenterTest {
     private MyContractsPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new MyContractsPresenterImpl(view, interactor);
     }
 
     @Test
-    public void initialize_EmptyContracts() {
+    public void initialize_EmptyContracts()
+    {
         when(interactor.getContracts())
                 .thenReturn(Collections.<Contract>emptyList());
 
@@ -50,7 +53,8 @@ public class MyContractsPresenterTest {
     }
 
     @Test
-    public void initialize_NullContractsError() {
+    public void initialize_NullContractsError()
+    {
         when(interactor.getContracts())
                 .thenReturn(null);
 
@@ -63,7 +67,8 @@ public class MyContractsPresenterTest {
     }
 
     @Test
-    public void initialize_Success() {
+    public void initialize_Success()
+    {
         when(interactor.getContracts())
                 .thenReturn(Arrays.asList(new Contract(), new Contract()));
 

@@ -10,18 +10,22 @@ import org.sbercoin.wallet.ui.fragment.profile_fragment.SettingObject;
 
 import java.util.List;
 
-public class PrefAdapterDark extends PrefAdapter {
-    public PrefAdapterDark(List<SettingObject> settings, OnSettingClickListener listener, int resId) {
+public class PrefAdapterDark extends PrefAdapter
+{
+    public PrefAdapterDark(List<SettingObject> settings, OnSettingClickListener listener, int resId)
+    {
         super(settings, listener, resId);
     }
 
     @Override
-    public PrefViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PrefViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         return new PrefViewHolder(LayoutInflater.from(parent.getContext()).inflate(resId, parent, false), listener);
     }
 
     @Override
-    public void onBindViewHolder(PrefViewHolder holder, int position) {
+    public void onBindViewHolder(PrefViewHolder holder, int position)
+    {
         holder.bind(settings.get(position));
     }
 }

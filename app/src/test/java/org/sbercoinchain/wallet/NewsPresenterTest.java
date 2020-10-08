@@ -13,7 +13,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-public class NewsPresenterTest {
+public class NewsPresenterTest
+{
 
     @Mock
     private NewsView view;
@@ -22,14 +23,16 @@ public class NewsPresenterTest {
     private NewsPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new NewsPresenterImpl(view, interactor);
     }
 
     @Test
-    public void onNetworkStateChangedFalse() {
+    public void onNetworkStateChangedFalse()
+    {
         presenter.onNetworkStateChanged(false);
 
         verify(view, times(1)).updateNews(anyList());

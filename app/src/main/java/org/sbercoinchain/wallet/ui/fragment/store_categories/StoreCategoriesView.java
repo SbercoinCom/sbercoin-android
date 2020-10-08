@@ -5,6 +5,7 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.util.List;
 
-public interface StoreCategoriesView extends BaseFragmentView {
+public interface StoreCategoriesView extends BaseFragmentView
+{
     void setUpCategoriesList(List<QstoreContractType> list, StoreCategoryViewHolder.OnCategoryClickListener listener);
 }

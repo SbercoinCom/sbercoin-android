@@ -5,15 +5,18 @@ import org.sbercoin.wallet.ui.fragment.template_library_fragment.TemplateLibrary
 
 import java.util.List;
 
-public class TemplateLibraryFragmentDark extends TemplateLibraryFragment {
+public class TemplateLibraryFragmentDark extends TemplateLibraryFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.fragment_template_library;
     }
 
     @Override
-    public void setUpTemplateList(List<ContractTemplate> contractTemplateList) {
+    public void setUpTemplateList(List<ContractTemplate> contractTemplateList)
+    {
         initializeRecyclerView(contractTemplateList, org.sbercoin.wallet.R.layout.item_template);
     }
 }

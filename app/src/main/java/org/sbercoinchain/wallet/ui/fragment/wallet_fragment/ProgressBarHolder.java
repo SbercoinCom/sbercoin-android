@@ -7,20 +7,25 @@ import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProgressBarHolder extends RecyclerView.ViewHolder {
+public class ProgressBarHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(org.sbercoin.wallet.R.id.progressBar)
     ProgressBar mProgressBar;
 
-    public ProgressBarHolder(View itemView) {
+    public ProgressBarHolder(View itemView)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
 
-    public void bindProgressBar(boolean mLoadingFlag) {
-        if (mLoadingFlag) {
+    public void bindProgressBar(boolean mLoadingFlag)
+    {
+        if (mLoadingFlag)
+        {
             mProgressBar.setVisibility(View.VISIBLE);
-        } else {
+        } else
+        {
             mProgressBar.setVisibility(View.GONE);
         }
     }

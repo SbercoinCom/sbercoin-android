@@ -6,16 +6,19 @@ import org.sbercoin.wallet.datastorage.KeyStorage;
 
 import java.util.List;
 
-class AddressesInteractorImpl implements AddressesInteractor {
+class AddressesInteractorImpl implements AddressesInteractor
+{
 
     Context mContext;
 
-    AddressesInteractorImpl(Context context) {
+    AddressesInteractorImpl(Context context)
+    {
         mContext = context;
     }
 
     @Override
-    public List<String> getKeyList() {
+    public List<String> getKeyList()
+    {
         return KeyStorage.getInstance().getAddresses();
     }
 }

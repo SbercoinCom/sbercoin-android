@@ -12,37 +12,44 @@ import java.util.List;
 
 import rx.Observable;
 
-public class QStoreInteractorImpl implements QStoreInteractor {
+public class QStoreInteractorImpl implements QStoreInteractor
+{
     private WeakReference<Context> mContext;
 
-    public QStoreInteractorImpl(Context context) {
+    public QStoreInteractorImpl(Context context)
+    {
         mContext = new WeakReference<>(context);
     }
 
     @Override
-    public Observable<List<QSearchItem>> searchContracts(int searchOffset, String emptyType, String tag, boolean byTag) {
+    public Observable<List<QSearchItem>> searchContracts(int searchOffset, String emptyType, String tag, boolean byTag)
+    {
         return SBERService.newInstance().searchContracts(searchOffset, emptyType, tag, byTag);
 
     }
 
     @Override
-    public Observable<List<QstoreItem>> getWhatsNewObservable() {
+    public Observable<List<QstoreItem>> getWhatsNewObservable()
+    {
         return SBERService.newInstance().getWatsNew();
     }
 
     @Override
-    public Observable<List<QstoreItem>> getTrendingNowObservable() {
+    public Observable<List<QstoreItem>> getTrendingNowObservable()
+    {
         return SBERService.newInstance()
                 .getTrendingNow();
     }
 
     @Override
-    public String getTrendingString() {
+    public String getTrendingString()
+    {
         return mContext.get().getString(R.string.trending_now);
     }
 
     @Override
-    public String getWhatsNewString() {
+    public String getWhatsNewString()
+    {
         return mContext.get().getString(R.string.whats_new);
     }
 }

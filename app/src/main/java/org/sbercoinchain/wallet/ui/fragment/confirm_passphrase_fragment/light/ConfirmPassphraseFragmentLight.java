@@ -10,31 +10,36 @@ import org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassph
 import java.util.List;
 
 
-public class ConfirmPassphraseFragmentLight extends ConfirmPassphraseFragment{
+public class ConfirmPassphraseFragmentLight extends ConfirmPassphraseFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_confirm_passphrase_light;
     }
 
     @Override
-    public void showError() {
+    public void showError()
+    {
         mEditTextError.setVisibility(View.VISIBLE);
-        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_output_seed_error_light));
+        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_output_seed_error_light));
     }
 
     @Override
-    public void hideError() {
+    public void hideError()
+    {
         mEditTextError.setVisibility(View.INVISIBLE);
-        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_et_import_wallet_light));
+        mRelativeLayoutOutputContainer.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_et_import_wallet_light));
     }
 
     @Override
-    public void setUpRecyclerViews(List<String> seed) {
+    public void setUpRecyclerViews(List<String> seed)
+    {
         super.setUpRecyclerViews(seed);
-        wordsAdapterInput = new WordsAdapter(inputSeed,inputSeedListener,R.layout.item_seed_chips_input_light);
+        wordsAdapterInput = new WordsAdapter(inputSeed, inputSeedListener, R.layout.item_seed_chips_input_light);
 
-        wordsAdapterOutput = new WordsAdapter(outputSeed,outputSeedListener,R.layout.item_seed_chips_output_light);
+        wordsAdapterOutput = new WordsAdapter(outputSeed, outputSeedListener, R.layout.item_seed_chips_output_light);
 
         mRecyclerViewInput.setAdapter(wordsAdapterInput);
         mRecyclerViewOutput.setAdapter(wordsAdapterOutput);

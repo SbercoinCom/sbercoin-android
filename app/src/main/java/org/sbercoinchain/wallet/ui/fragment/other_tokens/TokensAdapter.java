@@ -7,28 +7,33 @@ import org.sbercoin.wallet.model.contract.Token;
 
 import java.util.List;
 
-public abstract class TokensAdapter extends RecyclerView.Adapter<TokenViewHolder> {
+public abstract class TokensAdapter extends RecyclerView.Adapter<TokenViewHolder>
+{
 
     protected final UpdateSocketInstance socketInstace;
     protected List<Token> tokens;
     protected OnTokenClickListener listener;
 
-    public TokensAdapter(List<Token> tokens, UpdateSocketInstance socketInstance, OnTokenClickListener listener) {
+    public TokensAdapter(List<Token> tokens, UpdateSocketInstance socketInstance, OnTokenClickListener listener)
+    {
         this.tokens = tokens;
         this.socketInstace = socketInstance;
         this.listener = listener;
     }
 
-    public Contract get(int adapterPosition) {
+    public Contract get(int adapterPosition)
+    {
         return tokens.get(adapterPosition);
     }
 
-    public void setTokens(List<Token> tokens) {
+    public void setTokens(List<Token> tokens)
+    {
         this.tokens = tokens;
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return tokens.size();
     }
 }

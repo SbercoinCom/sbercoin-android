@@ -31,8 +31,8 @@ import org.sbercoin.wallet.dataprovider.services.update_service.listeners.Transa
 import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
-import org.sbercoin.wallet.ui.fragment.sbercoin_cash_management_fragment.AddressListFragment;
 import org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveFragment;
+import org.sbercoin.wallet.ui.fragment.sbercoin_cash_management_fragment.AddressListFragment;
 import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.ClipboardUtils;
@@ -48,11 +48,10 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import io.realm.OrderedCollectionChangeSet;
 
-public abstract class WalletFragment extends BaseFragment implements WalletView, TransactionClickListener {
+public abstract class WalletFragment extends BaseFragment implements WalletView, TransactionClickListener
+{
 
-    private boolean OPEN_QR_CODE_FRAGMENT_FLAG = false;
     private static final int REQUEST_CAMERA = 3;
-    private NetworkStateListener mNetworkStateListener;
     protected WalletPresenter mWalletFragmentPresenter;
     protected TransactionAdapter mTransactionAdapter;
     protected LinearLayoutManager mLinearLayoutManager;
@@ -61,82 +60,124 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
     protected int pastVisibleItems;
     protected boolean mLoadingFlag = false;
     protected long lastUpdatedTime;
-
     @BindView(R.id.recycler_view)
     protected RecyclerView mRecyclerView;
-
     @BindView(R.id.app_bar)
     protected AppBarLayout mAppBarLayout;
-
     @BindView(R.id.bt_qr_code)
     protected ImageButton mButtonQrCode;
-
     @BindView(R.id.tv_wallet_name)
     protected TextView mTextViewWalletName;
-
-    @BindView(R.id.fade_divider_root)
-    RelativeLayout fadeDividerRoot;
-
     @BindView(R.id.tv_public_key)
     protected FontTextView publicKeyValue;
-
     @BindView(R.id.tv_balance)
     protected FontTextView balanceValue;
-
     @BindView(R.id.ll_balance)
     protected LinearLayout balanceLayout;
-
     @BindView(R.id.available_balance_title)
     protected FontTextView balanceTitle;
-
     @BindView(R.id.tv_unconfirmed_balance)
     protected FontTextView uncomfirmedBalanceValue;
-
     @BindView(R.id.unconfirmed_balance_title)
     protected FontTextView uncomfirmedBalanceTitle;
-
     @BindView(R.id.balance_view)
     protected FrameLayout balanceView;
-
     @BindView(R.id.toolbar_layout)
     protected CollapsingToolbarLayout collapsingToolbar;
-
-    @BindView(R.id.histories_placeholder)
-    TextView mTextViewHistoriesPlaceholder;
-
     @BindView(R.id.ll_no_internet_connection)
     protected LinearLayout mLinearLayoutNoInternetConnection;
-
-    @BindView(R.id.no_internet_title)
-    View mNoInternetTitleTextView;
-
     @BindView(R.id.last_updated_placeholder)
     protected TextView mTextViewLastUpdatedPlaceHolder;
-
+    protected float percents = 1;
+    @BindView(R.id.fade_divider_root)
+    RelativeLayout fadeDividerRoot;
+    @BindView(R.id.histories_placeholder)
+    TextView mTextViewHistoriesPlaceholder;
+    @BindView(R.id.no_internet_title)
+    View mNoInternetTitleTextView;
+    BalanceChangeListener balanceListener = new BalanceChangeListener()
+    {
+        @Override
+        public void onChangeBalance(final BigDecimal unconfirmedBalance, final BigDecimal balance, final Long lastUpdatedBalanceTime)
+        {
+            getMainActivity().runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    String balanceString = balance.toString();
+                    lastUpdatedTime = lastUpdatedBalanceTime;
+                    if (lastUpdatedBalanceTime == 0 && mNoInternetTitleTextView.getVisibility() == View.VISIBLE)
+                    {
+                        mTextViewLastUpdatedPlaceHolder.setVisibility(View.INVISIBLE);
+                    }
+                    mTextViewLastUpdatedPlaceHolder.setText(String.format("%s %s", getString(R.string.your_balance_was_last_updated_at), DateCalculator.getFullDate(lastUpdatedBalanceTime)));
+                    if (balanceString != null)
+                    {
+                        String unconfirmedBalanceString = unconfirmedBalance.toString();
+                        if (!TextUtils.isEmpty(unconfirmedBalanceString) && !unconfirmedBalanceString.equals("0"))
+                        {
+                            updateBalance(balanceString, String.valueOf(unconfirmedBalance.floatValue()));
+                        } else
+                        {
+                            updateBalance(balanceString, null);
+                        }
+                    }
+                }
+            });
+        }
+    };
+    private boolean OPEN_QR_CODE_FRAGMENT_FLAG = false;
+    private NetworkStateListener mNetworkStateListener;
     private NetworkStateReceiver mNetworkStateReceiver;
     private UpdateService mUpdateService;
 
+    public static BaseFragment newInstance(Context context)
+    {
+        Bundle args = new Bundle();
+        BaseFragment fragment = Factory.instantiateFragment(context, WalletFragment.class);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static float convertDpToPixel(float dp, Context context)
+    {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return px;
+    }
+
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
-        getMainActivity().subscribeServiceConnectionChangeEvent(new MainActivity.OnServiceConnectionChangeListener() {
+        getMainActivity().subscribeServiceConnectionChangeEvent(new MainActivity.OnServiceConnectionChangeListener()
+        {
             @Override
-            public void onServiceConnectionChange(boolean isConnecting) {
-                if (isConnecting) {
+            public void onServiceConnectionChange(boolean isConnecting)
+            {
+                if (isConnecting)
+                {
                     mUpdateService = getMainActivity().getUpdateService();
-                    mUpdateService.addTransactionListener(new TransactionListener() {
+                    mUpdateService.addTransactionListener(new TransactionListener()
+                    {
                         @Override
-                        public void onNewHistory(final History history) {
-                            getMainActivity().runOnUiThread(new Runnable() {
+                        public void onNewHistory(final History history)
+                        {
+                            getMainActivity().runOnUiThread(new Runnable()
+                            {
                                 @Override
-                                public void run() {
+                                public void run()
+                                {
                                     getPresenter().onNewHistory(history);
                                 }
                             });
                         }
 
                         @Override
-                        public boolean getVisibility() {
+                        public boolean getVisibility()
+                        {
                             return getPresenter().getVisibility();
                         }
                     });
@@ -145,152 +186,173 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
             }
         });
 
-        getMainActivity().addPermissionResultListener(new MainActivity.PermissionsResultListener() {
+        getMainActivity().addPermissionResultListener(new MainActivity.PermissionsResultListener()
+        {
             @Override
-            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-                if (requestCode == REQUEST_CAMERA) {
-                    if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+            {
+                if (requestCode == REQUEST_CAMERA)
+                {
+                    if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED))
+                    {
                         OPEN_QR_CODE_FRAGMENT_FLAG = true;
                     }
                 }
             }
         });
         mNetworkStateReceiver = getMainActivity().getNetworkReceiver();
-        mNetworkStateListener = new NetworkStateListener() {
+        mNetworkStateListener = new NetworkStateListener()
+        {
             @Override
-            public void onNetworkStateChanged(boolean networkConnectedFlag) {
+            public void onNetworkStateChanged(boolean networkConnectedFlag)
+            {
                 getPresenter().onNetworkStateChanged(networkConnectedFlag);
             }
         };
         mNetworkStateReceiver.addNetworkStateListener(mNetworkStateListener);
     }
 
-    public void initBalanceListener() {
+    public void initBalanceListener()
+    {
         mUpdateService.addBalanceChangeListener(balanceListener);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         getPresenter().updateVisibility(true);
-        if (mUpdateService != null) {
+        if (mUpdateService != null)
+        {
             mUpdateService.clearNotification();
         }
-        if (OPEN_QR_CODE_FRAGMENT_FLAG) {
+        if (OPEN_QR_CODE_FRAGMENT_FLAG)
+        {
             openQrCodeFragment();
         }
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         mTransactionAdapter.setHistoryCountChangeListener(null);
         getPresenter().updateVisibility(false);
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        if (mNetworkStateListener != null) {
+        if (mNetworkStateListener != null)
+        {
             mNetworkStateReceiver.removeNetworkStateListener(mNetworkStateListener);
         }
-        if (mUpdateService != null) {
+        if (mUpdateService != null)
+        {
             mUpdateService.removeTransactionListener();
             mUpdateService.removeBalanceChangeListener(balanceListener);
         }
-        if (getMainActivity() != null) {
+        if (getMainActivity() != null)
+        {
             getMainActivity().removePermissionResultListener();
         }
         setAdapterNull();
     }
 
     @OnClick({R.id.ll_receive, R.id.iv_receive})
-    public void onReceiveClick() {
+    public void onReceiveClick()
+    {
         BaseFragment receiveFragment = ReceiveFragment.newInstance(getContext(), null, null, null);
         openFragmentForResult(receiveFragment);
     }
 
     @OnClick(R.id.iv_choose_address)
-    public void onChooseAddressClick() {
+    public void onChooseAddressClick()
+    {
         BaseFragment addressListFragment = AddressListFragment.newInstance(getContext());
         openFragment(addressListFragment);
     }
 
     @OnClick({R.id.bt_qr_code})
-    public void onClick(View view) {
-        if (getMainActivity().checkPermission(Manifest.permission.CAMERA)) {
+    public void onClick(View view)
+    {
+        if (getMainActivity().checkPermission(Manifest.permission.CAMERA))
+        {
             openQrCodeFragment();
-        } else {
+        } else
+        {
             getMainActivity().loadPermissions(Manifest.permission.CAMERA, REQUEST_CAMERA);
         }
     }
 
-    private void openQrCodeFragment() {
-        if (!getMainActivity().checkNavFragmentExistance(SendFragment.class.getCanonicalName())) {
+    private void openQrCodeFragment()
+    {
+        if (!getMainActivity().checkNavFragmentExistance(SendFragment.class.getCanonicalName()))
+        {
             getMainActivity().openNavFragment(SendFragment.newInstance(true, null, null, null, getContext()));
-        } else {
-            if (!getMainActivity().checkSendQrCodeActive()) {
+        } else
+        {
+            if (!getMainActivity().checkSendQrCodeActive())
+            {
                 getMainActivity().moveToQrCodeActiveSend();
                 Fragment fragmentByTag = getMainActivity().getSupportFragmentManager().findFragmentByTag(SendFragment.class.getCanonicalName());
-                if (fragmentByTag != null) {
+                if (fragmentByTag != null)
+                {
                     ((SendFragment) fragmentByTag).openQrCodeFragment();
                 }
-            } else {
+            } else
+            {
                 getMainActivity().moveToQrCodeActiveSend();
             }
         }
     }
 
     @OnLongClick(R.id.tv_public_key)
-    public boolean onAddressLongClick() {
-        ClipboardUtils.copyToClipBoard(getContext(), publicKeyValue.getText().toString(), new ClipboardUtils.CopyCallback() {
+    public boolean onAddressLongClick()
+    {
+        ClipboardUtils.copyToClipBoard(getContext(), publicKeyValue.getText().toString(), new ClipboardUtils.CopyCallback()
+        {
             @Override
-            public void onCopyToClipBoard() {
+            public void onCopyToClipBoard()
+            {
                 showToast(getString(R.string.copied));
             }
         });
         return true;
     }
 
-    public static BaseFragment newInstance(Context context) {
-        Bundle args = new Bundle();
-        BaseFragment fragment = Factory.instantiateFragment(context, WalletFragment.class);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static float convertDpToPixel(float dp, Context context) {
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return px;
-    }
-
-    protected float percents = 1;
-
-    public int getTotalRange() {
+    public int getTotalRange()
+    {
         return mAppBarLayout.getTotalScrollRange();
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             mAppBarLayout.setStateListAnimator(null);
         }
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
                 super.onScrolled(recyclerView, dx, dy);
                 //TODO
-                if (dy > 0) {
-                    if (!mLoadingFlag) {
+                if (dy > 0)
+                {
+                    if (!mLoadingFlag)
+                    {
                         visibleItemCount = mLinearLayoutManager.getChildCount();
                         totalItemCount = mLinearLayoutManager.getItemCount();
                         pastVisibleItems = mLinearLayoutManager.findFirstVisibleItemPosition();
-                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount - 1) {
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount - 1)
+                        {
                             getPresenter().onLastItem(totalItemCount - 1);
                         }
                     }
@@ -298,12 +360,16 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
             }
         });
         createAdapter();
-        mTransactionAdapter.setHistoryCountChangeListener(new HistoryCountChangeListener() {
+        mTransactionAdapter.setHistoryCountChangeListener(new HistoryCountChangeListener()
+        {
             @Override
-            public void onCountChange(int newCount) {
-                if (newCount == 0) {
+            public void onCountChange(int newCount)
+            {
+                if (newCount == 0)
+                {
                     mTextViewHistoriesPlaceholder.setVisibility(View.VISIBLE);
-                } else {
+                } else
+                {
                     mTextViewHistoriesPlaceholder.setVisibility(View.GONE);
                 }
             }
@@ -314,50 +380,61 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
     protected abstract void createAdapter();
 
     @Override
-    protected WalletPresenter getPresenter() {
+    protected WalletPresenter getPresenter()
+    {
         return mWalletFragmentPresenter;
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mWalletFragmentPresenter = new WalletPresenterImpl(this, new WalletInteractorImpl(getContext(), getMainActivity().getRealm()));
     }
 
     @Override
-    public void onTransactionClick(String txHash) {
+    public void onTransactionClick(String txHash)
+    {
         getPresenter().onTransactionClick(txHash);
     }
 
-    protected TransactionClickListener getAdapterListener() {
+    protected TransactionClickListener getAdapterListener()
+    {
         return this;
     }
 
     @Override
-    public void setAdapterNull() {
+    public void setAdapterNull()
+    {
     }
 
     @Override
-    public void clearAdapter() {
+    public void clearAdapter()
+    {
         int length = mTransactionAdapter.getHistoryList().size();
         mTransactionAdapter.setHistoryList(new ArrayList<History>());
         mTransactionAdapter.notifyItemRangeRemoved(0, length);
     }
 
     @Override
-    public void updateHistory(List<History> histories, @javax.annotation.Nullable OrderedCollectionChangeSet changeSet, int visibleItemCount) {
+    public void updateHistory(List<History> histories, @javax.annotation.Nullable OrderedCollectionChangeSet changeSet, int visibleItemCount)
+    {
         mLoadingFlag = false;
         mTransactionAdapter.setHistoryList(histories);
-        if (changeSet == null) {
+        if (changeSet == null)
+        {
             mTransactionAdapter.notifyDataSetChanged();
             return;
         }
 
         OrderedCollectionChangeSet.Range[] deletions = changeSet.getDeletionRanges();
-        for (int i = deletions.length - 1; i >= 0; i--) {
+        for (int i = deletions.length - 1; i >= 0; i--)
+        {
             OrderedCollectionChangeSet.Range range = deletions[i];
-            if (range.startIndex <= visibleItemCount) {
+            if (range.startIndex <= visibleItemCount)
+            {
                 int length = range.length;
-                if (range.startIndex + range.length > visibleItemCount) {
+                if (range.startIndex + range.length > visibleItemCount)
+                {
                     length = visibleItemCount - range.startIndex;
                 }
                 mTransactionAdapter.notifyItemRangeRemoved(range.startIndex, length);
@@ -365,10 +442,13 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
         }
 
         OrderedCollectionChangeSet.Range[] insertions = changeSet.getInsertionRanges();
-        for (OrderedCollectionChangeSet.Range range : insertions) {
-            if (range.startIndex <= visibleItemCount) {
+        for (OrderedCollectionChangeSet.Range range : insertions)
+        {
+            if (range.startIndex <= visibleItemCount)
+            {
                 int length = range.length;
-                if (range.startIndex + range.length > visibleItemCount) {
+                if (range.startIndex + range.length > visibleItemCount)
+                {
                     length = visibleItemCount - range.startIndex;
                 }
                 mTransactionAdapter.notifyItemRangeInserted(range.startIndex, length);
@@ -376,10 +456,13 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
         }
 
         OrderedCollectionChangeSet.Range[] modifications = changeSet.getChangeRanges();
-        for (OrderedCollectionChangeSet.Range range : modifications) {
-            if (range.startIndex <= visibleItemCount) {
+        for (OrderedCollectionChangeSet.Range range : modifications)
+        {
+            if (range.startIndex <= visibleItemCount)
+            {
                 int length = range.length;
-                if (range.startIndex + range.length > visibleItemCount) {
+                if (range.startIndex + range.length > visibleItemCount)
+                {
                     length = visibleItemCount - range.startIndex;
                 }
                 mTransactionAdapter.notifyItemRangeChanged(range.startIndex, length);
@@ -388,56 +471,68 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
     }
 
     @Override
-    public void updateHistory(List<History> histories, int startIndex, int insertCount) {
+    public void updateHistory(List<History> histories, int startIndex, int insertCount)
+    {
         mLoadingFlag = false;
         mTransactionAdapter.setHistoryList(histories);
         mTransactionAdapter.notifyItemRangeChanged(startIndex, insertCount);
     }
 
     @Override
-    public void updatePubKey(String pubKey) {
+    public void updatePubKey(String pubKey)
+    {
         publicKeyValue.setText(pubKey);
     }
 
     @Override
-    public void startRefreshAnimation() {
+    public void startRefreshAnimation()
+    {
         //mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void stopRefreshRecyclerAnimation() {
+    public void stopRefreshRecyclerAnimation()
+    {
 //        if (mSwipeRefreshLayout != null) {
 //            mSwipeRefreshLayout.setRefreshing(false);
 //        }
     }
 
     @Override
-    public void showBottomLoader() {
+    public void showBottomLoader()
+    {
         mLoadingFlag = true;
         mTransactionAdapter.setLoadingFlag(true);
-        mRecyclerView.post(new Runnable() {
+        mRecyclerView.post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 mTransactionAdapter.notifyItemChanged(totalItemCount - 1);
             }
         });
     }
 
     @Override
-    public void hideBottomLoader() {
+    public void hideBottomLoader()
+    {
         mLoadingFlag = false;
         mTransactionAdapter.setLoadingFlag(false);
-        mRecyclerView.post(new Runnable() {
+        mRecyclerView.post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 mTransactionAdapter.notifyItemChanged(totalItemCount - 1);
             }
         });
     }
 
     @Override
-    public void offlineModeView() {
-        if (lastUpdatedTime != 0) {
+    public void offlineModeView()
+    {
+        if (lastUpdatedTime != 0)
+        {
             mTextViewLastUpdatedPlaceHolder.setVisibility(View.VISIBLE);
         }
         mNoInternetTitleTextView.setVisibility(View.VISIBLE);
@@ -445,34 +540,10 @@ public abstract class WalletFragment extends BaseFragment implements WalletView,
     }
 
     @Override
-    public void onlineModeView() {
+    public void onlineModeView()
+    {
         mTextViewLastUpdatedPlaceHolder.setVisibility(View.GONE);
         mNoInternetTitleTextView.setVisibility(View.GONE);
     }
-
-    BalanceChangeListener balanceListener = new BalanceChangeListener() {
-        @Override
-        public void onChangeBalance(final BigDecimal unconfirmedBalance, final BigDecimal balance, final Long lastUpdatedBalanceTime) {
-            getMainActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String balanceString = balance.toString();
-                    lastUpdatedTime = lastUpdatedBalanceTime;
-                    if (lastUpdatedBalanceTime == 0 && mNoInternetTitleTextView.getVisibility() == View.VISIBLE) {
-                        mTextViewLastUpdatedPlaceHolder.setVisibility(View.INVISIBLE);
-                    }
-                    mTextViewLastUpdatedPlaceHolder.setText(String.format("%s %s", getString(R.string.your_balance_was_last_updated_at), DateCalculator.getFullDate(lastUpdatedBalanceTime)));
-                    if (balanceString != null) {
-                        String unconfirmedBalanceString = unconfirmedBalance.toString();
-                        if (!TextUtils.isEmpty(unconfirmedBalanceString) && !unconfirmedBalanceString.equals("0")) {
-                            updateBalance(balanceString, String.valueOf(unconfirmedBalance.floatValue()));
-                        } else {
-                            updateBalance(balanceString, null);
-                        }
-                    }
-                }
-            });
-        }
-    };
 
 }

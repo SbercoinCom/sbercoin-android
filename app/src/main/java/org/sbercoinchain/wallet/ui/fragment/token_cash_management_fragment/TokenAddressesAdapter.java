@@ -9,7 +9,8 @@ import org.sbercoin.wallet.model.AddressWithTokenBalance;
 
 import java.util.List;
 
-public class TokenAddressesAdapter extends RecyclerView.Adapter<TokenAddressViewHolder> {
+public class TokenAddressesAdapter extends RecyclerView.Adapter<TokenAddressViewHolder>
+{
 
     List<AddressWithTokenBalance> items;
     int resId;
@@ -17,7 +18,8 @@ public class TokenAddressesAdapter extends RecyclerView.Adapter<TokenAddressView
     OnAddressTokenClickListener listener;
     int decimalUnits;
 
-    public TokenAddressesAdapter(List<AddressWithTokenBalance> items, int resId, OnAddressTokenClickListener listener, String currency, int decimalUnits) {
+    public TokenAddressesAdapter(List<AddressWithTokenBalance> items, int resId, OnAddressTokenClickListener listener, String currency, int decimalUnits)
+    {
         this.items = items;
         this.resId = resId;
         this.listener = listener;
@@ -26,19 +28,22 @@ public class TokenAddressesAdapter extends RecyclerView.Adapter<TokenAddressView
     }
 
     @Override
-    public TokenAddressViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TokenAddressViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(resId, parent, false);
         return new TokenAddressViewHolder(view, listener, currency, decimalUnits);
     }
 
     @Override
-    public void onBindViewHolder(TokenAddressViewHolder holder, int position) {
+    public void onBindViewHolder(TokenAddressViewHolder holder, int position)
+    {
         holder.bind(items.get(position));
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return items.size();
     }
 }

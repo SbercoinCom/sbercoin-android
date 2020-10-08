@@ -25,27 +25,71 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public abstract class ConfirmPassphraseFragment extends BaseFragment implements ConfirmPassphraseView{
+public abstract class ConfirmPassphraseFragment extends BaseFragment implements ConfirmPassphraseView
+{
 
     private static final String SEED = "seed";
-
-    ConfirmPassphrasePresenter mConfirmPassphrasePresenter;
-
     @BindView(R.id.rv_input_seed)
     protected RecyclerView mRecyclerViewInput;
     @BindView(R.id.rv_output_seed)
     protected RecyclerView mRecyclerViewOutput;
-
-    @BindView(R.id.bt_reset_all)
-    Button mButtonResetAll;
     @BindView(R.id.tv_error_text)
     protected TextView mEditTextError;
     @BindView(R.id.rl_output_container)
     protected RelativeLayout mRelativeLayoutOutputContainer;
+    protected List<String> inputSeed;
+    protected List<String> outputSeed;
+    protected WordsAdapter wordsAdapterInput;
+    protected WordsAdapter wordsAdapterOutput;
+    ConfirmPassphrasePresenter mConfirmPassphrasePresenter;
+    protected OnSeedClickListener inputSeedListener = new OnSeedClickListener()
+    {
+        @Override
+        public void onSeedClick(int position)
+        {
+            if (position > -1)
+            {
+                outputSeed.add(inputSeed.get(position));
+                inputSeed.remove(position);
+                wordsAdapterInput.notifyDataSetChanged();
+                wordsAdapterOutput.notifyDataSetChanged();
+                getPresenter().seedEntered(outputSeed);
+            }
+        }
+    };
+    protected OnSeedClickListener outputSeedListener = new OnSeedClickListener()
+    {
+        @Override
+        public void onSeedClick(int position)
+        {
+            if (position > -1)
+            {
+                inputSeed.add(outputSeed.get(position));
+                outputSeed.remove(position);
+                wordsAdapterInput.notifyDataSetChanged();
+                wordsAdapterOutput.notifyDataSetChanged();
+                getPresenter().seedEntered(outputSeed);
+            }
+        }
+    };
+    @BindView(R.id.bt_reset_all)
+    Button mButtonResetAll;
 
-    @OnClick({R.id.bt_reset_all,R.id.ibt_back})
-    public void onClick(View view){
-        switch (view.getId()){
+    public static BaseFragment newInstance(Context context, String seed)
+    {
+
+        Bundle args = new Bundle();
+        args.putString(SEED, seed);
+        BaseFragment fragment = Factory.instantiateFragment(context, ConfirmPassphraseFragment.class);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @OnClick({R.id.bt_reset_all, R.id.ibt_back})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.ibt_back:
                 getActivity().onBackPressed();
                 break;
@@ -55,56 +99,21 @@ public abstract class ConfirmPassphraseFragment extends BaseFragment implements 
         }
     }
 
-    protected List<String> inputSeed;
-    protected List<String> outputSeed;
-    protected WordsAdapter wordsAdapterInput;
-    protected WordsAdapter wordsAdapterOutput;
-    protected OnSeedClickListener inputSeedListener = new OnSeedClickListener() {
-        @Override
-        public void onSeedClick(int position) {
-            if(position>-1) {
-                outputSeed.add(inputSeed.get(position));
-                inputSeed.remove(position);
-                wordsAdapterInput.notifyDataSetChanged();
-                wordsAdapterOutput.notifyDataSetChanged();
-                getPresenter().seedEntered(outputSeed);
-            }
-        }
-    };
-    protected OnSeedClickListener outputSeedListener = new OnSeedClickListener() {
-        @Override
-        public void onSeedClick(int position) {
-            if(position>-1) {
-                inputSeed.add(outputSeed.get(position));
-                outputSeed.remove(position);
-                wordsAdapterInput.notifyDataSetChanged();
-                wordsAdapterOutput.notifyDataSetChanged();
-                getPresenter().seedEntered(outputSeed);
-            }
-        }
-    };
-
-    public static BaseFragment newInstance(Context context, String seed) {
-
-        Bundle args = new Bundle();
-        args.putString(SEED, seed);
-        BaseFragment fragment = Factory.instantiateFragment(context, ConfirmPassphraseFragment.class);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    protected ConfirmPassphrasePresenter getPresenter() {
+    protected ConfirmPassphrasePresenter getPresenter()
+    {
         return mConfirmPassphrasePresenter;
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mConfirmPassphrasePresenter = new ConfirmPassphrasePresenterImpl(this, new ConfirmPassphraseInteractorImpl(getContext()));
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         ChipsLayoutManager chipsLayoutManagerInput = ChipsLayoutManager.newBuilder(getContext())
                 .build();
@@ -115,14 +124,16 @@ public abstract class ConfirmPassphraseFragment extends BaseFragment implements 
     }
 
     @Override
-    public void setUpRecyclerViews(List<String> seed) {
+    public void setUpRecyclerViews(List<String> seed)
+    {
         inputSeed = new ArrayList<>(seed);
         Collections.shuffle(inputSeed);
         outputSeed = new ArrayList<>();
     }
 
     @Override
-    public void resetAll(List<String> seed) {
+    public void resetAll(List<String> seed)
+    {
         inputSeed.clear();
         inputSeed.addAll(seed);
         Collections.shuffle(inputSeed);
@@ -132,69 +143,82 @@ public abstract class ConfirmPassphraseFragment extends BaseFragment implements 
     }
 
     @Override
-    public void onLogin() {
+    public void onLogin()
+    {
         getMainActivity().onLogin();
     }
 
     @Override
-    public String getSeed() {
+    public String getSeed()
+    {
         return getArguments().getString(SEED);
     }
 
-    class WordsHolder extends RecyclerView.ViewHolder{
+    interface OnSeedClickListener
+    {
+        void onSeedClick(int position);
+    }
+
+    class WordsHolder extends RecyclerView.ViewHolder
+    {
 
         @BindView(R.id.bt_seed)
         Button mButtonSeed;
 
-        public WordsHolder(View itemView, final OnSeedClickListener listener) {
+        public WordsHolder(View itemView, final OnSeedClickListener listener)
+        {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mButtonSeed.setOnClickListener(new View.OnClickListener() {
+            mButtonSeed.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     listener.onSeedClick(getAdapterPosition());
                 }
             });
         }
 
-        void bindSeed(String seed){
+        void bindSeed(String seed)
+        {
             mButtonSeed.setText(seed);
         }
 
     }
 
-    protected class WordsAdapter extends RecyclerView.Adapter<WordsHolder>{
+    protected class WordsAdapter extends RecyclerView.Adapter<WordsHolder>
+    {
 
         protected List<String> seed;
         protected OnSeedClickListener listener;
         protected int resId;
 
-        public WordsAdapter(List<String> seed, OnSeedClickListener listener, int resId){
+        public WordsAdapter(List<String> seed, OnSeedClickListener listener, int resId)
+        {
             this.seed = seed;
             this.resId = resId;
             this.listener = listener;
         }
 
         @Override
-        public WordsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public WordsHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(resId, parent, false);
-            return new WordsHolder(view,listener);
+            return new WordsHolder(view, listener);
         }
 
         @Override
-        public void onBindViewHolder(WordsHolder holder, int position) {
+        public void onBindViewHolder(WordsHolder holder, int position)
+        {
             holder.bindSeed(seed.get(position));
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return seed.size();
         }
 
-    }
-
-    interface OnSeedClickListener{
-        void onSeedClick(int position);
     }
 }

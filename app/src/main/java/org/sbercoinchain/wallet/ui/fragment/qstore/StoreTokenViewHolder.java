@@ -11,7 +11,8 @@ import org.sbercoin.wallet.model.gson.qstore.QstoreItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StoreTokenViewHolder extends RecyclerView.ViewHolder {
+public class StoreTokenViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.icon)
     ImageView icon;
@@ -21,24 +22,27 @@ public class StoreTokenViewHolder extends RecyclerView.ViewHolder {
     TextView tokenType;
     @BindView(R.id.token_cost)
     TextView tokenCost;
+    private QstoreItem item;
 
-    public StoreTokenViewHolder(final View itemView, final StoreItemClickListener listener) {
+    public StoreTokenViewHolder(final View itemView, final StoreItemClickListener listener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
         itemView.setClickable(true);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 listener.OnItemClick(item);
             }
         });
     }
 
-    private QstoreItem item;
-
-    public void bind(QstoreItem item) {
+    public void bind(QstoreItem item)
+    {
         this.item = item;
         icon.setImageResource(item.getIcon());
         tokenName.setText(item.name);

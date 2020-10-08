@@ -18,7 +18,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class ProfilePresenterTest {
+public class ProfilePresenterTest
+{
 
     @Mock
     private ProfileView view;
@@ -27,12 +28,14 @@ public class ProfilePresenterTest {
     private ProfilePresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void initialize() {
+    public void initialize()
+    {
         when(view.checkAvailabilityTouchId())
                 .thenReturn(false);
 
@@ -44,7 +47,8 @@ public class ProfilePresenterTest {
     }
 
     @Test
-    public void clearWallet() {
+    public void clearWallet()
+    {
         when(view.checkAvailabilityTouchId())
                 .thenReturn(true);
         when(interactor.isTouchIdEnable())
@@ -58,7 +62,8 @@ public class ProfilePresenterTest {
     }
 
     @Test
-    public void onTouchIdSwitched() {
+    public void onTouchIdSwitched()
+    {
         when(view.checkAvailabilityTouchId())
                 .thenReturn(true);
         when(interactor.isTouchIdEnable())
@@ -72,7 +77,8 @@ public class ProfilePresenterTest {
     }
 
     @Test
-    public void setupLanguageChangeListener() {
+    public void setupLanguageChangeListener()
+    {
         when(view.checkAvailabilityTouchId())
                 .thenReturn(true);
         when(interactor.isTouchIdEnable())
@@ -80,9 +86,11 @@ public class ProfilePresenterTest {
 
         presenter = new ProfilePresenterImpl(view, interactor);
 
-        presenter.setupLanguageChangeListener(new LanguageChangeListener() {
+        presenter.setupLanguageChangeListener(new LanguageChangeListener()
+        {
             @Override
-            public void onLanguageChange() {
+            public void onLanguageChange()
+            {
 
             }
         });
@@ -91,7 +99,8 @@ public class ProfilePresenterTest {
     }
 
     @Test
-    public void removeLanguageListener() {
+    public void removeLanguageListener()
+    {
         when(view.checkAvailabilityTouchId())
                 .thenReturn(true);
         when(interactor.isTouchIdEnable())
@@ -99,9 +108,11 @@ public class ProfilePresenterTest {
 
         presenter = new ProfilePresenterImpl(view, interactor);
 
-        presenter.removeLanguageListener(new LanguageChangeListener() {
+        presenter.removeLanguageListener(new LanguageChangeListener()
+        {
             @Override
-            public void onLanguageChange() {
+            public void onLanguageChange()
+            {
 
             }
         });

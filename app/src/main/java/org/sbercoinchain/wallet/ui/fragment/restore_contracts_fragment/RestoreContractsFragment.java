@@ -24,8 +24,8 @@ import android.widget.Toast;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.dataprovider.services.update_service.UpdateService;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.FileUtils;
 import org.sbercoin.wallet.utils.FontCheckBox;
 import org.sbercoin.wallet.utils.FontTextView;
@@ -48,28 +48,13 @@ import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
-public abstract class RestoreContractsFragment extends BaseFragment implements RestoreContractsView {
+public abstract class RestoreContractsFragment extends BaseFragment implements RestoreContractsView
+{
     private final int FILE_SELECT_CODE = 0;
     private final int READ_EXTERNAL_STORAGE_CODE = 1;
-
-    private RestoreContractsPresenter mRestoreContractsPresenter;
-    private UpdateService mUpdateService;
-    private AlertDialog mRestoreDialog;
-    private File mRestoreFile;
-    private Subscription s;
-
     @BindView(org.sbercoin.wallet.R.id.rl_back_up_file)
     protected
     FrameLayout mFrameLayoutBackUpFile;
-    @BindView(org.sbercoin.wallet.R.id.cb_restore_templates)
-    FontCheckBox mCheckBoxRestoreTemplates;
-    @BindView(org.sbercoin.wallet.R.id.cb_restore_contracts)
-    FontCheckBox mCheckBoxRestoreContracts;
-    @BindView(org.sbercoin.wallet.R.id.cb_restore_tokens)
-    FontCheckBox mCheckBoxRestoreTokens;
-    @BindView(org.sbercoin.wallet.R.id.cb_restore_all)
-    FontCheckBox mCheckBoxRestoreAll;
-
     @BindView(org.sbercoin.wallet.R.id.tv_select_back_up)
     protected
     FontTextView mTextViewFileName;
@@ -79,57 +64,175 @@ public abstract class RestoreContractsFragment extends BaseFragment implements R
     @BindView(org.sbercoin.wallet.R.id.iv_restore_icon)
     protected
     ImageView mImageViewRestoreIcon;
+    @BindView(org.sbercoin.wallet.R.id.cb_restore_templates)
+    FontCheckBox mCheckBoxRestoreTemplates;
+    @BindView(org.sbercoin.wallet.R.id.cb_restore_contracts)
+    FontCheckBox mCheckBoxRestoreContracts;
+    @BindView(org.sbercoin.wallet.R.id.cb_restore_tokens)
+    FontCheckBox mCheckBoxRestoreTokens;
+    @BindView(org.sbercoin.wallet.R.id.cb_restore_all)
+    FontCheckBox mCheckBoxRestoreAll;
+    private RestoreContractsPresenter mRestoreContractsPresenter;
+    private UpdateService mUpdateService;
+    private AlertDialog mRestoreDialog;
+    private File mRestoreFile;
+    private Subscription s;
+    RestoreContractsPresenterImpl.RestoreDialogCallBack callback = new RestoreContractsPresenterImpl.RestoreDialogCallBack()
+    {
+        @Override
+        public void onRestoreClick()
+        {
+            setProgressDialog();
+            s = getPresenter().createBackupData()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>()
+                    {
+                        @Override
+                        public void onCompleted()
+                        {
+                        }
+
+                        @Override
+                        public void onError(Throwable e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onNext(Boolean aBoolean)
+                        {
+                            mRestoreDialog.dismiss();
+                            if (aBoolean)
+                            {
+                                setAlertDialog(getString(R.string.restored_successfully), "", "OK", BaseFragment.PopUpType.confirm, new BaseFragment.AlertDialogCallBack()
+                                {
+                                    @Override
+                                    public void onButtonClick()
+                                    {
+                                        FragmentManager fm = RestoreContractsFragment.this.getFragmentManager();
+                                        int count = fm.getBackStackEntryCount() - 2;
+                                        for (int i = 0; i < count; ++i)
+                                        {
+                                            fm.popBackStack();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onButton2Click()
+                                    {
+                                    }
+                                });
+                            } else
+                            {
+                                setAlertDialog(getString(R.string.something_went_wrong), "", "OK", BaseFragment.PopUpType.error, getAlertCallback());
+                            }
+                        }
+                    });
+        }
+    };
+
+    public static BaseFragment newInstance(Context context)
+    {
+        Bundle args = new Bundle();
+        BaseFragment fragment = Factory.instantiateFragment(context, RestoreContractsFragment.class);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private static void copyFileUsingStream(File source, File dest) throws IOException
+    {
+        InputStream is = null;
+        OutputStream os = null;
+        try
+        {
+            is = new FileInputStream(source);
+            os = new FileOutputStream(dest);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0)
+            {
+                os.write(buffer, 0, length);
+            }
+        } finally
+        {
+            if (is != null)
+            {
+                is.close();
+            }
+            if (os != null)
+            {
+                os.close();
+            }
+        }
+    }
 
     @OnClick({org.sbercoin.wallet.R.id.rl_back_up_file, org.sbercoin.wallet.R.id.cb_restore_templates, org.sbercoin.wallet.R.id.cb_restore_contracts, org.sbercoin.wallet.R.id.cb_restore_tokens, org.sbercoin.wallet.R.id.cb_restore_all, org.sbercoin.wallet.R.id.iv_restore_icon, org.sbercoin.wallet.R.id.ibt_back, org.sbercoin.wallet.R.id.bt_restore})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case org.sbercoin.wallet.R.id.rl_back_up_file:
-                if (getMainActivity().checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                if (getMainActivity().checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
+                {
                     showFileChooser();
-                } else {
+                } else
+                {
                     getMainActivity().loadPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_CODE);
                 }
                 break;
             case org.sbercoin.wallet.R.id.iv_restore_icon:
                 getPresenter().onDeleteFileClick();
-                if (mRestoreFile != null) {
+                if (mRestoreFile != null)
+                {
                     mRestoreFile.delete();
                     mRestoreFile = null;
                 }
                 break;
             case org.sbercoin.wallet.R.id.cb_restore_templates:
-                if (mCheckBoxRestoreTemplates.isChecked()) {
-                    if (mCheckBoxRestoreContracts.isChecked() && mCheckBoxRestoreTokens.isChecked()) {
+                if (mCheckBoxRestoreTemplates.isChecked())
+                {
+                    if (mCheckBoxRestoreContracts.isChecked() && mCheckBoxRestoreTokens.isChecked())
+                    {
                         mCheckBoxRestoreAll.setChecked(true);
                     }
-                } else {
+                } else
+                {
                     mCheckBoxRestoreAll.setChecked(false);
                 }
                 break;
             case org.sbercoin.wallet.R.id.cb_restore_contracts:
-                if (mCheckBoxRestoreContracts.isChecked()) {
-                    if (mCheckBoxRestoreTemplates.isChecked() && mCheckBoxRestoreTokens.isChecked()) {
+                if (mCheckBoxRestoreContracts.isChecked())
+                {
+                    if (mCheckBoxRestoreTemplates.isChecked() && mCheckBoxRestoreTokens.isChecked())
+                    {
                         mCheckBoxRestoreAll.setChecked(true);
                     }
-                } else {
+                } else
+                {
                     mCheckBoxRestoreAll.setChecked(false);
                 }
                 break;
             case org.sbercoin.wallet.R.id.cb_restore_tokens:
-                if (mCheckBoxRestoreTokens.isChecked()) {
-                    if (mCheckBoxRestoreContracts.isChecked() && mCheckBoxRestoreTemplates.isChecked()) {
+                if (mCheckBoxRestoreTokens.isChecked())
+                {
+                    if (mCheckBoxRestoreContracts.isChecked() && mCheckBoxRestoreTemplates.isChecked())
+                    {
                         mCheckBoxRestoreAll.setChecked(true);
                     }
-                } else {
+                } else
+                {
                     mCheckBoxRestoreAll.setChecked(false);
                 }
                 break;
             case org.sbercoin.wallet.R.id.cb_restore_all:
-                if (mCheckBoxRestoreAll.isChecked()) {
+                if (mCheckBoxRestoreAll.isChecked())
+                {
                     mCheckBoxRestoreTemplates.setChecked(true);
                     mCheckBoxRestoreContracts.setChecked(true);
                     mCheckBoxRestoreTokens.setChecked(true);
-                } else {
+                } else
+                {
                     mCheckBoxRestoreTemplates.setChecked(false);
                     mCheckBoxRestoreContracts.setChecked(false);
                     mCheckBoxRestoreTokens.setChecked(false);
@@ -139,59 +242,69 @@ public abstract class RestoreContractsFragment extends BaseFragment implements R
                 getActivity().onBackPressed();
                 break;
             case org.sbercoin.wallet.R.id.bt_restore:
-                if (mCheckBoxRestoreAll.isChecked()) {
+                if (mCheckBoxRestoreAll.isChecked())
+                {
                     getPresenter().onRestoreClick(true, true, true);
-                } else {
+                } else
+                {
                     getPresenter().onRestoreClick(mCheckBoxRestoreTemplates.isChecked(), mCheckBoxRestoreContracts.isChecked(), mCheckBoxRestoreTokens.isChecked());
                 }
                 break;
         }
     }
 
-    public static BaseFragment newInstance(Context context) {
-        Bundle args = new Bundle();
-        BaseFragment fragment = Factory.instantiateFragment(context, RestoreContractsFragment.class);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         mUpdateService = getMainActivity().getUpdateService();
-        getMainActivity().addActivityResultListener(new MainActivity.ActivityResultListener() {
+        getMainActivity().addActivityResultListener(new MainActivity.ActivityResultListener()
+        {
             @Override
-            public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                if (requestCode == FILE_SELECT_CODE) {
-                    if (resultCode == RESULT_OK) {
+            public void onActivityResult(int requestCode, int resultCode, Intent data)
+            {
+                if (requestCode == FILE_SELECT_CODE)
+                {
+                    if (resultCode == RESULT_OK)
+                    {
                         String path = FileUtils.getPath(getContext(), data.getData());
-                        if (path != null) {
+                        if (path != null)
+                        {
                             File responseFile = new File(path);
                             mRestoreFile = new File(getContext().getFilesDir(), responseFile.getName());
-                            try {
+                            try
+                            {
                                 copyFileUsingStream(responseFile, mRestoreFile);
-                            } catch (IOException e) {
+                            } catch (IOException e)
+                            {
                                 e.printStackTrace();
                             }
-                        } else {
-                            try {
+                        } else
+                        {
+                            try
+                            {
                                 ParcelFileDescriptor mInputPFD;
                                 mInputPFD = getMainActivity().getContentResolver().openFileDescriptor(data.getData(), "r");
-                                if (mInputPFD != null) {
+                                if (mInputPFD != null)
+                                {
                                     FileDescriptor fd = mInputPFD.getFileDescriptor();
                                     FileInputStream fis = new FileInputStream(fd);
                                     Uri uri = data.getData();
                                     String fileName = "";
                                     Cursor cursor = null;
-                                    try {
+                                    try
+                                    {
                                         cursor = getMainActivity().getContentResolver().query(uri, new String[]{
                                                 MediaStore.Images.ImageColumns.DISPLAY_NAME
                                         }, null, null, null);
-                                        if (cursor != null && cursor.moveToFirst()) {
+                                        if (cursor != null && cursor.moveToFirst())
+                                        {
                                             fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
                                         }
-                                    } finally {
-                                        if (cursor != null) {
+                                    } finally
+                                    {
+                                        if (cursor != null)
+                                        {
                                             cursor.close();
                                         }
                                     }
@@ -204,23 +317,29 @@ public abstract class RestoreContractsFragment extends BaseFragment implements R
                                     outStream.flush();
                                     outStream.close();
                                 }
-                            } catch (IOException e) {
+                            } catch (IOException e)
+                            {
                                 e.printStackTrace();
                                 return;
                             }
                         }
                         String name = mRestoreFile.getName();
-                        if (getFileExtension(name) != null) {
-                            if (!getFileExtension(name).equals(".json")) {
-                                setAlertDialog(getString(R.string.something_went_wrong), "", "OK", BaseFragment.PopUpType.error, new BaseFragment.AlertDialogCallBack() {
+                        if (getFileExtension(name) != null)
+                        {
+                            if (!getFileExtension(name).equals(".json"))
+                            {
+                                setAlertDialog(getString(R.string.something_went_wrong), "", "OK", BaseFragment.PopUpType.error, new BaseFragment.AlertDialogCallBack()
+                                {
                                     @Override
-                                    public void onButtonClick() {
+                                    public void onButtonClick()
+                                    {
                                         mRestoreFile.delete();
                                         mRestoreFile = null;
                                     }
 
                                     @Override
-                                    public void onButton2Click() {
+                                    public void onButton2Click()
+                                    {
                                     }
                                 });
                                 return;
@@ -233,11 +352,15 @@ public abstract class RestoreContractsFragment extends BaseFragment implements R
             }
         });
 
-        getMainActivity().addPermissionResultListener(new MainActivity.PermissionsResultListener() {
+        getMainActivity().addPermissionResultListener(new MainActivity.PermissionsResultListener()
+        {
             @Override
-            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-                if (requestCode == READ_EXTERNAL_STORAGE_CODE) {
-                    if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+            {
+                if (requestCode == READ_EXTERNAL_STORAGE_CODE)
+                {
+                    if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED))
+                    {
                         showFileChooser();
                     }
                 }
@@ -245,25 +368,31 @@ public abstract class RestoreContractsFragment extends BaseFragment implements R
         });
     }
 
-    private void showFileChooser() {
+    private void showFileChooser()
+    {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        try {
+        try
+        {
             startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
+        } catch (android.content.ActivityNotFoundException ex)
+        {
             Toast.makeText(getView().getContext(), "Please install a File Manager.",
                     Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        if (mRestoreFile != null) {
+        if (mRestoreFile != null)
+        {
             mRestoreFile.delete();
         }
-        if (s != null) {
+        if (s != null)
+        {
             s.unsubscribe();
         }
         showBottomNavView(false);
@@ -271,59 +400,46 @@ public abstract class RestoreContractsFragment extends BaseFragment implements R
         getMainActivity().removePermissionResultListener();
     }
 
-    private String getFileExtension(String mystr) {
+    private String getFileExtension(String mystr)
+    {
         int index = mystr.indexOf('.');
         return index == -1 ? null : mystr.substring(index);
     }
 
-    private static void copyFileUsingStream(File source, File dest) throws IOException {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-            if (os != null) {
-                os.close();
-            }
-        }
-    }
-
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mRestoreContractsPresenter = new RestoreContractsPresenterImpl(this, new RestoreContractsInteractorImpl(getContext()));
     }
 
     @Override
-    protected RestoreContractsPresenter getPresenter() {
+    protected RestoreContractsPresenter getPresenter()
+    {
         return mRestoreContractsPresenter;
     }
 
     @Override
-    public void showRestoreDialogFragment(String backupDate, String backupAppVersion, String templatesSum, String contractsSum, String tokensSum) {
+    public void showRestoreDialogFragment(String backupDate, String backupAppVersion, String templatesSum, String contractsSum, String tokensSum)
+    {
         View view = LayoutInflater.from(getMainActivity()).inflate(ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK) ? R.layout.dialog_restore_contracts_fragment : R.layout.dialog_restore_contracts_fragment_light, null);
         ((FontTextView) view.findViewById(R.id.tv_back_up_date)).setText(backupDate);
         ((FontTextView) view.findViewById(R.id.tv_back_up_app_version)).setText(backupAppVersion);
         ((FontTextView) view.findViewById(R.id.tv_templates)).setText(templatesSum);
         ((FontTextView) view.findViewById(R.id.tv_contracts)).setText(contractsSum);
         ((FontTextView) view.findViewById(R.id.tv_tokens)).setText(tokensSum);
-        view.findViewById(R.id.bt_restore).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.bt_restore).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 callback.onRestoreClick();
             }
         });
-        view.findViewById(R.id.bt_back).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.bt_back).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 mRestoreDialog.dismiss();
             }
         });
@@ -332,82 +448,48 @@ public abstract class RestoreContractsFragment extends BaseFragment implements R
                 .setView(view)
                 .create();
 
-        if (mRestoreDialog.getWindow() != null) {
+        if (mRestoreDialog.getWindow() != null)
+        {
             mRestoreDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         mRestoreDialog.setCanceledOnTouchOutside(false);
         mRestoreDialog.show();
     }
 
-    RestoreContractsPresenterImpl.RestoreDialogCallBack callback = new RestoreContractsPresenterImpl.RestoreDialogCallBack() {
-        @Override
-        public void onRestoreClick() {
-            setProgressDialog();
-            s = getPresenter().createBackupData()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Boolean>() {
-                        @Override
-                        public void onCompleted() {
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onNext(Boolean aBoolean) {
-                            mRestoreDialog.dismiss();
-                            if (aBoolean) {
-                                setAlertDialog(getString(R.string.restored_successfully), "", "OK", BaseFragment.PopUpType.confirm, new BaseFragment.AlertDialogCallBack() {
-                                    @Override
-                                    public void onButtonClick() {
-                                        FragmentManager fm = RestoreContractsFragment.this.getFragmentManager();
-                                        int count = fm.getBackStackEntryCount() - 2;
-                                        for (int i = 0; i < count; ++i) {
-                                            fm.popBackStack();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onButton2Click() {
-                                    }
-                                });
-                            } else {
-                                setAlertDialog(getString(R.string.something_went_wrong), "", "OK", BaseFragment.PopUpType.error, getAlertCallback());
-                            }
-                        }
-                    });
-        }
-    };
-
     @Override
-    public AlertDialogCallBack getAlertCallback() {
-        return new BaseFragment.AlertDialogCallBack() {
+    public AlertDialogCallBack getAlertCallback()
+    {
+        return new BaseFragment.AlertDialogCallBack()
+        {
             @Override
-            public void onButtonClick() {
+            public void onButtonClick()
+            {
                 getPresenter().onDeleteFileClick();
-                if (mRestoreFile != null) {
+                if (mRestoreFile != null)
+                {
                     mRestoreFile.delete();
                     mRestoreFile = null;
                 }
             }
 
             @Override
-            public void onButton2Click() {
+            public void onButton2Click()
+            {
             }
         };
     }
 
     @Override
-    public File getRestoreFile() {
+    public File getRestoreFile()
+    {
         return mRestoreFile;
     }
 
     @Override
-    public void subscribeTokenBalanceChange(String contractAddress) {
-        if(mUpdateService!=null) {
+    public void subscribeTokenBalanceChange(String contractAddress)
+    {
+        if (mUpdateService != null)
+        {
             mUpdateService.subscribeTokenBalanceChange(contractAddress);
         }
     }

@@ -4,10 +4,12 @@ import android.content.Context;
 
 import java.lang.ref.WeakReference;
 
-public class SourceCodeInteractorImpl implements SourceCodeInteractor {
+public class SourceCodeInteractorImpl implements SourceCodeInteractor
+{
     private WeakReference<Context> mContext;
 
-    SourceCodeInteractorImpl(Context context) {
+    SourceCodeInteractorImpl(Context context)
+    {
         mContext = new WeakReference<Context>(context);
     }
 }

@@ -19,7 +19,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class TagFigureViewHolder extends TagViewHolder {
+public class TagFigureViewHolder extends TagViewHolder
+{
 
     @BindView(R.id.tv_figcaption)
     FontTextView mTextViewFigcaption;
@@ -27,35 +28,44 @@ public class TagFigureViewHolder extends TagViewHolder {
     ImageView mImageView;
     Subscription mSubscription;
 
-    public TagFigureViewHolder(View itemView) {
+    public TagFigureViewHolder(View itemView)
+    {
         super(itemView);
     }
 
     @Override
-    public void bindElement(final Element element) {
+    public void bindElement(final Element element)
+    {
         mTextViewFigcaption.setText(element.select("figcaption").text());
-        if (mSubscription != null) {
+        if (mSubscription != null)
+        {
             mSubscription.unsubscribe();
         }
         mImageView.setImageBitmap(null);
-        mSubscription = (Observable.fromCallable(new Callable<Bitmap>() {
+        mSubscription = (Observable.fromCallable(new Callable<Bitmap>()
+        {
             @Override
-            public Bitmap call() throws Exception {
+            public Bitmap call() throws Exception
+            {
                 return Picasso.with(mImageView.getContext()).load(element.select("img").attr("src")).get();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Bitmap>() {
+                .subscribe(new Subscriber<Bitmap>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                     }
 
                     @Override
-                    public void onNext(Bitmap bitmap) {
+                    public void onNext(Bitmap bitmap)
+                    {
                         int resizeWidth = mImageView.getWidth();
                         int resizeHeight;
                         double multiplier = 1;

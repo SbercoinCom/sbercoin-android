@@ -11,7 +11,8 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-public class History extends RealmObject{
+public class History extends RealmObject
+{
 
     @SerializedName("block_time")
     @Expose
@@ -52,20 +53,23 @@ public class History extends RealmObject{
     /**
      * Constructor for unit tests
      */
-    public History() {
+    public History()
+    {
     }
 
     /**
      * Constructor for unit tests
      */
-    public History(Long blockTime) {
+    public History(Long blockTime)
+    {
         this.blockTime = blockTime;
     }
 
     /**
      * Constructor for unit tests
      */
-    public History(Long blockTime, RealmList<Vout> vout, RealmList<Vin> vin, String changeInBalance, Integer blockHeight) {
+    public History(Long blockTime, RealmList<Vout> vout, RealmList<Vin> vin, String changeInBalance, Integer blockHeight)
+    {
         this.blockTime = blockTime;
         this.vout = vout;
         this.vin = vin;
@@ -76,122 +80,151 @@ public class History extends RealmObject{
     /**
      * Constructor for unit tests
      */
-    public History(RealmList<Vout> vout, RealmList<Vin> vin, String changeInBalance, Integer blockHeight) {
+    public History(RealmList<Vout> vout, RealmList<Vin> vin, String changeInBalance, Integer blockHeight)
+    {
         this.vout = vout;
         this.vin = vin;
         this.changeInBalance = changeInBalance;
         this.blockHeight = blockHeight;
     }
 
-    public Long getBlockTime() {
+    public Long getBlockTime()
+    {
         return blockTime;
     }
 
-    public void setBlockTime(Long blockTime) {
+    public void setBlockTime(Long blockTime)
+    {
         this.blockTime = blockTime;
     }
 
-    public Integer getBlockHeight() {
+    public Integer getBlockHeight()
+    {
         return blockHeight;
     }
 
-    public void setBlockHeight(Integer blockHeight) {
+    public void setBlockHeight(Integer blockHeight)
+    {
         this.blockHeight = blockHeight;
     }
 
-    public String getBlockHash() {
+    public String getBlockHash()
+    {
         return blockHash;
     }
 
-    public void setBlockHash(String blockHash) {
+    public void setBlockHash(String blockHash)
+    {
         this.blockHash = blockHash;
     }
 
-    public String getTxHash() {
+    public String getTxHash()
+    {
         return txHash;
     }
 
-    public void setTxHash(String txHash) {
+    public void setTxHash(String txHash)
+    {
         this.txHash = txHash;
     }
 
-    public BigDecimal getAmount() {
+    public BigDecimal getAmount()
+    {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(BigDecimal amount)
+    {
         this.amount = amount;
     }
 
-    public List<Vout> getVout() {
+    public List<Vout> getVout()
+    {
         return vout;
     }
 
-    public void setVout(RealmList<Vout> vout) {
+    public void setVout(RealmList<Vout> vout)
+    {
         this.vout = vout;
     }
 
-    public List<Vin> getVin() {
+    public List<Vin> getVin()
+    {
         return vin;
     }
 
-    public void setVin(RealmList<Vin> vin) {
+    public void setVin(RealmList<Vin> vin)
+    {
         this.vin = vin;
     }
 
-    public String getChangeInBalance() {
+    public String getChangeInBalance()
+    {
         return changeInBalance;
     }
 
-    public void setChangeInBalance(String changeInBalance) {
+    public void setChangeInBalance(String changeInBalance)
+    {
         this.changeInBalance = changeInBalance;
     }
 
-    public String getFee() {
+    public String getFee()
+    {
         return fee;
     }
 
-    public void setFee(String fee) {
+    public void setFee(String fee)
+    {
         this.fee = fee;
     }
 
-    public Boolean getContractHasBeenCreated() {
+    public Boolean getContractHasBeenCreated()
+    {
         return contractHasBeenCreated;
     }
 
-    public void setContractHasBeenCreated(Boolean contractHasBeenCreated) {
+    public void setContractHasBeenCreated(Boolean contractHasBeenCreated)
+    {
         this.contractHasBeenCreated = contractHasBeenCreated;
     }
 
-    public boolean isReceiptUpdated() {
+    public boolean isReceiptUpdated()
+    {
         return isReceiptUpdated;
     }
 
-    public void setReceiptUpdated(boolean receiptUpdated) {
+    public void setReceiptUpdated(boolean receiptUpdated)
+    {
         isReceiptUpdated = receiptUpdated;
     }
 
-    public boolean isContractType() {
+    public boolean isContractType()
+    {
         return isContractType;
     }
 
-    public void setContractType(boolean contractType) {
+    public void setContractType(boolean contractType)
+    {
         isContractType = contractType;
     }
 
-    public void setHistoryType(HistoryPayType historyType) {
-        this.historyType = historyType.name();
-    }
-
-    public HistoryPayType getHistoryType() {
+    public HistoryPayType getHistoryType()
+    {
         return HistoryPayType.valueOf(historyType);
     }
 
-    public Long getTxTime() {
+    public void setHistoryType(HistoryPayType historyType)
+    {
+        this.historyType = historyType.name();
+    }
+
+    public Long getTxTime()
+    {
         return txTime;
     }
 
-    public void setTxTime(Long txTime) {
+    public void setTxTime(Long txTime)
+    {
         this.txTime = txTime;
     }
 }

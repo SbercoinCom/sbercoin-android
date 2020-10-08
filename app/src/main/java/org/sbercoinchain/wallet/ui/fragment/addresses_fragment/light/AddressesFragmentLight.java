@@ -5,14 +5,17 @@ import org.sbercoin.wallet.ui.fragment.addresses_fragment.AddressesFragment;
 
 import java.util.List;
 
-public class AddressesFragmentLight extends AddressesFragment {
+public class AddressesFragmentLight extends AddressesFragment
+{
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_addresses_light;
     }
 
     @Override
-    public void updateAddressList(List<String> deterministicKeys) {
+    public void updateAddressList(List<String> deterministicKeys)
+    {
         mAddressAdapter = new AddressesAdapterLight(deterministicKeys, this);
         mRecyclerView.setAdapter(mAddressAdapter);
     }

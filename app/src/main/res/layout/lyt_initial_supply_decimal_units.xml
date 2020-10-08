@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
-    android:weightSum="20"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:weightSum="20">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="10"
         android:paddingStart="16sp"
-        android:paddingEnd="16sp"
-        android:layout_weight="10">
+        android:paddingEnd="16sp">
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/initial_supply_title"
-            android:text="@string/initial_supply"
-            android:layout_centerVertical="true"
-            android:textSize="12sp"
-            app:typefaceAsset="@string/simplonMonoMedium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/initial_supply"
+            android:textSize="12sp"
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/initial_supply_value"
-            android:layout_alignParentEnd="true"
-            android:text="0"
-            app:typefaceAsset="@string/simplonMonoMedium"
-            android:layout_centerVertical="true"
-            android:textSize="12sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="0"
+            android:textSize="12sp"
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="10"
         android:paddingStart="16sp"
-        android:paddingEnd="16sp"
-        android:layout_weight="10">
+        android:paddingEnd="16sp">
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/decimal_units_title"
-            android:text="@string/decimal_units"
-            android:layout_centerVertical="true"
-            app:typefaceAsset="@string/simplonMonoMedium"
-            android:textSize="12sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/decimal_units"
+            android:textSize="12sp"
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/decimal_units_value"
-            android:layout_alignParentEnd="true"
-            android:text="0"
-            app:typefaceAsset="@string/simplonMonoMedium"
-            android:layout_centerVertical="true"
-            android:textSize="12sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="0"
+            android:textSize="12sp"
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/background"/>
+        android:background="@color/background" />
 
 </LinearLayout>

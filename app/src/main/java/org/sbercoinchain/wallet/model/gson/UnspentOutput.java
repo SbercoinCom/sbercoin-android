@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.math.BigDecimal;
 
-public class UnspentOutput {
+public class UnspentOutput
+{
     @SerializedName("address")
     @Expose
     private String address;
@@ -30,74 +31,91 @@ public class UnspentOutput {
     @SerializedName("is_stake")
     private boolean isStake;
 
-    public boolean isOutputAvailableToPay() {
-        if (isStake) {
-            return confirmations > 500;
-        }
-        return true;
-    }
-
-    public UnspentOutput() {
+    public UnspentOutput()
+    {
     }
 
     /**
      * Constructor for unit testing
      */
-    public UnspentOutput(Integer confirmations, boolean isStake, BigDecimal amount) {
+    public UnspentOutput(Integer confirmations, boolean isStake, BigDecimal amount)
+    {
         this.confirmations = confirmations;
         this.isStake = isStake;
         this.amount = amount;
     }
 
-    public String getAddress() {
+    public boolean isOutputAvailableToPay()
+    {
+        if (isStake)
+        {
+            return confirmations > 500;
+        }
+        return true;
+    }
+
+    public String getAddress()
+    {
         return address;
     }
 
-    public BigDecimal getAmount() {
+    public BigDecimal getAmount()
+    {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(BigDecimal amount)
+    {
         this.amount = amount;
     }
 
-    public Integer getVout() {
+    public Integer getVout()
+    {
         return vout;
     }
 
-    public void setVout(Integer vout) {
+    public void setVout(Integer vout)
+    {
         this.vout = vout;
     }
 
-    public String getTxoutScriptPubKey() {
+    public String getTxoutScriptPubKey()
+    {
         return txoutScriptPubKey;
     }
 
-    public void setTxoutScriptPubKey(String txoutScriptPubKey) {
+    public void setTxoutScriptPubKey(String txoutScriptPubKey)
+    {
         this.txoutScriptPubKey = txoutScriptPubKey;
     }
 
-    public String getTxHash() {
+    public String getTxHash()
+    {
         return txHash;
     }
 
-    public void setTxHash(String txHash) {
+    public void setTxHash(String txHash)
+    {
         this.txHash = txHash;
     }
 
-    public String getPubkeyHash() {
+    public String getPubkeyHash()
+    {
         return pubkeyHash;
     }
 
-    public void setPubkeyHash(String pubkeyHash) {
+    public void setPubkeyHash(String pubkeyHash)
+    {
         this.pubkeyHash = pubkeyHash;
     }
 
-    public Integer getConfirmations() {
+    public Integer getConfirmations()
+    {
         return confirmations;
     }
 
-    public void setConfirmations(Integer confirmations) {
+    public void setConfirmations(Integer confirmations)
+    {
         this.confirmations = confirmations;
     }
 }

@@ -30,7 +30,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class BackUpContractsPresenterTest {
+public class BackUpContractsPresenterTest
+{
 
     @Mock
     private BackupContractsView view;
@@ -39,17 +40,22 @@ public class BackUpContractsPresenterTest {
     private BackupContractsPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -58,7 +64,8 @@ public class BackUpContractsPresenterTest {
     }
 
     @Test
-    public void permissionGrantedForCreateBackUpFile_Success() {
+    public void permissionGrantedForCreateBackUpFile_Success()
+    {
         File file = mock(File.class);
         when(interactor.createBackUpFile()).thenReturn(Observable.just((file)));
         presenter.permissionGrantedForCreateBackUpFile();
@@ -68,7 +75,8 @@ public class BackUpContractsPresenterTest {
     }
 
     @Test
-    public void permissionGrantedForCreateBackUpFile_Error() {
+    public void permissionGrantedForCreateBackUpFile_Error()
+    {
         when(interactor.createBackUpFile()).thenReturn(Observable.<File>error(new Throwable()));
         presenter.permissionGrantedForCreateBackUpFile();
         verify(view, times(1)).setProgressDialog();
@@ -76,7 +84,8 @@ public class BackUpContractsPresenterTest {
     }
 
     @Test
-    public void permissionGrantedForCreateAndBackUpFile_Success() {
+    public void permissionGrantedForCreateAndBackUpFile_Success()
+    {
         File file = mock(File.class);
         when(interactor.createBackUpFile()).thenReturn(Observable.just((file)));
         presenter.permissionGrantedForCreateAndBackUpFile();
@@ -87,7 +96,8 @@ public class BackUpContractsPresenterTest {
     }
 
     @Test
-    public void permissionGrantedForCreateAndBackUpFile_Error() {
+    public void permissionGrantedForCreateAndBackUpFile_Error()
+    {
         when(interactor.createBackUpFile()).thenReturn(Observable.<File>error(new Throwable()));
         presenter.permissionGrantedForCreateAndBackUpFile();
         verify(view, times(1)).setProgressDialog();
@@ -95,7 +105,8 @@ public class BackUpContractsPresenterTest {
     }
 
     @Test
-    public void permissionGrantedForChooseShareMethod_Success() {
+    public void permissionGrantedForChooseShareMethod_Success()
+    {
         File file = mock(File.class);
         when(file.exists()).thenReturn(true);
         presenter.setBackUpFile(file);
@@ -104,7 +115,8 @@ public class BackUpContractsPresenterTest {
     }
 
     @Test
-    public void permissionGrantedForChooseShareMethod_Error() {
+    public void permissionGrantedForChooseShareMethod_Error()
+    {
         File file = mock(File.class);
         when(file.exists()).thenReturn(false);
         presenter.setBackUpFile(file);
@@ -114,13 +126,15 @@ public class BackUpContractsPresenterTest {
     }
 
     @Test
-    public void onBackUpClick_test() {
+    public void onBackUpClick_test()
+    {
         presenter.onBackUpClick();
         verify(view, times(1)).checkPermissionForBackupFile();
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

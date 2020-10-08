@@ -13,14 +13,16 @@ import org.sbercoin.wallet.utils.ThemeUtils;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseContextView {
+public abstract class BaseActivity extends AppCompatActivity implements BaseContextView
+{
 
     protected abstract void createPresenter();
 
     protected abstract BasePresenter getPresenter();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
 
         ThemeUtils.setAppTheme(this, ThemeUtils.getCurrentTheme(this));
 
@@ -30,109 +32,129 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    protected void onPostCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onPostCreate(savedInstanceState);
         getPresenter().initializeViews();
         getPresenter().onPostCreate();
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         getPresenter().onStart();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         getPresenter().onResume();
     }
 
     @Override
-    protected void onPostResume() {
+    protected void onPostResume()
+    {
         super.onPostResume();
         getPresenter().onPostResume();
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         getPresenter().onPause();
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
         getPresenter().onStop();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
         getPresenter().onDestroy();
     }
 
     @Override
-    public void hideKeyBoard() {
+    public void hideKeyBoard()
+    {
         Activity activity = this;
         if (isFinishing(activity)) return;
         View view = activity.getCurrentFocus();
-        if (view != null) {
+        if (view != null)
+        {
             hideKeyBoard(activity, view);
         }
     }
 
     @Override
-    public void hideKeyBoard(View v) {
+    public void hideKeyBoard(View v)
+    {
         Activity activity = this;
         if (isFinishing(activity)) return;
-        if (v != null) {
+        if (v != null)
+        {
             hideKeyBoard(activity, v);
         }
     }
 
-    public void hideKeyBoard(Activity activity, View view) {
+    public void hideKeyBoard(Activity activity, View view)
+    {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
-    public void setFocusTextInput(View textInputEditText, View textInputLayout) {
+    public void setFocusTextInput(View textInputEditText, View textInputLayout)
+    {
         textInputEditText.setFocusableInTouchMode(true);
         textInputEditText.requestFocus();
         textInputLayout.setFocusableInTouchMode(true);
         textInputLayout.requestFocus();
     }
 
-    public boolean isFinishing(Activity activity) {
+    public boolean isFinishing(Activity activity)
+    {
         return activity == null || activity.isFinishing();
     }
 
-    protected void bindView() {
+    protected void bindView()
+    {
         ButterKnife.bind(this);
     }
 
     @Override
-    public Context getContext() {
+    public Context getContext()
+    {
         return getBaseContext();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home)
+        {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         super.onBackPressed();
     }
 
     protected abstract void updateTheme();
 
-    public void reloadActivity() {
+    public void reloadActivity()
+    {
         updateTheme();
     }
 }

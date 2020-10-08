@@ -1,39 +1,47 @@
 package org.sbercoin.wallet.model.gson.history;
 
 
-public class DisplayedData {
+public class DisplayedData
+{
 
     private String dataType;
     private String dataHex;
     private String data;
 
-    public DisplayedData(String dataType, String dataHex, String data) {
+    public DisplayedData(String dataType, String dataHex, String data)
+    {
         this.dataType = dataType;
         this.dataHex = dataHex;
         this.data = data;
     }
 
-    public String getDataType() {
+    public String getDataType()
+    {
         return dataType;
     }
 
-    public void setDataType(String dataType) {
+    public void setDataType(String dataType)
+    {
         this.dataType = dataType;
     }
 
-    public String getDataHex() {
+    public String getDataHex()
+    {
         return dataHex;
     }
 
-    public void setDataHex(String dataHex) {
+    public void setDataHex(String dataHex)
+    {
         this.dataHex = dataHex;
     }
 
-    public String getData() {
+    public String getData()
+    {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(String data)
+    {
         this.data = data;
     }
 }

@@ -5,7 +5,8 @@ import org.sbercoin.wallet.model.contract.ContractMethod;
 
 import java.util.List;
 
-public interface ContractManagementInteractor {
+public interface ContractManagementInteractor
+{
     List<ContractMethod> getContractListByUiid(String uiid);
 
     List<ContractMethod> getContractListByAbi(String abi);

@@ -7,20 +7,24 @@ import org.sbercoin.wallet.utils.DateCalculator;
 
 import butterknife.OnClick;
 
-public class StoreContractFragmentDark extends StoreContractFragment {
+public class StoreContractFragmentDark extends StoreContractFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.lyt_store_contract;
     }
 
     @OnClick(org.sbercoin.wallet.R.id.tv_view_abi)
-    public void onViewAbiClick() {
+    public void onViewAbiClick()
+    {
         getPresenter().getContractAbiById(getPresenter().getContract().id);
     }
 
     @Override
-    public void setContractData(QstoreContract contract) {
+    public void setContractData(QstoreContract contract)
+    {
         toolbarTitle.setText(contract.name);
         tvCost.setText(String.valueOf(contract.price));
         tvDescription.setText(contract.description);

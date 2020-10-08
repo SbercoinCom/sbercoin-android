@@ -5,7 +5,8 @@ import org.sbercoin.wallet.model.gson.token_balance.TokenBalance;
 
 import java.util.List;
 
-public interface AddressesListTokenInteractor {
+public interface AddressesListTokenInteractor
+{
     boolean isCurrencyValid(String currency);
 
     boolean isAmountValid(String amountString);

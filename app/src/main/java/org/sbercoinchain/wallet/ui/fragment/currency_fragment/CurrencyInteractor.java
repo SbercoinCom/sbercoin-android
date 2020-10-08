@@ -4,6 +4,7 @@ import org.sbercoin.wallet.model.Currency;
 
 import java.util.List;
 
-public interface CurrencyInteractor {
+public interface CurrencyInteractor
+{
     List<Currency> getCurrencies();
 }

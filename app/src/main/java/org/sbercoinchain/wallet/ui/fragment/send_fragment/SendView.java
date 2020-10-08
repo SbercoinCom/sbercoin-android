@@ -10,7 +10,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.math.BigDecimal;
 
-public interface SendView extends BaseFragmentView {
+public interface SendView extends BaseFragmentView
+{
     void openInnerFragmentForResult(Fragment fragment);
 
     void qrCodeRecognitionToolBar();

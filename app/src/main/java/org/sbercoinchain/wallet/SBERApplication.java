@@ -16,17 +16,20 @@ import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class SBERApplication extends MultiDexApplication{
+public class SBERApplication extends MultiDexApplication
+{
 
-    public static SBERApplication instance;
     public static final String REALM_NAME = "org.sbercoin.realm";
+    public static SBERApplication instance;
     private Realm realm;
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
         instance = this;
-        if (!BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG)
+        {
             Fabric.with(this, new Crashlytics());
         }
         FontManager.init(getAssets());
@@ -43,26 +46,31 @@ public class SBERApplication extends MultiDexApplication{
 
         Realm.setDefaultConfiguration(config);
         realm = Realm.getDefaultInstance();
-        try {
+        try
+        {
             int currentVersion = getCodeVersion();
             SBERSettingSharedPreference sbercoinSettingSharedPreference = SBERSettingSharedPreference.getInstance();
             int migrationVersion = sbercoinSettingSharedPreference.getCodeVersion(getApplicationContext());
-            if (currentVersion > migrationVersion) {
+            if (currentVersion > migrationVersion)
+            {
                 MigrationManager migrationManager = new MigrationManager();
                 int newMigrationVersion = migrationManager.makeMigration(currentVersion, migrationVersion, getApplicationContext(), realm);
                 sbercoinSettingSharedPreference.setMigrationCodeVersionString(getApplicationContext(), newMigrationVersion);
             }
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e)
+        {
             e.printStackTrace();
         }
     }
 
-    private int getCodeVersion() throws PackageManager.NameNotFoundException {
+    private int getCodeVersion() throws PackageManager.NameNotFoundException
+    {
         PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0);
         return pInfo.versionCode;
     }
 
-    public Realm getRealm() {
+    public Realm getRealm()
+    {
         return realm;
     }
 }

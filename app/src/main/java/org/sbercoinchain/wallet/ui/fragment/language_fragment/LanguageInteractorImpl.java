@@ -9,12 +9,14 @@ import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-class LanguageInteractorImpl implements LanguageInteractor {
+class LanguageInteractorImpl implements LanguageInteractor
+{
 
     private Context mContext;
     private List<Pair<String, String>> mLanguagesList;
 
-    LanguageInteractorImpl(Context context) {
+    LanguageInteractorImpl(Context context)
+    {
         mContext = context;
         mLanguagesList = new ArrayList<>();
         mLanguagesList.add(new Pair<>("ru", "Russian"));
@@ -23,27 +25,32 @@ class LanguageInteractorImpl implements LanguageInteractor {
     }
 
     @Override
-    public String getLanguage() {
+    public String getLanguage()
+    {
         return SBERSettingSharedPreference.getInstance().getLanguage(mContext);
     }
 
     @Override
-    public void setLanguage(String language) {
+    public void setLanguage(String language)
+    {
         SBERSettingSharedPreference.getInstance().saveLanguage(mContext, language);
     }
 
     @Override
-    public List<Pair<String, String>> getLanguagesList() {
+    public List<Pair<String, String>> getLanguagesList()
+    {
         return mLanguagesList;
     }
 
     @Override
-    public void removeLanguageListener(LanguageChangeListener languageChangeListener) {
+    public void removeLanguageListener(LanguageChangeListener languageChangeListener)
+    {
         SBERSettingSharedPreference.getInstance().removeLanguageListener(languageChangeListener);
     }
 
     @Override
-    public void addLanguageListener(LanguageChangeListener languageChangeListener) {
+    public void addLanguageListener(LanguageChangeListener languageChangeListener)
+    {
         SBERSettingSharedPreference.getInstance().addLanguageListener(languageChangeListener);
     }
 }

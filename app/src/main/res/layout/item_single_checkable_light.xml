@@ -16,15 +16,15 @@
             android:id="@+id/tv_single_string"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:layout_marginEnd="16dp"
-            app:typefaceAsset="@string/proximaNovaRegular"
+            android:layout_weight="1"
+            android:ellipsize="end"
             android:gravity="left|center_vertical"
+            android:maxLines="1"
             android:text="asdas12312kmddm7m12312mfvf6"
             android:textColor="@color/bottom_nav_bar_text_color_light"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            app:typefaceAsset="@string/proximaNovaRegular" />
 
         <ImageView
             android:id="@+id/iv_check_indicator"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:tint="@color/bottom_nav_bar_text_color_light"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_check"/>
+            app:srcCompat="@drawable/ic_check" />
 
         <ImageView
             android:id="@+id/iv_check_indicator_blue"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:tint="@color/bottom_nav_bar_text_color_light"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_check"/>
+            app:srcCompat="@drawable/ic_check" />
 
     </LinearLayout>
 
@@ -48,6 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
-        android:background="@color/bottom_nav_bar_color_light"/>
+        android:background="@color/bottom_nav_bar_color_light" />
 
 </LinearLayout>

@@ -6,18 +6,22 @@ import android.content.Context;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
-public class ClipboardUtils {
+public class ClipboardUtils
+{
 
-    public static void copyToClipBoard(Context context, String text, CopyCallback copyCallback) {
+    public static void copyToClipBoard(Context context, String text, CopyCallback copyCallback)
+    {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("label", text);
         clipboard.setPrimaryClip(clip);
-        if (copyCallback != null) {
+        if (copyCallback != null)
+        {
             copyCallback.onCopyToClipBoard();
         }
     }
 
-    public interface CopyCallback {
+    public interface CopyCallback
+    {
         void onCopyToClipBoard();
     }
 }

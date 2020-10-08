@@ -29,8 +29,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class AddressListPresenterTest {
+public class AddressListPresenterTest
+{
 
+    List<UnspentOutput> UNSPENT_OUTPUTS = new ArrayList<>();
     @Mock
     private AddressListView view;
     @Mock
@@ -38,17 +40,22 @@ public class AddressListPresenterTest {
     private AddressListPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -56,10 +63,9 @@ public class AddressListPresenterTest {
         presenter = new AddressListPresenterImpl(view, interactor);
     }
 
-    List<UnspentOutput> UNSPENT_OUTPUTS = new ArrayList<>();
-
     @Test
-    public void initialize_Success() {
+    public void initialize_Success()
+    {
         UNSPENT_OUTPUTS.add(new UnspentOutput(12, true, new BigDecimal(123)));
         when(interactor.getUnspentOutputs((List<String>) any()))
                 .thenReturn(Observable.just(UNSPENT_OUTPUTS));
@@ -72,7 +78,8 @@ public class AddressListPresenterTest {
 
 
     @Test
-    public void initialize_Error() {
+    public void initialize_Error()
+    {
         when(interactor.getUnspentOutputs((List<String>) any()))
                 .thenReturn(Observable.<List<UnspentOutput>>error(new Throwable("Error")));
 
@@ -82,7 +89,8 @@ public class AddressListPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

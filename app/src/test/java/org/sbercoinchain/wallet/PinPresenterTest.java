@@ -34,27 +34,38 @@ import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.CHECK_AUTHE
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.CREATING;
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.IMPORTING;
 
-public class PinPresenterTest {
+public class PinPresenterTest
+{
 
     @Mock
     PinView view;
     @Mock
     PinInteractor interactor;
     PinPresenterImpl presenter;
+    private String TOUCH_ID_PASSWORD = "touch_id_password";
+    private String PIN = "4444";
+    private String PASSPHRASE = "passphrase";
+    private String INCORRECT_REPEATED_PIN = "3333";
+    private String PIN_HASH = "pin_hash";
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -63,7 +74,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void initialize_view() {
+    public void initialize_view()
+    {
         when(view.checkTouchIdEnable()).thenReturn(true);
         when(interactor.getSixDigitPassword()).thenReturn("");
         presenter.setAction(AUTHENTICATION);
@@ -71,11 +83,9 @@ public class PinPresenterTest {
         verify(view, times(1)).setToolBarTitle(anyInt());
     }
 
-    private String TOUCH_ID_PASSWORD = "touch_id_password";
-    private String PIN = "4444";
-
     @Test
-    public void onAuthenticationSucceeded_test() {
+    public void onAuthenticationSucceeded_test()
+    {
         Cipher cipher = mock(Cipher.class);
         when(interactor.getTouchIdPassword()).thenReturn(TOUCH_ID_PASSWORD);
         when(interactor.decode(TOUCH_ID_PASSWORD, cipher)).thenReturn(PIN);
@@ -86,7 +96,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void cancel_authentication() {
+    public void cancel_authentication()
+    {
         presenter.setAction(AUTHENTICATION);
         presenter.cancel();
 
@@ -94,7 +105,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void cancel_authenticationAndSend() {
+    public void cancel_authenticationAndSend()
+    {
         presenter.setAction(AUTHENTICATION_AND_SEND);
         presenter.cancel();
 
@@ -102,7 +114,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void cancel_creating() {
+    public void cancel_creating()
+    {
         presenter.setAction(CREATING);
         presenter.cancel();
 
@@ -110,7 +123,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void cancel_importing() {
+    public void cancel_importing()
+    {
         presenter.setAction(IMPORTING);
         presenter.cancel();
 
@@ -118,7 +132,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void cancel_authenticationForPassphrase() {
+    public void cancel_authenticationForPassphrase()
+    {
         presenter.setAction(AUTHENTICATION_FOR_PASSPHRASE);
         presenter.cancel();
 
@@ -126,7 +141,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void cancel_checkAuthentication() {
+    public void cancel_checkAuthentication()
+    {
         presenter.setAction(CHECK_AUTHENTICATION);
         presenter.cancel();
 
@@ -134,19 +150,17 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void cancel_changing() {
+    public void cancel_changing()
+    {
         presenter.setAction(CHANGING);
         presenter.cancel();
 
         verify(view, times(1)).onBackPressed();
     }
 
-    private String PASSPHRASE = "passphrase";
-    private String INCORRECT_REPEATED_PIN = "3333";
-    private String PIN_HASH = "pin_hash";
-
     @Test
-    public void confirm_creating_withoutTouchId_test() {
+    public void confirm_creating_withoutTouchId_test()
+    {
         when(interactor.loadWallet(PASSPHRASE)).thenReturn(Observable.just(PASSPHRASE));
         when(view.checkAvailabilityTouchId()).thenReturn(false);
         when(interactor.generateSHA256String(PIN)).thenReturn(PIN_HASH);
@@ -167,7 +181,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void confirm_creating_withTouchId_test() {
+    public void confirm_creating_withTouchId_test()
+    {
         when(interactor.loadWallet(PASSPHRASE)).thenReturn(Observable.just(PASSPHRASE));
         when(view.checkAvailabilityTouchId()).thenReturn(true);
         when(interactor.encodeInBackground(PIN)).thenReturn(Observable.just(TOUCH_ID_PASSWORD));
@@ -189,7 +204,8 @@ public class PinPresenterTest {
     }
 
     @Test
-    public void confirm_creating_incorrectRepeatedPin_test() {
+    public void confirm_creating_incorrectRepeatedPin_test()
+    {
         when(interactor.loadWallet(PASSPHRASE)).thenReturn(Observable.just(PASSPHRASE));
 
         presenter.setAction(CREATING);
@@ -201,7 +217,8 @@ public class PinPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

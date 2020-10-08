@@ -31,8 +31,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class WalletPresenterTest {
+public class WalletPresenterTest
+{
 
+    private static final History TEST_HISTORY = new History();
+    private static final List<History> TEST_HISTORY_LIST = Arrays.asList(TEST_HISTORY);
+    private static final HistoryResponse TEST_HISTORY_RESPONSE = new HistoryResponse(10, Arrays.asList(TEST_HISTORY));
+    private static final History TEST_HISTORY_WITH_BLOCK_TIME = new History(Long.valueOf("12"), new RealmList<Vout>(), new RealmList<Vin>(), "12", 12);
+    private static final History TEST_HISTORY_WITHOUT_BLOCK_TIME = new History(null, new RealmList<Vout>(), new RealmList<Vin>(), "12", 12);
     @Mock
     private WalletView view;
     @Mock
@@ -40,30 +46,31 @@ public class WalletPresenterTest {
     private WalletPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
         presenter = new WalletPresenterImpl(view, interactor);
     }
 
-    private static final History TEST_HISTORY = new History();
-    private static final List<History> TEST_HISTORY_LIST = Arrays.asList(TEST_HISTORY);
-    private static final HistoryResponse TEST_HISTORY_RESPONSE = new HistoryResponse(10, Arrays.asList(TEST_HISTORY));
-
-
     @Test
-    public void onLastItemWithNetwork() {
+    public void onLastItemWithNetwork()
+    {
 
         when(interactor.getHistoryList(anyInt(), anyInt())).thenReturn(Observable.just(TEST_HISTORY_RESPONSE));
         presenter.setNetworkConnectedFlag(true);
@@ -76,7 +83,8 @@ public class WalletPresenterTest {
     }
 
     @Test
-    public void networkStateChanged_Connected() {
+    public void networkStateChanged_Connected()
+    {
         when(interactor.getHistoryList(anyInt(), anyInt())).thenReturn(Observable.just(TEST_HISTORY_RESPONSE));
         presenter.onNetworkStateChanged(true);
 
@@ -86,15 +94,12 @@ public class WalletPresenterTest {
     }
 
     @Test
-    public void networkStateChanged_Disconnected() {
+    public void networkStateChanged_Disconnected()
+    {
         presenter.onNetworkStateChanged(false);
 
         verify(view, times(1)).offlineModeView();
     }
-
-
-    private static final History TEST_HISTORY_WITH_BLOCK_TIME = new History(Long.valueOf("12"), new RealmList<Vout>(), new RealmList<Vin>(), "12", 12);
-    private static final History TEST_HISTORY_WITHOUT_BLOCK_TIME = new History(null, new RealmList<Vout>(), new RealmList<Vin>(), "12", 12);
 //    @Test
 //    public void onNewHistory_BlockTime_NewHistory() {
 //        when(interactor.setHistory((History) any()))
@@ -132,7 +137,8 @@ public class WalletPresenterTest {
 //    }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

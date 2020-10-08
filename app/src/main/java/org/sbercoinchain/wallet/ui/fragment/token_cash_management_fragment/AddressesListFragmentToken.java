@@ -16,14 +16,15 @@ import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenB
 import org.sbercoin.wallet.model.AddressWithTokenBalance;
 import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.model.gson.token_balance.TokenBalance;
+import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class AddressesListFragmentToken extends BaseFragment implements AddressesListTokenView, OnAddressTokenClickListener {
+public abstract class AddressesListFragmentToken extends BaseFragment implements AddressesListTokenView, OnAddressTokenClickListener
+{
 
     public static final String TOKEN = "token_item";
     public static final String TOKEN_CURRENCY = "token_currency";
@@ -31,13 +32,13 @@ public abstract class AddressesListFragmentToken extends BaseFragment implements
     @BindView(R.id.recycler_view)
     protected
     RecyclerView mRecyclerView;
-
-    AddressesListTokenPresenter presenter;
     protected TokenAddressesAdapter adapter;
-    Handler handler;
     protected AlertDialog mTransferDialog;
+    AddressesListTokenPresenter presenter;
+    Handler handler;
 
-    public static BaseFragment newInstance(Context context, Token token, String currency) {
+    public static BaseFragment newInstance(Context context, Token token, String currency)
+    {
         Bundle args = new Bundle();
         args.putString(TOKEN_CURRENCY, currency);
         args.putSerializable(TOKEN, token);
@@ -47,11 +48,14 @@ public abstract class AddressesListFragmentToken extends BaseFragment implements
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
-        getSocketInstance().addTokenBalanceChangeListener(getPresenter().getContractAddress(), new TokenBalanceChangeListener() {
+        getSocketInstance().addTokenBalanceChangeListener(getPresenter().getContractAddress(), new TokenBalanceChangeListener()
+        {
             @Override
-            public void onBalanceChange(TokenBalance tokenBalance) {
+            public void onBalanceChange(TokenBalance tokenBalance)
+            {
                 getSocketInstance().removeTokenBalanceChangeListener(tokenBalance.getContractAddress(), this);
                 getPresenter().setTokenBalance(tokenBalance);
                 getPresenter().processTokenBalances(tokenBalance);
@@ -61,8 +65,10 @@ public abstract class AddressesListFragmentToken extends BaseFragment implements
     }
 
     @OnClick({R.id.ibt_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.ibt_back:
                 getActivity().onBackPressed();
                 break;
@@ -70,26 +76,31 @@ public abstract class AddressesListFragmentToken extends BaseFragment implements
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         getHandler().removeCallbacks((Runnable) getPresenter());
-        if (mTransferDialog != null) {
+        if (mTransferDialog != null)
+        {
             mTransferDialog.dismiss();
         }
         super.onPause();
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         presenter = new AddressesListTokenPresenterImpl(this, new AddressesListTokenInteractorImpl(getContext()));
     }
 
     @Override
-    protected AddressesListTokenPresenter getPresenter() {
+    protected AddressesListTokenPresenter getPresenter()
+    {
         return presenter;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         handler = new Handler();
         presenter.setToken((Token) getArguments().getSerializable(TOKEN));
         presenter.setCurrency(getArguments().getString(TOKEN_CURRENCY));
@@ -97,24 +108,29 @@ public abstract class AddressesListFragmentToken extends BaseFragment implements
     }
 
     @Override
-    public Handler getHandler() {
+    public Handler getHandler()
+    {
         return handler;
     }
 
     @Override
-    public UpdateService getSocketInstance() {
+    public UpdateService getSocketInstance()
+    {
         return getMainActivity().getUpdateService();
     }
 
     @Override
-    public void hideTransferDialog() {
-        if (mTransferDialog != null && mTransferDialog.isShowing()) {
+    public void hideTransferDialog()
+    {
+        if (mTransferDialog != null && mTransferDialog.isShowing())
+        {
             mTransferDialog.dismiss();
         }
     }
 
     @Override
-    public void goToSendFragment(AddressWithTokenBalance keyWithTokenBalanceFrom, AddressWithTokenBalance keyWithBalanceTo, String amountString, String contractAddress) {
+    public void goToSendFragment(AddressWithTokenBalance keyWithTokenBalanceFrom, AddressWithTokenBalance keyWithBalanceTo, String amountString, String contractAddress)
+    {
         getMainActivity().setIconChecked(3);
         Fragment fragment = SendFragment.newInstance(keyWithTokenBalanceFrom.getAddress(), keyWithBalanceTo.getAddress(), amountString, contractAddress, getContext());
         getMainActivity().setRootFragment(fragment);

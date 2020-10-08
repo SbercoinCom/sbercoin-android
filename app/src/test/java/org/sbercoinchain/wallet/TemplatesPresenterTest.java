@@ -18,7 +18,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class TemplatesPresenterTest {
+public class TemplatesPresenterTest
+{
 
     @Mock
     private TemplatesView view;
@@ -27,14 +28,16 @@ public class TemplatesPresenterTest {
     private TemplatesPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new TemplatesPresenterImpl(view, interactor);
     }
 
     @Test
-    public void initialize() {
+    public void initialize()
+    {
         when(interactor.getContractTemplates())
                 .thenReturn(Arrays.asList(new ContractTemplate(), new ContractTemplate()));
         when(interactor.compareDates(anyString(), anyString()))

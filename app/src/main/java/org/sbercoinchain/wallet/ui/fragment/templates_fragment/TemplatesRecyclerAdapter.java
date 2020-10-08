@@ -8,30 +8,35 @@ import org.sbercoin.wallet.model.ContractTemplate;
 
 import java.util.List;
 
-public class TemplatesRecyclerAdapter extends RecyclerView.Adapter<TemplateViewHolder> {
+public class TemplatesRecyclerAdapter extends RecyclerView.Adapter<TemplateViewHolder>
+{
 
     private List<ContractTemplate> list;
     private TemplateSelectListener listener;
     private int mResId;
 
-    public TemplatesRecyclerAdapter(List<ContractTemplate> list, TemplateSelectListener listener, int resId) {
+    public TemplatesRecyclerAdapter(List<ContractTemplate> list, TemplateSelectListener listener, int resId)
+    {
         this.list = list;
         this.listener = listener;
         this.mResId = resId;
     }
 
     @Override
-    public TemplateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TemplateViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         return new TemplateViewHolder(LayoutInflater.from(parent.getContext()).inflate(mResId, parent, false), listener);
     }
 
     @Override
-    public void onBindViewHolder(TemplateViewHolder holder, int position) {
+    public void onBindViewHolder(TemplateViewHolder holder, int position)
+    {
         holder.bind(list.get(position));
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return list.size();
     }
 }

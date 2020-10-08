@@ -6,7 +6,8 @@ import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
 
 import java.util.List;
 
-public interface LanguageInteractor {
+public interface LanguageInteractor
+{
     String getLanguage();
 
     void setLanguage(String language);

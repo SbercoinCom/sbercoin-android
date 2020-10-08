@@ -9,22 +9,26 @@ import org.sbercoin.wallet.utils.FontManager;
 
 import java.util.List;
 
-public class WatchContractFragmentDark extends WatchContractFragment {
+public class WatchContractFragmentDark extends WatchContractFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_watch_contract;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         mEditTextContractName.setTypeface(FontManager.getInstance().getFont(getResources().getString(R.string.simplonMonoMedium)));
         mEditTextContractAddress.setTypeface(FontManager.getInstance().getFont(getResources().getString(R.string.simplonMonoMedium)));
     }
 
     @Override
-    public void setUpTemplatesList(List<ContractTemplate> contractTemplateList, OnTemplateClickListener listener) {
+    public void setUpTemplatesList(List<ContractTemplate> contractTemplateList, OnTemplateClickListener listener)
+    {
         mRecyclerViewTemplates.setAdapter(new TemplatesAdapter(contractTemplateList, listener, R.layout.item_template_chips, R.color.accent_red_color));
     }
 }

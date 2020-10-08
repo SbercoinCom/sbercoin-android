@@ -10,36 +10,42 @@ import org.sbercoin.wallet.model.contract.Token;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class DeletedContractInteractorImpl implements DeletedContractInteractor{
+public class DeletedContractInteractorImpl implements DeletedContractInteractor
+{
 
     WeakReference<Context> mContext;
 
-    DeletedContractInteractorImpl(Context context){
+    DeletedContractInteractorImpl(Context context)
+    {
         mContext = new WeakReference<Context>(context);
     }
 
     @Override
-    public List<Contract> getContractsWithoutTokens() {
+    public List<Contract> getContractsWithoutTokens()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         return tinyDB.getContractListWithoutToken();
     }
 
     @Override
-    public List<Token> getTokens() {
+    public List<Token> getTokens()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         return tinyDB.getTokenList();
     }
 
     @Override
-    public void setContractWithoutTokens(List<Contract> contracts) {
+    public void setTokens(List<Token> tokens)
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
-        tinyDB.putContractListWithoutToken(contracts);
+        tinyDB.putTokenList(tokens);
     }
 
     @Override
-    public void setTokens(List<Token> tokens) {
+    public void setContractWithoutTokens(List<Contract> contracts)
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
-        tinyDB.putTokenList(tokens);
+        tinyDB.putContractListWithoutToken(contracts);
     }
 
 }

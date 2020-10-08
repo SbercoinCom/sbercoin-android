@@ -6,15 +6,18 @@ import org.sbercoin.wallet.ui.fragment.contract_function_fragment.contract_const
 
 import java.util.List;
 
-public class ContractFunctionConstantFragmentLight extends ContractFunctionConstantFragment {
+public class ContractFunctionConstantFragmentLight extends ContractFunctionConstantFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.fragment_function_constant_detail_light;
     }
 
     @Override
-    public void setUpParameterList(List<ContractMethodParameter> contractMethodParameterList) {
+    public void setUpParameterList(List<ContractMethodParameter> contractMethodParameterList)
+    {
         mParameterAdapter = new ParameterAdapter(contractMethodParameterList, org.sbercoin.wallet.R.layout.lyt_constructor_input_light);
         mParameterList.setAdapter(mParameterAdapter);
     }

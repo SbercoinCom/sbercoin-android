@@ -3,7 +3,8 @@ package org.sbercoin.wallet.model.gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DGPInfo {
+public class DGPInfo
+{
     @SerializedName("maxblocksize")
     @Expose
     private Integer maxblocksize;
@@ -14,15 +15,18 @@ public class DGPInfo {
     @Expose
     private Integer mingasprice;
 
-    public Integer getMaxblocksize() {
+    public Integer getMaxblocksize()
+    {
         return maxblocksize;
     }
 
-    public Integer getBlockgaslimit() {
+    public Integer getBlockgaslimit()
+    {
         return blockgaslimit;
     }
 
-    public Integer getMingasprice() {
+    public Integer getMingasprice()
+    {
         return mingasprice;
     }
 }

@@ -9,16 +9,20 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
-public class FontTextInputEditText extends TextInputEditText {
-    public FontTextInputEditText(Context context) {
+public class FontTextInputEditText extends TextInputEditText
+{
+    public FontTextInputEditText(Context context)
+    {
         this(context, null);
     }
 
-    public FontTextInputEditText(Context context, AttributeSet attrs) {
+    public FontTextInputEditText(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public FontTextInputEditText(Context context, AttributeSet attrs, int defStyle) {
+    public FontTextInputEditText(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
 
         if (isInEditMode())
@@ -26,10 +30,12 @@ public class FontTextInputEditText extends TextInputEditText {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, org.sbercoin.wallet.R.styleable.FontTextInputEditText);
 
-        if (ta != null) {
+        if (ta != null)
+        {
             String fontAsset = ta.getString(org.sbercoin.wallet.R.styleable.FontTextInputEditText_inputTypeface);
 
-            if (!TextUtils.isEmpty(fontAsset)) {
+            if (!TextUtils.isEmpty(fontAsset))
+            {
                 Typeface tf = FontManager.getInstance().getFont(fontAsset);
                 int style = Typeface.NORMAL;
 
@@ -45,9 +51,11 @@ public class FontTextInputEditText extends TextInputEditText {
     }
 
     @Override
-    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect)
+    {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
-        if(focused){
+        if (focused)
+        {
             int i = 2;
         }
     }

@@ -2,13 +2,15 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="true">
     <translate
-        android:interpolator = "@anim/interpolator_accelerate_decelerate"
-        android:fromXDelta="0%" android:toXDelta="0%"
-        android:fromYDelta="5%" android:toYDelta="0%"
-        android:duration="280" />
+        android:duration="280"
+        android:fromXDelta="0%"
+        android:fromYDelta="5%"
+        android:interpolator="@anim/interpolator_accelerate_decelerate"
+        android:toXDelta="0%"
+        android:toYDelta="0%" />
 
     <alpha
+        android:duration="280"
         android:fromAlpha="0"
-        android:toAlpha="1"
-        android:duration = "280"/>
+        android:toAlpha="1" />
 </set>

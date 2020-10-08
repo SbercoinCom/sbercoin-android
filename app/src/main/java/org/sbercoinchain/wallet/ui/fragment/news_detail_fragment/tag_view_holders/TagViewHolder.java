@@ -7,9 +7,11 @@ import org.jsoup.nodes.Element;
 
 import butterknife.ButterKnife;
 
-public abstract class TagViewHolder extends RecyclerView.ViewHolder {
+public abstract class TagViewHolder extends RecyclerView.ViewHolder
+{
 
-    public TagViewHolder(View itemView) {
+    public TagViewHolder(View itemView)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

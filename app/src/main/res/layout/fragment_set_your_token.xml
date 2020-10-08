@@ -17,36 +17,36 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:contentInsetStart="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
+            app:contentInsetStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <ImageButton
-                android:id="@+id/ibt_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_ibtn_back"
-                android:layout_centerVertical="true"
-                android:paddingBottom="10dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="10dp"
-                app:srcCompat="@drawable/ic_back_indicator"/>
+                <ImageButton
+                    android:id="@+id/ibt_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/background_ibtn_back"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="10dp"
+                    app:srcCompat="@drawable/ic_back_indicator" />
 
                 <org.sbercoin.wallet.utils.FontTextView
-                android:id="@+id/tv_toolbar_send"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/smart_contract_parameters"
-                android:textColor="@color/background"
-                android:textSize="20dp"
-                app:typefaceAsset="@string/euclidFlexMedium" />
+                    android:id="@+id/tv_toolbar_send"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/smart_contract_parameters"
+                    android:textColor="@color/background"
+                    android:textSize="20dp"
+                    app:typefaceAsset="@string/euclidFlexMedium" />
 
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
@@ -60,94 +60,94 @@
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/step"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/background"
-            android:text="@string/step_2_2"
-            android:textSize="12sp"
-            android:gravity="center"
-            app:typefaceAsset="@string/euclidFlexMedium"
-            android:padding="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:clickable="false"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/step_2_2"
+            android:textColor="@color/background"
+            android:textSize="12sp"
+            app:typefaceAsset="@string/euclidFlexMedium" />
+
+        <LinearLayout
             android:id="@+id/ll_token_field"
-            android:layout_below="@+id/step">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/step"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:clickable="false"
+            android:orientation="horizontal">
 
             <ImageView
-                android:clickable="true"
                 android:id="@+id/test_click"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@drawable/ic_token2"/>
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_token2" />
 
             <org.sbercoin.wallet.utils.FontEditText
-                android:inputType="textNoSuggestions"
+                android:id="@+id/tv_template_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:digits="@string/valid_contract_name_symbol"
-                android:id="@+id/tv_template_name"
-                android:textSize="16sp"
-                android:gravity="left"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginStart="8dp"
                 android:layout_gravity="center"
-                app:typeface="@string/simplonMonoRegular"/>
+                android:layout_marginStart="8dp"
+                android:digits="@string/valid_contract_name_symbol"
+                android:focusableInTouchMode="true"
+                android:gravity="left"
+                android:inputType="textNoSuggestions"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:typeface="@string/simplonMonoRegular" />
         </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/ll_token_field"
-        android:id="@+id/recycler_view"
-        android:splitMotionEvents="false"
-        android:layout_above="@+id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/buttons"
+            android:layout_below="@+id/ll_token_field"
+            android:splitMotionEvents="false" />
 
         <LinearLayout
             android:id="@+id/buttons"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_height="wrap_content">
+            android:weightSum="2">
 
             <org.sbercoin.wallet.utils.FontButton
                 android:id="@+id/cancel"
-                android:text="@string/cancel"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:padding="16dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorPrimary"
-                app:typeface="@string/simplonMonoRegular"
-                android:textAllCaps="true"
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:typeface="@string/simplonMonoRegular" />
 
             <org.sbercoin.wallet.utils.FontButton
                 android:id="@+id/confirm"
-                android:text="@string/next"
-                android:gravity="center"
-                android:padding="16dp"
-                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:enabled="false"
-                android:textColor="@color/primary_text_color_enabled_selector"
-                app:typeface="@string/simplonMonoRegular"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/next"
                 android:textAllCaps="true"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/primary_text_color_enabled_selector"
+                android:textSize="16sp"
+                app:typeface="@string/simplonMonoRegular" />
 
         </LinearLayout>
 

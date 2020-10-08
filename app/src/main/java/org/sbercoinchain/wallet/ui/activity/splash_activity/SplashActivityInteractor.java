@@ -1,5 +1,6 @@
 package org.sbercoin.wallet.ui.activity.splash_activity;
 
-public interface SplashActivityInteractor {
+public interface SplashActivityInteractor
+{
     void migrateDefaultContracts();
 }

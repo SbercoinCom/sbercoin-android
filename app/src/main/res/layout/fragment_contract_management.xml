@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:background="@color/background"
-                                                 android:clickable="true"
-                                                 android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clickable="true"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -27,11 +27,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_ibtn_back"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp"
-                app:srcCompat="@drawable/ic_back_indicator"/>
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                app:srcCompat="@drawable/ic_back_indicator" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_toolbar_profile"
@@ -48,56 +48,57 @@
 
 
     </android.support.design.widget.AppBarLayout>
+
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/available_balance_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:clickable="true"
             android:focusable="true"
-            android:paddingStart="10dp"
-            android:paddingEnd="16dp"
             android:orientation="vertical"
-            android:background="@color/colorPrimary"
-            android:id="@+id/available_balance_view"
             android:padding="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingStart="10dp"
+            android:paddingEnd="16dp">
 
             <org.sbercoin.wallet.utils.FontTextView
-                android:textColor="@color/background"
-                android:textSize="12sp"
-                android:padding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:alpha=".7"
-                android:text="@string/contract_address"
-                android:layout_width="wrap_content"
-                app:typefaceAsset="@string/simplonMonoRegular"
                 android:gravity="center"
-                android:layout_height="wrap_content" />
-
-            <org.sbercoin.wallet.utils.FontTextView
+                android:padding="2dp"
+                android:text="@string/contract_address"
                 android:textColor="@color/background"
                 android:textSize="12sp"
-                android:padding="2dp"
-                android:maxLines="1"
-                android:ellipsize="end"
+                app:typefaceAsset="@string/simplonMonoRegular" />
+
+            <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_contract_address"
-                app:typefaceAsset="@string/simplonMonoRegular"
-                android:text="@string/contract_address"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:layout_height="wrap_content" />
+                android:maxLines="1"
+                android:padding="2dp"
+                android:text="@string/contract_address"
+                android:textColor="@color/background"
+                android:textSize="12sp"
+                app:typefaceAsset="@string/simplonMonoRegular" />
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/methods_list"
-            android:splitMotionEvents="false"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:splitMotionEvents="false" />
 
     </LinearLayout>
 

@@ -8,10 +8,15 @@ import org.sbercoin.wallet.ui.fragment.transaction_fragment.HistoryType;
 
 import java.util.List;
 
-interface AddressesDetailView extends BaseFragmentView{
+interface AddressesDetailView extends BaseFragmentView
+{
     void setUpRecyclerView(List<Vin> transactionFrom, List<Vout> transactionTo, String symbol);
+
     String getTxHash();
+
     HistoryType getHistoryType();
+
     int getDecimalUnits();
+
     String getSymbol();
 }

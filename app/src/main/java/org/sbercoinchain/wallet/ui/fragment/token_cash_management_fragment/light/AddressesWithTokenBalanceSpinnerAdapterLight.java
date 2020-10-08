@@ -12,20 +12,24 @@ import org.sbercoin.wallet.ui.fragment.token_cash_management_fragment.AddressesW
 
 import java.util.List;
 
-public class AddressesWithTokenBalanceSpinnerAdapterLight extends AddressesWithTokenBalanceSpinnerAdapter {
+public class AddressesWithTokenBalanceSpinnerAdapterLight extends AddressesWithTokenBalanceSpinnerAdapter
+{
 
-    public AddressesWithTokenBalanceSpinnerAdapterLight(@NonNull Context context, List<AddressWithTokenBalance> keyWithBalanceList, String currency, int decimalUnits) {
+    public AddressesWithTokenBalanceSpinnerAdapterLight(@NonNull Context context, List<AddressWithTokenBalance> keyWithBalanceList, String currency, int decimalUnits)
+    {
         super(context, keyWithBalanceList, currency, decimalUnits);
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
         return getCustomView(position, R.layout.item_address_spinner_light, parent);
     }
 
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
         return getCustomView(position, R.layout.item_address_spinner_dropdown_light, parent);
     }
 }

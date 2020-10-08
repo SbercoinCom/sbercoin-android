@@ -11,11 +11,12 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressesListTokenPresenterImpl extends BaseFragmentPresenterImpl implements Runnable, AddressesListTokenPresenter {
+public class AddressesListTokenPresenterImpl extends BaseFragmentPresenterImpl implements Runnable, AddressesListTokenPresenter
+{
 
+    public List<AddressWithTokenBalance> items = new ArrayList<>();
     private AddressesListTokenView view;
     private AddressesListTokenInteractor interactor;
-    public List<AddressWithTokenBalance> items = new ArrayList<>();
     private Token token;
     private String currency;
     private List<String> addrs;
@@ -23,74 +24,90 @@ public class AddressesListTokenPresenterImpl extends BaseFragmentPresenterImpl i
 
     private TokenBalance tokenBalance;
 
-    public AddressesListTokenPresenterImpl(AddressesListTokenView view, AddressesListTokenInteractor interactor) {
+    public AddressesListTokenPresenterImpl(AddressesListTokenView view, AddressesListTokenInteractor interactor)
+    {
         this.view = view;
         this.interactor = interactor;
     }
 
     @Override
-    public AddressesListTokenView getView() {
+    public AddressesListTokenView getView()
+    {
         return view;
     }
 
-    private List<String> getAddresses() {
-        if (addrs == null) {
+    private List<String> getAddresses()
+    {
+        if (addrs == null)
+        {
             addrs = getInteractor().getAddresses();
         }
         return addrs;
     }
 
     @Override
-    public void processTokenBalances(TokenBalance balance) {
-        for (String item : getAddresses()) {
+    public void processTokenBalances(TokenBalance balance)
+    {
+        for (String item : getAddresses())
+        {
             AddressWithTokenBalance deterministicKeyWithTokenBalance = new AddressWithTokenBalance(item);
             items.add(deterministicKeyWithTokenBalance);
             processTokenBalance(deterministicKeyWithTokenBalance, balance);
         }
     }
 
-    private void processTokenBalance(AddressWithTokenBalance deterministicKeyWithTokenBalance, TokenBalance balance) {
-        for (Balance bal : balance.getBalances()) {
-            if (deterministicKeyWithTokenBalance.getAddress().equals(bal.getAddress())) {
+    private void processTokenBalance(AddressWithTokenBalance deterministicKeyWithTokenBalance, TokenBalance balance)
+    {
+        for (Balance bal : balance.getBalances())
+        {
+            if (deterministicKeyWithTokenBalance.getAddress().equals(bal.getAddress()))
+            {
                 deterministicKeyWithTokenBalance.addBalance(bal.getBalance());
             }
         }
     }
 
     @Override
-    public void setToken(Token token) {
+    public void setToken(Token token)
+    {
         this.token = token;
     }
 
     @Override
-    public void setCurrency(String currency) {
+    public String getCurrency()
+    {
+        return currency;
+    }
+
+    @Override
+    public void setCurrency(String currency)
+    {
         this.currency = currency;
     }
 
     @Override
-    public String getCurrency() {
-        return currency;
-    }
-
-
-    @Override
-    public void run() {
-        if (items != null && getInteractor().isCurrencyValid(currency)) {
+    public void run()
+    {
+        if (items != null && getInteractor().isCurrencyValid(currency))
+        {
             getView().updateAddressList(items, currency);
         }
     }
 
     @Override
     public void transfer(AddressWithTokenBalance keyWithBalanceTo,
-                         final AddressWithTokenBalance keyWithTokenBalanceFrom, String amountString) {
-        if (!getInteractor().isAmountValid(amountString)) {
+                         final AddressWithTokenBalance keyWithTokenBalanceFrom, String amountString)
+    {
+        if (!getInteractor().isAmountValid(amountString))
+        {
             getView().setAlertDialog(R.string.error,
                     R.string.enter_valid_amount_value,
                     R.string.ok,
                     BaseFragment.PopUpType.error);
             return;
         }
-        if (Float.valueOf(amountString) <= 0) {
+        if (Float.valueOf(amountString) <= 0)
+        {
             getView().setAlertDialog(R.string.error,
                     R.string.transaction_amount_cant_be_zero,
                     R.string.ok,
@@ -109,40 +126,48 @@ public class AddressesListTokenPresenterImpl extends BaseFragmentPresenterImpl i
         getView().goToSendFragment(keyWithTokenBalanceFrom, keyWithBalanceTo, amountString, token.getContractAddress());
     }
 
-    public int getDecimalUnits() {
+    public int getDecimalUnits()
+    {
         return token.getDecimalUnits();
     }
 
     @Override
-    public String getContractAddress() {
+    public String getContractAddress()
+    {
         return token.getContractAddress();
     }
 
     @Override
-    public void setTokenBalance(TokenBalance tokenBalance) {
+    public void setTokenBalance(TokenBalance tokenBalance)
+    {
         this.tokenBalance = tokenBalance;
     }
 
-    public AddressesListTokenInteractor getInteractor() {
+    public AddressesListTokenInteractor getInteractor()
+    {
         return interactor;
     }
 
     @Override
-    public List<AddressWithTokenBalance> getKeysWithTokenBalance() {
+    public List<AddressWithTokenBalance> getKeysWithTokenBalance()
+    {
         return items;
     }
 
-    @Override
-    public void setKeyWithTokenBalanceFrom(AddressWithTokenBalance keyWithTokenBalanceFrom) {
-        this.keyWithTokenBalanceFrom = keyWithTokenBalanceFrom;
+    public void setKeysWithTokenBalance(List<AddressWithTokenBalance> list)
+    {
+        items = list;
     }
 
     @Override
-    public AddressWithTokenBalance getKeyWithTokenBalanceFrom() {
+    public AddressWithTokenBalance getKeyWithTokenBalanceFrom()
+    {
         return keyWithTokenBalanceFrom;
     }
 
-    public void setKeysWithTokenBalance(List<AddressWithTokenBalance> list) {
-        items = list;
+    @Override
+    public void setKeyWithTokenBalanceFrom(AddressWithTokenBalance keyWithTokenBalanceFrom)
+    {
+        this.keyWithTokenBalanceFrom = keyWithTokenBalanceFrom;
     }
 }

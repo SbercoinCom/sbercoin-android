@@ -2,13 +2,25 @@ package org.sbercoin.wallet.model.gson.qstore;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PurchaseItem {
+public class PurchaseItem
+{
     public static final String NON_PAID_STATUS = "NON_PAID_STATUS";
     public static final String PAID_STATUS = "PAID_STATUS";
     public static final String PENDING_STATUS = "PENDING_STATUS";
     public String payStatus = PENDING_STATUS;
+    @SerializedName("contract_id")
+    private String contractId;
+    @SerializedName("address")
+    private String address;
+    @SerializedName("amount")
+    private Float amount;
+    @SerializedName("access_token")
+    private String accessToken;
+    @SerializedName("request_id")
+    private String requestId;
 
-    public PurchaseItem(String contractId, QstoreBuyResponse buyResponse) {
+    public PurchaseItem(String contractId, QstoreBuyResponse buyResponse)
+    {
         this.contractId = contractId;
         this.accessToken = buyResponse.accessToken;
         this.address = buyResponse.address;
@@ -16,58 +28,53 @@ public class PurchaseItem {
         this.requestId = buyResponse.requestId;
     }
 
-    @SerializedName("contract_id")
-    private String contractId;
-
-    @SerializedName("address")
-    private String address;
-
-    @SerializedName("amount")
-    private Float amount;
-
-    @SerializedName("access_token")
-    private String accessToken;
-
-    @SerializedName("request_id")
-    private String requestId;
-
-    public String getContractId() {
+    public String getContractId()
+    {
         return contractId;
     }
 
-    public void setContractId(String contractId) {
+    public void setContractId(String contractId)
+    {
         this.contractId = contractId;
     }
 
-    public String getAddress() {
+    public String getAddress()
+    {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String address)
+    {
         this.address = address;
     }
 
-    public Float getAmount() {
+    public Float getAmount()
+    {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Float amount)
+    {
         this.amount = amount;
     }
 
-    public String getAccessToken() {
+    public String getAccessToken()
+    {
         return accessToken;
     }
 
-    public void setAccessToken(String accessToken) {
+    public void setAccessToken(String accessToken)
+    {
         this.accessToken = accessToken;
     }
 
-    public String getRequestId() {
+    public String getRequestId()
+    {
         return requestId;
     }
 
-    public void setRequestId(String requestId) {
+    public void setRequestId(String requestId)
+    {
         this.requestId = requestId;
     }
 }

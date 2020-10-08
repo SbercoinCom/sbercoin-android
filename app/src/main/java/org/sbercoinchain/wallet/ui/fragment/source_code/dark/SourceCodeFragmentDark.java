@@ -6,15 +6,18 @@ import android.widget.TextView;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.source_code.SourceCodeFragment;
 
-public class SourceCodeFragmentDark extends SourceCodeFragment {
+public class SourceCodeFragmentDark extends SourceCodeFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_source_code;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         String sourceCode = getArguments().getString(SOURCE_CODE);
         SpannableString spannableSourceCode = formatCode(sourceCode, R.color.code_reserve_word, R.color.code_type, R.color.code_comment);

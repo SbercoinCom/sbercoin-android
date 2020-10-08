@@ -10,20 +10,23 @@ import org.sbercoin.wallet.model.contract.ContractMethodParameter;
 
 import java.util.List;
 
-public abstract class ContractConfirmAdapter extends HFRecyclerView<ContractMethodParameter> {
+public abstract class ContractConfirmAdapter extends HFRecyclerView<ContractMethodParameter>
+{
 
     protected String mineAddress;
 
     protected OnValueClick clickListener;
 
-    public ContractConfirmAdapter(List<ContractMethodParameter> params, String mineAddress, OnValueClick clickListener) {
+    public ContractConfirmAdapter(List<ContractMethodParameter> params, String mineAddress, OnValueClick clickListener)
+    {
         super(params, false, true);
         this.mineAddress = mineAddress;
         this.clickListener = clickListener;
     }
 
     @Override
-    protected RecyclerView.ViewHolder getHeaderView(LayoutInflater inflater, ViewGroup parent) {
+    protected RecyclerView.ViewHolder getHeaderView(LayoutInflater inflater, ViewGroup parent)
+    {
         return null; //not use
     }
 }

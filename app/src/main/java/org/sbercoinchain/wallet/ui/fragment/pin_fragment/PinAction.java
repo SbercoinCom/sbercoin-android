@@ -1,6 +1,7 @@
 package org.sbercoin.wallet.ui.fragment.pin_fragment;
 
-public enum PinAction {
+public enum PinAction
+{
     CREATING,
     CHECK_AUTHENTICATION,
     AUTHENTICATION,

@@ -11,15 +11,16 @@ import android.view.View;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.AddressWithBalance;
-import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
+import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class AddressListFragment extends BaseFragment implements AddressListView, OnAddressClickListener {
+public abstract class AddressListFragment extends BaseFragment implements AddressListView, OnAddressClickListener
+{
 
     @BindView(R.id.recycler_view)
     protected
@@ -27,59 +28,71 @@ public abstract class AddressListFragment extends BaseFragment implements Addres
 
     protected AlertDialog mTransferDialog;
     protected boolean showTransferDialog = false;
-
-    AddressListPresenter mAddressListPresenter;
     protected AddressesWithBalanceAdapter mAddressesWithBalanceAdapter;
+    AddressListPresenter mAddressListPresenter;
 
-    @OnClick({R.id.ibt_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ibt_back:
-                getActivity().onBackPressed();
-                break;
-        }
-    }
-
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, AddressListFragment.class);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @OnClick({R.id.ibt_back})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.ibt_back:
+                getActivity().onBackPressed();
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mAddressListPresenter = new AddressListPresenterImpl(this, new AddressListInteractorImpl());
     }
 
     @Override
-    protected AddressListPresenter getPresenter() {
+    protected AddressListPresenter getPresenter()
+    {
         return mAddressListPresenter;
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
-        if (mTransferDialog != null) {
+        if (mTransferDialog != null)
+        {
             mTransferDialog.dismiss();
         }
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getMainActivity().addAuthenticationListener(new MainActivity.AuthenticationListener() {
+        getMainActivity().addAuthenticationListener(new MainActivity.AuthenticationListener()
+        {
             @Override
-            public void onAuthenticate() {
-                if (showTransferDialog) {
+            public void onAuthenticate()
+            {
+                if (showTransferDialog)
+                {
                     mTransferDialog.show();
                 }
             }
         });
     }
 
-    public void transfer(AddressWithBalance keyWithBalanceTo, AddressWithBalance keyWithBalanceFrom, String amountString) {
-        if (!isValidFloat(amountString)) {
+    public void transfer(AddressWithBalance keyWithBalanceTo, AddressWithBalance keyWithBalanceFrom, String amountString)
+    {
+        if (!isValidFloat(amountString))
+        {
             setAlertDialog(getString(R.string.error),
                     getString(R.string.enter_valid_amount_value),
                     getString(R.string.ok),
@@ -87,7 +100,8 @@ public abstract class AddressListFragment extends BaseFragment implements Addres
             return;
         }
 
-        if (Float.valueOf(amountString) <= 0) {
+        if (Float.valueOf(amountString) <= 0)
+        {
             setAlertDialog(getString(R.string.error),
                     getString(R.string.transaction_amount_cant_be_zero),
                     getString(R.string.ok),
@@ -100,13 +114,15 @@ public abstract class AddressListFragment extends BaseFragment implements Addres
         openRootFragment(fragment);
     }
 
-    private boolean isValidFloat(String value) {
+    private boolean isValidFloat(String value)
+    {
         return !TextUtils.isEmpty(value) && !(value.length() == 1 && (value.charAt(0) == '.' || value.charAt(0) == ','));
 
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         getMainActivity().removeAuthenticationListener();
     }

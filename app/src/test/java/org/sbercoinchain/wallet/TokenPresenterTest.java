@@ -33,8 +33,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class TokenPresenterTest {
+public class TokenPresenterTest
+{
 
+    private static final Token TEST_TOKEN_WITH_DECIMALS = new Token(10, new BigDecimal("15"));
+    private static final Token TEST_TOKEN_WITHOUT_DECIMALS = new Token(new BigDecimal("15"));
+    private static final TokenHistory TEST_TOKEN_HISTORY = new TokenHistory("test", "test", "test", "test", "test", 20);
+    private static final List<TokenHistory> TEST_TOKEN_HISTORY_LIST = Arrays.asList(TEST_TOKEN_HISTORY);
+    private static final TokenHistoryResponse TEST_HISTORY_RESPONSE = new TokenHistoryResponse(10, 10, 10, Arrays.asList(TEST_TOKEN_HISTORY));
+    private static final String TEST_ABI = "abi";
     @Mock
     private TokenView view;
     @Mock
@@ -42,37 +49,26 @@ public class TokenPresenterTest {
     private TokenPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
         presenter = new TokenPresenterImpl(view, interactor);
-    }
-
-    private static final Token TEST_TOKEN_WITH_DECIMALS = new Token(10, new BigDecimal("15"));
-    private static final Token TEST_TOKEN_WITHOUT_DECIMALS = new Token(new BigDecimal("15"));
-    private static final TokenHistory TEST_TOKEN_HISTORY = new TokenHistory("test", "test", "test", "test", "test", 20);
-    private static final List<TokenHistory> TEST_TOKEN_HISTORY_LIST = Arrays.asList(TEST_TOKEN_HISTORY);
-    private static final TokenHistoryResponse TEST_HISTORY_RESPONSE = new TokenHistoryResponse(10, 10, 10, Arrays.asList(TEST_TOKEN_HISTORY));
-
-    @Test
-    public void initialize_TokenWithDecimals() {
-        when(interactor.getHistoryList(anyString(), anyInt(), anyInt())).thenReturn(Observable.just(TEST_HISTORY_RESPONSE));
-        presenter.setToken(TEST_TOKEN_WITH_DECIMALS);
-        presenter.initializeViews();
-
-        verify(view, times(1)).setSBERAddress(interactor.getCurrentAddress());
-
     }
 
 //    @Test
@@ -87,10 +83,20 @@ public class TokenPresenterTest {
 //        verify(view, never()).setBalance(anyString());
 //    }
 
-    private static final String TEST_ABI = "abi";
+    @Test
+    public void initialize_TokenWithDecimals()
+    {
+        when(interactor.getHistoryList(anyString(), anyInt(), anyInt())).thenReturn(Observable.just(TEST_HISTORY_RESPONSE));
+        presenter.setToken(TEST_TOKEN_WITH_DECIMALS);
+        presenter.initializeViews();
+
+        verify(view, times(1)).setSBERAddress(interactor.getCurrentAddress());
+
+    }
 
     @Test
-    public void getAbi_NotEmptyValue() {
+    public void getAbi_NotEmptyValue()
+    {
         presenter.setAbi(TEST_ABI);
 
         when(view.isAbiEmpty(anyString()))
@@ -105,7 +111,8 @@ public class TokenPresenterTest {
     }
 
     @Test
-    public void getAbi_EmptyValue() {
+    public void getAbi_EmptyValue()
+    {
         Token testToken = new Token();
         testToken.setUiid("uuid");
         presenter.setToken(testToken);
@@ -124,7 +131,8 @@ public class TokenPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

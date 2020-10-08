@@ -10,7 +10,8 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class TransactionReceipt extends RealmObject {
+public class TransactionReceipt extends RealmObject
+{
 
     @SerializedName("blockHash")
     @Expose
@@ -44,91 +45,113 @@ public class TransactionReceipt extends RealmObject {
     @Expose
     private RealmList<Log> log = null;
 
-    public TransactionReceipt(){
+    public TransactionReceipt()
+    {
 
     }
 
-    public TransactionReceipt(String txHash){
+    public TransactionReceipt(String txHash)
+    {
         transactionHash = txHash;
     }
 
-    public String getBlockHash() {
+    public String getBlockHash()
+    {
         return blockHash;
     }
 
-    public void setBlockHash(String blockHash) {
+    public void setBlockHash(String blockHash)
+    {
         this.blockHash = blockHash;
     }
 
-    public Integer getBlockNumber() {
+    public Integer getBlockNumber()
+    {
         return blockNumber;
     }
 
-    public void setBlockNumber(Integer blockNumber) {
+    public void setBlockNumber(Integer blockNumber)
+    {
         this.blockNumber = blockNumber;
     }
 
-    public String getTransactionHash() {
+    public String getTransactionHash()
+    {
         return transactionHash;
     }
 
-    public void setTransactionHash(String transactionHash) {
+    public void setTransactionHash(String transactionHash)
+    {
         this.transactionHash = transactionHash;
     }
 
-    public Integer getTransactionIndex() {
+    public Integer getTransactionIndex()
+    {
         return transactionIndex;
     }
 
-    public void setTransactionIndex(Integer transactionIndex) {
+    public void setTransactionIndex(Integer transactionIndex)
+    {
         this.transactionIndex = transactionIndex;
     }
 
-    public String getFrom() {
+    public String getFrom()
+    {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(String from)
+    {
         this.from = from;
     }
 
-    public String getTo() {
+    public String getTo()
+    {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(String to)
+    {
         this.to = to;
     }
 
-    public Integer getCumulativeGasUsed() {
+    public Integer getCumulativeGasUsed()
+    {
         return cumulativeGasUsed;
     }
 
-    public void setCumulativeGasUsed(Integer cumulativeGasUsed) {
+    public void setCumulativeGasUsed(Integer cumulativeGasUsed)
+    {
         this.cumulativeGasUsed = cumulativeGasUsed;
     }
 
-    public Integer getGasUsed() {
+    public Integer getGasUsed()
+    {
         return gasUsed;
     }
 
-    public void setGasUsed(Integer gasUsed) {
+    public void setGasUsed(Integer gasUsed)
+    {
         this.gasUsed = gasUsed;
     }
 
-    public String getContractAddress() {
+    public String getContractAddress()
+    {
         return contractAddress;
     }
 
-    public void setContractAddress(String contractAddress) {
+    public void setContractAddress(String contractAddress)
+    {
         this.contractAddress = contractAddress;
     }
 
-    public List<Log> getLog() {
+    public List<Log> getLog()
+    {
         return log;
     }
 
-    public void setLog(RealmList<Log> log) {
+    public void setLog(RealmList<Log> log)
+    {
         this.log = log;
     }
 

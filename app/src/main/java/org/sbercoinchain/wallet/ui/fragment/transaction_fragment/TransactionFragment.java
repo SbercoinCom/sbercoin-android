@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.addresses_detail_fragment.AddressesDetailFragment;
 import org.sbercoin.wallet.ui.fragment.event_log_fragment.EventLogFragment;
@@ -25,20 +24,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-public abstract class TransactionFragment extends BaseFragment implements TransactionView {
+public abstract class TransactionFragment extends BaseFragment implements TransactionView
+{
 
-    @BindView(R.id.tv_value)
-    TextView mTextViewValue;
-
-    @BindView(R.id.tv_received_time)
-    TextView mTextViewReceivedTime;
-
-    @BindView(R.id.view_pager_transaction)
-    ViewPager mViewPager;
-
-    @BindView(R.id.app_bar)
-    AppBarLayout mAppBarLayout;
-
+    private final static String TX_HASH = "tx_hash";
+    private final static String HISTORY_TYPE = "history_type";
+    private final static String TOKEN_DECIMAL_UNITS = "token_decimal_units";
+    private final static String TOKEN_SYMBOL = "token_symbol";
     @BindView(R.id.toolbar_layout)
     protected CollapsingToolbarLayout toolbarLayout;
 
@@ -57,33 +49,24 @@ public abstract class TransactionFragment extends BaseFragment implements Transa
     @BindView(R.id.not_confirmed_flag)
     protected
     FontTextView notConfFlag;
-
+    @BindView(R.id.tv_value)
+    TextView mTextViewValue;
+    @BindView(R.id.tv_received_time)
+    TextView mTextViewReceivedTime;
+    @BindView(R.id.view_pager_transaction)
+    ViewPager mViewPager;
+    @BindView(R.id.app_bar)
+    AppBarLayout mAppBarLayout;
     @BindView(R.id.tv_fee)
     TextView mTextViewFee;
-
     @BindView(R.id.tv_symbol)
     TextView mTextViewSymbol;
-
     @BindView(R.id.ll_fee)
     LinearLayout mLinearLayoutFee;
-
-    @OnClick({R.id.ibt_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ibt_back:
-                getActivity().onBackPressed();
-                break;
-        }
-    }
-
-    private final static String TX_HASH = "tx_hash";
-    private final static String HISTORY_TYPE = "history_type";
-    private final static String TOKEN_DECIMAL_UNITS = "token_decimal_units";
-    private final static String TOKEN_SYMBOL = "token_symbol";
-
     private TransactionPresenter mTransactionPresenter;
 
-    public static BaseFragment newInstance(Context context, String txHash, HistoryType historyType, Integer tokenDecimals, String tokenSymbol) {
+    public static BaseFragment newInstance(Context context, String txHash, HistoryType historyType, Integer tokenDecimals, String tokenSymbol)
+    {
         BaseFragment transactionFragment = Factory.instantiateFragment(context, TransactionFragment.class);
         Bundle args = new Bundle();
         args.putString(TX_HASH, txHash);
@@ -95,7 +78,8 @@ public abstract class TransactionFragment extends BaseFragment implements Transa
         return transactionFragment;
     }
 
-    public static BaseFragment newInstance(Context context, String txHash, HistoryType historyType) {
+    public static BaseFragment newInstance(Context context, String txHash, HistoryType historyType)
+    {
         BaseFragment transactionFragment = Factory.instantiateFragment(context, TransactionFragment.class);
         Bundle args = new Bundle();
         args.putString(TX_HASH, txHash);
@@ -105,44 +89,66 @@ public abstract class TransactionFragment extends BaseFragment implements Transa
         return transactionFragment;
     }
 
+    @OnClick({R.id.ibt_back})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.ibt_back:
+                getActivity().onBackPressed();
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mTransactionPresenter = new TransactionPresenterImpl(this, new TransactionInteractorImpl(getContext()));
     }
 
     @Override
-    protected TransactionPresenter getPresenter() {
+    protected TransactionPresenter getPresenter()
+    {
         return mTransactionPresenter;
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         getPresenter().openTransactionView(getArguments().getString(TX_HASH), (HistoryType) getArguments().getSerializable(HISTORY_TYPE));
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
-        tabAddresses.setOnClickListener(new View.OnClickListener() {
+        tabAddresses.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 mViewPager.setCurrentItem(0, true);
             }
         });
-        tabOverview.setOnClickListener(new View.OnClickListener() {
+        tabOverview.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 mViewPager.setCurrentItem(1, true);
             }
         });
-        tabEventLog.setOnClickListener(new View.OnClickListener() {
+        tabEventLog.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 mViewPager.setCurrentItem(2, true);
             }
         });
-        switch ((HistoryType)getArguments().getSerializable(HISTORY_TYPE)){
+        switch ((HistoryType) getArguments().getSerializable(HISTORY_TYPE))
+        {
             case History:
                 mLinearLayoutFee.setVisibility(View.VISIBLE);
                 break;
@@ -155,51 +161,83 @@ public abstract class TransactionFragment extends BaseFragment implements Transa
     public abstract void recolorTab(int position);
 
     @Override
-    public void setUpTransactionData(String value, String symbol,String fee, String receivedTime, boolean confirmed, boolean isContractCall) {
-        if (mViewPager.getAdapter() == null) {
+    public void setUpTransactionData(String value, String symbol, String fee, String receivedTime, boolean confirmed, boolean isContractCall)
+    {
+        if (mViewPager.getAdapter() == null)
+        {
             mTextViewValue.setText(value);
             mTextViewSymbol.setText(symbol);
             mTextViewFee.setText(fee);
             mTextViewReceivedTime.setText(receivedTime);
             FragmentPagerAdapter transactionPagerAdapter;
-            if (isContractCall) {
+            if (isContractCall)
+            {
                 transactionPagerAdapter = new ContractTransactionPagerAdapter(getChildFragmentManager());
-            } else {
+            } else
+            {
                 transactionPagerAdapter = new TransactionPagerAdapter(getChildFragmentManager());
                 tabEventLog.setVisibility(View.GONE);
             }
             mViewPager.setAdapter(transactionPagerAdapter);
             recolorTab(0);
-            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+            {
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+                {
                 }
 
                 @Override
-                public void onPageScrollStateChanged(int state) {
+                public void onPageScrollStateChanged(int state)
+                {
                 }
 
                 @Override
-                public void onPageSelected(int position) {
+                public void onPageSelected(int position)
+                {
                     recolorTab(position);
                 }
             });
         }
     }
 
-    private class TransactionPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    public Realm getRealm()
+    {
+        return getMainActivity().getRealm();
+    }
 
-        public TransactionPagerAdapter(FragmentManager fm) {
+    @Override
+    public int getDecimalUnits()
+    {
+        return getArguments().getInt(TOKEN_DECIMAL_UNITS);
+    }
+
+    @Override
+    public String getSymbol()
+    {
+        return getArguments().getString(TOKEN_SYMBOL);
+    }
+
+    private class TransactionPagerAdapter extends FragmentPagerAdapter
+    {
+
+        public TransactionPagerAdapter(FragmentManager fm)
+        {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0: {
+        public Fragment getItem(int position)
+        {
+            switch (position)
+            {
+                case 0:
+                {
                     return AddressesDetailFragment.newInstance(getContext(), getArguments().getString(TX_HASH), (HistoryType) getArguments().getSerializable(HISTORY_TYPE));
                 }
-                case 1: {
+                case 1:
+                {
                     return OverviewFragment.newInstance(getContext(), getArguments().getString(TX_HASH), (HistoryType) getArguments().getSerializable(HISTORY_TYPE));
                 }
                 default:
@@ -208,28 +246,36 @@ public abstract class TransactionFragment extends BaseFragment implements Transa
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return 2;
         }
     }
 
-    private class ContractTransactionPagerAdapter extends FragmentPagerAdapter {
+    private class ContractTransactionPagerAdapter extends FragmentPagerAdapter
+    {
 
 
-        public ContractTransactionPagerAdapter(FragmentManager fm) {
+        public ContractTransactionPagerAdapter(FragmentManager fm)
+        {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0: {
-                    return AddressesDetailFragment.newInstance(getContext(), getArguments().getString(TX_HASH),(HistoryType) getArguments().getSerializable(HISTORY_TYPE),getDecimalUnits(),getSymbol());
+        public Fragment getItem(int position)
+        {
+            switch (position)
+            {
+                case 0:
+                {
+                    return AddressesDetailFragment.newInstance(getContext(), getArguments().getString(TX_HASH), (HistoryType) getArguments().getSerializable(HISTORY_TYPE), getDecimalUnits(), getSymbol());
                 }
-                case 1: {
+                case 1:
+                {
                     return OverviewFragment.newInstance(getContext(), getArguments().getString(TX_HASH), (HistoryType) getArguments().getSerializable(HISTORY_TYPE));
                 }
-                case 2: {
+                case 2:
+                {
                     return EventLogFragment.newInstance(getContext(), getArguments().getString(TX_HASH));
                 }
                 default:
@@ -238,23 +284,9 @@ public abstract class TransactionFragment extends BaseFragment implements Transa
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return 3;
         }
-    }
-
-    @Override
-    public Realm getRealm() {
-        return getMainActivity().getRealm();
-    }
-
-    @Override
-    public int getDecimalUnits() {
-        return getArguments().getInt(TOKEN_DECIMAL_UNITS);
-    }
-
-    @Override
-    public String getSymbol() {
-        return getArguments().getString(TOKEN_SYMBOL);
     }
 }

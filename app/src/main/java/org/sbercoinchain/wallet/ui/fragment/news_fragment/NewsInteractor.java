@@ -7,7 +7,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface NewsInteractor {
+public interface NewsInteractor
+{
 
     Observable<RssFeed> getMediumRssFeed();
 

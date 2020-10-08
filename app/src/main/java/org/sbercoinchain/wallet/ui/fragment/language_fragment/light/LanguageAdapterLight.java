@@ -11,21 +11,25 @@ import org.sbercoin.wallet.ui.fragment.language_fragment.OnLanguageIntemClickLis
 
 import java.util.List;
 
-public class LanguageAdapterLight extends LanguageAdapter {
+public class LanguageAdapterLight extends LanguageAdapter
+{
 
-    protected LanguageAdapterLight(List<Pair<String, String>> languagesList, OnLanguageIntemClickListener listener) {
+    protected LanguageAdapterLight(List<Pair<String, String>> languagesList, OnLanguageIntemClickListener listener)
+    {
         super(languagesList, listener);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(org.sbercoin.wallet.R.layout.item_single_checkable_light, parent, false);
         return new LanguageHolderLight(view, listener);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
         mLanguage = mLanguagesList.get(position);
         ((LanguageHolderLight) holder).bindLanguage(mLanguage);
     }

@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.sbercoin.wallet.R;
 
-public class QstoreContractType {
+public class QstoreContractType
+{
     @SerializedName("_id")
     @Expose
     private String id;
@@ -20,20 +21,25 @@ public class QstoreContractType {
 
     private int icon;
 
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
 
-    public int getCount() {
+    public int getCount()
+    {
         return count;
     }
 
-    public int getIcon() {
-        switch (type) {
+    public int getIcon()
+    {
+        switch (type)
+        {
             case "QRC20 Token":
                 return icon = R.drawable.ic_supertoken;
             case "Smart Contract":

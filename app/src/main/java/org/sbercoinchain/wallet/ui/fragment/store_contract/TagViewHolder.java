@@ -8,25 +8,30 @@ import org.sbercoin.wallet.utils.FontButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TagViewHolder extends RecyclerView.ViewHolder {
+public class TagViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(org.sbercoin.wallet.R.id.bt_title)
     FontButton title;
 
     String tagValue;
 
-    public TagViewHolder(View itemView, final TagClickListener listener) {
+    public TagViewHolder(View itemView, final TagClickListener listener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        title.setOnClickListener(new View.OnClickListener() {
+        title.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 listener.onTagClick(tagValue);
             }
         });
     }
 
-    public void bind(String tag) {
+    public void bind(String tag)
+    {
         tagValue = tag;
         title.setText(String.format("#%s", tagValue));
     }

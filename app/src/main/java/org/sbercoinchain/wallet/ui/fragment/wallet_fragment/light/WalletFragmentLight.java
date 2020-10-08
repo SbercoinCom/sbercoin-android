@@ -18,7 +18,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class WalletFragmentLight extends WalletFragment {
+public class WalletFragmentLight extends WalletFragment
+{
 
     @BindView(R.id.app_bar_placeholder)
     View appbarPlaceholder;
@@ -43,26 +44,29 @@ public class WalletFragmentLight extends WalletFragment {
 
     @BindView(R.id.ll_unconfirmed_balance)
     LinearLayout mLinearLayoutUnconfirmedBalance;
-
+    @BindView(R.id.iv_choose_address)
+    ImageView mIvChooseAddr;
     private WaveHelper mWaveHelper;
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_wallet_light;
     }
 
-    @BindView(R.id.iv_choose_address)
-    ImageView mIvChooseAddr;
-
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         updateBalance("0", "0");
         showBottomNavView(R.color.title_color_light);
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener()
+        {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (mAppBarLayout != null) {
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset)
+            {
+                if (mAppBarLayout != null)
+                {
 
                     percents = (((getTotalRange() - Math.abs(verticalOffset)) * 1.0f) / getTotalRange());
                     float testPercents = percents - (1 - percents);
@@ -82,45 +86,54 @@ public class WalletFragmentLight extends WalletFragment {
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         mWaveHelper.start();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         mWaveHelper.cancel();
         super.onPause();
     }
 
     @Override
-    protected void createAdapter() {
-        mTransactionAdapter = new TransactionAdapterLight(new ArrayList<History>(),getAdapterListener());
+    protected void createAdapter()
+    {
+        mTransactionAdapter = new TransactionAdapterLight(new ArrayList<History>(), getAdapterListener());
         mRecyclerView.setAdapter(mTransactionAdapter);
     }
 
     @Override
-    public void updateBalance(String balance, String unconfirmedBalance) {
-        try {
+    public void updateBalance(String balance, String unconfirmedBalance)
+    {
+        try
+        {
             balanceValue.setText(balance);
             placeHolderBalance.setText(balance);
-            if (unconfirmedBalance != null) {
+            if (unconfirmedBalance != null)
+            {
                 notConfirmedBalancePlaceholder.setVisibility(View.VISIBLE);
                 mLinearLayoutUnconfirmedBalance.setVisibility(View.VISIBLE);
                 uncomfirmedBalanceTitle.setVisibility(View.VISIBLE);
                 uncomfirmedBalanceValue.setText(unconfirmedBalance);
                 placeHolderBalanceNotConfirmed.setText(unconfirmedBalance);
-            } else {
+            } else
+            {
                 notConfirmedBalancePlaceholder.setVisibility(View.GONE);
                 mLinearLayoutUnconfirmedBalance.setVisibility(View.GONE);
                 uncomfirmedBalanceTitle.setVisibility(View.GONE);
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e)
+        {
             Log.d("WalletFragmentLight", "updateBalance: " + e.getMessage());
         }
     }

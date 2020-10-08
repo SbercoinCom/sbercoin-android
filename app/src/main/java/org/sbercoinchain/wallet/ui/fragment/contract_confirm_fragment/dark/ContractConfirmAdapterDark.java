@@ -12,26 +12,33 @@ import org.sbercoin.wallet.ui.fragment.contract_confirm_fragment.OnValueClick;
 
 import java.util.List;
 
-public class ContractConfirmAdapterDark extends ContractConfirmAdapter {
-    public ContractConfirmAdapterDark(List<ContractMethodParameter> params, String mineAddress, OnValueClick clickListener) {
+public class ContractConfirmAdapterDark extends ContractConfirmAdapter
+{
+    public ContractConfirmAdapterDark(List<ContractMethodParameter> params, String mineAddress, OnValueClick clickListener)
+    {
         super(params, mineAddress, clickListener);
     }
 
     @Override
-    protected RecyclerView.ViewHolder getItemView(LayoutInflater inflater, ViewGroup parent) {
+    protected RecyclerView.ViewHolder getItemView(LayoutInflater inflater, ViewGroup parent)
+    {
         return new ContractConfirmViewHolder(LayoutInflater.from(parent.getContext()).inflate(org.sbercoin.wallet.R.layout.lyt_confirm_list_item, parent, false), clickListener);
     }
 
     @Override
-    protected RecyclerView.ViewHolder getFooterView(LayoutInflater inflater, ViewGroup parent) {
+    protected RecyclerView.ViewHolder getFooterView(LayoutInflater inflater, ViewGroup parent)
+    {
         return new ContractConfirmFooterViewHolder(LayoutInflater.from(parent.getContext()).inflate(org.sbercoin.wallet.R.layout.lyt_confirm_list_footer, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ContractConfirmViewHolder) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
+        if (holder instanceof ContractConfirmViewHolder)
+        {
             ((ContractConfirmViewHolder) holder).bind(getItem(position));
-        } else if (holder instanceof ContractConfirmFooterViewHolder) {
+        } else if (holder instanceof ContractConfirmFooterViewHolder)
+        {
             ((ContractConfirmFooterViewHolder) holder).bind(mineAddress);
         }
     }

@@ -16,33 +16,40 @@ import org.sbercoin.wallet.utils.ClipboardUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddressesDetailHolder extends RecyclerView.ViewHolder {
+public class AddressesDetailHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.tv_single_string)
     TextView mTextViewAddress;
     @BindView(R.id.tv_value)
     TextView mTextViewValue;
 
-    public AddressesDetailHolder(final View itemView) {
+    public AddressesDetailHolder(final View itemView)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String explorerURL = "https://sbercoinchain.info/address/" + mTextViewAddress.getText().toString();
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(explorerURL));
                 itemView.getContext().startActivity(browserIntent);
             }
         });
 
-        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        itemView.setOnLongClickListener(new View.OnLongClickListener()
+        {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(View v)
+            {
                 ClipboardUtils.copyToClipBoard(itemView.getContext(), mTextViewAddress.getText().toString(), new ClipboardUtils.CopyCallback()
                 {
                     @Override
-                    public void onCopyToClipBoard() {
+                    public void onCopyToClipBoard()
+                    {
                         Toast.makeText(itemView.getContext(), itemView.getContext().getString(R.string.copied), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -51,14 +58,17 @@ public class AddressesDetailHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    void bindTransactionDetail(TransactionInfo transactionInfo, String symbol) {
+    void bindTransactionDetail(TransactionInfo transactionInfo, String symbol)
+    {
         mTextViewAddress.setText(transactionInfo.getAddress());
         mTextViewValue.setText(getSpannedBalance(String.format("%s %s", transactionInfo.getValueString(), symbol), symbol.length()));
     }
 
-    private SpannableString getSpannedBalance(String balance, int symbolLength) {
+    private SpannableString getSpannedBalance(String balance, int symbolLength)
+    {
         SpannableString span = new SpannableString(balance);
-        if (balance.length() > 4) {
+        if (balance.length() > 4)
+        {
             span.setSpan(new RelativeSizeSpan(.6f), balance.length() - symbolLength, balance.length(), 0);
         }
         return span;

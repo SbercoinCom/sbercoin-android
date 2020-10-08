@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
     android:background="@drawable/background_main"
+    android:clickable="true"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -28,9 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/touch_id"
-                app:typefaceAsset="@string/proximaNovaSemibold"
                 android:textColor="@color/white"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                app:typefaceAsset="@string/proximaNovaSemibold" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -43,12 +43,12 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_you_can_skip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="32dp"
             android:scaleType="fitCenter"
             android:tint="@color/white"
-            app:srcCompat="@drawable/ic_touchid"
-            android:layout_marginBottom="32dp"
-            android:layout_above="@+id/tv_you_can_skip"
-            android:layout_centerHorizontal="true"/>
+            app:srcCompat="@drawable/ic_touchid" />
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_you_can_skip"
@@ -60,7 +60,7 @@
             android:text="@string/login_to_sbercoin_using_touch_id"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:typefaceAsset="@string/proximaNovaLight"/>
+            app:typefaceAsset="@string/proximaNovaLight" />
 
         <RelativeLayout
             android:id="@+id/rl_button_container"
@@ -72,31 +72,31 @@
             <org.sbercoin.wallet.utils.FontButton
                 android:id="@+id/bt_enable_touch_id"
                 android:layout_width="202dp"
-                android:gravity="center"
-                android:padding="16dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_gray_corner_background_light_alpha_30"
+                android:gravity="center"
+                android:padding="16dp"
                 android:text="@string/enable_touch_id"
                 android:textAllCaps="true"
-                app:typeface="@string/proximaNovaSemibold"
                 android:textColor="@color/white"
-                android:textSize="@dimen/button_text" />
+                android:textSize="@dimen/button_text"
+                app:typeface="@string/proximaNovaSemibold" />
 
             <org.sbercoin.wallet.utils.FontButton
                 android:id="@+id/bt_not_now"
                 android:layout_width="202dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bt_enable_touch_id"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_gray_corner_background_light_alpha_30"
                 android:gravity="center"
                 android:padding="16dp"
-                app:typeface="@string/proximaNovaSemibold"
-                android:background="@drawable/btn_gray_corner_background_light_alpha_30"
                 android:text="@string/not_now"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/button_text" />
+                android:textSize="@dimen/button_text"
+                app:typeface="@string/proximaNovaSemibold" />
         </RelativeLayout>
 
     </RelativeLayout>

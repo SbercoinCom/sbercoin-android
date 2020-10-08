@@ -2,7 +2,8 @@ package org.sbercoin.wallet.ui.activity.main_activity;
 
 import org.sbercoin.wallet.ui.base.base_activity.BasePresenter;
 
-public interface MainActivityPresenter extends BasePresenter {
+public interface MainActivityPresenter extends BasePresenter
+{
     void onLogin();
 
     void onLogout();
@@ -11,8 +12,6 @@ public interface MainActivityPresenter extends BasePresenter {
 
     void setCheckAuthenticationFlag(boolean checkAuthenticationFlag);
 
-    void setCheckAuthenticationShowFlag(boolean checkAuthenticationShowFlag);
-
     void setSendFromIntent(boolean sendFromIntent);
 
     boolean getAuthenticationFlag();
@@ -20,6 +19,8 @@ public interface MainActivityPresenter extends BasePresenter {
     boolean shouldShowPin();
 
     boolean isCheckAuthenticationShowFlag();
+
+    void setCheckAuthenticationShowFlag(boolean checkAuthenticationShowFlag);
 
     void updateNetworkSate(boolean networkConnectedFlag);
 }

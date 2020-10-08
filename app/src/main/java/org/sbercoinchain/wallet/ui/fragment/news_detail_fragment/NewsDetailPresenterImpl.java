@@ -4,24 +4,29 @@ import org.jsoup.nodes.Document;
 import org.sbercoin.wallet.model.news.News;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
-public class NewsDetailPresenterImpl extends BaseFragmentPresenterImpl implements NewsDetailPresenter {
+public class NewsDetailPresenterImpl extends BaseFragmentPresenterImpl implements NewsDetailPresenter
+{
 
     NewsDetailView mNewsDetailView;
     NewsDetailInteractor mNewsDetailInteractor;
 
-    public NewsDetailPresenterImpl(NewsDetailView newsDetailView, NewsDetailInteractor newsDetailInteractor) {
+    public NewsDetailPresenterImpl(NewsDetailView newsDetailView, NewsDetailInteractor newsDetailInteractor)
+    {
         mNewsDetailView = newsDetailView;
         mNewsDetailInteractor = newsDetailInteractor;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         int newsPosition = getView().getNewsPosition();
         News news = getInteractor().getNews(newsPosition);
-        if (news != null) {
+        if (news != null)
+        {
             Document document = news.getDocument();
-            if(document!=null){
+            if (document != null)
+            {
                 getView().setupElements(document.body().children());
             }
             getView().setUpTitleAndDate(news.getTitle(), news.getFullFormattedPubDate());
@@ -29,11 +34,13 @@ public class NewsDetailPresenterImpl extends BaseFragmentPresenterImpl implement
     }
 
     @Override
-    public NewsDetailView getView() {
+    public NewsDetailView getView()
+    {
         return mNewsDetailView;
     }
 
-    public NewsDetailInteractor getInteractor() {
+    public NewsDetailInteractor getInteractor()
+    {
         return mNewsDetailInteractor;
     }
 }

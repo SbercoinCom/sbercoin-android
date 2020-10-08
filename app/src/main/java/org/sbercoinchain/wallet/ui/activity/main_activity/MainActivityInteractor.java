@@ -6,22 +6,23 @@ import org.sbercoin.wallet.model.gson.FeePerKb;
 
 import rx.Observable;
 
-public interface MainActivityInteractor {
+public interface MainActivityInteractor
+{
     boolean getKeyGeneratedInstance();
 
     void clearStatic();
 
     Observable<FeePerKb> getFeePerKb();
 
+    void setFeePerKb(FeePerKb feePerKb);
+
     Observable<DGPInfo> getDGPInfo();
+
+    void setDGPInfo(DGPInfo dgpInfo);
 
     boolean isDGPInfoLoaded();
 
     boolean isFeePerkbLoaded();
-
-    void setDGPInfo(DGPInfo dgpInfo);
-
-    void setFeePerKb(FeePerKb feePerKb);
 
     void addLanguageChangeListener(LanguageChangeListener languageChangeListener);
 

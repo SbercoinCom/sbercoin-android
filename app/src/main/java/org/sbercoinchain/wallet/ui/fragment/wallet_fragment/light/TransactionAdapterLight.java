@@ -13,19 +13,24 @@ import org.sbercoin.wallet.ui.fragment.wallet_fragment.TransactionClickListener;
 
 import java.util.List;
 
-public class TransactionAdapterLight extends TransactionAdapter {
+public class TransactionAdapterLight extends TransactionAdapter
+{
 
-    public TransactionAdapterLight(List<History> historyList, TransactionClickListener listener) {
+    public TransactionAdapterLight(List<History> historyList, TransactionClickListener listener)
+    {
         super(historyList, listener);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_TRANSACTION) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        if (viewType == TYPE_TRANSACTION)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(R.layout.item_transaction_light, parent, false);
             return new TransactionHolderLight(view, listener);
-        } else {
+        } else
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(R.layout.item_progress_bar, parent, false);
             return new ProgressBarHolder(view);
@@ -33,10 +38,13 @@ public class TransactionAdapterLight extends TransactionAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ProgressBarHolder) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
+        if (holder instanceof ProgressBarHolder)
+        {
             ((ProgressBarHolder) holder).bindProgressBar(mLoadingFlag);
-        } else {
+        } else
+        {
             mHistory = mHistoryList.get(position);
             ((TransactionHolderLight) holder).bindTransactionData(mHistory);
         }

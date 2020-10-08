@@ -5,7 +5,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.util.List;
 
-public interface ContractFunctionConstantView extends BaseFragmentView {
+public interface ContractFunctionConstantView extends BaseFragmentView
+{
     void setUpParameterList(List<ContractMethodParameter> contractMethodParameterList);
 
     String getContractTemplateUiid();

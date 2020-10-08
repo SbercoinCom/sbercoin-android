@@ -4,13 +4,16 @@ import android.view.View;
 
 import org.jsoup.nodes.Element;
 
-public class TagHrViewHolder extends TagViewHolder {
+public class TagHrViewHolder extends TagViewHolder
+{
 
-    public TagHrViewHolder(View itemView) {
+    public TagHrViewHolder(View itemView)
+    {
         super(itemView);
     }
 
     @Override
-    public void bindElement(Element element) {
+    public void bindElement(Element element)
+    {
     }
 }

@@ -11,38 +11,46 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-class AddressesDetailPresenterImpl extends BaseFragmentPresenterImpl implements AddressesDetailPresenter {
+class AddressesDetailPresenterImpl extends BaseFragmentPresenterImpl implements AddressesDetailPresenter
+{
 
     private AddressesDetailInteractor mAddressesDetailInteractor;
     private AddressesDetailView mAddressesDetailView;
 
-    AddressesDetailPresenterImpl(AddressesDetailView transactionDetailFragmentView, AddressesDetailInteractor addressesDetailInteractor) {
+    AddressesDetailPresenterImpl(AddressesDetailView transactionDetailFragmentView, AddressesDetailInteractor addressesDetailInteractor)
+    {
         mAddressesDetailInteractor = addressesDetailInteractor;
         mAddressesDetailView = transactionDetailFragmentView;
     }
 
     @Override
-    public AddressesDetailView getView() {
+    public AddressesDetailView getView()
+    {
         return mAddressesDetailView;
     }
 
-    private AddressesDetailInteractor getInteractor() {
+    private AddressesDetailInteractor getInteractor()
+    {
         return mAddressesDetailInteractor;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
-        switch (getView().getHistoryType()){
+        switch (getView().getHistoryType())
+        {
             case History:
                 History history = getInteractor().getHistory(getView().getTxHash());
-                if (history != null) {
+                if (history != null)
+                {
                     getView().setUpRecyclerView(history.getVin(), history.getVout(), "SBER");
                 }
                 break;
             case Token_History:
-                TokenHistory  tokenHistory = getInteractor().getTokenHistory(getView().getTxHash());
-                if(tokenHistory!=null){
+                TokenHistory tokenHistory = getInteractor().getTokenHistory(getView().getTxHash());
+                if (tokenHistory != null)
+                {
                     List<Vin> vinList = new ArrayList<>();
                     List<Vout> voutList = new ArrayList<>();
                     vinList.add(new Vin(tokenHistory.getFrom(), new BigDecimal(tokenHistory.getAmount()).divide(new BigDecimal("10").pow(getView().getDecimalUnits())).toString()));

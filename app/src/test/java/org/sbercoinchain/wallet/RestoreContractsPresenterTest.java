@@ -34,8 +34,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class RestoreContractsPresenterTest {
+public class RestoreContractsPresenterTest
+{
 
+    private static final Backup TEST_BACKUP = new Backup("date", Arrays.asList(new TemplateJSON("", "", "", "", "", "", "")),
+            "", "", Arrays.asList(new ContractJSON("", "", "", "", "", "", false)), "");
     @Mock
     private RestoreContractsView view;
     @Mock
@@ -43,17 +46,22 @@ public class RestoreContractsPresenterTest {
     private RestoreContractsPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -62,13 +70,15 @@ public class RestoreContractsPresenterTest {
     }
 
     @Test
-    public void onRestoreClick_RestoreNothing() {
+    public void onRestoreClick_RestoreNothing()
+    {
         presenter.onRestoreClick(false, false, false);
         verify(view, never()).getRestoreFile();
     }
 
     @Test
-    public void onRestoreClick_FileDoesNotExistError() {
+    public void onRestoreClick_FileDoesNotExistError()
+    {
         when(view.getRestoreFile())
                 .thenReturn(null);
         presenter.onRestoreClick(false, false, true);
@@ -77,7 +87,8 @@ public class RestoreContractsPresenterTest {
     }
 
     @Test
-    public void onRestoreClick_BackupFileError() throws Exception {
+    public void onRestoreClick_BackupFileError() throws Exception
+    {
         when(view.getRestoreFile())
                 .thenReturn(new File(""));
         when(interactor.getBackupFromFile((File) any()))
@@ -90,11 +101,9 @@ public class RestoreContractsPresenterTest {
         verify(view, never()).showRestoreDialogFragment(anyString(), anyString(), anyString(), anyString(), anyString());
     }
 
-    private static final Backup TEST_BACKUP = new Backup("date", Arrays.asList(new TemplateJSON("", "", "", "", "", "", "")),
-            "", "", Arrays.asList(new ContractJSON("", "", "", "", "", "", false)), "");
-
     @Test
-    public void onRestoreClick_Success() throws Exception {
+    public void onRestoreClick_Success() throws Exception
+    {
         when(view.getRestoreFile())
                 .thenReturn(new File(""));
         when(interactor.getBackupFromFile((File) any()))
@@ -106,7 +115,8 @@ public class RestoreContractsPresenterTest {
     }
 
     @Test
-    public void createBackupData_Error() {
+    public void createBackupData_Error()
+    {
 
         TestSubscriber<Boolean> testSubscriber = new TestSubscriber<>();
         presenter.createBackupData()
@@ -118,7 +128,8 @@ public class RestoreContractsPresenterTest {
     }
 
     @Test
-    public void createBackupData() {
+    public void createBackupData()
+    {
 
         presenter.setBackup(TEST_BACKUP);
         when(interactor.getTemplateValidity((TemplateJSON) any()))
@@ -139,7 +150,8 @@ public class RestoreContractsPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

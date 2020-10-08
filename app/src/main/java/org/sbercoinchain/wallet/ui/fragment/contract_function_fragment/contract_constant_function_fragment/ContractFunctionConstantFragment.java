@@ -17,13 +17,12 @@ import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class ContractFunctionConstantFragment extends BaseFragment implements ContractFunctionConstantView {
+public abstract class ContractFunctionConstantFragment extends BaseFragment implements ContractFunctionConstantView
+{
 
-    private ContractFunctionConstantPresenter mContractFunctionPresenterImpl;
     private final static String CONTRACT_TEMPLATE_UIID = "contract_template_uiid";
     private final static String METHOD_NAME = "method_name";
     private final static String CONTRACT_ADDRESS = "contract_address";
-
     @BindView(org.sbercoin.wallet.R.id.recycler_view)
     protected RecyclerView mParameterList;
     protected ParameterAdapter mParameterAdapter;
@@ -33,22 +32,10 @@ public abstract class ContractFunctionConstantFragment extends BaseFragment impl
     LinearLayout mLinearLayoutQueryResultContainer;
     @BindView(R.id.bt_query)
     Button mButtonQuery;
+    private ContractFunctionConstantPresenter mContractFunctionPresenterImpl;
 
-    @OnClick({R.id.ibt_back, R.id.bt_query, R.id.ibt_reload})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.cancel:
-            case R.id.ibt_back:
-                getActivity().onBackPressed();
-                break;
-            case R.id.bt_query:
-            case R.id.ibt_reload:
-                getPresenter().onQueryClick(mParameterAdapter.getParams(),getArguments().getString(CONTRACT_ADDRESS),getArguments().getString(METHOD_NAME));
-                break;
-        }
-    }
-
-    public static BaseFragment newInstance(Context context, String methodName, String uiid, String contractAddress) {
+    public static BaseFragment newInstance(Context context, String methodName, String uiid, String contractAddress)
+    {
         Bundle args = new Bundle();
         args.putString(CONTRACT_TEMPLATE_UIID, uiid);
         args.putString(METHOD_NAME, methodName);
@@ -58,19 +45,38 @@ public abstract class ContractFunctionConstantFragment extends BaseFragment impl
         return fragment;
     }
 
+    @OnClick({R.id.ibt_back, R.id.bt_query, R.id.ibt_reload})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.cancel:
+            case R.id.ibt_back:
+                getActivity().onBackPressed();
+                break;
+            case R.id.bt_query:
+            case R.id.ibt_reload:
+                getPresenter().onQueryClick(mParameterAdapter.getParams(), getArguments().getString(CONTRACT_ADDRESS), getArguments().getString(METHOD_NAME));
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mContractFunctionPresenterImpl = new ContractFunctionConstantPresenterImpl(this, new ContractFunctionConstantInteractorImpl(getContext()));
     }
 
     @Override
-    protected ContractFunctionConstantPresenter getPresenter() {
+    protected ContractFunctionConstantPresenter getPresenter()
+    {
         return mContractFunctionPresenterImpl;
     }
 
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         mParameterList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mLinearLayoutQueryResultContainer.setVisibility(View.GONE);
@@ -78,19 +84,22 @@ public abstract class ContractFunctionConstantFragment extends BaseFragment impl
     }
 
     @Override
-    public String getContractTemplateUiid() {
+    public String getContractTemplateUiid()
+    {
         return getArguments().getString(CONTRACT_TEMPLATE_UIID);
     }
 
     @Override
-    public void updateQueryResult(String queryResult){
+    public void updateQueryResult(String queryResult)
+    {
         mLinearLayoutQueryResultContainer.setVisibility(View.VISIBLE);
         mButtonQuery.setVisibility(View.GONE);
         mTextViewQueryResult.setText(queryResult);
     }
 
     @Override
-    public String getMethodName() {
+    public String getMethodName()
+    {
         return getArguments().getString(METHOD_NAME);
     }
 

@@ -13,24 +13,31 @@ import java.util.concurrent.Callable;
 
 import rx.Observable;
 
-public class OtherTokensInteractorImpl implements OtherTokensInteractor {
+public class OtherTokensInteractorImpl implements OtherTokensInteractor
+{
 
     private WeakReference<Context> mContext;
 
-    public OtherTokensInteractorImpl(Context context) {
+    public OtherTokensInteractorImpl(Context context)
+    {
         mContext = new WeakReference<>(context);
     }
 
     @Override
-    public Observable<List<Token>> getTokenObservable() {
-        return Observable.fromCallable(new Callable<List<Token>>() {
+    public Observable<List<Token>> getTokenObservable()
+    {
+        return Observable.fromCallable(new Callable<List<Token>>()
+        {
             @Override
-            public List<Token> call() throws Exception {
+            public List<Token> call() throws Exception
+            {
                 TinyDB tinyDB = new TinyDB(mContext.get());
                 List<Token> tokenList = tinyDB.getTokenList();
                 List<Token> tokens = new ArrayList<>();
-                for (Token token : tokenList) {
-                    if (token.getCreationStatus().equals(ContractCreationStatus.Created) && token.isSubscribe()) {
+                for (Token token : tokenList)
+                {
+                    if (token.getCreationStatus().equals(ContractCreationStatus.Created) && token.isSubscribe())
+                    {
                         tokens.add(token);
                     }
                 }

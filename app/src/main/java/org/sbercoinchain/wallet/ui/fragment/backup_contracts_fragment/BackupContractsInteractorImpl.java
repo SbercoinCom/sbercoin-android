@@ -26,25 +26,31 @@ import java.util.concurrent.Callable;
 
 import rx.Observable;
 
-public class BackupContractsInteractorImpl implements BackupContractsInteractor {
+public class BackupContractsInteractorImpl implements BackupContractsInteractor
+{
 
     Context mContext;
 
-    public BackupContractsInteractorImpl(Context context) {
+    public BackupContractsInteractorImpl(Context context)
+    {
         mContext = context;
     }
 
     @Override
-    public Observable<File> createBackUpFile() {
-        return rx.Observable.fromCallable(new Callable<File>() {
+    public Observable<File> createBackUpFile()
+    {
+        return rx.Observable.fromCallable(new Callable<File>()
+        {
             @Override
-            public File call() throws Exception {
+            public File call() throws Exception
+            {
                 TinyDB tinyDB = new TinyDB(mContext);
 
                 List<TemplateJSON> templateJSONList = new ArrayList<>();
 
                 List<ContractTemplate> contractTemplateList = tinyDB.getContractTemplateList();
-                for (ContractTemplate contractTemplate : contractTemplateList) {
+                for (ContractTemplate contractTemplate : contractTemplateList)
+                {
                     String source = FileStorageManager.getInstance().readSourceContract(mContext, contractTemplate.getUuid());
                     String bytecode = FileStorageManager.getInstance().readByteCodeContract(mContext, contractTemplate.getUuid());
                     String abi = FileStorageManager.getInstance().readAbiContract(mContext, contractTemplate.getUuid());
@@ -55,8 +61,10 @@ public class BackupContractsInteractorImpl implements BackupContractsInteractor 
                 List<ContractJSON> contractList1 = new ArrayList<>();
 
                 List<Contract> contractList = tinyDB.getContractList();
-                for (Contract contract : contractList) {
-                    if(contract.getCreationStatus().equals(ContractCreationStatus.Created)) {
+                for (Contract contract : contractList)
+                {
+                    if (contract.getCreationStatus().equals(ContractCreationStatus.Created))
+                    {
                         String contractTemplateType = tinyDB.getContractTemplateByUiid(contract.getUiid()).getContractType();
                         ContractJSON contract1 = new ContractJSON(contract.getContractName(), contract.getSenderAddress(), contract.getContractAddress(), contractTemplateType, DateCalculator.getDateInUtc(contract.getDate()), contract.getUiid(), contract.isSubscribe());
                         contractList1.add(contract1);
@@ -70,14 +78,16 @@ public class BackupContractsInteractorImpl implements BackupContractsInteractor 
                 String fileName = "sbercoin_backup_file.json";
                 File backupFile = new File(Environment.getExternalStorageDirectory(), fileName);
 
-                try {
+                try
+                {
                     FileOutputStream fOut;
                     fOut = new FileOutputStream(backupFile, true);
                     OutputStreamWriter osw = new OutputStreamWriter(fOut);
                     osw.write(backupData);
                     osw.flush();
                     osw.close();
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
 

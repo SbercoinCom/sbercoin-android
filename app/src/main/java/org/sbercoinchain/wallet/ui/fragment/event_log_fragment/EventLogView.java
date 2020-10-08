@@ -6,7 +6,9 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 import java.util.List;
 
 
-public interface EventLogView extends BaseFragmentView {
+public interface EventLogView extends BaseFragmentView
+{
     String getTxHash();
+
     void updateEventLog(List<Log> logs);
 }

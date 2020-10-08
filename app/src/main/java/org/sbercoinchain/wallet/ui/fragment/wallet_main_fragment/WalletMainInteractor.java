@@ -6,6 +6,7 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface WalletMainInteractor {
+public interface WalletMainInteractor
+{
     Observable<List<Token>> getTokensObservable();
 }

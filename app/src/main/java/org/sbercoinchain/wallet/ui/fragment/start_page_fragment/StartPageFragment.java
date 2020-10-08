@@ -23,12 +23,13 @@ import butterknife.OnClick;
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.AUTHENTICATION;
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.CREATING;
 
-public abstract class StartPageFragment extends BaseFragment implements StartPageView {
-
-    private StartPagePresenter mStartPageFragmentPresenter;
+public abstract class StartPageFragment extends BaseFragment implements StartPageView
+{
 
     @BindView(R.id.bt_create_new)
     protected Button mButtonCreateNew;
+    @BindView(R.id.bt_login)
+    protected FontButton mButtonLogin;
     @BindView(R.id.bt_import_wallet)
     Button mButtonImportWallet;
     @BindView(R.id.tv_start_page_you_dont_have)
@@ -37,17 +38,14 @@ public abstract class StartPageFragment extends BaseFragment implements StartPag
     TextView mTextViewStartPageCreate;
     @BindView(R.id.rl_button_container)
     RelativeLayout mRelativeLayoutButtonContainer;
-
-    @BindView(R.id.bt_login)
-    protected FontButton mButtonLogin;
-
     @BindView(R.id.logo_view)
     ImageView logoView;
-
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
+    private StartPagePresenter mStartPageFragmentPresenter;
 
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, StartPageFragment.class);
         fragment.setArguments(args);
@@ -55,15 +53,18 @@ public abstract class StartPageFragment extends BaseFragment implements StartPag
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         getMainActivity().hideBottomNavigationView(ThemeUtils.currentTheme.equals(ThemeUtils.THEME_DARK) ? R.color.background : R.color.title_color_light);
         getMainActivity().unregisterKeyboardListener();
     }
 
     @OnClick({R.id.bt_import_wallet, R.id.bt_create_new, R.id.bt_login})
-    public void OnClick(View view) {
-        switch (view.getId()) {
+    public void OnClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.bt_create_new:
                 hideLoginButton();
                 clearWallet();
@@ -78,7 +79,8 @@ public abstract class StartPageFragment extends BaseFragment implements StartPag
                 openFragment(importWalletFragment);
                 break;
             case R.id.bt_login:
-                if (SBERSharedPreference.getInstance().getKeyGeneratedInstance(getContext())) {
+                if (SBERSharedPreference.getInstance().getKeyGeneratedInstance(getContext()))
+                {
                     BaseFragment fragment = PinFragment.newInstance(AUTHENTICATION, getContext());
                     openFragment(fragment);
                 }
@@ -87,21 +89,25 @@ public abstract class StartPageFragment extends BaseFragment implements StartPag
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mStartPageFragmentPresenter = new StartPagePresenterImpl(this, new StartPageInteractorImpl(getContext(), getMainActivity().getRealm()));
     }
 
     @Override
-    protected StartPagePresenter getPresenter() {
+    protected StartPagePresenter getPresenter()
+    {
         return mStartPageFragmentPresenter;
     }
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_start_page;
     }
 
-    private void clearWallet() {
+    private void clearWallet()
+    {
         getMainActivity().onLogout();
         getMainActivity().stopUpdateService();
         getPresenter().clearWallet();

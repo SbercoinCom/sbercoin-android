@@ -9,7 +9,8 @@ import java.math.BigDecimal;
  * Created by kirillvolkov on 22.11.2017.
  */
 
-public class Vin extends TransactionInfo {
+public class Vin extends TransactionInfo
+{
 
     @SerializedName("value")
     @Expose
@@ -19,27 +20,33 @@ public class Vin extends TransactionInfo {
     private String address;
     private boolean isOwnAddress = false;
 
-    public boolean isOwnAddress() {
+    public boolean isOwnAddress()
+    {
         return isOwnAddress;
     }
 
-    public void setOwnAddress(boolean ownAddress) {
+    public void setOwnAddress(boolean ownAddress)
+    {
         isOwnAddress = ownAddress;
     }
 
-    public BigDecimal getValue() {
+    public BigDecimal getValue()
+    {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(BigDecimal value)
+    {
         this.value = value;
     }
 
-    public String getAddress() {
+    public String getAddress()
+    {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String address)
+    {
         this.address = address;
     }
 }

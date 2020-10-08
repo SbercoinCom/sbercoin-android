@@ -7,23 +7,29 @@ import org.sbercoin.wallet.model.contract.ContractMethodParameter;
 
 import java.util.List;
 
-public abstract class ConstructorAdapter extends RecyclerView.Adapter<InputViewHolder> {
+public abstract class ConstructorAdapter extends RecyclerView.Adapter<InputViewHolder>
+{
 
     protected List<ContractMethodParameter> params;
     protected OnValidateParamsListener listener;
 
-    public List<ContractMethodParameter> getParams() {
-        return params;
-    }
-
-    public ConstructorAdapter(List<ContractMethodParameter> params, OnValidateParamsListener listener) {
+    public ConstructorAdapter(List<ContractMethodParameter> params, OnValidateParamsListener listener)
+    {
         this.params = params;
         this.listener = listener;
     }
 
-    public boolean validateMethods() {
-        for (ContractMethodParameter p : params) {
-            if (TextUtils.isEmpty(p.getValue())) {
+    public List<ContractMethodParameter> getParams()
+    {
+        return params;
+    }
+
+    public boolean validateMethods()
+    {
+        for (ContractMethodParameter p : params)
+        {
+            if (TextUtils.isEmpty(p.getValue()))
+            {
                 return false;
             }
         }
@@ -31,7 +37,8 @@ public abstract class ConstructorAdapter extends RecyclerView.Adapter<InputViewH
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return params.size();
     }
 }

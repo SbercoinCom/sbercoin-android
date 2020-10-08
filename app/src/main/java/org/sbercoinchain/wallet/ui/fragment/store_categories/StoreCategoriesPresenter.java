@@ -7,7 +7,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface StoreCategoriesPresenter extends BaseFragmentPresenter {
+public interface StoreCategoriesPresenter extends BaseFragmentPresenter
+{
     List<QstoreContractType> getFilter(String filter);
 
     Observable<List<QstoreContractType>> categoriesObservable();

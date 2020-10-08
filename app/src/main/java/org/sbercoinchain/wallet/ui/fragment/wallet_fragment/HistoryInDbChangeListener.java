@@ -6,6 +6,7 @@ import io.realm.OrderedCollectionChangeSet;
 import io.realm.RealmResults;
 
 
-public interface HistoryInDbChangeListener<T>{
+public interface HistoryInDbChangeListener<T>
+{
     void onHistoryChange(RealmResults<T> histories, @Nullable OrderedCollectionChangeSet changeSet);
 }

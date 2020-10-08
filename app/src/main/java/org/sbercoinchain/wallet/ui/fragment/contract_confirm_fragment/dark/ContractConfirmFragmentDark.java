@@ -9,22 +9,26 @@ import java.util.List;
 
 import butterknife.OnClick;
 
-public class ContractConfirmFragmentDark extends ContractConfirmFragment {
+public class ContractConfirmFragmentDark extends ContractConfirmFragment
+{
 
     public final int LAYOUT = org.sbercoin.wallet.R.layout.lyt_contract_confirm;
 
     @OnClick(org.sbercoin.wallet.R.id.cancel)
-    public void onCancelClick() {
+    public void onCancelClick()
+    {
         getActivity().onBackPressed();
     }
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return LAYOUT;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         getPresenter().setContractMethodParameterList((List<ContractMethodParameter>) getArguments().getSerializable(paramsKey));
         confirmList.setLayoutManager(new LinearLayoutManager(getContext()));

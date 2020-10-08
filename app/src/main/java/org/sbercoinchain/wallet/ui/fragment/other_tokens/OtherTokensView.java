@@ -5,7 +5,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.util.List;
 
-public interface OtherTokensView extends BaseFragmentView {
+public interface OtherTokensView extends BaseFragmentView
+{
     void setTokensData(List<Token> tokensData);
 
     void updateTokensData(List<Token> tokensData);

@@ -9,38 +9,44 @@ import org.sbercoin.wallet.ui.wave_visualizer.WaveView;
 
 import butterknife.BindView;
 
-public class StartPageFragmentLight extends StartPageFragment {
+public class StartPageFragmentLight extends StartPageFragment
+{
 
     @BindView(R.id.wave_view)
     WaveView waveView;
     private WaveHelper mWaveHelper;
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_start_page_light;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         waveView.setShapeType(WaveView.ShapeType.SQUARE);
         mWaveHelper = new WaveHelper(waveView);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         mWaveHelper.start();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         mWaveHelper.cancel();
         super.onPause();
     }
 
     @Override
-    public void hideLoginButton() {
+    public void hideLoginButton()
+    {
         mButtonLogin.setVisibility(View.GONE);
     }
 }

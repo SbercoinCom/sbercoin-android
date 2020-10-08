@@ -8,27 +8,34 @@ import org.sbercoin.wallet.ui.fragment.token_fragment.TokenFragment;
 
 import java.util.List;
 
-public class OtherTokensFragmentLight extends OtherTokensFragment {
+public class OtherTokensFragmentLight extends OtherTokensFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.lyt_other_tokens_light;
     }
 
     @Override
-    public void setTokensData(List<Token> tokensData) {
+    public void setTokensData(List<Token> tokensData)
+    {
         tokensList.setAdapter(new TokensAdapterLight(tokensData, this, this));
     }
 
     @Override
-    public void onTokenClick(int adapterPosition) {
-        if (tokensList.getAdapter() != null) {
-            Token token = (Token)((TokensAdapterLight) tokensList.getAdapter()).get(adapterPosition);
-            if(token.getSupportFlag()) {
+    public void onTokenClick(int adapterPosition)
+    {
+        if (tokensList.getAdapter() != null)
+        {
+            Token token = (Token) ((TokensAdapterLight) tokensList.getAdapter()).get(adapterPosition);
+            if (token.getSupportFlag())
+            {
                 BaseFragment tokenFragment = TokenFragment.newInstance(getContext(), token);
                 openFragment(tokenFragment);
-            } else {
-                setAlertDialog(getString(R.string.token_unsupported_reason),getString(R.string.ok),PopUpType.error);
+            } else
+            {
+                setAlertDialog(getString(R.string.token_unsupported_reason), getString(R.string.ok), PopUpType.error);
             }
         }
     }

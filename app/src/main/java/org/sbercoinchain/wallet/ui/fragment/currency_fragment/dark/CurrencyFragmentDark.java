@@ -6,15 +6,18 @@ import org.sbercoin.wallet.ui.fragment.currency_fragment.CurrencyFragment;
 
 import java.util.List;
 
-public class CurrencyFragmentDark extends CurrencyFragment {
+public class CurrencyFragmentDark extends CurrencyFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_currency;
     }
 
     @Override
-    public void setCurrencyList(List<Currency> currencyList) {
+    public void setCurrencyList(List<Currency> currencyList)
+    {
         mCurrencyAdapter = new CurrencyAdapter(currencyList, R.layout.lyt_token_list_item);
         mCurrentList = currencyList;
         mRecyclerView.setAdapter(mCurrencyAdapter);

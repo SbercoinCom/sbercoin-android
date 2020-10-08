@@ -17,14 +17,16 @@ import org.sbercoin.wallet.utils.FontTextView;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public abstract class AddressWithTokenBalanceSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public abstract class AddressWithTokenBalanceSpinnerAdapter extends BaseAdapter implements SpinnerAdapter
+{
 
     private Context mContext;
     private TokenBalance mTokenBalance;
     private String symbol;
     private int decimalUnits;
 
-    public AddressWithTokenBalanceSpinnerAdapter(@NonNull Context context, TokenBalance tokenBalance, String symbol, int decimalUnits) {
+    public AddressWithTokenBalanceSpinnerAdapter(@NonNull Context context, TokenBalance tokenBalance, String symbol, int decimalUnits)
+    {
         mContext = context;
         mTokenBalance = tokenBalance;
         this.symbol = symbol;
@@ -32,21 +34,25 @@ public abstract class AddressWithTokenBalanceSpinnerAdapter extends BaseAdapter 
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return mTokenBalance.getBalances().size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public Object getItem(int i)
+    {
         return mTokenBalance.getBalances().get(i);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
-    public View getCustomViewDropDown(int position, @Nullable int resId, @NonNull ViewGroup parent) {
+    public View getCustomViewDropDown(int position, @Nullable int resId, @NonNull ViewGroup parent)
+    {
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(resId, parent, false);
         FontTextView textViewAddress = view.findViewById(R.id.address_name);
@@ -59,7 +65,8 @@ public abstract class AddressWithTokenBalanceSpinnerAdapter extends BaseAdapter 
         return view;
     }
 
-    public View getCustomView(int position, @Nullable int resId, @NonNull ViewGroup parent) {
+    public View getCustomView(int position, @Nullable int resId, @NonNull ViewGroup parent)
+    {
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(resId, parent, false);
         FontTextView textViewAddress = view.findViewById(R.id.address_name);
@@ -67,19 +74,23 @@ public abstract class AddressWithTokenBalanceSpinnerAdapter extends BaseAdapter 
         return view;
     }
 
-    public TokenBalance getTokenBalance() {
+    public TokenBalance getTokenBalance()
+    {
         return mTokenBalance;
     }
 
-    public void setTokenBalance(TokenBalance tokenBalance) {
+    public void setTokenBalance(TokenBalance tokenBalance)
+    {
         mTokenBalance = tokenBalance;
     }
 
-    public void setSymbol(String symbol) {
+    public void setSymbol(String symbol)
+    {
         this.symbol = symbol;
     }
 
-    public void clearBalances(){
+    public void clearBalances()
+    {
 
     }
 }

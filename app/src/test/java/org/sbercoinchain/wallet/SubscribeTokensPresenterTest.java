@@ -21,8 +21,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class SubscribeTokensPresenterTest {
+public class SubscribeTokensPresenterTest
+{
 
+    private final List<Token> TEST_EMPTY_TOKENS = Collections.emptyList();
+    private final List<Token> TEST_TOKENS = Arrays.asList(new Token(true, ContractCreationStatus.Created), new Token(true, ContractCreationStatus.Created));
     @Mock
     private SubscribeTokensView view;
     @Mock
@@ -30,16 +33,16 @@ public class SubscribeTokensPresenterTest {
     private SubscribeTokensPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new SubscribeTokensPresenterImpl(view, interactor);
     }
 
-    private final List<Token> TEST_EMPTY_TOKENS = Collections.emptyList();
-
     @Test
-    public void initialize_EmptyTokens() {
+    public void initialize_EmptyTokens()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_EMPTY_TOKENS);
 
@@ -49,10 +52,9 @@ public class SubscribeTokensPresenterTest {
         verify(view, never()).setTokenList(anyList());
     }
 
-    private final List<Token> TEST_TOKENS = Arrays.asList(new Token(true, ContractCreationStatus.Created), new Token(true, ContractCreationStatus.Created));
-
     @Test
-    public void initialize_Success() {
+    public void initialize_Success()
+    {
         when(interactor.getTokenList())
                 .thenReturn(TEST_TOKENS);
 

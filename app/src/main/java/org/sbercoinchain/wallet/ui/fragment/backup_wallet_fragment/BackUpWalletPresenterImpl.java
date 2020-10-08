@@ -1,27 +1,30 @@
 package org.sbercoin.wallet.ui.fragment.backup_wallet_fragment;
 
-import org.sbercoin.wallet.BuildConfig;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseFragment;
 
-public class BackUpWalletPresenterImpl extends BaseFragmentPresenterImpl implements BackUpWalletPresenter {
+public class BackUpWalletPresenterImpl extends BaseFragmentPresenterImpl implements BackUpWalletPresenter
+{
 
     private BackUpWalletView mBackUpWalletFragmentView;
     private BackUpWalletInteractor mBackUpWalletInteractor;
     private String passphrase;
 
-    public BackUpWalletPresenterImpl(BackUpWalletView backUpWalletFragmentView, BackUpWalletInteractor backUpWalletInteractor) {
+    public BackUpWalletPresenterImpl(BackUpWalletView backUpWalletFragmentView, BackUpWalletInteractor backUpWalletInteractor)
+    {
         mBackUpWalletFragmentView = backUpWalletFragmentView;
         mBackUpWalletInteractor = backUpWalletInteractor;
     }
 
-    private BackUpWalletInteractor getInteractor() {
+    private BackUpWalletInteractor getInteractor()
+    {
         return mBackUpWalletInteractor;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         String pin = getView().getPin();
         passphrase = getInteractor().getPassphrase(pin);
@@ -29,23 +32,27 @@ public class BackUpWalletPresenterImpl extends BaseFragmentPresenterImpl impleme
     }
 
     @Override
-    public BackUpWalletView getView() {
+    public BackUpWalletView getView()
+    {
         return mBackUpWalletFragmentView;
     }
 
     @Override
-    public void onCopyBrainCodeClick() {
+    public void onCopyBrainCodeClick()
+    {
         getView().copyToClipboard(passphrase);
         getView().showToast();
     }
 
     @Override
-    public void onShareClick() {
+    public void onShareClick()
+    {
         getView().chooseShareMethod(passphrase);
     }
 
     @Override
-    public void onContinueClick() {
+    public void onContinueClick()
+    {
 //        if(BuildConfig.DEBUG) {
 //
 //            getView().setProgressDialog();
@@ -71,8 +78,8 @@ public class BackUpWalletPresenterImpl extends BaseFragmentPresenterImpl impleme
 //                        }
 //                    });
 //        } else {
-            BaseFragment fragment = ConfirmPassphraseFragment.newInstance(getView().getContext(), passphrase);
-            getView().openFragment(fragment);
+        BaseFragment fragment = ConfirmPassphraseFragment.newInstance(getView().getContext(), passphrase);
+        getView().openFragment(fragment);
 //        }
-   }
+    }
 }

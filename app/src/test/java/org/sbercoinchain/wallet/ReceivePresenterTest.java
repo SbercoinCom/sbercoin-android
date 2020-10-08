@@ -17,8 +17,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class ReceivePresenterTest {
+public class ReceivePresenterTest
+{
 
+    private static final BigDecimal TEST_UNCONFIRMED_BALANCE = new BigDecimal("10");
+    private static final BigDecimal TEST_BALANCE = new BigDecimal("15");
     @Mock
     private ReceiveView view;
     @Mock
@@ -26,38 +29,39 @@ public class ReceivePresenterTest {
     private ReceivePresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
         presenter = new ReceivePresenterImpl(view, interactor);
     }
 
-    private static final BigDecimal TEST_UNCONFIRMED_BALANCE = new BigDecimal("10");
-    private static final BigDecimal TEST_BALANCE = new BigDecimal("15");
-
     @Test
-    public void onBalanceChanged_InvalidUnconfirmedBalance() {
+    public void onBalanceChanged_InvalidUnconfirmedBalance()
+    {
         when(view.isUnconfirmedBalanceValid(anyString()))
                 .thenReturn(false);
 
         presenter.onBalanceChanged(TEST_UNCONFIRMED_BALANCE, TEST_BALANCE);
 
-        verify(view, times(1)).updateBalance(anyString(),anyString(),anyString());
-        verify(view, never()).updateBalance(anyString(), anyString(),anyString());
+        verify(view, times(1)).updateBalance(anyString(), anyString(), anyString());
+        verify(view, never()).updateBalance(anyString(), anyString(), anyString());
     }
 
     @Test
-    public void onBalanceChanged_ValidUnconfirmedBalance() {
+    public void onBalanceChanged_ValidUnconfirmedBalance()
+    {
         when(view.isUnconfirmedBalanceValid(anyString()))
                 .thenReturn(true);
 
         presenter.onBalanceChanged(TEST_UNCONFIRMED_BALANCE, TEST_BALANCE);
 
         verify(view, times(1)).updateBalance(anyString(), anyString(), anyString());
-        verify(view, never()).updateBalance(anyString(),anyString(), anyString());
+        verify(view, never()).updateBalance(anyString(), anyString(), anyString());
     }
 
     @Test
-    public void changeAmount() {
+    public void changeAmount()
+    {
         presenter.changeAmount("Amount");
 
         verify(view, times(1)).showSpinner();
@@ -65,7 +69,8 @@ public class ReceivePresenterTest {
     }
 
     @Test
-    public void setTokenAddress() {
+    public void setTokenAddress()
+    {
         presenter.setTokenAddress("Token Address");
 
         verify(view, times(1)).showSpinner();
@@ -73,7 +78,8 @@ public class ReceivePresenterTest {
     }
 
     @Test
-    public void changeAddress() {
+    public void changeAddress()
+    {
         presenter.changeAddress();
 
         verify(view, times(1)).showSpinner();

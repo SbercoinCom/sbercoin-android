@@ -2,27 +2,32 @@ package org.sbercoin.wallet.ui.fragment.touch_id_preference_fragment;
 
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
-public class TouchIDPreferencePresenterImpl extends BaseFragmentPresenterImpl implements TouchIDPreferencePresenter {
+public class TouchIDPreferencePresenterImpl extends BaseFragmentPresenterImpl implements TouchIDPreferencePresenter
+{
 
     private TouchIDPreferenceView mTouchIDPreferenceView;
     private TouchIDInterractor mTouchIDPreferenceInteractor;
 
-    public TouchIDPreferencePresenterImpl(TouchIDPreferenceView view, TouchIDInterractor interractor) {
+    public TouchIDPreferencePresenterImpl(TouchIDPreferenceView view, TouchIDInterractor interractor)
+    {
         mTouchIDPreferenceView = view;
         mTouchIDPreferenceInteractor = interractor;
     }
 
     @Override
-    public void onEnableTouchIdClick() {
+    public void onEnableTouchIdClick()
+    {
         getInteractor().saveTouchIDEnabled();
     }
 
     @Override
-    public TouchIDPreferenceView getView() {
+    public TouchIDPreferenceView getView()
+    {
         return mTouchIDPreferenceView;
     }
 
-    public TouchIDInterractor getInteractor() {
+    public TouchIDInterractor getInteractor()
+    {
         return mTouchIDPreferenceInteractor;
     }
 }

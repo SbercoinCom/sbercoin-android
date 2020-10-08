@@ -11,20 +11,24 @@ import org.sbercoin.wallet.ui.fragment.sbercoin_cash_management_fragment.Address
 
 import java.util.List;
 
-public class AddressesWithBalanceSpinnerAdapterDark extends AddressesWithBalanceSpinnerAdapter {
+public class AddressesWithBalanceSpinnerAdapterDark extends AddressesWithBalanceSpinnerAdapter
+{
 
-    public AddressesWithBalanceSpinnerAdapterDark(@NonNull Context context, List<AddressWithBalance> keyWithBalanceList) {
+    public AddressesWithBalanceSpinnerAdapterDark(@NonNull Context context, List<AddressWithBalance> keyWithBalanceList)
+    {
         super(context, keyWithBalanceList);
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
         return getCustomView(position, org.sbercoin.wallet.R.layout.item_address_spinner, parent);
     }
 
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
         return getCustomView(position, org.sbercoin.wallet.R.layout.item_address_spinner_dropdown, parent);
     }
 }

@@ -17,22 +17,22 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:contentInsetStart="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/title_color_light"
+            app:contentInsetStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageButton
                 android:id="@+id/ibt_back"
-                android:tint="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_ibtn_back"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp"
-                app:srcCompat="@drawable/ic_back_indicator"/>
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_back_indicator" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_toolbar_restore_contracts"
@@ -54,49 +54,49 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
+            android:id="@+id/rl_back_up_file"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_margin="16dp"
-            android:background="@drawable/select_file_background_light"
-            android:id="@+id/rl_back_up_file">
+            android:background="@drawable/select_file_background_light">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/iv_restore_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:tint="@color/grey"
-                    android:id="@+id/iv_restore_icon"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_attach"/>
+                    android:tint="@color/grey"
+                    app:srcCompat="@drawable/ic_attach" />
 
                 <org.sbercoin.wallet.utils.FontTextView
                     android:id="@+id/tv_select_back_up"
                     android:layout_width="match_parent"
-                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:layout_margin="16dp"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:text="@string/select_back_up_file"
+                    android:textColor="@color/bottom_nav_bar_text_color_light"
                     android:textSize="18sp"
-                    app:typefaceAsset="@string/proximaNovaSemibold"
-                    android:textColor="@color/bottom_nav_bar_text_color_light"/>
+                    app:typefaceAsset="@string/proximaNovaSemibold" />
 
                 <org.sbercoin.wallet.utils.FontTextView
                     android:id="@+id/tv_file_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:layout_gravity="center"
-                    android:visibility="gone"
+                    android:maxLines="1"
                     android:text="15 Kb"
+                    android:textColor="@color/bottom_nav_bar_text_color_light_alpha_50"
                     android:textSize="18sp"
-                    app:typefaceAsset="@string/proximaNovaLight"
-                    android:textColor="@color/bottom_nav_bar_text_color_light_alpha_50"/>
+                    android:visibility="gone"
+                    app:typefaceAsset="@string/proximaNovaLight" />
 
             </LinearLayout>
 
@@ -104,119 +104,119 @@
 
         <org.sbercoin.wallet.utils.FontButton
             android:id="@+id/bt_restore"
-            android:text="Restore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp"
+            android:background="@drawable/btn_sea_corner_background_light"
             android:gravity="center"
             android:padding="16dp"
             android:paddingStart="32dp"
             android:paddingEnd="32dp"
-            android:textSize="16sp"
-            android:background="@drawable/btn_sea_corner_background_light"
-            android:textColor="@color/white"
-            app:typeface="@string/proximaNovaSemibold"
+            android:text="Restore"
             android:textAllCaps="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:typeface="@string/proximaNovaSemibold" />
 
         <ScrollView
-            android:layout_below="@+id/rl_back_up_file"
-            android:layout_above="@+id/bt_restore"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bt_restore"
+            android:layout_below="@+id/rl_back_up_file">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:paddingStart="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
 
                 <org.sbercoin.wallet.utils.FontCheckBox
                     android:id="@+id/cb_restore_templates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:checkBoxTypeface="@string/proximaNovaSemibold"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:clickable="true"
                     android:button="@null"
-                    android:drawablePadding="16dp"
+                    android:clickable="true"
                     android:drawableStart="@drawable/checkbox_selector_light"
+                    android:drawablePadding="16dp"
+                    android:gravity="center"
+                    android:text="Restore Templates"
                     android:textColor="@color/bottom_nav_bar_text_color_light"
-                    android:text="Restore Templates"/>
+                    android:textSize="18sp"
+                    app:checkBoxTypeface="@string/proximaNovaSemibold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/bottom_nav_bar_color_light"/>
+                    android:background="@color/bottom_nav_bar_color_light" />
 
                 <org.sbercoin.wallet.utils.FontCheckBox
                     android:id="@+id/cb_restore_contracts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="8dp"
-                    app:checkBoxTypeface="@string/proximaNovaSemibold"
-                    android:textSize="18sp"
-                    android:clickable="true"
                     android:button="@null"
-                    android:drawablePadding="16dp"
+                    android:clickable="true"
                     android:drawableStart="@drawable/checkbox_selector_light"
+                    android:drawablePadding="16dp"
+                    android:gravity="center"
+                    android:text="Restore Contracts"
                     android:textColor="@color/bottom_nav_bar_text_color_light"
-                    android:text="Restore Contracts"/>
+                    android:textSize="18sp"
+                    app:checkBoxTypeface="@string/proximaNovaSemibold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/bottom_nav_bar_color_light"/>
+                    android:background="@color/bottom_nav_bar_color_light" />
 
                 <org.sbercoin.wallet.utils.FontCheckBox
                     android:id="@+id/cb_restore_tokens"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:checkBoxTypeface="@string/proximaNovaSemibold"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:clickable="true"
                     android:button="@null"
-                    android:drawablePadding="16dp"
+                    android:clickable="true"
                     android:drawableStart="@drawable/checkbox_selector_light"
+                    android:drawablePadding="16dp"
+                    android:gravity="center"
+                    android:text="Restore Tokens"
                     android:textColor="@color/bottom_nav_bar_text_color_light"
-                    android:text="Restore Tokens"/>
+                    android:textSize="18sp"
+                    app:checkBoxTypeface="@string/proximaNovaSemibold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/bottom_nav_bar_color_light"/>
+                    android:background="@color/bottom_nav_bar_color_light" />
 
                 <org.sbercoin.wallet.utils.FontCheckBox
                     android:id="@+id/cb_restore_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    app:checkBoxTypeface="@string/proximaNovaSemibold"
-                    android:textSize="18sp"
-                    android:clickable="true"
                     android:button="@null"
-                    android:drawablePadding="16dp"
+                    android:clickable="true"
                     android:drawableStart="@drawable/checkbox_selector_light"
+                    android:drawablePadding="16dp"
+                    android:gravity="center"
+                    android:text="Restore All"
                     android:textColor="@color/bottom_nav_bar_text_color_light"
-                    android:text="Restore All"/>
+                    android:textSize="18sp"
+                    app:checkBoxTypeface="@string/proximaNovaSemibold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/bottom_nav_bar_color_light"/>
+                    android:background="@color/bottom_nav_bar_color_light" />
 
 
             </LinearLayout>

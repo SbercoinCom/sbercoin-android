@@ -11,20 +11,15 @@ import retrofit2.SimpleXmlConverterFactory;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
 
-public class MediumService {
+public class MediumService
+{
 
     private static MediumService sMediumService;
     private final String MEDIUM_BASE_URL = "https://medium.com/";
     private MediumRssFeedService mMediumRssFeedService;
 
-    public static MediumService getInstance() {
-        if (sMediumService == null) {
-            sMediumService = new MediumService();
-        }
-        return sMediumService;
-    }
-
-    private MediumService() {
+    private MediumService()
+    {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -46,7 +41,17 @@ public class MediumService {
 
     }
 
-    public Observable<RssFeed> getRssFeed(String channel) {
+    public static MediumService getInstance()
+    {
+        if (sMediumService == null)
+        {
+            sMediumService = new MediumService();
+        }
+        return sMediumService;
+    }
+
+    public Observable<RssFeed> getRssFeed(String channel)
+    {
         return mMediumRssFeedService.getRssFeed(channel);
     }
 

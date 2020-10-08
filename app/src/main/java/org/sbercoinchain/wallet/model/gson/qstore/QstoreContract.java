@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class QstoreContract implements Serializable {
+public class QstoreContract implements Serializable
+{
     @SerializedName("_id")
     public String id;
 

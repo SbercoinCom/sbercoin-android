@@ -6,25 +6,30 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfilePresenterImpl extends BaseFragmentPresenterImpl implements ProfilePresenter {
+public class ProfilePresenterImpl extends BaseFragmentPresenterImpl implements ProfilePresenter
+{
 
+    private static List<SettingObject> settingsData;
     private ProfileView mProfileView;
     private ProfileInteractor mProfileInteractor;
-    private static List<SettingObject> settingsData;
 
-    public ProfilePresenterImpl(ProfileView profileView, ProfileInteractor profileInteractor) {
+    public ProfilePresenterImpl(ProfileView profileView, ProfileInteractor profileInteractor)
+    {
         mProfileView = profileView;
         mProfileInteractor = profileInteractor;
         initSettingsData();
     }
 
-    private void initSettingsData() {
-        if (settingsData == null) {
+    private void initSettingsData()
+    {
+        if (settingsData == null)
+        {
             settingsData = new ArrayList<>();
             settingsData.add(new SettingObject(org.sbercoin.wallet.R.string.language, org.sbercoin.wallet.R.drawable.ic_language, 0));
             settingsData.add(new SettingObject(org.sbercoin.wallet.R.string.change_pin, org.sbercoin.wallet.R.drawable.ic_changepin, 1));
             settingsData.add(new SettingObject(org.sbercoin.wallet.R.string.wallet_backup, org.sbercoin.wallet.R.drawable.ic_backup, 1));
-            if (getView().checkAvailabilityTouchId()) {
+            if (getView().checkAvailabilityTouchId())
+            {
                 settingsData.add(new SettingSwitchObject(org.sbercoin.wallet.R.string.touch_id, org.sbercoin.wallet.R.drawable.ic_touchid, 1,
                         getInteractor().isTouchIdEnable()));
             }
@@ -36,36 +41,43 @@ public class ProfilePresenterImpl extends BaseFragmentPresenterImpl implements P
         }
     }
 
-    public List<SettingObject> getSettingsData() {
+    public List<SettingObject> getSettingsData()
+    {
         return settingsData;
     }
 
     @Override
-    public ProfileView getView() {
+    public ProfileView getView()
+    {
         return mProfileView;
     }
 
-    private ProfileInteractor getInteractor() {
+    private ProfileInteractor getInteractor()
+    {
         return mProfileInteractor;
     }
 
     @Override
-    public void clearWallet() {
+    public void clearWallet()
+    {
         getInteractor().clearWallet();
     }
 
     @Override
-    public void onTouchIdSwitched(boolean isChecked) {
+    public void onTouchIdSwitched(boolean isChecked)
+    {
         getInteractor().saveTouchIdEnable(isChecked);
     }
 
     @Override
-    public void setupLanguageChangeListener(LanguageChangeListener listener) {
+    public void setupLanguageChangeListener(LanguageChangeListener listener)
+    {
         getInteractor().setupLanguageChangeListener(listener);
     }
 
     @Override
-    public void removeLanguageListener(LanguageChangeListener listener) {
+    public void removeLanguageListener(LanguageChangeListener listener)
+    {
         getInteractor().removeLanguageListener(listener);
     }
 }

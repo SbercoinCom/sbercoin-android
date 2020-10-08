@@ -11,25 +11,29 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class AddressListPresenterImpl extends BaseFragmentPresenterImpl implements AddressListPresenter {
+public class AddressListPresenterImpl extends BaseFragmentPresenterImpl implements AddressListPresenter
+{
 
     private AddressListView mAddressListFragmentView;
     private AddressListInteractor mAddressListInteractor;
     private List<AddressWithBalance> mAddressWithBalanceList = new ArrayList<>();
     private AddressWithBalance keyWithBalanceFrom;
 
-    public AddressListPresenterImpl(AddressListView view, AddressListInteractor interactor) {
+    public AddressListPresenterImpl(AddressListView view, AddressListInteractor interactor)
+    {
         mAddressListFragmentView = view;
         mAddressListInteractor = interactor;
     }
 
     @Override
-    public AddressListView getView() {
+    public AddressListView getView()
+    {
         return mAddressListFragmentView;
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated()
+    {
         super.onViewCreated();
         getView().setProgressDialog();
         List<String> addresses = getInteractor().getAddresses();
@@ -37,22 +41,30 @@ public class AddressListPresenterImpl extends BaseFragmentPresenterImpl implemen
         getInteractor().getUnspentOutputs(addresses)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<UnspentOutput>>() {
+                .subscribe(new Subscriber<List<UnspentOutput>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().dismissProgressDialog();
                     }
 
                     @Override
-                    public void onNext(List<UnspentOutput> unspentOutputs) {
-                        for (UnspentOutput unspentOutput : unspentOutputs) {
-                            if (unspentOutput.isOutputAvailableToPay()) {
-                                for (AddressWithBalance addressWithBalance : mAddressWithBalanceList) {
-                                    if (unspentOutput.getAddress().equals(addressWithBalance.getAddress())) {
+                    public void onNext(List<UnspentOutput> unspentOutputs)
+                    {
+                        for (UnspentOutput unspentOutput : unspentOutputs)
+                        {
+                            if (unspentOutput.isOutputAvailableToPay())
+                            {
+                                for (AddressWithBalance addressWithBalance : mAddressWithBalanceList)
+                                {
+                                    if (unspentOutput.getAddress().equals(addressWithBalance.getAddress()))
+                                    {
                                         addressWithBalance.setUnspentOutput(unspentOutput);
                                         break;
                                     }
@@ -66,28 +78,34 @@ public class AddressListPresenterImpl extends BaseFragmentPresenterImpl implemen
 
     }
 
-    private void initAddressesWithBalanceList(List<String> addresses) {
-        for (String address : addresses) {
+    private void initAddressesWithBalanceList(List<String> addresses)
+    {
+        for (String address : addresses)
+        {
             mAddressWithBalanceList.add(new AddressWithBalance(address));
         }
     }
 
-    public AddressListInteractor getInteractor() {
+    public AddressListInteractor getInteractor()
+    {
         return mAddressListInteractor;
     }
 
     @Override
-    public AddressWithBalance getKeyWithBalanceFrom() {
+    public AddressWithBalance getKeyWithBalanceFrom()
+    {
         return keyWithBalanceFrom;
     }
 
     @Override
-    public void setKeyWithBalanceFrom(AddressWithBalance keyWithBalanceFrom) {
+    public void setKeyWithBalanceFrom(AddressWithBalance keyWithBalanceFrom)
+    {
         this.keyWithBalanceFrom = keyWithBalanceFrom;
     }
 
     @Override
-    public List<AddressWithBalance> getAddressWithBalanceList() {
+    public List<AddressWithBalance> getAddressWithBalanceList()
+    {
         return mAddressWithBalanceList;
     }
 }

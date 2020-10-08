@@ -16,7 +16,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class AddressesPresenterTest {
+public class AddressesPresenterTest
+{
 
     @Mock
     AddressesView view;
@@ -28,13 +29,15 @@ public class AddressesPresenterTest {
     private List<DeterministicKey> deterministicKeyList;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
         presenter = new AddressesPresenterImpl(view, interactor);
     }
 
     @Test
-    public void updateAddressesList_Success() {
+    public void updateAddressesList_Success()
+    {
         when(interactor.getKeyList()).thenReturn(deterministicKeyList);
         presenter.onViewCreated();
         verify(view, times(1)).updateAddressList(deterministicKeyList);

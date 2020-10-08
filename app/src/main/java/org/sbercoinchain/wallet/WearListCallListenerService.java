@@ -35,7 +35,8 @@ import static org.sbercoin.wallet.SBERApplication.REALM_NAME;
  * Created by kirillvolkov on 21.11.2017.
  */
 
-public class WearListCallListenerService extends WearableListenerService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, MessageApi.MessageListener {
+public class WearListCallListenerService extends WearableListenerService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, MessageApi.MessageListener
+{
 
     public static final String ITEMS = "items";
     public static final String BALANCE = "balance";
@@ -43,50 +44,58 @@ public class WearListCallListenerService extends WearableListenerService impleme
     public static final String ADDRESS = "address";
     public static final String CURR_TIME_MILLS = "CURR_TIME_MILLS";
     private static final String TAG = "WEAR SERVICE";
-
-    private GoogleApiClient mApiClient;
     ServiceConnection mServiceConnection;
     List<String> addresses;
     String currentAddress;
+    private GoogleApiClient mApiClient;
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
         initGoogleApiClient();
     }
 
     @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
+    public void onMessageReceived(MessageEvent messageEvent)
+    {
         super.onMessageReceived(messageEvent);
-        if(messageEvent.getPath().contains("/get_history")) {
+        if (messageEvent.getPath().contains("/get_history"))
+        {
             addresses = getPublicAddresses();
             currentAddress = SBERSharedPreference.getInstance().getCurrentAddress(getApplicationContext());
             sendData();
-        } else {
+        } else
+        {
             stopSelf();
         }
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         Log.d(TAG, "onDestroy: ");
 
-        if(mServiceConnection != null) {
+        if (mServiceConnection != null)
+        {
             unbindService(mServiceConnection);
         }
 
         super.onDestroy();
-        if (mApiClient != null) {
+        if (mApiClient != null)
+        {
             mApiClient.disconnect();
         }
     }
 
-    private void initGoogleApiClient() {
+    private void initGoogleApiClient()
+    {
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
@@ -97,26 +106,31 @@ public class WearListCallListenerService extends WearableListenerService impleme
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(@Nullable Bundle bundle)
+    {
         Wearable.MessageApi.addListener(mApiClient, this);
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int i)
+    {
 
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+    {
 
     }
 
-    private List<String> getPublicAddresses() {
+    private List<String> getPublicAddresses()
+    {
         TinyDB tinyDB = new TinyDB(getApplicationContext());
         return tinyDB.getPublicAddresses();
     }
 
-    private void sendData(String items, String balance, String uncBalance, String address) {
+    private void sendData(String items, String balance, String uncBalance, String address)
+    {
         PutDataMapRequest putDataMapReq = PutDataMapRequest.create("/data");
         putDataMapReq.getDataMap().putLong(CURR_TIME_MILLS, System.currentTimeMillis());
         putDataMapReq.getDataMap().putString(ITEMS, items);
@@ -127,11 +141,15 @@ public class WearListCallListenerService extends WearableListenerService impleme
         DataApi.DataItemResult await = Wearable.DataApi.putDataItem(mApiClient, putDataReq).await();
     }
 
-    private void sendData() {
-        new Thread(new Runnable() {
+    private void sendData()
+    {
+        new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     List<History> histories = getHistory();
                     final String balance = SBERSharedPreference.getInstance().getBalanceString(WearListCallListenerService.this);
                     final String uncBalance = SBERSharedPreference.getInstance().getUnconfirmedBalanceString(WearListCallListenerService.this);
@@ -139,7 +157,8 @@ public class WearListCallListenerService extends WearableListenerService impleme
                     Gson gson = new Gson();
                     String s = gson.toJson(histories);
                     sendData(s, balance, uncBalance, address);
-                } catch (final Exception e){
+                } catch (final Exception e)
+                {
                     Log.d(TAG, "run: " + e.getMessage());
                 }
             }
@@ -147,7 +166,8 @@ public class WearListCallListenerService extends WearableListenerService impleme
         }).start();
     }
 
-    List<History> getHistory(){
+    List<History> getHistory()
+    {
 
         Realm.init(this);
 
@@ -162,9 +182,11 @@ public class WearListCallListenerService extends WearableListenerService impleme
         RealmResults<History> result = Realm.getDefaultInstance().where(History.class).findAll().sort("blockTime", Sort.DESCENDING);
         List<History> histories = Realm.getDefaultInstance().copyFromRealm(result);
         result = null;
-        if(histories.size() > 25){
+        if (histories.size() > 25)
+        {
             return histories.subList(0, 25);
-        } else {
+        } else
+        {
             return histories;
         }
     }

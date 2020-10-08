@@ -10,7 +10,8 @@ import java.util.List;
  * Created by kirillvolkov on 22.11.2017.
  */
 
-public class History {
+public class History
+{
 
     @SerializedName("block_time")
     @Expose
@@ -38,75 +39,93 @@ public class History {
     private List<Vin> vin = null;
     private BigDecimal changeInBalance;
 
-    public Long getBlockTime() {
+    public Long getBlockTime()
+    {
         return blockTime;
     }
 
-    public void setBlockTime(Long blockTime) {
+    public void setBlockTime(Long blockTime)
+    {
         this.blockTime = blockTime;
     }
 
-    public Integer getBlockHeight() {
+    public Integer getBlockHeight()
+    {
         return blockHeight;
     }
 
-    public void setBlockHeight(Integer blockHeight) {
+    public void setBlockHeight(Integer blockHeight)
+    {
         this.blockHeight = blockHeight;
     }
 
-    public String getBlockHash() {
+    public String getBlockHash()
+    {
         return blockHash;
     }
 
-    public void setBlockHash(String blockHash) {
+    public void setBlockHash(String blockHash)
+    {
         this.blockHash = blockHash;
     }
 
-    public String getTxHash() {
+    public String getTxHash()
+    {
         return txHash;
     }
 
-    public void setTxHash(String txHash) {
+    public void setTxHash(String txHash)
+    {
         this.txHash = txHash;
     }
 
-    public BigDecimal getAmount() {
+    public BigDecimal getAmount()
+    {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(BigDecimal amount)
+    {
         this.amount = amount;
     }
 
-    public List<Vout> getVout() {
+    public List<Vout> getVout()
+    {
         return vout;
     }
 
-    public void setVout(List<Vout> vout) {
+    public void setVout(List<Vout> vout)
+    {
         this.vout = vout;
     }
 
-    public List<Vin> getVin() {
+    public List<Vin> getVin()
+    {
         return vin;
     }
 
-    public void setVin(List<Vin> vin) {
+    public void setVin(List<Vin> vin)
+    {
         this.vin = vin;
     }
 
-    public BigDecimal getChangeInBalance() {
+    public BigDecimal getChangeInBalance()
+    {
         return changeInBalance;
     }
 
-    public void setChangeInBalance(BigDecimal changeInBalance) {
+    public void setChangeInBalance(BigDecimal changeInBalance)
+    {
         this.changeInBalance = changeInBalance;
     }
 
-    public Boolean getContractHasBeenCreated() {
+    public Boolean getContractHasBeenCreated()
+    {
         return contractHasBeenCreated;
     }
 
-    public void setContractHasBeenCreated(Boolean contractHasBeenCreated) {
+    public void setContractHasBeenCreated(Boolean contractHasBeenCreated)
+    {
         this.contractHasBeenCreated = contractHasBeenCreated;
     }
 }

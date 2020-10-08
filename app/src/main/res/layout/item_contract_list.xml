@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_unsubscribe"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/ll_unsubscribe"
+            android:background="@color/colorPrimary"
             android:gravity="center"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginBottom="2dp"
-                app:srcCompat="@drawable/ic_unsubscribe"/>
+                app:srcCompat="@drawable/ic_unsubscribe" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
                 android:layout_marginTop="2dp"
                 android:gravity="center"
-                android:textAllCaps="true"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="@string/unsubscribe"
+                android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp"
-                app:typefaceAsset="@string/simplonMonoRegular"/>
+                app:typefaceAsset="@string/simplonMonoRegular" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
         android:background="@drawable/list_item_background_selector"
-        android:id="@+id/main_container">
+        android:clickable="true"
+        android:focusable="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                     android:text="@string/about"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
-                    app:typefaceAsset="@string/simplonMonoRegular"/>
+                    app:typefaceAsset="@string/simplonMonoRegular" />
             </FrameLayout>
 
             <LinearLayout
@@ -79,7 +79,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/title_container"
                 android:orientation="horizontal">
-                
+
                 <org.sbercoin.wallet.utils.FontTextView
                     android:id="@+id/contract_type"
                     android:layout_width="wrap_content"
@@ -92,48 +92,48 @@
                     android:text="@string/about"
                     android:textColor="@color/background"
                     android:textSize="10sp"
-                    app:typefaceAsset="@string/simplonMonoRegular"/>
-                
+                    app:typefaceAsset="@string/simplonMonoRegular" />
+
                 <ImageView
+                    android:id="@+id/bt_rename_contract"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:padding="2dp"
-                    android:layout_weight="1"
-                    android:id="@+id/bt_rename_contract"
                     android:layout_marginStart="1dp"
+                    android:layout_weight="1"
                     android:background="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_edit_dark"
-                    android:focusable="true"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/ic_edit_dark" />
             </LinearLayout>
 
-            
+
         </RelativeLayout>
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="14dp"
+            android:alpha=".5"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="@string/about"
-            android:alpha=".5"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
-            app:typefaceAsset="@string/simplonMonoRegular"/>
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
 
         <View
-            android:alpha=".7"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
-            android:background="@color/colorPrimary"/>
+            android:alpha=".7"
+            android:background="@color/colorPrimary" />
 
     </RelativeLayout>
 

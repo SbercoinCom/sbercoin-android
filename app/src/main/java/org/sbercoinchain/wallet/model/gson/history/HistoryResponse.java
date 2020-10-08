@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class HistoryResponse {
+public class HistoryResponse
+{
 
     @SerializedName("totalItems")
     @Expose
@@ -14,24 +15,29 @@ public class HistoryResponse {
     @Expose
     private List<History> items = null;
 
-    public Integer getTotalItems() {
-        return totalItems;
-    }
-
-    public void setTotalItems(Integer totalItems) {
+    public HistoryResponse(Integer totalItems, List<History> items)
+    {
         this.totalItems = totalItems;
-    }
-
-    public List<History> getItems() {
-        return items;
-    }
-
-    public void setItems(List<History> items) {
         this.items = items;
     }
 
-    public HistoryResponse(Integer totalItems, List<History> items) {
+    public Integer getTotalItems()
+    {
+        return totalItems;
+    }
+
+    public void setTotalItems(Integer totalItems)
+    {
         this.totalItems = totalItems;
+    }
+
+    public List<History> getItems()
+    {
+        return items;
+    }
+
+    public void setItems(List<History> items)
+    {
         this.items = items;
     }
 }

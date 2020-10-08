@@ -5,7 +5,8 @@ import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 
-public abstract class ProcessingDialogFragment extends DialogFragment {
+public abstract class ProcessingDialogFragment extends DialogFragment
+{
     @BindView(org.sbercoin.wallet.R.id.root_layout)
     protected
     RelativeLayout mRootLayout;

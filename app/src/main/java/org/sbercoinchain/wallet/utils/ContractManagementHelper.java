@@ -21,23 +21,31 @@ import java.util.concurrent.Callable;
 import rx.Observable;
 import rx.functions.Func1;
 
-public class ContractManagementHelper {
+public class ContractManagementHelper
+{
 
-    public static Observable<String> getPropertyValue(final String propName, final Contract contract, final Context context) {
+    public static Observable<String> getPropertyValue(final String propName, final Contract contract, final Context context)
+    {
 
-        return Observable.fromCallable(new Callable<Pair<String[], ContractMethod>>() {
+        return Observable.fromCallable(new Callable<Pair<String[], ContractMethod>>()
+        {
             @Override
-            public Pair<String[], ContractMethod> call() throws Exception {
+            public Pair<String[], ContractMethod> call() throws Exception
+            {
                 final ContractMethod contractMethod = getContractMethod(contract.getUiid(), propName, context);
                 return new Pair<>(getHash(contractMethod.getName()), contractMethod);
             }
-        }).flatMap(new Func1<Pair<String[], ContractMethod>, Observable<String>>() {
+        }).flatMap(new Func1<Pair<String[], ContractMethod>, Observable<String>>()
+        {
             @Override
-            public Observable<String> call(final Pair<String[], ContractMethod> pair) {
+            public Observable<String> call(final Pair<String[], ContractMethod> pair)
+            {
                 return SBERService.newInstance().callSmartContract(contract.getContractAddress(), new CallSmartContractRequest(pair.first))
-                        .map(new Func1<CallSmartContractResponse, String>() {
+                        .map(new Func1<CallSmartContractResponse, String>()
+                        {
                             @Override
-                            public String call(CallSmartContractResponse callSmartContractResponse) {
+                            public String call(CallSmartContractResponse callSmartContractResponse)
+                            {
                                 return processResponse(pair.second.getOutputParams(), callSmartContractResponse.getItems().get(0).getOutput());
                             }
                         });
@@ -45,20 +53,27 @@ public class ContractManagementHelper {
         });
     }
 
-    public static Observable<String> getPropertyValue(final Contract contract, final ContractMethod contractMethod) {
+    public static Observable<String> getPropertyValue(final Contract contract, final ContractMethod contractMethod)
+    {
 
-        return Observable.fromCallable(new Callable<String[]>() {
+        return Observable.fromCallable(new Callable<String[]>()
+        {
             @Override
-            public String[] call() throws Exception {
+            public String[] call() throws Exception
+            {
                 return getHash(contractMethod.getName());
             }
-        }).flatMap(new Func1<String[], Observable<String>>() {
+        }).flatMap(new Func1<String[], Observable<String>>()
+        {
             @Override
-            public Observable<String> call(String[] strings) {
+            public Observable<String> call(String[] strings)
+            {
                 return SBERService.newInstance().callSmartContract(contract.getContractAddress(), new CallSmartContractRequest(strings, contract.getSenderAddress()))
-                        .map(new Func1<CallSmartContractResponse, String>() {
+                        .map(new Func1<CallSmartContractResponse, String>()
+                        {
                             @Override
-                            public String call(CallSmartContractResponse callSmartContractResponse) {
+                            public String call(CallSmartContractResponse callSmartContractResponse)
+                            {
                                 return processResponse(contractMethod.getOutputParams(), callSmartContractResponse.getItems().get(0).getOutput());
                             }
                         });
@@ -66,34 +81,43 @@ public class ContractManagementHelper {
         });
     }
 
-    private static String[] getHash(final String name) {
+    private static String[] getHash(final String name)
+    {
         Keccak keccak = new Keccak();
         String hashMethod = keccak.getHash(Hex.toHexString((name + "()").getBytes()), Parameters.KECCAK_256).substring(0, 8);
         return new String[]{hashMethod};
     }
 
 
-    private static ContractMethod getContractMethod(final String contractUiid, final String methodName, final Context context) {
+    private static ContractMethod getContractMethod(final String contractUiid, final String methodName, final Context context)
+    {
         List<ContractMethod> methods = FileStorageManager.getInstance().getContractMethods(context, contractUiid);
-        for (ContractMethod method : methods) {
-            if (method.getName().equals(methodName)) {
+        for (ContractMethod method : methods)
+        {
+            if (method.getName().equals(methodName))
+            {
                 return method;
             }
         }
         return null;
     }
 
-    public static String processResponse(List<ContractMethodParameter> contractMethodOutputParameterList, String output) {
+    public static String processResponse(List<ContractMethodParameter> contractMethodOutputParameterList, String output)
+    {
         String type = contractMethodOutputParameterList.get(0).getType();
-        if (type.contains("int")) {
-            if (output.isEmpty()) {
+        if (type.contains("int"))
+        {
+            if (output.isEmpty())
+            {
                 return "0";
             }
             return new BigInteger(Hex.decode(output)).toString();
-        } else if (type.contains("string")) {
+        } else if (type.contains("string"))
+        {
             int length = new BigInteger(Hex.decode(output.substring(64, 128))).intValue();
             String stringOutput = new String(Hex.decode(output.substring(128, 128 + length * 2)));
-            if (stringOutput.isEmpty()) {
+            if (stringOutput.isEmpty())
+            {
                 stringOutput = "N/A";
             }
             return stringOutput;

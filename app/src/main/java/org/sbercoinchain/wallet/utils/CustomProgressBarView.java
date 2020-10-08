@@ -12,7 +12,8 @@ import android.util.AttributeSet;
 
 import org.sbercoin.wallet.R;
 
-public class CustomProgressBarView extends android.support.v7.widget.AppCompatImageView {
+public class CustomProgressBarView extends android.support.v7.widget.AppCompatImageView
+{
 
     int i;
     int count;
@@ -21,20 +22,24 @@ public class CustomProgressBarView extends android.support.v7.widget.AppCompatIm
     int progressSrc;
     Drawable vectorDrawable;
 
-    public CustomProgressBarView(Context context) {
+    public CustomProgressBarView(Context context)
+    {
         super(context);
     }
 
-    public CustomProgressBarView(Context context, AttributeSet attrs) {
+    public CustomProgressBarView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.SearchBar,
                 0, 0);
         progressSrc = R.drawable.ic_progress_dark_1;
-        try {
+        try
+        {
             progressSrc = a.getResourceId(R.styleable.CustomProgressBarView_progressSrc, R.drawable.ic_progress_dark_1);
-        } finally {
+        } finally
+        {
             a.recycle();
         }
 
@@ -48,20 +53,24 @@ public class CustomProgressBarView extends android.support.v7.widget.AppCompatIm
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
         vectorDrawable.draw(canvas);
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             canvas.translate(vectorDrawable.getIntrinsicWidth(), 0);
             vectorDrawable.draw(canvas);
         }
         backgroundColor = ((ColorDrawable) getBackground()).getColor();
     }
 
-    public CustomProgressBarView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomProgressBarView(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        if (count == 0) {
+    protected void onDraw(Canvas canvas)
+    {
+        if (count == 0)
+        {
             count = i;
         }
         canvas.drawColor(backgroundColor);

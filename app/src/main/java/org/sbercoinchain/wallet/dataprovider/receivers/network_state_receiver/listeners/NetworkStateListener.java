@@ -1,5 +1,6 @@
 package org.sbercoin.wallet.dataprovider.receivers.network_state_receiver.listeners;
 
-public interface NetworkStateListener {
+public interface NetworkStateListener
+{
     void onNetworkStateChanged(boolean networkConnectedFlag);
 }

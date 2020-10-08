@@ -10,17 +10,20 @@ import org.sbercoin.wallet.utils.FontTextView;
 
 import butterknife.BindView;
 
-public class TagPViewHolder extends TagViewHolder {
+public class TagPViewHolder extends TagViewHolder
+{
 
     @BindView(R.id.tv_tag_p)
     FontTextView mTextView;
 
-    public TagPViewHolder(View itemView) {
+    public TagPViewHolder(View itemView)
+    {
         super(itemView);
     }
 
     @Override
-    public void bindElement(Element element) {
+    public void bindElement(Element element)
+    {
         mTextView.setText(Html.fromHtml(element.html()));
         mTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }

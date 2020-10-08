@@ -17,14 +17,16 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.List;
 
-public abstract class AddressesWithTokenBalanceSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public abstract class AddressesWithTokenBalanceSpinnerAdapter extends BaseAdapter implements SpinnerAdapter
+{
 
-    private Context mContext;
-    private List<AddressWithTokenBalance> mKeyWithBalanceList;
     String currency;
     int decimalUnits;
+    private Context mContext;
+    private List<AddressWithTokenBalance> mKeyWithBalanceList;
 
-    public AddressesWithTokenBalanceSpinnerAdapter(@NonNull Context context, List<AddressWithTokenBalance> keyWithBalanceList, String currency, int decimalUnits) {
+    public AddressesWithTokenBalanceSpinnerAdapter(@NonNull Context context, List<AddressWithTokenBalance> keyWithBalanceList, String currency, int decimalUnits)
+    {
         mContext = context;
         mKeyWithBalanceList = keyWithBalanceList;
         this.currency = currency;
@@ -32,21 +34,25 @@ public abstract class AddressesWithTokenBalanceSpinnerAdapter extends BaseAdapte
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return mKeyWithBalanceList.size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public Object getItem(int i)
+    {
         return mKeyWithBalanceList.get(i);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
-    public View getCustomView(int position, @Nullable int resId, @NonNull ViewGroup parent) {
+    public View getCustomView(int position, @Nullable int resId, @NonNull ViewGroup parent)
+    {
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(resId, parent, false);
         FontTextView textViewAddress = view.findViewById(R.id.address_name);

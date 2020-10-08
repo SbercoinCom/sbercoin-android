@@ -30,7 +30,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.CHECK_AUTHENTICATION;
 
-public class MainActivityPresenterTest {
+public class MainActivityPresenterTest
+{
 
     @Mock
     MainActivityView view;
@@ -39,18 +40,23 @@ public class MainActivityPresenterTest {
     MainActivityPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -59,14 +65,16 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void initializeView_test() {
+    public void initializeView_test()
+    {
         presenter.initializeViews();
 
         verify(interactor, times(1)).addLanguageChangeListener((LanguageChangeListener) any());
     }
 
     @Test
-    public void openStartFragment_keyNotGenerated_test() {
+    public void openStartFragment_keyNotGenerated_test()
+    {
         when(interactor.getKeyGeneratedInstance()).thenReturn(false);
 
         presenter.initializeViews();
@@ -75,7 +83,8 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void openStartFragment_keyGenerated_sendFromIntentTrue_test() {
+    public void openStartFragment_keyGenerated_sendFromIntentTrue_test()
+    {
         when(interactor.getKeyGeneratedInstance()).thenReturn(true);
         presenter.setSendFromIntent(true);
         presenter.initializeViews();
@@ -84,7 +93,8 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void openStartFragment_keyGenerated_test() {
+    public void openStartFragment_keyGenerated_test()
+    {
         when(interactor.getKeyGeneratedInstance()).thenReturn(true);
         presenter.initializeViews();
 
@@ -92,7 +102,8 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void stop_test() {
+    public void stop_test()
+    {
         when(interactor.getKeyGeneratedInstance()).thenReturn(true);
         presenter.onLogin();
         presenter.onStop();
@@ -102,7 +113,8 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void updateNetworkStateTrue_DGPInfoLoaded_FeePerKbLoaded_test() {
+    public void updateNetworkStateTrue_DGPInfoLoaded_FeePerKbLoaded_test()
+    {
         when(interactor.getKeyGeneratedInstance()).thenReturn(true);
         when(interactor.isDGPInfoLoaded()).thenReturn(true);
         when(interactor.isFeePerkbLoaded()).thenReturn(true);
@@ -113,7 +125,8 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void updateNetworkStateTrue_DGPInfoNotLoaded_FeePerKbNotLoaded_test() {
+    public void updateNetworkStateTrue_DGPInfoNotLoaded_FeePerKbNotLoaded_test()
+    {
         FeePerKb feePerKb = mock(FeePerKb.class);
         DGPInfo dgpInfo = mock(DGPInfo.class);
         when(interactor.getKeyGeneratedInstance()).thenReturn(true);
@@ -131,7 +144,8 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void onDestroy_Test() {
+    public void onDestroy_Test()
+    {
         presenter.onDestroy();
 
         verify(interactor, times(1)).clearStatic();
@@ -140,7 +154,8 @@ public class MainActivityPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

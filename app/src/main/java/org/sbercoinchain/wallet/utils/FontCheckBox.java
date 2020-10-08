@@ -8,16 +8,20 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
-public class FontCheckBox extends AppCompatCheckBox {
-    public FontCheckBox(Context context) {
+public class FontCheckBox extends AppCompatCheckBox
+{
+    public FontCheckBox(Context context)
+    {
         this(context, null);
     }
 
-    public FontCheckBox(Context context, AttributeSet attrs) {
+    public FontCheckBox(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public FontCheckBox(Context context, AttributeSet attrs, int defStyle) {
+    public FontCheckBox(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
 
         if (isInEditMode())
@@ -25,10 +29,12 @@ public class FontCheckBox extends AppCompatCheckBox {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, org.sbercoin.wallet.R.styleable.FontCheckBox);
 
-        if (ta != null) {
+        if (ta != null)
+        {
             String fontAsset = ta.getString(org.sbercoin.wallet.R.styleable.FontCheckBox_checkBoxTypeface);
 
-            if (!TextUtils.isEmpty(fontAsset)) {
+            if (!TextUtils.isEmpty(fontAsset))
+            {
                 Typeface tf = FontManager.getInstance().getFont(fontAsset);
                 int style = Typeface.NORMAL;
 

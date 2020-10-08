@@ -9,22 +9,26 @@ import org.sbercoin.wallet.ui.fragment.contract_function_fragment.contract_defau
 
 import java.util.List;
 
-public class ContractFunctionDefaultFragmentDark extends ContractFunctionDefaultFragment {
+public class ContractFunctionDefaultFragmentDark extends ContractFunctionDefaultFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_function_detail;
     }
 
     @Override
-    public void setUpParameterList(List<ContractMethodParameter> contractMethodParameterList) {
+    public void setUpParameterList(List<ContractMethodParameter> contractMethodParameterList)
+    {
         mParameterAdapter = new ParameterAdapter(contractMethodParameterList, R.layout.lyt_constructor_input);
         mParameterList.setAdapter(mParameterAdapter);
     }
 
     @Override
-    public void updateAddressWithBalanceSpinner(List<AddressWithBalance> addressWithBalances) {
-        AddressesWithBalanceSpinnerAdapter adapter = new AddressesWithBalanceSpinnerAdapterDark(getContext(),addressWithBalances);
+    public void updateAddressWithBalanceSpinner(List<AddressWithBalance> addressWithBalances)
+    {
+        AddressesWithBalanceSpinnerAdapter adapter = new AddressesWithBalanceSpinnerAdapterDark(getContext(), addressWithBalances);
         mSpinner.setAdapter(adapter);
     }
 }

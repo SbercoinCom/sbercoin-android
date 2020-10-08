@@ -13,15 +13,19 @@ import org.sbercoin.wallet.ui.fragment.news_detail_fragment.tag_view_holders.Tag
 import org.sbercoin.wallet.ui.fragment.news_detail_fragment.tag_view_holders.TagUlViewHolder;
 import org.sbercoin.wallet.ui.fragment.news_detail_fragment.tag_view_holders.TagViewHolder;
 
-public class ElementsAdapterDark extends ElementsAdapter {
+public class ElementsAdapterDark extends ElementsAdapter
+{
 
-    ElementsAdapterDark(Elements elements) {
+    ElementsAdapterDark(Elements elements)
+    {
         super(elements);
     }
 
     @Override
-    public TagViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
+    public TagViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        switch (viewType)
+        {
             case TYPE_TAG_P:
                 return new TagPViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tag_p_element, parent, false));
             case TYPE_TAG_FIGURE:

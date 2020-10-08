@@ -34,13 +34,12 @@ import java.text.DecimalFormat;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class ContractFunctionDefaultFragment extends BaseFragment implements ContractFunctionDefaultView {
+public abstract class ContractFunctionDefaultFragment extends BaseFragment implements ContractFunctionDefaultView
+{
 
-    private ContractFunctionDefaultPresenter mContractFunctionPresenterImpl;
     private final static String CONTRACT_TEMPLATE_UIID = "contract_template_uiid";
     private final static String METHOD_NAME = "method_name";
     private final static String CONTRACT_ADDRESS = "contract_address";
-
     @BindView(org.sbercoin.wallet.R.id.recycler_view)
     protected RecyclerView mParameterList;
     protected ParameterAdapter mParameterAdapter;
@@ -48,6 +47,8 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
     protected TextInputEditText mTextInputEditTextFee;
     @BindView(R.id.til_fee)
     protected TextInputLayout tilFee;
+    @BindView(R.id.spinner_default_address)
+    protected Spinner mSpinner;
     @BindView(R.id.seekBar)
     SeekBar mSeekBarFee;
     @BindView(R.id.seekBar_gas_limit)
@@ -83,39 +84,59 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
     FontButton mFontButtonEditClose;
     @BindView(R.id.seek_bar_container)
     LinearLayout mLinearLayoutSeekBarContainer;
-
-    @BindView(R.id.spinner_default_address)
-    protected Spinner mSpinner;
-
     @BindView(R.id.tv_address)
     TextView mTextViewAddress;
-
     @BindView(R.id.nested_scroll_view)
     NestedScrollView mNestedScrollView;
-
     int mMinFee;
     int mMaxFee;
     int stepFee = 1;
-
     boolean seekBarChangeValue = false;
     boolean textViewChangeValue = false;
-
     int mMinGasPrice;
     int mMaxGasPrice;
     int stepGasPrice = 5;
-
     int mMinGasLimit;
     int mMaxGasLimit;
     int stepGasLimit = 100000;
+    boolean showing = false;
+    private ContractFunctionDefaultPresenter mContractFunctionPresenterImpl;
+    PinDialogFragment.PinCallBack callback = new PinDialogFragment.PinCallBack()
+    {
+        @Override
+        public void onSuccess(String pin)
+        {
+            getPresenter().onCallClick(mParameterAdapter.getParams(), getArguments().getString(CONTRACT_ADDRESS), mTextInputEditTextFee.getText().toString(),
+                    Integer.valueOf(mFontTextViewGasLimit.getText().toString()), Integer.valueOf(mFontTextViewGasPrice.getText().toString()), getArguments().getString(METHOD_NAME), mTextViewAddress.getText().toString(), mEtSendToContract.getText().toString(), KeyStoreHelper.getSeed(getContext(), pin));
+        }
 
+        @Override
+        public void onError(String error)
+        {
+            hideKeyBoard();
+            setAlertDialog(R.string.warning, error, R.string.cancel, PopUpType.error);
+        }
+    };
     private int appLogoHeight = 0;
     private ResizeHeightAnimation mAnimForward;
     private ResizeHeightAnimation mAnimBackward;
-    boolean showing = false;
+
+    public static BaseFragment newInstance(Context context, String methodName, String uiid, String contractAddress)
+    {
+        Bundle args = new Bundle();
+        args.putString(CONTRACT_TEMPLATE_UIID, uiid);
+        args.putString(METHOD_NAME, methodName);
+        args.putString(CONTRACT_ADDRESS, contractAddress);
+        BaseFragment fragment = Factory.instantiateFragment(context, ContractFunctionDefaultFragment.class);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @OnClick({R.id.ibt_back, R.id.call, R.id.bt_edit_close})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.ibt_back:
                 getActivity().onBackPressed();
                 break;
@@ -123,11 +144,13 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
                 showPinDialog();
                 break;
             case R.id.bt_edit_close:
-                if (showing) {
+                if (showing)
+                {
                     mLinearLayoutSeekBarContainer.startAnimation(mAnimBackward);
                     mFontButtonEditClose.setText(R.string.edit);
                     showing = !showing;
-                } else {
+                } else
+                {
                     mLinearLayoutSeekBarContainer.startAnimation(mAnimForward);
                     mFontButtonEditClose.setText(R.string.close);
                     showing = !showing;
@@ -136,7 +159,8 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
         }
     }
 
-    private void initializeAnim() {
+    private void initializeAnim()
+    {
         mAnimForward = new ResizeHeightAnimation(mLinearLayoutSeekBarContainer, 0, appLogoHeight);
         mAnimForward.setDuration(300);
         mAnimForward.setFillEnabled(true);
@@ -148,65 +172,50 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
         mAnimBackward.setFillAfter(true);
     }
 
-    public static BaseFragment newInstance(Context context, String methodName, String uiid, String contractAddress) {
-        Bundle args = new Bundle();
-        args.putString(CONTRACT_TEMPLATE_UIID, uiid);
-        args.putString(METHOD_NAME, methodName);
-        args.putString(CONTRACT_ADDRESS, contractAddress);
-        BaseFragment fragment = Factory.instantiateFragment(context, ContractFunctionDefaultFragment.class);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mContractFunctionPresenterImpl = new ContractFunctionDefaultPresenterImpl(this, new ContractFunctionDefaultInteractorImpl(getContext()));
     }
 
     @Override
-    protected ContractFunctionDefaultPresenter getPresenter() {
+    protected ContractFunctionDefaultPresenter getPresenter()
+    {
         return mContractFunctionPresenterImpl;
     }
 
     @Override
-    public void showEtSendToContract() {
+    public void showEtSendToContract()
+    {
         mTilSendToContract.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideEtSendToContract() {
+    public void hideEtSendToContract()
+    {
         mTilSendToContract.setVisibility(View.GONE);
     }
 
-    private void showPinDialog() {
+    private void showPinDialog()
+    {
         PinDialogFragment pinDialogFragment = new PinDialogFragment();
         pinDialogFragment.setTouchIdFlag(getMainActivity().checkTouchIdEnable());
         pinDialogFragment.addPinCallBack(callback);
         pinDialogFragment.show(getFragmentManager(), pinDialogFragment.getClass().getCanonicalName());
     }
 
-    PinDialogFragment.PinCallBack callback = new PinDialogFragment.PinCallBack() {
-        @Override
-        public void onSuccess(String pin) {
-            getPresenter().onCallClick(mParameterAdapter.getParams(), getArguments().getString(CONTRACT_ADDRESS), mTextInputEditTextFee.getText().toString(),
-                    Integer.valueOf(mFontTextViewGasLimit.getText().toString()), Integer.valueOf(mFontTextViewGasPrice.getText().toString()), getArguments().getString(METHOD_NAME), mTextViewAddress.getText().toString(), mEtSendToContract.getText().toString(), KeyStoreHelper.getSeed(getContext(), pin));
-        }
-
-        @Override
-        public void onError(String error) {
-            hideKeyBoard();
-            setAlertDialog(R.string.warning, error, R.string.cancel, PopUpType.error);
-        }
-    };
-
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         mParameterList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mSeekBarFee.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarFee.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (textViewChangeValue) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                if (textViewChangeValue)
+                {
                     textViewChangeValue = false;
                     return;
                 }
@@ -215,50 +224,63 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
             }
         });
 
-        mSeekBarGasPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarGasPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
                 int value = (mMinGasPrice + (progress * stepGasPrice));
                 mFontTextViewGasPrice.setText(String.valueOf(value));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
             }
         });
 
-        mSeekBarGasLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarGasLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
                 int value = (mMinGasLimit + (progress * stepGasLimit));
                 mFontTextViewGasLimit.setText(String.valueOf(value));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
             }
         });
 
-        if (mLinearLayoutSeekBarContainer.getHeight() == 0) {
-            mLinearLayoutSeekBarContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        if (mLinearLayoutSeekBarContainer.getHeight() == 0)
+        {
+            mLinearLayoutSeekBarContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+            {
                 @Override
-                public void onGlobalLayout() {
+                public void onGlobalLayout()
+                {
                     mLinearLayoutSeekBarContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     appLogoHeight = (appLogoHeight == 0) ? mLinearLayoutSeekBarContainer.getHeight() : appLogoHeight;
                     initializeAnim();
@@ -266,33 +288,42 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
                     mLinearLayoutSeekBarContainer.requestLayout();
                 }
             });
-        } else {
+        } else
+        {
             appLogoHeight = (appLogoHeight == 0) ? mLinearLayoutSeekBarContainer.getHeight() : appLogoHeight;
             initializeAnim();
             mLinearLayoutSeekBarContainer.getLayoutParams().height = 0;
             mLinearLayoutSeekBarContainer.requestLayout();
         }
 
-        mTextInputEditTextFee.addTextChangedListener(new TextWatcher() {
+        mTextInputEditTextFee.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (seekBarChangeValue) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (seekBarChangeValue)
+                {
                     seekBarChangeValue = false;
                     return;
                 }
-                if (!s.toString().isEmpty()) {
+                if (!s.toString().isEmpty())
+                {
                     Double fee = Double.valueOf(s.toString()) * 10000000;
                     textViewChangeValue = true;
                     int progress;
-                    if (fee < mMinFee) {
+                    if (fee < mMinFee)
+                    {
                         progress = 0;
-                    } else if (fee > mMaxFee) {
+                    } else if (fee > mMaxFee)
+                    {
                         progress = (mMaxFee - mMinFee) / stepFee;
-                    } else {
+                    } else
+                    {
                         progress = (fee.intValue() - mMinFee) / stepFee;
                     }
                     mSeekBarFee.setProgress(progress);
@@ -300,15 +331,20 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
             }
         });
 
-        mTextInputEditTextFee.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mTextInputEditTextFee.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mSeekBarFee != null) {
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (!hasFocus)
+                {
+                    if (mSeekBarFee != null)
+                    {
                         textViewChangeValue = true;
                         double value = (mMinFee + (mSeekBarFee.getProgress() * stepFee)) / 10000000.;
                         seekBarChangeValue = true;
@@ -318,25 +354,32 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
             }
         });
 
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
                 mTextViewAddress.setText(((AddressWithBalance) mSpinner.getItemAtPosition(i)).getAddress());
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
 
             }
         });
 
-        mLinearLayoutSeekBarContainer.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        mLinearLayoutSeekBarContainer.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+        {
             @Override
-            public void onLayoutChange(View view, int i, int i1, int i2, final int i3, final int i4, int i5, int i6, final int i7) {
-                mNestedScrollView.post(new Runnable() {
+            public void onLayoutChange(View view, int i, int i1, int i2, final int i3, final int i4, int i5, int i6, final int i7)
+            {
+                mNestedScrollView.post(new Runnable()
+                {
 
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         if (i7 != 0 && i3 > i7)
                             mNestedScrollView.scrollTo(0, mNestedScrollView.getScrollY() + i3);
                     }
@@ -346,7 +389,8 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
     }
 
     @Override
-    public void updateFee(double minFee, double maxFee) {
+    public void updateFee(double minFee, double maxFee)
+    {
         mFontTextViewMaxFee.setText(new DecimalFormat("#.########").format(maxFee));
         mFontTextViewMinFee.setText(new DecimalFormat("#.########").format(minFee));
         mMinFee = Double.valueOf(minFee * 10000000).intValue();
@@ -356,7 +400,8 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
     }
 
     @Override
-    public void updateGasPrice(int minGasPrice, int maxGasPrice) {
+    public void updateGasPrice(int minGasPrice, int maxGasPrice)
+    {
         mFontTextViewMaxGasPrice.setText(String.valueOf(maxGasPrice));
         mFontTextViewMinGasPrice.setText(String.valueOf(minGasPrice));
         mMinGasPrice = minGasPrice;
@@ -365,7 +410,8 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
     }
 
     @Override
-    public void updateGasLimit(int minGasLimit, int maxGasLimit) {
+    public void updateGasLimit(int minGasLimit, int maxGasLimit)
+    {
         mFontTextViewMaxGasLimit.setText(String.valueOf(maxGasLimit));
         mFontTextViewMinGasLimit.setText(String.valueOf(minGasLimit));
         mMinGasLimit = minGasLimit;
@@ -375,12 +421,14 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
     }
 
     @Override
-    public String getContractTemplateUiid() {
+    public String getContractTemplateUiid()
+    {
         return getArguments().getString(CONTRACT_TEMPLATE_UIID);
     }
 
     @Override
-    public String getMethodName() {
+    public String getMethodName()
+    {
         return getArguments().getString(METHOD_NAME);
     }
 

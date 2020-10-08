@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ContractMethod {
+public class ContractMethod
+{
 
     @SerializedName("constant")
     private boolean constant;
@@ -24,11 +25,13 @@ public class ContractMethod {
     @SerializedName("type")
     private String type;
 
-    public ContractMethod() {
+    public ContractMethod()
+    {
 
     }
 
-    public ContractMethod(boolean constant, String type, List<ContractMethodParameter> inputParams, String name, List<ContractMethodParameter> outputParams) {
+    public ContractMethod(boolean constant, String type, List<ContractMethodParameter> inputParams, String name, List<ContractMethodParameter> outputParams)
+    {
         this.constant = constant;
         this.type = type;
         this.inputParams = inputParams;
@@ -39,31 +42,38 @@ public class ContractMethod {
     /**
      * Constructor for unit testing
      */
-    public ContractMethod(String name) {
+    public ContractMethod(String name)
+    {
         this.name = name;
     }
 
-    public boolean isConstant() {
+    public boolean isConstant()
+    {
         return constant;
     }
 
-    public List<ContractMethodParameter> getInputParams() {
+    public List<ContractMethodParameter> getInputParams()
+    {
         return inputParams;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public List<ContractMethodParameter> getOutputParams() {
+    public List<ContractMethodParameter> getOutputParams()
+    {
         return outputParams;
     }
 
-    public boolean isPayable() {
+    public boolean isPayable()
+    {
         return payable;
     }
 
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
 }

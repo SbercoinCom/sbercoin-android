@@ -2,15 +2,18 @@ package org.sbercoin.wallet.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Currency {
+public class Currency
+{
     @SerializedName("name")
     private String mName;
 
-    public Currency(String name) {
+    public Currency(String name)
+    {
         mName = name;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return mName;
     }
 }

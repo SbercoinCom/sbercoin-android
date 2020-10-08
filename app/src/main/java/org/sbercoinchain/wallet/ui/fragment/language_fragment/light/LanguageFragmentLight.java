@@ -7,14 +7,17 @@ import org.sbercoin.wallet.ui.fragment.language_fragment.LanguageFragment;
 
 import java.util.List;
 
-public class LanguageFragmentLight extends LanguageFragment {
+public class LanguageFragmentLight extends LanguageFragment
+{
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_language_light;
     }
 
     @Override
-    public void setUpLanguagesList(List<Pair<String, String>> languagesList) {
+    public void setUpLanguagesList(List<Pair<String, String>> languagesList)
+    {
         mLanguagesList = languagesList;
         mLanguageAdapter = new LanguageAdapterLight(languagesList, this);
         mRecyclerView.setAdapter(mLanguageAdapter);

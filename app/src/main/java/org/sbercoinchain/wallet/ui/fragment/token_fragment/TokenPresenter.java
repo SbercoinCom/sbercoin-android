@@ -3,7 +3,8 @@ package org.sbercoin.wallet.ui.fragment.token_fragment;
 import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 
-public interface TokenPresenter extends BaseFragmentPresenter {
+public interface TokenPresenter extends BaseFragmentPresenter
+{
     Token getToken();
 
     void setToken(Token token);

@@ -2,12 +2,12 @@ package org.sbercoin.wallet.ui.fragment.restore_contracts_fragment;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.ContractTemplate;
-import org.sbercoin.wallet.model.contract.Contract;
-import org.sbercoin.wallet.model.contract.ContractCreationStatus;
-import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.model.backup.Backup;
 import org.sbercoin.wallet.model.backup.ContractJSON;
 import org.sbercoin.wallet.model.backup.TemplateJSON;
+import org.sbercoin.wallet.model.contract.Contract;
+import org.sbercoin.wallet.model.contract.ContractCreationStatus;
+import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import org.sbercoin.wallet.utils.DateCalculator;
@@ -18,62 +18,79 @@ import java.util.concurrent.Callable;
 
 import rx.Observable;
 
-public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl implements RestoreContractsPresenter {
+public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl implements RestoreContractsPresenter
+{
 
     private RestoreContractsView mRestoreContractsView;
     private RestoreContractsInteractor mRestoreContractsInteractor;
     private boolean restoreTemplates, restoreContracts, restoreTokens;
     private Backup mBackup;
 
-    public RestoreContractsPresenterImpl(RestoreContractsView view, RestoreContractsInteractor interactor) {
+    public RestoreContractsPresenterImpl(RestoreContractsView view, RestoreContractsInteractor interactor)
+    {
         mRestoreContractsView = view;
         mRestoreContractsInteractor = interactor;
     }
 
     @Override
-    public RestoreContractsView getView() {
+    public RestoreContractsView getView()
+    {
         return mRestoreContractsView;
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated()
+    {
         super.onViewCreated();
     }
 
     @Override
-    public void onDeleteFileClick() {
+    public void onDeleteFileClick()
+    {
         getView().deleteFile();
-        if (mBackup != null) {
+        if (mBackup != null)
+        {
             mBackup = null;
         }
     }
 
     @Override
-    public void onRestoreClick(final boolean restoreTemplates, final boolean restoreContracts, final boolean restoreTokens) {
+    public void onRestoreClick(final boolean restoreTemplates, final boolean restoreContracts, final boolean restoreTokens)
+    {
         this.restoreTemplates = restoreTemplates;
         this.restoreContracts = restoreContracts;
         this.restoreTokens = restoreTokens;
-        if (restoreTemplates || restoreContracts || restoreTokens) {
-            if (getView().getRestoreFile() != null) {
-                try {
+        if (restoreTemplates || restoreContracts || restoreTokens)
+        {
+            if (getView().getRestoreFile() != null)
+            {
+                try
+                {
                     mBackup = getInteractor().getBackupFromFile(getView().getRestoreFile());
                     int templatesCountInt = 0;
                     int contractsCountInt = 0;
                     int tokensCountInt = 0;
 
-                    if (restoreTemplates) {
+                    if (restoreTemplates)
+                    {
                         templatesCountInt = mBackup.getTemplates().size();
                     }
-                    if (restoreContracts) {
-                        for (ContractJSON contractJSON : mBackup.getContracts()) {
-                            if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))) {
+                    if (restoreContracts)
+                    {
+                        for (ContractJSON contractJSON : mBackup.getContracts())
+                        {
+                            if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")))
+                            {
                                 contractsCountInt++;
                             }
                         }
                     }
-                    if (restoreTokens) {
-                        for (ContractJSON contractJSON : mBackup.getContracts()) {
-                            if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")) {
+                    if (restoreTokens)
+                    {
+                        for (ContractJSON contractJSON : mBackup.getContracts())
+                        {
+                            if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))
+                            {
                                 tokensCountInt++;
                             }
                         }
@@ -83,7 +100,8 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
                     String tokensCount = String.valueOf(tokensCountInt);
 
                     getView().showRestoreDialogFragment(mBackup.getDateCreate(), mBackup.getFileVersion(), templatesCount, contractsCount, tokensCount);
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                     getView().setAlertDialog(R.string.something_went_wrong, "", "OK", BaseFragment.PopUpType.error, getView().getAlertCallback());
                 }
@@ -92,28 +110,39 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
     }
 
     @Override
-    public Observable<Boolean> createBackupData() {
-        return rx.Observable.fromCallable(new Callable<Boolean>() {
+    public Observable<Boolean> createBackupData()
+    {
+        return rx.Observable.fromCallable(new Callable<Boolean>()
+        {
             @Override
-            public Boolean call() throws Exception {
+            public Boolean call() throws Exception
+            {
 
-                if (!validateBackup()) {
+                if (!validateBackup())
+                {
                     return false;
                 }
 
                 List<ContractTemplate> templates = getInteractor().getContractTemplates();
 
-                if (!restoreContracts && !restoreTokens) {
-                    for (TemplateJSON templateJSON : mBackup.getTemplates()) {
+                if (!restoreContracts && !restoreTokens)
+                {
+                    for (TemplateJSON templateJSON : mBackup.getTemplates())
+                    {
                         getInteractor().importTemplate(templateJSON, templates);
                     }
 
-                } else if (!restoreTemplates && !restoreTokens) {
+                } else if (!restoreTemplates && !restoreTokens)
+                {
                     List<Contract> contractList = new ArrayList<>();
-                    for (ContractJSON contractJSON : mBackup.getContracts()) {
-                        if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))) {
-                            for (TemplateJSON templateJSON : mBackup.getTemplates()) {
-                                if (contractJSON.getTemplate().equals(templateJSON.getUuid())) {
+                    for (ContractJSON contractJSON : mBackup.getContracts())
+                    {
+                        if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")))
+                        {
+                            for (TemplateJSON templateJSON : mBackup.getTemplates())
+                            {
+                                if (contractJSON.getTemplate().equals(templateJSON.getUuid()))
+                                {
                                     ContractTemplate contractTemplate = getInteractor().importTemplate(templateJSON, templates);
                                     //TODO change Created status
                                     Contract contract = new Contract(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()), contractJSON.getContractCreationAddres(), contractJSON.getName());
@@ -124,12 +153,17 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
                         getInteractor().putListWithoutToken(contractList);
                     }
 
-                } else if (!restoreTemplates && !restoreContracts) {
+                } else if (!restoreTemplates && !restoreContracts)
+                {
                     List<Token> tokenList = new ArrayList<>();
-                    for (ContractJSON contractJSON : mBackup.getContracts()) {
-                        if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")) {
-                            for (TemplateJSON templateJSON : mBackup.getTemplates()) {
-                                if (contractJSON.getTemplate().equals(templateJSON.getUuid())) {
+                    for (ContractJSON contractJSON : mBackup.getContracts())
+                    {
+                        if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))
+                        {
+                            for (TemplateJSON templateJSON : mBackup.getTemplates())
+                            {
+                                if (contractJSON.getTemplate().equals(templateJSON.getUuid()))
+                                {
                                     ContractTemplate contractTemplate = getInteractor().importTemplate(templateJSON, templates);
                                     //TODO change Created status
                                     Token token = new Token(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()),
@@ -143,13 +177,18 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
                         getInteractor().putTokenList(tokenList);
                     }
 
-                } else if (!restoreTemplates) {
+                } else if (!restoreTemplates)
+                {
                     List<Token> tokenList = new ArrayList<>();
                     List<Contract> contractList = new ArrayList<>();
-                    for (ContractJSON contractJSON : mBackup.getContracts()) {
-                        if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")) {
-                            for (TemplateJSON templateJSON : mBackup.getTemplates()) {
-                                if (contractJSON.getTemplate().equals(templateJSON.getUuid())) {
+                    for (ContractJSON contractJSON : mBackup.getContracts())
+                    {
+                        if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))
+                        {
+                            for (TemplateJSON templateJSON : mBackup.getTemplates())
+                            {
+                                if (contractJSON.getTemplate().equals(templateJSON.getUuid()))
+                                {
                                     ContractTemplate contractTemplate = getInteractor().importTemplate(templateJSON, templates);
                                     //TODO
                                     Token token = new Token(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()), contractJSON.getContractCreationAddres(), contractJSON.getName());
@@ -158,9 +197,12 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
                                     tokenList.add(token);
                                 }
                             }
-                        } else {
-                            for (TemplateJSON templateJSON : mBackup.getTemplates()) {
-                                if (contractJSON.getTemplate().equals(templateJSON.getUuid())) {
+                        } else
+                        {
+                            for (TemplateJSON templateJSON : mBackup.getTemplates())
+                            {
+                                if (contractJSON.getTemplate().equals(templateJSON.getUuid()))
+                                {
                                     ContractTemplate contractTemplate = getInteractor().importTemplate(templateJSON, templates);
                                     //TODO
                                     Contract contract = new Contract(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()),
@@ -174,18 +216,24 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
                     getInteractor().putTokenList(tokenList);
                     getInteractor().putListWithoutToken(contractList);
 
-                } else if (restoreContracts && restoreTokens) {
+                } else if (restoreContracts && restoreTokens)
+                {
                     List<Token> tokenList = new ArrayList<>();
                     List<Contract> contractList = new ArrayList<>();
-                    for (TemplateJSON templateJSON : mBackup.getTemplates()) {
+                    for (TemplateJSON templateJSON : mBackup.getTemplates())
+                    {
                         ContractTemplate contractTemplate = getInteractor().importTemplate(templateJSON, templates);
-                        for (ContractJSON contractJSON : mBackup.getContracts()) {
-                            if (contractJSON.getTemplate().equals(templateJSON.getUuid())) {
-                                if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))) {
+                        for (ContractJSON contractJSON : mBackup.getContracts())
+                        {
+                            if (contractJSON.getTemplate().equals(templateJSON.getUuid()))
+                            {
+                                if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")))
+                                {
                                     //TODO
                                     Contract contract = new Contract(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()), contractJSON.getContractCreationAddres(), contractJSON.getName());
                                     contractList.add(contract);
-                                } else if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")) {
+                                } else if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))
+                                {
                                     //TODO
                                     Token token = new Token(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()), contractJSON.getContractCreationAddres(), contractJSON.getName());
                                     token.setSubscribe(contractJSON.getIsActive());
@@ -199,13 +247,18 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
                     getInteractor().putTokenList(tokenList);
                     getInteractor().putListWithoutToken(contractList);
 
-                } else if (restoreContracts) {
+                } else if (restoreContracts)
+                {
                     List<Contract> contractList = new ArrayList<>();
-                    for (TemplateJSON templateJSON : mBackup.getTemplates()) {
+                    for (TemplateJSON templateJSON : mBackup.getTemplates())
+                    {
                         ContractTemplate contractTemplate = getInteractor().importTemplate(templateJSON, templates);
-                        for (ContractJSON contractJSON : mBackup.getContracts()) {
-                            if (contractJSON.getTemplate().equals(templateJSON.getUuid())) {
-                                if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))) {
+                        for (ContractJSON contractJSON : mBackup.getContracts())
+                        {
+                            if (contractJSON.getTemplate().equals(templateJSON.getUuid()))
+                            {
+                                if (!(contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")))
+                                {
                                     //TODO
                                     Contract contract = new Contract(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()), contractJSON.getContractCreationAddres(), contractJSON.getName());
                                     contractList.add(contract);
@@ -214,13 +267,18 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
                         }
                     }
                     getInteractor().putListWithoutToken(contractList);
-                } else {
+                } else
+                {
                     List<Token> tokenList = new ArrayList<>();
-                    for (TemplateJSON templateJSON : mBackup.getTemplates()) {
+                    for (TemplateJSON templateJSON : mBackup.getTemplates())
+                    {
                         ContractTemplate contractTemplate = getInteractor().importTemplate(templateJSON, templates);
-                        for (ContractJSON contractJSON : mBackup.getContracts()) {
-                            if (contractJSON.getTemplate().equals(templateJSON.getUuid())) {
-                                if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale")) {
+                        for (ContractJSON contractJSON : mBackup.getContracts())
+                        {
+                            if (contractJSON.getTemplate().equals(templateJSON.getUuid()))
+                            {
+                                if (contractJSON.getType().equals("token") || contractJSON.getType().equals("crowdsale"))
+                                {
                                     //TODO
                                     Token token = new Token(contractJSON.getContractAddress(), contractTemplate.getUuid(), ContractCreationStatus.Created, DateCalculator.getLongDateInTimeZone(contractJSON.getPublishDate()), contractJSON.getContractCreationAddres(), contractJSON.getName());
                                     token.setSubscribe(contractJSON.getIsActive());
@@ -237,27 +295,37 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
         });
     }
 
-    private boolean validateBackup() {
+    private boolean validateBackup()
+    {
         if (mBackup == null)
             return false;
-        if (mBackup.getTemplates() != null) {
-            for (TemplateJSON templateJSON : mBackup.getTemplates()) {
-                if (!getInteractor().getTemplateValidity(templateJSON)) {
+        if (mBackup.getTemplates() != null)
+        {
+            for (TemplateJSON templateJSON : mBackup.getTemplates())
+            {
+                if (!getInteractor().getTemplateValidity(templateJSON))
+                {
                     return false;
                 }
             }
         }
-        if (mBackup.getContracts() != null) {
-            for (ContractJSON contractJSON : mBackup.getContracts()) {
-                if (!getInteractor().getContractValidity(contractJSON)) {
+        if (mBackup.getContracts() != null)
+        {
+            for (ContractJSON contractJSON : mBackup.getContracts())
+            {
+                if (!getInteractor().getContractValidity(contractJSON))
+                {
                     return false;
                 }
             }
         }
-        if (mBackup.getContracts() != null && mBackup.getTemplates() != null) {
+        if (mBackup.getContracts() != null && mBackup.getTemplates() != null)
+        {
             List<ContractJSON> contractJSONList = new ArrayList<>();
-            for (ContractJSON contractJSON : mBackup.getContracts()) {
-                if (validateContractCreationAddress(contractJSON, mBackup.getTemplates())) {
+            for (ContractJSON contractJSON : mBackup.getContracts())
+            {
+                if (validateContractCreationAddress(contractJSON, mBackup.getTemplates()))
+                {
                     contractJSONList.add(contractJSON);
                 }
             }
@@ -266,19 +334,23 @@ public class RestoreContractsPresenterImpl extends BaseFragmentPresenterImpl imp
         return true;
     }
 
-    private boolean validateContractCreationAddress(ContractJSON contractJSON, List<TemplateJSON> templates) {
+    private boolean validateContractCreationAddress(ContractJSON contractJSON, List<TemplateJSON> templates)
+    {
         return getInteractor().validateContractCreationAddress(contractJSON, templates);
     }
 
-    interface RestoreDialogCallBack {
-        void onRestoreClick();
-    }
-
-    public RestoreContractsInteractor getInteractor() {
+    public RestoreContractsInteractor getInteractor()
+    {
         return mRestoreContractsInteractor;
     }
 
-    public void setBackup(Backup mBackup) {
+    public void setBackup(Backup mBackup)
+    {
         this.mBackup = mBackup;
+    }
+
+    interface RestoreDialogCallBack
+    {
+        void onRestoreClick();
     }
 }

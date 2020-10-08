@@ -15,19 +15,25 @@ import org.sbercoin.wallet.dataprovider.services.update_service.UpdateService;
 import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenListener;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.base.base_nav_fragment.BaseNavFragment;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.fragment.other_tokens.OtherTokensFragment;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.WalletFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 
 import butterknife.BindView;
 
-public abstract class WalletMainFragment extends BaseNavFragment implements WalletMainView {
+public abstract class WalletMainFragment extends BaseNavFragment implements WalletMainView
+{
 
+    @BindView(org.sbercoin.wallet.R.id.view_pager)
+    protected
+    ViewPager pager;
     private WalletFragment mWalletFragment;
     private OtherTokensFragment mOtherTokensFragment;
     private UpdateService mUpdateService;
+    private WalletMainPresenter mWalletMainPresenter;
 
-    public static WalletMainFragment newInstance(Context context) {
+    public static WalletMainFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         WalletMainFragment fragment = (WalletMainFragment) Factory.instantiateFragment(context, WalletMainFragment.class);
         fragment.setArguments(args);
@@ -35,64 +41,72 @@ public abstract class WalletMainFragment extends BaseNavFragment implements Wall
     }
 
     @Override
-    public void activateTab() {
+    public void activateTab()
+    {
         getMainActivity().setIconChecked(0);
     }
 
     @Override
-    public String getNavigationTag() {
+    public String getNavigationTag()
+    {
         return WalletMainFragment.class.getCanonicalName();
     }
 
-    private WalletMainPresenter mWalletMainPresenter;
-
-    @BindView(org.sbercoin.wallet.R.id.view_pager)
-    protected
-    ViewPager pager;
-
     @Override
-    public int getRootView() {
+    public int getRootView()
+    {
         return R.id.fragment_container;
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mWalletMainPresenter = new WalletMainPresenterImpl(this, new WalletMainInteractorImpl(getContext()));
     }
 
     @Override
-    protected WalletMainPresenter getPresenter() {
+    protected WalletMainPresenter getPresenter()
+    {
         return mWalletMainPresenter;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         pager.setAdapter(new FragmentAdapter(getChildFragmentManager()));
         showBottomNavView(false);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         getMainActivity().setIconChecked(0);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         checkOtherTokens();
     }
 
-    private void checkOtherTokens(){
-        getMainActivity().subscribeServiceConnectionChangeEvent(new MainActivity.OnServiceConnectionChangeListener() {
+    private void checkOtherTokens()
+    {
+        getMainActivity().subscribeServiceConnectionChangeEvent(new MainActivity.OnServiceConnectionChangeListener()
+        {
             @Override
-            public void onServiceConnectionChange(boolean isConnecting) {
-                if (isConnecting) {
+            public void onServiceConnectionChange(boolean isConnecting)
+            {
+                if (isConnecting)
+                {
                     mUpdateService = getMainActivity().getUpdateService();
-                    mUpdateService.addTokenListener(new TokenListener() {
+                    mUpdateService.addTokenListener(new TokenListener()
+                    {
                         @Override
-                        public void newToken() {
+                        public void newToken()
+                        {
                             getPresenter().checkOtherTokens();
                         }
                     });
@@ -103,67 +117,97 @@ public abstract class WalletMainFragment extends BaseNavFragment implements Wall
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
+    public void onHiddenChanged(boolean hidden)
+    {
         super.onHiddenChanged(hidden);
-        if(hidden) {
+        if (hidden)
+        {
             checkOtherTokens();
         }
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        if (mUpdateService != null) {
+        if (mUpdateService != null)
+        {
             mUpdateService.removeTokenListener();
         }
     }
 
     @Override
-    public void showOtherTokens(boolean isShow) {
-        if (pager.getAdapter() != null) {
+    public void showOtherTokens(boolean isShow)
+    {
+        if (pager.getAdapter() != null)
+        {
             ((FragmentAdapter) pager.getAdapter()).showOtherTokens(isShow);
         }
     }
 
-    public class FragmentAdapter extends FragmentStatePagerAdapter {
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        if (mWalletFragment != null)
+        {
+            mWalletFragment.dismiss();
+        }
+        if (mOtherTokensFragment != null)
+        {
+            mOtherTokensFragment.dismiss();
+        }
+    }
+
+    public class FragmentAdapter extends FragmentStatePagerAdapter
+    {
 
         int NUM_ITEMS = 1;
 
         private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
+        public FragmentAdapter(FragmentManager fragmentManager)
+        {
+            super(fragmentManager);
+        }
+
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, int position)
+        {
             Fragment fragment = (Fragment) super.instantiateItem(container, position);
             registeredFragments.put(position, fragment);
             return fragment;
         }
 
-        public WalletFragment getWalletFragment() {
+        public WalletFragment getWalletFragment()
+        {
             return (WalletFragment) registeredFragments.get(0);
         }
 
-        OtherTokensFragment getOtherTokensFragment() {
+        OtherTokensFragment getOtherTokensFragment()
+        {
             return (OtherTokensFragment) registeredFragments.get(1);
         }
 
-        public void showOtherTokens(boolean show) {
+        public void showOtherTokens(boolean show)
+        {
             NUM_ITEMS = (show) ? 2 : 1;
             notifyDataSetChanged();
-            if (show) {
+            if (show)
+            {
                 showPageIndicator();
                 getOtherTokensFragment().notifyTokenChange();
-            } else {
+            } else
+            {
                 hidePageIndicator();
             }
         }
-        
-        public FragmentAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
 
         @Override
-        public Fragment getItem(int position) {
-            switch (position) {
+        public Fragment getItem(int position)
+        {
+            switch (position)
+            {
                 case 0:
                     mWalletFragment = (WalletFragment) WalletFragment.newInstance(getContext());
                     return mWalletFragment;
@@ -176,19 +220,9 @@ public abstract class WalletMainFragment extends BaseNavFragment implements Wall
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return NUM_ITEMS;
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mWalletFragment != null) {
-            mWalletFragment.dismiss();
-        }
-        if (mOtherTokensFragment != null) {
-            mOtherTokensFragment.dismiss();
         }
     }
 }

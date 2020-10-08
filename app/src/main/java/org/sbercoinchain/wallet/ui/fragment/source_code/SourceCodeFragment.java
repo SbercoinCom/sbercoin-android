@@ -24,7 +24,8 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class SourceCodeFragment extends BaseFragment implements SourceCodeView {
+public abstract class SourceCodeFragment extends BaseFragment implements SourceCodeView
+{
 
     protected final static String SOURCE_CODE = "source_code";
 
@@ -33,16 +34,8 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
 
     SourceCodePresenter mSourceCodePresenter;
 
-    @OnClick({R.id.ibt_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case org.sbercoin.wallet.R.id.ibt_back:
-                getActivity().onBackPressed();
-                break;
-        }
-    }
-
-    public static BaseFragment newInstance(Context context, String sourceCode) {
+    public static BaseFragment newInstance(Context context, String sourceCode)
+    {
         Bundle args = new Bundle();
         args.putString(SOURCE_CODE, sourceCode);
         BaseFragment fragment = Factory.instantiateFragment(context, SourceCodeFragment.class);
@@ -50,21 +43,36 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
         return fragment;
     }
 
+    @OnClick({R.id.ibt_back})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case org.sbercoin.wallet.R.id.ibt_back:
+                getActivity().onBackPressed();
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mSourceCodePresenter = new SourceCodePresenterImpl(this, new SourceCodeInteractorImpl(getContext()));
     }
 
     @Override
-    protected SourceCodePresenter getPresenter() {
+    protected SourceCodePresenter getPresenter()
+    {
         return mSourceCodePresenter;
     }
 
-    protected SpannableString formatCode(String sourceCode, @ColorRes int codeReserveWord, @ColorRes int codeType, @ColorRes int codeComment) {
+    protected SpannableString formatCode(String sourceCode, @ColorRes int codeReserveWord, @ColorRes int codeType, @ColorRes int codeComment)
+    {
         Pattern r = Pattern.compile("\\n(\\s+)");
         Matcher m = r.matcher(sourceCode);
         StringBuffer sb = new StringBuffer();
-        while (m.find()) {
+        while (m.find())
+        {
             m.appendReplacement(sb, m.group(0).replaceFirst(Pattern.quote(m.group(1)), ""));
         }
         m.appendTail(sb);
@@ -74,7 +82,8 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
         Pattern pattern = Pattern.compile("[-+]?\\b\\d+\\b");
         Matcher matcher = pattern.matcher(spannableSourceCode.toString());
         int start = 0;
-        while (matcher.find(start)) {
+        while (matcher.find(start))
+        {
             spannableSourceCode.setSpan(new ForegroundColorSpan(getResources().getColor(codeReserveWord)), matcher.start(), matcher.end(), Spanned.SPAN_PRIORITY);
             start = matcher.end();
         }
@@ -82,7 +91,8 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
         pattern = Pattern.compile("\\b(uint[0-9]{0,3}|bool|int[0-9]{0,3}|address|string)\\b");
         matcher = pattern.matcher(spannableSourceCode.toString());
         start = 0;
-        while (matcher.find(start)) {
+        while (matcher.find(start))
+        {
             spannableSourceCode.setSpan(new ForegroundColorSpan(getResources().getColor(codeType)), matcher.start(), matcher.end(), Spanned.SPAN_PRIORITY);
             start = matcher.end();
         }
@@ -90,7 +100,8 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
         pattern = Pattern.compile("\\b(struct|public|return|if|else|event|contract|returns)\\b");
         matcher = pattern.matcher(spannableSourceCode.toString());
         start = 0;
-        while (matcher.find(start)) {
+        while (matcher.find(start))
+        {
             spannableSourceCode.setSpan(new ForegroundColorSpan(getResources().getColor(codeReserveWord)), matcher.start(), matcher.end(), Spanned.SPAN_PRIORITY);
             start = matcher.end();
         }
@@ -98,7 +109,8 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
         pattern = Pattern.compile("(function)[ ]+(\\w+)(\\(([^)]*)\\))");
         matcher = pattern.matcher(spannableSourceCode.toString());
         start = 0;
-        while (matcher.find(start)) {
+        while (matcher.find(start))
+        {
             spannableSourceCode.setSpan(new ForegroundColorSpan(getResources().getColor(codeReserveWord)), matcher.start(1), matcher.end(1), 0);
             spannableSourceCode.setSpan(new ForegroundColorSpan(getResources().getColor(codeReserveWord)), matcher.start(2), matcher.end(2), 0);
             spannableSourceCode.setSpan(new ForegroundColorSpan(getResources().getColor(codeType)), matcher.start(3), matcher.end(3), 0);
@@ -108,7 +120,8 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
         pattern = Pattern.compile("(\\/\\*([^*]|[\\r\\n]|(\\*+([^*\\/]|[\\r\\n])))*\\*+\\/)|(\\/\\/.*)");
         matcher = pattern.matcher(spannableSourceCode.toString());
         start = 0;
-        while (matcher.find(start)) {
+        while (matcher.find(start))
+        {
             spannableSourceCode.setSpan(new ForegroundColorSpan(getResources().getColor(codeComment)), matcher.start(), matcher.end(), Spanned.SPAN_PRIORITY_SHIFT);
             start = matcher.end();
         }
@@ -118,16 +131,21 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
         ArrayList<Integer> openningBracersPositions = new ArrayList<>();
         HashMap<Integer, HashSet<Location>> threeOfFunctionDict = new HashMap<>();
         int closureBracersCount = 0;
-        for (int i = 0; i < len; i++) {
-            if (buffer[i] == '{') {
+        for (int i = 0; i < len; i++)
+        {
+            if (buffer[i] == '{')
+            {
                 openningBracersPositions.add(i);
-            } else if (buffer[i] == '}') {
+            } else if (buffer[i] == '}')
+            {
                 closureBracersCount++;
                 int openingBracerIndex = openningBracersPositions.size() - closureBracersCount;
-                if (openingBracerIndex < openningBracersPositions.size() - 1 || openingBracerIndex >= 0) {
+                if (openingBracerIndex < openningBracersPositions.size() - 1 || openingBracerIndex >= 0)
+                {
                     int location = openningBracersPositions.get(openingBracerIndex);
                     HashSet<Location> set = threeOfFunctionDict.get(openingBracerIndex);
-                    if (set == null) {
+                    if (set == null)
+                    {
                         set = new HashSet<>();
                         threeOfFunctionDict.put(openingBracerIndex, set);
                     }
@@ -137,8 +155,10 @@ public abstract class SourceCodeFragment extends BaseFragment implements SourceC
                 }
             }
         }
-        for (HashMap.Entry<Integer, HashSet<Location>> integerHashSetEntry : threeOfFunctionDict.entrySet()) {
-            for (Location location : integerHashSetEntry.getValue()) {
+        for (HashMap.Entry<Integer, HashSet<Location>> integerHashSetEntry : threeOfFunctionDict.entrySet())
+        {
+            for (Location location : integerHashSetEntry.getValue())
+            {
                 spannableSourceCode.setSpan(new LeadingMarginSpan.Standard(64 * (integerHashSetEntry.getKey() + 1)), location.getLocationStart(), location.getLocationEnd(), 0);
             }
         }

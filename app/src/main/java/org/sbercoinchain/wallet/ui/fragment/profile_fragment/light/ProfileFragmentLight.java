@@ -4,15 +4,18 @@ import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.profile_fragment.DividerItemDecoration;
 import org.sbercoin.wallet.ui.fragment.profile_fragment.ProfileFragment;
 
-public class ProfileFragmentLight extends ProfileFragment {
+public class ProfileFragmentLight extends ProfileFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.lyt_profile_preference_light;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         showBottomNavView(R.color.title_color_light);
         adapter = new PrefAdapterLight(getPresenter().getSettingsData(), this, R.layout.lyt_profile_pref_list_item_light);

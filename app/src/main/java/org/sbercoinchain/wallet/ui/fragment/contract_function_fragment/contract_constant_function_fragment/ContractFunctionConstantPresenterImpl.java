@@ -14,28 +14,34 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ContractFunctionConstantPresenterImpl extends BaseFragmentPresenterImpl implements ContractFunctionConstantPresenter {
+public class ContractFunctionConstantPresenterImpl extends BaseFragmentPresenterImpl implements ContractFunctionConstantPresenter
+{
 
     private ContractFunctionConstantView mContractMethodFragmentView;
     private ContractFunctionConstantInteractor mContractFunctionInteractor;
     private ContractMethod mContractMethod;
 
-    public ContractFunctionConstantPresenterImpl(ContractFunctionConstantView contractMethodFragmentView, ContractFunctionConstantInteractor contractFunctionInteractor) {
+    public ContractFunctionConstantPresenterImpl(ContractFunctionConstantView contractMethodFragmentView, ContractFunctionConstantInteractor contractFunctionInteractor)
+    {
         mContractMethodFragmentView = contractMethodFragmentView;
         mContractFunctionInteractor = contractFunctionInteractor;
     }
 
     @Override
-    public ContractFunctionConstantView getView() {
+    public ContractFunctionConstantView getView()
+    {
         return mContractMethodFragmentView;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         List<ContractMethod> list = getInteractor().getContractMethod(getView().getContractTemplateUiid());
-        for (ContractMethod contractMethod : list) {
-            if (contractMethod.getName().equals(getView().getMethodName())) {
+        for (ContractMethod contractMethod : list)
+        {
+            if (contractMethod.getName().equals(getView().getMethodName()))
+            {
                 mContractMethod = contractMethod;
                 getView().setUpParameterList(contractMethod.getInputParams());
                 break;
@@ -44,16 +50,21 @@ public class ContractFunctionConstantPresenterImpl extends BaseFragmentPresenter
     }
 
     @Override
-    public void onQueryClick(List<ContractMethodParameter> contractMethodParameterList, final String contractAddress, String methodName) {
+    public void onQueryClick(List<ContractMethodParameter> contractMethodParameterList, final String contractAddress, String methodName)
+    {
         getView().setProgressDialog();
-        for(ContractMethodParameter contract: contractMethodParameterList){
-            if(contract.getValue().isEmpty()){
-                getView().setAlertDialog("Invalid parameter", "Empty value","Cancel", BaseFragment.PopUpType.error);
+        for (ContractMethodParameter contract : contractMethodParameterList)
+        {
+            if (contract.getValue().isEmpty())
+            {
+                getView().setAlertDialog("Invalid parameter", "Empty value", "Cancel", BaseFragment.PopUpType.error);
                 return;
             }
-            if(contract.getType().equals("address")){
-                if(contract.getValue().length()<24){
-                    getView().setAlertDialog("Invalid parameter", "Minimum address length is 24", "Cancel",BaseFragment.PopUpType.error);
+            if (contract.getType().equals("address"))
+            {
+                if (contract.getValue().length() < 24)
+                {
+                    getView().setAlertDialog("Invalid parameter", "Minimum address length is 24", "Cancel", BaseFragment.PopUpType.error);
                     return;
                 }
             }
@@ -62,24 +73,30 @@ public class ContractFunctionConstantPresenterImpl extends BaseFragmentPresenter
         getInteractor().callSmartContractObservable(methodName, contractMethodParameterList, contract)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ContractFunctionConstantInteractorImpl.CallSmartContractRespWrapper>() {
+                .subscribe(new Subscriber<ContractFunctionConstantInteractorImpl.CallSmartContractRespWrapper>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(final ContractFunctionConstantInteractorImpl.CallSmartContractRespWrapper respWrapper) {
+                    public void onNext(final ContractFunctionConstantInteractorImpl.CallSmartContractRespWrapper respWrapper)
+                    {
                         Item item = respWrapper.getResponse().getItems().get(0);
-                        if (item.getExcepted().equals("None")) {
-                            String queryResult = ContractManagementHelper.processResponse(mContractMethod.getOutputParams(),item.getOutput());
+                        if (item.getExcepted().equals("None"))
+                        {
+                            String queryResult = ContractManagementHelper.processResponse(mContractMethod.getOutputParams(), item.getOutput());
                             getView().dismissProgressDialog();
                             getView().updateQueryResult(queryResult);
-                        }else {
+                        } else
+                        {
                             getView().setAlertDialog(org.sbercoin.wallet.R.string.error,
                                     item.getExcepted(), "Ok",
                                     BaseFragment.PopUpType.error);
@@ -90,7 +107,8 @@ public class ContractFunctionConstantPresenterImpl extends BaseFragmentPresenter
     }
 
 
-    public ContractFunctionConstantInteractor getInteractor() {
+    public ContractFunctionConstantInteractor getInteractor()
+    {
         return mContractFunctionInteractor;
     }
 }

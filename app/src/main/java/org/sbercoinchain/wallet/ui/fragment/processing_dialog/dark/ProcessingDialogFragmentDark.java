@@ -13,18 +13,19 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
 
-import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.ui.fragment.processing_dialog.ProcessingDialogFragment;
-import org.sbercoin.wallet.utils.ResizeHeightAnimation;
-
 import com.transitionseverywhere.Rotate;
 import com.transitionseverywhere.Transition;
 import com.transitionseverywhere.TransitionManager;
 
+import org.sbercoin.wallet.R;
+import org.sbercoin.wallet.ui.fragment.processing_dialog.ProcessingDialogFragment;
+import org.sbercoin.wallet.utils.ResizeHeightAnimation;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProcessingDialogFragmentDark extends ProcessingDialogFragment implements Transition.TransitionListener, Animation.AnimationListener {
+public class ProcessingDialogFragmentDark extends ProcessingDialogFragment implements Transition.TransitionListener, Animation.AnimationListener
+{
 
     @BindView(R.id.spinner)
     FrameLayout mSpinner;
@@ -41,40 +42,48 @@ public class ProcessingDialogFragmentDark extends ProcessingDialogFragment imple
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.lyt_processing_dialog, null);
         ButterKnife.bind(this, view);
         Dialog dialog = new Dialog(getContext());
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
         dialog.setContentView(view);
         dialog.setCanceledOnTouchOutside(false);
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         return dialog;
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         mRotateTransition = new Rotate();
         mRotateTransition.addTarget(mSpinner);
         mRotateTransition.setDuration(300);
         mRotateTransition.addListener(this);
 
-        if (mSpinnerInside.getHeight() == 0) {
-            mSpinnerInside.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        if (mSpinnerInside.getHeight() == 0)
+        {
+            mSpinnerInside.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+            {
                 @Override
-                public void onGlobalLayout() {
+                public void onGlobalLayout()
+                {
                     mSpinnerInside.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     appLogoHeight = (appLogoHeight == 0) ? mSpinnerInside.getHeight() : appLogoHeight;
                     initializeAnim();
                     doClipBoundsTransition();
                 }
             });
-        } else {
+        } else
+        {
             appLogoHeight = (appLogoHeight == 0) ? mSpinnerInside.getHeight() : appLogoHeight;
             initializeAnim();
             doClipBoundsTransition();
@@ -83,11 +92,13 @@ public class ProcessingDialogFragmentDark extends ProcessingDialogFragment imple
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private void initializeAnim() {
+    private void initializeAnim()
+    {
         mAnimForward = new ResizeHeightAnimation(mSpinnerInside, 0, appLogoHeight);
         mAnimForward.setDuration(300);
         mAnimForward.setFillEnabled(true);
@@ -101,25 +112,31 @@ public class ProcessingDialogFragmentDark extends ProcessingDialogFragment imple
         mAnimBackward.setAnimationListener(this);
     }
 
-    private void doClipBoundsTransition() {
+    private void doClipBoundsTransition()
+    {
 
-        if (forward_clip) {
+        if (forward_clip)
+        {
             mSpinnerInside.startAnimation(mAnimForward);
-        } else {
+        } else
+        {
             mSpinnerInside.startAnimation(mAnimBackward);
         }
         forward_clip = !forward_clip;
     }
 
-    private void doRotateTransition() {
+    private void doRotateTransition()
+    {
 
-        if (forward_rotate) {
+        if (forward_rotate)
+        {
             TransitionManager.endTransitions(mRootLayout);
             mSpinner.setRotation(0);
             TransitionManager.beginDelayedTransition(mRootLayout, (new Rotate().setDuration(1000)).addListener(this));
             mSpinner.setRotation(180);
 
-        } else {
+        } else
+        {
             TransitionManager.beginDelayedTransition(mRootLayout, (new Rotate().setDuration(1000)).addListener(this));
             mSpinner.setRotation(360);
         }
@@ -128,36 +145,44 @@ public class ProcessingDialogFragmentDark extends ProcessingDialogFragment imple
     }
 
     @Override
-    public void onTransitionStart(Transition transition) {
+    public void onTransitionStart(Transition transition)
+    {
     }
 
     @Override
-    public void onTransitionEnd(Transition transition) {
+    public void onTransitionEnd(Transition transition)
+    {
         doClipBoundsTransition();
     }
 
     @Override
-    public void onTransitionCancel(Transition transition) {
+    public void onTransitionCancel(Transition transition)
+    {
     }
 
     @Override
-    public void onTransitionPause(Transition transition) {
+    public void onTransitionPause(Transition transition)
+    {
     }
 
     @Override
-    public void onTransitionResume(Transition transition) {
+    public void onTransitionResume(Transition transition)
+    {
     }
 
     @Override
-    public void onAnimationStart(Animation animation) {
+    public void onAnimationStart(Animation animation)
+    {
     }
 
     @Override
-    public void onAnimationEnd(Animation animation) {
+    public void onAnimationEnd(Animation animation)
+    {
         doRotateTransition();
     }
 
     @Override
-    public void onAnimationRepeat(Animation animation) {
+    public void onAnimationRepeat(Animation animation)
+    {
     }
 }

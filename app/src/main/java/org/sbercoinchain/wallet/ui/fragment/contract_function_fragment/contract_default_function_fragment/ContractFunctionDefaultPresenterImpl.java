@@ -23,7 +23,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterImpl implements ContractFunctionDefaultPresenter {
+public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterImpl implements ContractFunctionDefaultPresenter
+{
 
     private ContractFunctionDefaultView mContractMethodFragmentView;
     private ContractFunctionDefaultInteractor mContractFunctionInteractor;
@@ -39,18 +40,21 @@ public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterI
 
     private List<AddressWithBalance> mAddressWithBalanceList = new ArrayList<>();
 
-    public ContractFunctionDefaultPresenterImpl(ContractFunctionDefaultView contractMethodFragmentView, ContractFunctionDefaultInteractor contractFunctionInteractor) {
+    public ContractFunctionDefaultPresenterImpl(ContractFunctionDefaultView contractMethodFragmentView, ContractFunctionDefaultInteractor contractFunctionInteractor)
+    {
         mContractMethodFragmentView = contractMethodFragmentView;
         mContractFunctionInteractor = contractFunctionInteractor;
     }
 
     @Override
-    public ContractFunctionDefaultView getView() {
+    public ContractFunctionDefaultView getView()
+    {
         return mContractMethodFragmentView;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
 
 
@@ -60,21 +64,28 @@ public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterI
         getInteractor().getUnspentOutputs(addresses)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<UnspentOutput>>() {
+                .subscribe(new Subscriber<List<UnspentOutput>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().dismissProgressDialog();
                     }
 
                     @Override
-                    public void onNext(List<UnspentOutput> unspentOutputs) {
-                        for (UnspentOutput unspentOutput : unspentOutputs) {
-                            for (AddressWithBalance addressWithBalance : mAddressWithBalanceList) {
-                                if (unspentOutput.getAddress().equals(addressWithBalance.getAddress())) {
+                    public void onNext(List<UnspentOutput> unspentOutputs)
+                    {
+                        for (UnspentOutput unspentOutput : unspentOutputs)
+                        {
+                            for (AddressWithBalance addressWithBalance : mAddressWithBalanceList)
+                            {
+                                if (unspentOutput.getAddress().equals(addressWithBalance.getAddress()))
+                                {
                                     addressWithBalance.setUnspentOutput(unspentOutput);
                                     break;
                                 }
@@ -87,11 +98,15 @@ public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterI
 
 
         List<ContractMethod> list = getInteractor().getContractMethod(getView().getContractTemplateUiid());
-        for (ContractMethod contractMethod : list) {
-            if (contractMethod.getName().equals(getView().getMethodName())) {
-                if(contractMethod.isPayable()){
+        for (ContractMethod contractMethod : list)
+        {
+            if (contractMethod.getName().equals(getView().getMethodName()))
+            {
+                if (contractMethod.isPayable())
+                {
                     getView().showEtSendToContract();
-                }else{
+                } else
+                {
                     getView().hideEtSendToContract();
                 }
                 getView().setUpParameterList(contractMethod.getInputParams());
@@ -106,23 +121,30 @@ public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterI
         getView().updateGasLimit(minGasLimit, maxGasLimit);
     }
 
-    private void initAddressesWithBalanceList(List<String> addresses) {
-        for (String address : addresses) {
+    private void initAddressesWithBalanceList(List<String> addresses)
+    {
+        for (String address : addresses)
+        {
             mAddressWithBalanceList.add(new AddressWithBalance(address));
         }
     }
 
     @Override
-    public void onCallClick(List<ContractMethodParameter> contractMethodParameterList, final String contractAddress, final String fee, final int gasLimit, final int gasPrice, String methodName, final String addressFrom, final String sendToAddress, final String passphrase) {
+    public void onCallClick(List<ContractMethodParameter> contractMethodParameterList, final String contractAddress, final String fee, final int gasLimit, final int gasPrice, String methodName, final String addressFrom, final String sendToAddress, final String passphrase)
+    {
         getView().setProgressDialog();
-        for(ContractMethodParameter contract: contractMethodParameterList){
-            if(contract.getValue()==null || contract.getValue().isEmpty()){
-                getView().setAlertDialog("Invalid parameter", "Empty value","Cancel", BaseFragment.PopUpType.error);
+        for (ContractMethodParameter contract : contractMethodParameterList)
+        {
+            if (contract.getValue() == null || contract.getValue().isEmpty())
+            {
+                getView().setAlertDialog("Invalid parameter", "Empty value", "Cancel", BaseFragment.PopUpType.error);
                 return;
             }
-            if(contract.getType().equals("address")){
-                if(contract.getValue().length()<24){
-                    getView().setAlertDialog("Invalid parameter", "Minimum address length is 24", "Cancel",BaseFragment.PopUpType.error);
+            if (contract.getType().equals("address"))
+            {
+                if (contract.getValue().length() < 24)
+                {
+                    getView().setAlertDialog("Invalid parameter", "Minimum address length is 24", "Cancel", BaseFragment.PopUpType.error);
                     return;
                 }
             }
@@ -131,67 +153,83 @@ public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterI
         getInteractor().callSmartContractObservable(methodName, contractMethodParameterList, contract, addressFrom)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ContractFunctionDefaultInteractorImpl.CallSmartContractRespWrapper>() {
+                .subscribe(new Subscriber<ContractFunctionDefaultInteractorImpl.CallSmartContractRespWrapper>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(final ContractFunctionDefaultInteractorImpl.CallSmartContractRespWrapper respWrapper) {
+                    public void onNext(final ContractFunctionDefaultInteractorImpl.CallSmartContractRespWrapper respWrapper)
+                    {
                         Item item = respWrapper.getResponse().getItems().get(0);
-                        if (!item.getExcepted().equals("None")) {
+                        if (!item.getExcepted().equals("None"))
+                        {
                             getView().setAlertDialog(org.sbercoin.wallet.R.string.error,
                                     item.getExcepted(), "Ok",
                                     BaseFragment.PopUpType.error);
                             return;
                         }
-                        if (item.getGasUsed() > gasLimit) {
+                        if (item.getGasUsed() > gasLimit)
+                        {
                             getView().setAlertDialog(org.sbercoin.wallet.R.string.error,
                                     item.getExcepted(), "Ok",
                                     BaseFragment.PopUpType.error);
                             return;
                         }
                         createTx(respWrapper.getAbiParams(), gasLimit, gasPrice, fee.replace(',', '.'),
-                                getInteractor().getFeePerKb(), contract, addressFrom,sendToAddress, passphrase);
+                                getInteractor().getFeePerKb(), contract, addressFrom, sendToAddress, passphrase);
                     }
                 });
     }
 
 
-    private void createTx(final String abiParams, final int gasLimit, final int gasPrice, final String fee, final BigDecimal feePerKb, final Contract contract, String addressFrom,final String sendToContract, final String passphrase) {
+    private void createTx(final String abiParams, final int gasLimit, final int gasPrice, final String fee, final BigDecimal feePerKb, final Contract contract, String addressFrom, final String sendToContract, final String passphrase)
+    {
         getInteractor().unspentOutputsForAddressObservable(addressFrom)
-                .flatMap(new Func1<List<UnspentOutput>, Observable<SendRawTransactionResponse>>() {
+                .flatMap(new Func1<List<UnspentOutput>, Observable<SendRawTransactionResponse>>()
+                {
                     @Override
-                    public Observable<SendRawTransactionResponse> call(List<UnspentOutput> unspentOutputs) {
-                        for (Iterator<UnspentOutput> iterator = unspentOutputs.iterator(); iterator.hasNext(); ) {
+                    public Observable<SendRawTransactionResponse> call(List<UnspentOutput> unspentOutputs)
+                    {
+                        for (Iterator<UnspentOutput> iterator = unspentOutputs.iterator(); iterator.hasNext(); )
+                        {
                             UnspentOutput unspentOutput = iterator.next();
-                            if (unspentOutput.getConfirmations() == 0 || !unspentOutput.isOutputAvailableToPay()) {
+                            if (unspentOutput.getConfirmations() == 0 || !unspentOutput.isOutputAvailableToPay())
+                            {
                                 iterator.remove();
                             }
                         }
-                        Collections.sort(unspentOutputs, new Comparator<UnspentOutput>() {
+                        Collections.sort(unspentOutputs, new Comparator<UnspentOutput>()
+                        {
                             @Override
-                            public int compare(UnspentOutput unspentOutput, UnspentOutput t1) {
+                            public int compare(UnspentOutput unspentOutput, UnspentOutput t1)
+                            {
                                 return unspentOutput.getAmount().doubleValue() > t1.getAmount().doubleValue() ? 1 : unspentOutput.getAmount().doubleValue() < t1.getAmount().doubleValue() ? -1 : 0;
                             }
                         });
-                        return sendTx(getInteractor().createTransactionHash(abiParams, unspentOutputs, gasLimit, gasPrice, feePerKb, fee, contract.getContractAddress(),sendToContract, passphrase));
+                        return sendTx(getInteractor().createTransactionHash(abiParams, unspentOutputs, gasLimit, gasPrice, feePerKb, fee, contract.getContractAddress(), sendToContract, passphrase));
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SendRawTransactionResponse>() {
+                .subscribe(new Subscriber<SendRawTransactionResponse>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                         getView().setAlertDialog(org.sbercoin.wallet.R.string.error,
                                 e.getLocalizedMessage(), "Ok",
@@ -199,18 +237,21 @@ public class ContractFunctionDefaultPresenterImpl extends BaseFragmentPresenterI
                     }
 
                     @Override
-                    public void onNext(SendRawTransactionResponse sendRawTransactionResponse) {
+                    public void onNext(SendRawTransactionResponse sendRawTransactionResponse)
+                    {
                         getView().setAlertDialog(org.sbercoin.wallet.R.string.payment_completed_successfully, "Ok", BaseFragment.PopUpType.confirm);
                         getView().dismissProgressDialog();
                     }
                 });
     }
 
-    private Observable<SendRawTransactionResponse> sendTx(String code) {
+    private Observable<SendRawTransactionResponse> sendTx(String code)
+    {
         return getInteractor().sendRawTransactionObservable(code);
     }
 
-    public ContractFunctionDefaultInteractor getInteractor() {
+    public ContractFunctionDefaultInteractor getInteractor()
+    {
         return mContractFunctionInteractor;
     }
 }

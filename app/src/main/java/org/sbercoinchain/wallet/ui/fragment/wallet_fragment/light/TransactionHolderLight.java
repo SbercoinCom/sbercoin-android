@@ -19,7 +19,8 @@ import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class TransactionHolderLight extends RecyclerView.ViewHolder {
+public class TransactionHolderLight extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.tv_value)
     TextView mTextViewValue;
@@ -40,23 +41,30 @@ public class TransactionHolderLight extends RecyclerView.ViewHolder {
     @BindView(R.id.progress_indicator)
     View progressIndicator;
 
-    TransactionHolderLight(View itemView, final TransactionClickListener listener) {
+    TransactionHolderLight(View itemView, final TransactionClickListener listener)
+    {
         super(itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 //if (mHistory.isReceiptUpdated()) {
-                    listener.onTransactionClick(mHistory.getTxHash());
+                listener.onTransactionClick(mHistory.getTxHash());
                 //}
             }
         });
         ButterKnife.bind(this, itemView);
-        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        itemView.setOnLongClickListener(new View.OnLongClickListener()
+        {
             @Override
-            public boolean onLongClick(View view) {
-                ClipboardUtils.copyToClipBoard(mTextViewID.getContext(), mTextViewID.getText().toString(), new ClipboardUtils.CopyCallback() {
+            public boolean onLongClick(View view)
+            {
+                ClipboardUtils.copyToClipBoard(mTextViewID.getContext(), mTextViewID.getText().toString(), new ClipboardUtils.CopyCallback()
+                {
                     @Override
-                    public void onCopyToClipBoard() {
+                    public void onCopyToClipBoard()
+                    {
                         Toast.makeText(mTextViewID.getContext(), mTextViewID.getContext().getString(R.string.copied), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -65,67 +73,80 @@ public class TransactionHolderLight extends RecyclerView.ViewHolder {
         });
     }
 
-    void bindTransactionData(final History history) {
+    void bindTransactionData(final History history)
+    {
         mHistory = history;
 
-        if (mSubscription != null) {
+        if (mSubscription != null)
+        {
             mSubscription.unsubscribe();
         }
         mLinearLayoutTransaction.setBackgroundResource(android.R.color.transparent);
-            if (history.getBlockTime() != null) {
-                if (history.isReceiptUpdated()) {
-                    mImageViewIcon.setVisibility(View.VISIBLE);
-                    mTextViewDate.setVisibility(View.VISIBLE);
-                    progressIndicator.setVisibility(View.GONE);
-                    mTextViewGettingInfo.setVisibility(View.GONE);
-                }else {
-                    contractIndicator.setBackgroundColor(Color.TRANSPARENT);
-                    mImageViewIcon.setVisibility(View.GONE);
-                    mTextViewDate.setVisibility(View.GONE);
-                    progressIndicator.setVisibility(View.VISIBLE);
-                    mTextViewGettingInfo.setVisibility(View.VISIBLE);
-                }
-                mSubscription = DateCalculator.getUpdater().subscribe(new Subscriber() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(Object o) {
-                        mTextViewDate.setText(DateCalculator.getShortDate(history.getBlockTime() * 1000L));
-                    }
-                });
-                if (history.isContractType()) {
-                    mImageViewIcon.setImageResource(R.drawable.ic_sent_cont_light);
-                    contractIndicator.setBackgroundResource(R.color.contract_transaction_indicator_sent_color);
-
-                } else {
-                    contractIndicator.setBackgroundColor(Color.TRANSPARENT);
-                    switch (history.getHistoryType()) {
-                        case Internal_Transaction:
-                            mImageViewIcon.setImageResource(R.drawable.ic_sent_to_myself_light);
-                            break;
-                        case Sent:
-                            mImageViewIcon.setImageResource(R.drawable.ic_sended_light);
-                            break;
-                        case Received:
-                            mImageViewIcon.setImageResource(R.drawable.ic_received_light);
-                            break;
-                    }
-
-                }
-                mTextViewDate.setText(DateCalculator.getShortDate(history.getBlockTime() * 1000L));
-            } else {
+        if (history.getBlockTime() != null)
+        {
+            if (history.isReceiptUpdated())
+            {
+                mImageViewIcon.setVisibility(View.VISIBLE);
+                mTextViewDate.setVisibility(View.VISIBLE);
                 progressIndicator.setVisibility(View.GONE);
                 mTextViewGettingInfo.setVisibility(View.GONE);
-                mImageViewIcon.setImageResource(R.drawable.ic_confirmation_loader);
-                mTextViewDate.setText(R.string.confirmation);
-                mLinearLayoutTransaction.setBackgroundResource(R.color.bottom_nav_bar_color_light);
+            } else
+            {
+                contractIndicator.setBackgroundColor(Color.TRANSPARENT);
+                mImageViewIcon.setVisibility(View.GONE);
+                mTextViewDate.setVisibility(View.GONE);
+                progressIndicator.setVisibility(View.VISIBLE);
+                mTextViewGettingInfo.setVisibility(View.VISIBLE);
             }
+            mSubscription = DateCalculator.getUpdater().subscribe(new Subscriber()
+            {
+                @Override
+                public void onCompleted()
+                {
+                }
+
+                @Override
+                public void onError(Throwable e)
+                {
+                }
+
+                @Override
+                public void onNext(Object o)
+                {
+                    mTextViewDate.setText(DateCalculator.getShortDate(history.getBlockTime() * 1000L));
+                }
+            });
+            if (history.isContractType())
+            {
+                mImageViewIcon.setImageResource(R.drawable.ic_sent_cont_light);
+                contractIndicator.setBackgroundResource(R.color.contract_transaction_indicator_sent_color);
+
+            } else
+            {
+                contractIndicator.setBackgroundColor(Color.TRANSPARENT);
+                switch (history.getHistoryType())
+                {
+                    case Internal_Transaction:
+                        mImageViewIcon.setImageResource(R.drawable.ic_sent_to_myself_light);
+                        break;
+                    case Sent:
+                        mImageViewIcon.setImageResource(R.drawable.ic_sended_light);
+                        break;
+                    case Received:
+                        mImageViewIcon.setImageResource(R.drawable.ic_received_light);
+                        break;
+                }
+
+            }
+            mTextViewDate.setText(DateCalculator.getShortDate(history.getBlockTime() * 1000L));
+        } else
+        {
+            progressIndicator.setVisibility(View.GONE);
+            mTextViewGettingInfo.setVisibility(View.GONE);
+            mImageViewIcon.setImageResource(R.drawable.ic_confirmation_loader);
+            mTextViewDate.setText(R.string.confirmation);
+            mLinearLayoutTransaction.setBackgroundResource(R.color.bottom_nav_bar_color_light);
+        }
 
         mTextViewID.setText(history.getTxHash());
         mTextViewValue.setText(String.format("%s SBER", history.getChangeInBalance()));

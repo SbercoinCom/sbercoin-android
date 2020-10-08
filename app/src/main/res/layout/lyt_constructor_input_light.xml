@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/root_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/til_param"
@@ -22,8 +22,8 @@
             <org.sbercoin.wallet.utils.EditTextValidated
                 android:id="@+id/et_param"
                 android:layout_width="match_parent"
-                android:gravity="left"
                 android:layout_height="wrap_content"
+                android:gravity="left"
                 android:imeOptions="actionNext" />
         </android.support.design.widget.TextInputLayout>
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            app:buttonTint="@color/bottom_nav_bar_text_color_light_alpha_50"/>
+            app:buttonTint="@color/bottom_nav_bar_text_color_light_alpha_50" />
     </RelativeLayout>
 
 </LinearLayout>

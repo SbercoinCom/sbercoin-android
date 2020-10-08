@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CallSmartContractResponse {
+public class CallSmartContractResponse
+{
     @SerializedName("items")
     @Expose
     private List<Item> items = null;
@@ -13,21 +14,25 @@ public class CallSmartContractResponse {
     /**
      * Constructor for unit testing
      */
-    public CallSmartContractResponse() {
+    public CallSmartContractResponse()
+    {
     }
 
     /**
      * Constructor for unit testing
      */
-    public CallSmartContractResponse(List<Item> items) {
+    public CallSmartContractResponse(List<Item> items)
+    {
         this.items = items;
     }
 
-    public List<Item> getItems() {
+    public List<Item> getItems()
+    {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<Item> items)
+    {
         this.items = items;
     }
 }

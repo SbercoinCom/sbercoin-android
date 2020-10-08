@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.sbercoin.wallet.R;
 
-public class QstoreItem {
+public class QstoreItem
+{
 
     @SerializedName("_id")
     public String id;
@@ -27,8 +28,10 @@ public class QstoreItem {
     @SerializedName("created_at")
     public String createDate;
 
-    public int getIcon() {
-        switch (type) {
+    public int getIcon()
+    {
+        switch (type)
+        {
             case "QRC20 Token":
                 return R.drawable.ic_supertoken;
             case "Smart Contract":

@@ -14,7 +14,8 @@ import rx.schedulers.Schedulers;
 
 import static org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction.IMPORTING;
 
-public class ImportWalletPresenterImpl extends BaseFragmentPresenterImpl implements ImportWalletPresenter {
+public class ImportWalletPresenterImpl extends BaseFragmentPresenterImpl implements ImportWalletPresenter
+{
 
     private ImportWalletView mImportWalletFragmentView;
     private ImportWalletInteractor mImportWalletFragmentInteractor;
@@ -22,22 +23,26 @@ public class ImportWalletPresenterImpl extends BaseFragmentPresenterImpl impleme
     private String mPassphrase;
     private Subscription mSubscription;
 
-    public ImportWalletPresenterImpl(ImportWalletView importWalletFragmentView, ImportWalletInteractor importWalletInteractor) {
+    public ImportWalletPresenterImpl(ImportWalletView importWalletFragmentView, ImportWalletInteractor importWalletInteractor)
+    {
         mImportWalletFragmentView = importWalletFragmentView;
         mImportWalletFragmentInteractor = importWalletInteractor;
     }
 
     @Override
-    public ImportWalletView getView() {
+    public ImportWalletView getView()
+    {
         return mImportWalletFragmentView;
     }
 
-    private ImportWalletInteractor getInteractor() {
+    private ImportWalletInteractor getInteractor()
+    {
         return mImportWalletFragmentInteractor;
     }
 
     @Override
-    public void onImportClick(String brainCode) {
+    public void onImportClick(String brainCode)
+    {
 
         getView().setProgressDialog();
         getView().hideKeyBoard();
@@ -46,18 +51,22 @@ public class ImportWalletPresenterImpl extends BaseFragmentPresenterImpl impleme
         mSubscription = getInteractor().importWallet(brainCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new Subscriber<String>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().setAlertDialog(R.string.error, R.string.cancel, BaseFragment.PopUpType.error);
                     }
 
                     @Override
-                    public void onNext(String passphrase) {
+                    public void onNext(String passphrase)
+                    {
                         getView().dismissProgressDialog();
                         isDataLoaded = false;
                         getView().openPinFragment(mPassphrase, IMPORTING);
@@ -66,28 +75,36 @@ public class ImportWalletPresenterImpl extends BaseFragmentPresenterImpl impleme
     }
 
     @Override
-    public void onPassphraseChange(String passphrase) {
-        if (validatePassphrase(passphrase)) {
+    public void onPassphraseChange(String passphrase)
+    {
+        if (validatePassphrase(passphrase))
+        {
             getView().enableImportButton();
-        } else {
+        } else
+        {
             getView().disableImportButton();
         }
     }
 
-    private boolean validatePassphrase(String passphrase) {
+    private boolean validatePassphrase(String passphrase)
+    {
         passphrase = passphrase.trim().replaceAll("[\\s]{2,}", " ");
         Pattern p = Pattern.compile(" ");
         Matcher m = p.matcher(passphrase);
         int counter = 0;
-        while (m.find()) {
+        while (m.find())
+        {
             counter++;
         }
-        if (counter != 11) {
+        if (counter != 11)
+        {
             return false;
         }
         char[] chars = passphrase.replaceAll(" ", "").toCharArray();
-        for (char c : chars) {
-            if (!Character.isLetter(c)) {
+        for (char c : chars)
+        {
+            if (!Character.isLetter(c))
+            {
                 return false;
             }
         }
@@ -95,9 +112,11 @@ public class ImportWalletPresenterImpl extends BaseFragmentPresenterImpl impleme
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        if (isDataLoaded) {
+        if (isDataLoaded)
+        {
             getView().dismissProgressDialog();
             isDataLoaded = false;
             getView().openPinFragment(mPassphrase, IMPORTING);
@@ -105,14 +124,17 @@ public class ImportWalletPresenterImpl extends BaseFragmentPresenterImpl impleme
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        if (mSubscription != null) {
+        if (mSubscription != null)
+        {
             mSubscription.unsubscribe();
         }
     }
 
-    public void setDataLoaded(boolean dataLoaded) {
+    public void setDataLoaded(boolean dataLoaded)
+    {
         isDataLoaded = dataLoaded;
     }
 }

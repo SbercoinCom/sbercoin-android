@@ -42,7 +42,8 @@ import javax.crypto.spec.PSource;
 import rx.Observable;
 
 @TargetApi(Build.VERSION_CODES.M)
-public final class CryptoUtils {
+public final class CryptoUtils
+{
     private static final String TAG = CryptoUtils.class.getSimpleName();
 
     private static final String KEY_ALIAS = "key_for_pin";
@@ -53,31 +54,42 @@ public final class CryptoUtils {
     private static KeyPairGenerator sKeyPairGenerator;
     private static Cipher sCipher;
 
-    private CryptoUtils() {
+    private CryptoUtils()
+    {
     }
 
-    public static String encode(String inputString) {
-        try {
-            if (prepare() && initCipher(Cipher.ENCRYPT_MODE)) {
+    public static String encode(String inputString)
+    {
+        try
+        {
+            if (prepare() && initCipher(Cipher.ENCRYPT_MODE))
+            {
                 byte[] bytes = sCipher.doFinal(inputString.getBytes());
                 return Base64.encodeToString(bytes, Base64.NO_WRAP);
             }
-        } catch (IllegalBlockSizeException | BadPaddingException exception) {
+        } catch (IllegalBlockSizeException | BadPaddingException exception)
+        {
             exception.printStackTrace();
         }
         return null;
     }
 
-    public static Observable<String> encodeInBackground(final String inputString) {
-        return rx.Observable.fromCallable(new Callable<String>() {
+    public static Observable<String> encodeInBackground(final String inputString)
+    {
+        return rx.Observable.fromCallable(new Callable<String>()
+        {
             @Override
-            public String call() throws Exception {
-                try {
-                    if (prepare() && initCipher(Cipher.ENCRYPT_MODE)) {
+            public String call() throws Exception
+            {
+                try
+                {
+                    if (prepare() && initCipher(Cipher.ENCRYPT_MODE))
+                    {
                         byte[] bytes = sCipher.doFinal(inputString.getBytes());
                         return Base64.encodeToString(bytes, Base64.NO_WRAP);
                     }
-                } catch (IllegalBlockSizeException | BadPaddingException exception) {
+                } catch (IllegalBlockSizeException | BadPaddingException exception)
+                {
                     exception.printStackTrace();
                 }
                 return null;
@@ -85,58 +97,74 @@ public final class CryptoUtils {
         });
     }
 
-    public static String decode(String encodedString, Cipher cipher) {
-        try {
+    public static String decode(String encodedString, Cipher cipher)
+    {
+        try
+        {
             byte[] bytes = Base64.decode(encodedString, Base64.NO_WRAP);
             return new String(cipher.doFinal(bytes));
-        } catch (IllegalBlockSizeException | BadPaddingException exception) {
+        } catch (IllegalBlockSizeException | BadPaddingException exception)
+        {
             exception.printStackTrace();
         }
         return null;
     }
 
-    private static boolean prepare() {
+    private static boolean prepare()
+    {
         return getKeyStore() && getCipher() && getKey();
     }
 
 
-    private static boolean getKeyStore() {
-        try {
+    private static boolean getKeyStore()
+    {
+        try
+        {
             sKeyStore = KeyStore.getInstance(KEY_STORE);
             sKeyStore.load(null);
             return true;
-        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
+        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e)
+        {
             e.printStackTrace();
         }
         return false;
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private static boolean getKeyPairGenerator() {
-        try {
+    private static boolean getKeyPairGenerator()
+    {
+        try
+        {
             sKeyPairGenerator = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, KEY_STORE);
             return true;
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e)
+        {
             e.printStackTrace();
         }
         return false;
     }
 
     @SuppressLint("GetInstance")
-    private static boolean getCipher() {
-        try {
+    private static boolean getCipher()
+    {
+        try
+        {
             sCipher = Cipher.getInstance(TRANSFORMATION);
             return true;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e)
+        {
             e.printStackTrace();
         }
         return false;
     }
 
-    private static boolean getKey() {
-        try {
+    private static boolean getKey()
+    {
+        try
+        {
             return sKeyStore.containsAlias(KEY_ALIAS) || generateNewKey();
-        } catch (KeyStoreException e) {
+        } catch (KeyStoreException e)
+        {
             e.printStackTrace();
         }
         return false;
@@ -144,11 +172,14 @@ public final class CryptoUtils {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private static boolean generateNewKey() {
+    private static boolean generateNewKey()
+    {
 
-        if (getKeyPairGenerator()) {
+        if (getKeyPairGenerator())
+        {
 
-            try {
+            try
+            {
                 sKeyPairGenerator.initialize(
                         new KeyGenParameterSpec.Builder(KEY_ALIAS, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                                 .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
@@ -157,17 +188,21 @@ public final class CryptoUtils {
                                 .build());
                 sKeyPairGenerator.generateKeyPair();
                 return true;
-            } catch (InvalidAlgorithmParameterException e) {
+            } catch (InvalidAlgorithmParameterException e)
+            {
                 e.printStackTrace();
             }
         }
         return false;
     }
 
-    private static boolean initCipher(int mode) {
-        try {
+    private static boolean initCipher(int mode)
+    {
+        try
+        {
             sKeyStore.load(null);
-            switch (mode) {
+            switch (mode)
+            {
                 case Cipher.ENCRYPT_MODE:
                     initEncodeCipher(mode);
                     break;
@@ -179,54 +214,67 @@ public final class CryptoUtils {
                     return false;
             }
             return true;
-        } catch (KeyPermanentlyInvalidatedException exception) {
+        } catch (KeyPermanentlyInvalidatedException exception)
+        {
             deleteInvalidKey();
         } catch (KeyStoreException | CertificateException | UnrecoverableKeyException | IOException |
-                NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException | InvalidAlgorithmParameterException e) {
+                NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException | InvalidAlgorithmParameterException e)
+        {
             e.printStackTrace();
         }
         return false;
     }
 
-    private static void initDecodeCipher(int mode) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, InvalidKeyException {
+    private static void initDecodeCipher(int mode) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, InvalidKeyException
+    {
         PrivateKey key = (PrivateKey) sKeyStore.getKey(KEY_ALIAS, null);
         sCipher.init(mode, key);
     }
 
-    private static void initEncodeCipher(int mode) throws KeyStoreException, InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, InvalidAlgorithmParameterException {
+    private static void initEncodeCipher(int mode) throws KeyStoreException, InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, InvalidAlgorithmParameterException
+    {
         PublicKey key = sKeyStore.getCertificate(KEY_ALIAS).getPublicKey();
         PublicKey unrestricted = KeyFactory.getInstance(key.getAlgorithm()).generatePublic(new X509EncodedKeySpec(key.getEncoded()));
         OAEPParameterSpec spec = new OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec.SHA1, PSource.PSpecified.DEFAULT);
         sCipher.init(mode, unrestricted, spec);
     }
 
-    private static void deleteInvalidKey() {
-        if (getKeyStore()) {
-            try {
+    private static void deleteInvalidKey()
+    {
+        if (getKeyStore())
+        {
+            try
+            {
                 sKeyStore.deleteEntry(KEY_ALIAS);
-            } catch (KeyStoreException e) {
+            } catch (KeyStoreException e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
     @Nullable
-    public static FingerprintManagerCompat.CryptoObject getCryptoObject() {
-        if (prepare() && initCipher(Cipher.DECRYPT_MODE)) {
+    public static FingerprintManagerCompat.CryptoObject getCryptoObject()
+    {
+        if (prepare() && initCipher(Cipher.DECRYPT_MODE))
+        {
             return new FingerprintManagerCompat.CryptoObject(sCipher);
         }
         return null;
     }
 
     @Nullable
-    public static FingerprintManager.CryptoObject getCryptoObjectCompat23() {
-        if (prepare() && initCipher(Cipher.DECRYPT_MODE)) {
+    public static FingerprintManager.CryptoObject getCryptoObjectCompat23()
+    {
+        if (prepare() && initCipher(Cipher.DECRYPT_MODE))
+        {
             return new FingerprintManager.CryptoObject(sCipher);
         }
         return null;
     }
 
-    public static String generateSHA256String(String inputString) {
+    public static String generateSHA256String(String inputString)
+    {
         byte[] input = Hex.decode(inputString);
 
         SHA256Digest sha256Digest = new SHA256Digest();

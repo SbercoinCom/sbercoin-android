@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/background_progress_bar"
-    android:padding="16dp"
     android:clickable="true"
     android:focusableInTouchMode="true"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <org.sbercoin.wallet.utils.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:maxLines="1"
         android:layout_margin="16dp"
+        android:maxLines="1"
         android:text="@string/transfer_balance"
         android:textColor="@color/background"
         android:textSize="18sp"
-        app:typefaceAsset="@string/proximaNovaSemibold"/>
+        app:typefaceAsset="@string/proximaNovaSemibold" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_amount"
@@ -30,25 +30,25 @@
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_amount"
-            android:layout_marginStart="-4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:layout_marginStart="-4dp"
             android:ellipsize="end"
             android:gravity="left"
             android:hint="@string/amount"
             android:inputType="numberDecimal"
-            android:textColor="@color/black"/>
+            android:maxLines="1"
+            android:textColor="@color/black" />
     </android.support.design.widget.TextInputLayout>
 
     <org.sbercoin.wallet.utils.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
         android:paddingBottom="4dp"
-        app:typefaceAsset="@string/proximaNovaRegular"
+        android:text="@string/to"
         android:textColor="@color/bottom_nav_bar_text_color_light_alpha_50"
-        android:text="@string/to"/>
+        android:textSize="12dp"
+        app:typefaceAsset="@string/proximaNovaRegular" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,17 +56,17 @@
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
-            android:paddingBottom="4dp"
-            app:typefaceAsset="@string/proximaNovaSemibold"
             android:id="@+id/tv_address_to"
             android:layout_width="0dp"
-            android:ellipsize="middle"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:gravity="left"
             android:layout_weight="1"
+            android:ellipsize="middle"
+            android:gravity="left"
+            android:paddingBottom="4dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            android:singleLine="true" />
+            app:typefaceAsset="@string/proximaNovaSemibold" />
     </LinearLayout>
 
     <View
@@ -74,81 +74,81 @@
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/bottom_nav_bar_text_color_light_alpha_50"/>
+        android:background="@color/bottom_nav_bar_text_color_light_alpha_50" />
 
     <org.sbercoin.wallet.utils.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
-        app:typefaceAsset="@string/proximaNovaRegular"
+        android:text="@string/from"
         android:textColor="@color/bottom_nav_bar_text_color_light_alpha_50"
-        android:text="@string/from"/>
+        android:textSize="12dp"
+        app:typefaceAsset="@string/proximaNovaRegular" />
 
 
     <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spinner_transfer"
         android:layout_width="match_parent"
-        android:layout_marginEnd="-16dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="-16dp"
         android:backgroundTint="@color/bottom_nav_bar_text_color_light_alpha_50"
-        android:theme="@style/LightSpinner"
-        android:id="@+id/spinner_transfer">
+        android:theme="@style/LightSpinner">
 
     </android.support.v7.widget.AppCompatSpinner>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bottom_nav_bar_text_color_light_alpha_50"/>
+        android:background="@color/bottom_nav_bar_text_color_light_alpha_50" />
 
     <org.sbercoin.wallet.utils.FontTextView
         android:id="@+id/balance_from_tv"
-        android:textSize="12sp"
-        app:typefaceAsset="@string/proximaNovaRegular"
-        android:textColor="@color/bottom_nav_bar_text_color_light_alpha_50"
-        android:textAllCaps="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="end"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
-        tools:text = "0 sbercoin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textAllCaps="true"
+        android:textColor="@color/bottom_nav_bar_text_color_light_alpha_50"
+        android:textSize="12sp"
+        app:typefaceAsset="@string/proximaNovaRegular"
+        tools:text="0 sbercoin" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:weightSum="2"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:weightSum="2">
 
         <org.sbercoin.wallet.utils.FontButton
             android:id="@+id/bt_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:gravity="center"
             android:layout_marginEnd="4dp"
-            app:typeface="@string/proximaNovaSemibold"
-            android:background="@drawable/btn_gray_corner_background_light"
-            android:text="@string/cancel"
             android:layout_weight="1"
+            android:background="@drawable/btn_gray_corner_background_light"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/bottom_nav_bar_text_color_light"
-            android:textSize="@dimen/button_text"/>
+            android:textSize="@dimen/button_text"
+            app:typeface="@string/proximaNovaSemibold" />
 
         <org.sbercoin.wallet.utils.FontButton
             android:id="@+id/bt_transfer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:gravity="center"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
-            app:typeface="@string/proximaNovaSemibold"
             android:background="@drawable/btn_sea_corner_background_light"
+            android:gravity="center"
+            android:padding="16dp"
             android:text="@string/transfer"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/button_text"/>
+            android:textSize="@dimen/button_text"
+            app:typeface="@string/proximaNovaSemibold" />
     </LinearLayout>
 
 </LinearLayout>

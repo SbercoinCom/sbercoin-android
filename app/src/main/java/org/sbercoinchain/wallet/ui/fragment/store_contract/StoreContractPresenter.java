@@ -45,83 +45,100 @@ import rx.schedulers.Schedulers;
 
 import static org.sbercoin.wallet.datastorage.FileStorageManager.HUMANSTANDARDTOKENUUID;
 
-public class StoreContractPresenter extends BaseFragmentPresenterImpl implements ContractPurchaseListener {
+public class StoreContractPresenter extends BaseFragmentPresenterImpl implements ContractPurchaseListener
+{
 
+    QstoreBuyResponse qstoreBuyResponse;
+    PurchaseItem purchaseByContractId;
     private StoreContractView view;
     private QstoreContract qstoreContract;
     private String abiString;
 
-    QstoreBuyResponse qstoreBuyResponse;
-    PurchaseItem purchaseByContractId;
-
-    public QstoreContract getContract() {
-        return qstoreContract;
-    }
-
-    public StoreContractPresenter(StoreContractView view) {
+    public StoreContractPresenter(StoreContractView view)
+    {
         this.view = view;
     }
 
+    public QstoreContract getContract()
+    {
+        return qstoreContract;
+    }
+
     @Override
-    public StoreContractView getView() {
+    public StoreContractView getView()
+    {
         return view;
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated()
+    {
         super.onViewCreated();
         getView().getMainActivity().getUpdateService().setContractPurchaseListener(this);
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         getView().getMainActivity().getUpdateService().removeContractPurchaseListener();
         super.onDestroyView();
     }
 
     @Override
-    public void onContractPurchased(final ContractPurchase purchaseData) {
-        getView().getMainActivity().runOnUiThread(new Runnable() {
+    public void onContractPurchased(final ContractPurchase purchaseData)
+    {
+        getView().getMainActivity().runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
-                if (qstoreContract.id.equals(purchaseData.getContractId())) {
+            public void run()
+            {
+                if (qstoreContract.id.equals(purchaseData.getContractId()))
+                {
                     getView().setContractPayStatus(PurchaseItem.PAID_STATUS);
                 }
             }
         });
     }
 
-    public void getSourceCode() {
-        if (purchaseByContractId != null) {
+    public void getSourceCode()
+    {
+        if (purchaseByContractId != null)
+        {
             getView().setProgressDialog();
             SBERService
                     .newInstance()
                     .getSourceCode(getContract().id, purchaseByContractId.getRequestId(), purchaseByContractId.getAccessToken())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<QstoreSourceCodeResponse>() {
+                    .subscribe(new Subscriber<QstoreSourceCodeResponse>()
+                    {
                         @Override
-                        public void onCompleted() {
+                        public void onCompleted()
+                        {
                             getView().dismissProgressDialog();
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(Throwable e)
+                        {
                             getView().dismissProgressDialog();
                             Toast.makeText(getView().getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
-                        public void onNext(QstoreSourceCodeResponse o) {
+                        public void onNext(QstoreSourceCodeResponse o)
+                        {
                             getView().openSourceCode(o.sourceCode);
                         }
                     });
         }
     }
 
-    public void checkIsPaid() {
+    public void checkIsPaid()
+    {
         purchaseByContractId = QStoreStorage.getInstance(getView().getContext()).getPurchaseByContractId(getContract().id);
-        if (purchaseByContractId == null) {
+        if (purchaseByContractId == null)
+        {
             getView().setContractPayStatus(PurchaseItem.NON_PAID_STATUS);
             return;
         }
@@ -131,49 +148,59 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
                 .isPaidByRequestId(getContract().id, purchaseByContractId.getRequestId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ContractPurchase>() {
+                .subscribe(new Subscriber<ContractPurchase>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                         getView().dismissProgressDialog();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().dismissProgressDialog();
                         Toast.makeText(getView().getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         getView().setContractPayStatus(PurchaseItem.PENDING_STATUS);
                     }
 
                     @Override
-                    public void onNext(ContractPurchase o) {
+                    public void onNext(ContractPurchase o)
+                    {
                         getView().setContractPayStatus((o != null && !TextUtils.isEmpty(o.getPayedAt())) ? PurchaseItem.PAID_STATUS : PurchaseItem.PENDING_STATUS);
                     }
                 });
     }
 
-    public void getContractById(String id) {
+    public void getContractById(String id)
+    {
         getView().setProgressDialog();
-        if (!TextUtils.isEmpty(id)) {
+        if (!TextUtils.isEmpty(id))
+        {
             SBERService
                     .newInstance()
                     .getContractById(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<QstoreContract>() {
+                    .subscribe(new Subscriber<QstoreContract>()
+                    {
                         @Override
-                        public void onCompleted() {
+                        public void onCompleted()
+                        {
                             getView().dismissProgressDialog();
                             checkIsPaid();
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(Throwable e)
+                        {
                             getView().dismissProgressDialog();
                             Toast.makeText(getView().getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
-                        public void onNext(QstoreContract qstoreContract) {
+                        public void onNext(QstoreContract qstoreContract)
+                        {
                             StoreContractPresenter.this.qstoreContract = qstoreContract;
                             getView().setContractData(qstoreContract);
                         }
@@ -181,34 +208,41 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
         }
     }
 
-    public void getContractAbiById(String id) {
+    public void getContractAbiById(String id)
+    {
 
-        if (!TextUtils.isEmpty(abiString)) {
+        if (!TextUtils.isEmpty(abiString))
+        {
             getView().openAbiViewer(abiString);
             return;
         }
 
         getView().setProgressDialog();
-        if (!TextUtils.isEmpty(id)) {
+        if (!TextUtils.isEmpty(id))
+        {
             SBERService
                     .newInstance()
                     .getAbiByContractId(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<Object>() {
+                    .subscribe(new Subscriber<Object>()
+                    {
                         @Override
-                        public void onCompleted() {
+                        public void onCompleted()
+                        {
                             getView().dismissProgressDialog();
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(Throwable e)
+                        {
                             getView().dismissProgressDialog();
                             Toast.makeText(getView().getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
-                        public void onNext(Object abi) {
+                        public void onNext(Object abi)
+                        {
                             abiString = abi.toString();
                             getView().openAbiViewer(abiString);
                         }
@@ -216,7 +250,8 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
         }
     }
 
-    public void sendBuyRequest() {
+    public void sendBuyRequest()
+    {
         qstoreBuyResponse = null;
         getView().setProgressDialog();
         SBERService
@@ -224,29 +259,36 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
                 .buyRequest(getContract().id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<QstoreBuyResponse>() {
+                .subscribe(new Subscriber<QstoreBuyResponse>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                         payTransaсtion(qstoreBuyResponse.address, String.valueOf(qstoreBuyResponse.amount));
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().dismissProgressDialog();
                         Toast.makeText(getView().getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onNext(QstoreBuyResponse qstoreBuyResponse) {
+                    public void onNext(QstoreBuyResponse qstoreBuyResponse)
+                    {
                         StoreContractPresenter.this.qstoreBuyResponse = qstoreBuyResponse;
                     }
                 });
     }
 
-    private void payTransaсtion(String address, String amount) {
-        sendTx(address, amount, new SendInteractorImpl.SendTxCallBack() {
+    private void payTransaсtion(String address, String amount)
+    {
+        sendTx(address, amount, new SendInteractorImpl.SendTxCallBack()
+        {
             @Override
-            public void onSuccess() {
+            public void onSuccess()
+            {
                 QStoreStorage.getInstance(getView().getContext()).addPurchasedItem(getContract().id, qstoreBuyResponse);
                 getView().getMainActivity().getUpdateService().subscribeStoreContract(qstoreBuyResponse.requestId);
                 getView().dismissProgressDialog();
@@ -255,58 +297,73 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(String error)
+            {
                 getView().dismissProgressDialog();
                 getView().setAlertDialog(getView().getContext().getString(R.string.error), error, "Ok", BaseFragment.PopUpType.error);
             }
         });
     }
 
-    public void sendTx(String address, String amount, final SendInteractorImpl.SendTxCallBack callBack) {
-        createTx(address, amount, new SendInteractorImpl.CreateTxCallBack() {
+    public void sendTx(String address, String amount, final SendInteractorImpl.SendTxCallBack callBack)
+    {
+        createTx(address, amount, new SendInteractorImpl.CreateTxCallBack()
+        {
             @Override
-            public void onSuccess(String txHex) {
+            public void onSuccess(String txHex)
+            {
                 sendTx(txHex, callBack);
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(String error)
+            {
                 callBack.onError(error);
             }
         });
     }
 
-    public void sendTx(String txHex, final SendInteractorImpl.SendTxCallBack callBack) {
+    public void sendTx(String txHex, final SendInteractorImpl.SendTxCallBack callBack)
+    {
         SBERService.newInstance().sendRawTransaction(new SendRawTransactionRequest(txHex, 1))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SendRawTransactionResponse>() {
+                .subscribe(new Subscriber<SendRawTransactionResponse>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         callBack.onError(e.getLocalizedMessage());
                     }
 
                     @Override
-                    public void onNext(SendRawTransactionResponse sendRawTransactionResponse) {
+                    public void onNext(SendRawTransactionResponse sendRawTransactionResponse)
+                    {
                         callBack.onSuccess();
                     }
                 });
     }
 
-    public void createTx(final String address, final String amountString, final SendInteractorImpl.CreateTxCallBack callBack) {
-        getUnspentOutputs(new SendInteractorImpl.GetUnspentListCallBack() {
+    public void createTx(final String address, final String amountString, final SendInteractorImpl.CreateTxCallBack callBack)
+    {
+        getUnspentOutputs(new SendInteractorImpl.GetUnspentListCallBack()
+        {
             @Override
-            public void onSuccess(List<UnspentOutput> unspentOutputs) {
+            public void onSuccess(List<UnspentOutput> unspentOutputs)
+            {
                 Transaction transaction = new Transaction(CurrentNetParams.getNetParams());
                 Address addressToSend;
                 BigDecimal bitcoin = new BigDecimal(10000000);
-                try {
+                try
+                {
                     addressToSend = Address.fromBase58(CurrentNetParams.getNetParams(), address);
-                } catch (AddressFormatException a) {
+                } catch (AddressFormatException a)
+                {
                     callBack.onError(getView().getContext().getString(R.string.invalid_sbercoin_address));
                     return;
                 }
@@ -318,25 +375,32 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
                 BigDecimal overFlow = new BigDecimal("0.0");
                 transaction.addOutput(Coin.valueOf((long) (amount.multiply(bitcoin).doubleValue())), addressToSend);
                 amount = amount.add(fee);
-                for (UnspentOutput unspentOutput : unspentOutputs) {
+                for (UnspentOutput unspentOutput : unspentOutputs)
+                {
                     overFlow = overFlow.add(unspentOutput.getAmount());
-                    if (overFlow.doubleValue() >= amount.doubleValue()) {
+                    if (overFlow.doubleValue() >= amount.doubleValue())
+                    {
                         break;
                     }
                 }
-                if (overFlow.doubleValue() < amount.doubleValue()) {
+                if (overFlow.doubleValue() < amount.doubleValue())
+                {
                     callBack.onError(getView().getContext().getString(R.string.you_have_insufficient_funds_for_this_transaction));
                     return;
                 }
                 BigDecimal delivery = overFlow.subtract(amount);
-                if (delivery.doubleValue() != 0.0) {
+                if (delivery.doubleValue() != 0.0)
+                {
                     transaction.addOutput(Coin.valueOf((long) (delivery.multiply(bitcoin).doubleValue())), myKey.toAddress(CurrentNetParams.getNetParams()));
                 }
-                for (UnspentOutput unspentOutput : unspentOutputs) {
+                for (UnspentOutput unspentOutput : unspentOutputs)
+                {
                     if (unspentOutput.getAmount().doubleValue() != 0.0)
                         //TODO STUB!
-                        for (DeterministicKey deterministicKey : KeyStorage.getInstance().getKeyList("STUB!")) {
-                            if (Hex.toHexString(deterministicKey.getPubKeyHash()).equals(unspentOutput.getPubkeyHash())) {
+                        for (DeterministicKey deterministicKey : KeyStorage.getInstance().getKeyList("STUB!"))
+                        {
+                            if (Hex.toHexString(deterministicKey.getPubKeyHash()).equals(unspentOutput.getPubkeyHash()))
+                            {
                                 Sha256Hash sha256Hash = new Sha256Hash(Utils.parseAsHexOrBase58(unspentOutput.getTxHash()));
                                 TransactionOutPoint outPoint = new TransactionOutPoint(CurrentNetParams.getNetParams(), unspentOutput.getVout(), sha256Hash);
                                 Script script = new Script(Utils.parseAsHexOrBase58(unspentOutput.getTxoutScriptPubKey()));
@@ -345,7 +409,8 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
                                 break;
                             }
                         }
-                    if (amountFromOutput.doubleValue() >= amount.doubleValue()) {
+                    if (amountFromOutput.doubleValue() >= amount.doubleValue())
+                    {
                         break;
                     }
                 }
@@ -357,38 +422,48 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(String error)
+            {
                 callBack.onError(error);
             }
         });
     }
 
-    public void getUnspentOutputs(final SendInteractorImpl.GetUnspentListCallBack callBack) {
+    public void getUnspentOutputs(final SendInteractorImpl.GetUnspentListCallBack callBack)
+    {
         SBERService.newInstance().getUnspentOutputsForSeveralAddresses(KeyStorage.getInstance().getAddresses())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<UnspentOutput>>() {
+                .subscribe(new Subscriber<List<UnspentOutput>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         callBack.onError("Get Unspent Outputs " + e.getMessage());
                     }
 
                     @Override
-                    public void onNext(List<UnspentOutput> unspentOutputs) {
+                    public void onNext(List<UnspentOutput> unspentOutputs)
+                    {
 
-                        for (Iterator<UnspentOutput> iterator = unspentOutputs.iterator(); iterator.hasNext(); ) {
+                        for (Iterator<UnspentOutput> iterator = unspentOutputs.iterator(); iterator.hasNext(); )
+                        {
                             UnspentOutput unspentOutput = iterator.next();
-                            if (!unspentOutput.isOutputAvailableToPay()) {
+                            if (!unspentOutput.isOutputAvailableToPay())
+                            {
                                 iterator.remove();
                             }
                         }
-                        Collections.sort(unspentOutputs, new Comparator<UnspentOutput>() {
+                        Collections.sort(unspentOutputs, new Comparator<UnspentOutput>()
+                        {
                             @Override
-                            public int compare(UnspentOutput unspentOutput, UnspentOutput t1) {
+                            public int compare(UnspentOutput unspentOutput, UnspentOutput t1)
+                            {
                                 return unspentOutput.getAmount().doubleValue() < t1.getAmount().doubleValue() ? 1 : unspentOutput.getAmount().doubleValue() > t1.getAmount().doubleValue() ? -1 : 0;
                             }
                         });
@@ -397,7 +472,8 @@ public class StoreContractPresenter extends BaseFragmentPresenterImpl implements
                 });
     }
 
-    public void getDetails() {
+    public void getDetails()
+    {
         String s = FileStorageManager.getInstance().readAbiContract(getView().getContext(), HUMANSTANDARDTOKENUUID);
         getView().openDetails(s);
     }

@@ -2,7 +2,8 @@ package org.sbercoin.wallet.model.gson.qstore;
 
 import com.google.gson.annotations.SerializedName;
 
-public class QstoreBuyResponse {
+public class QstoreBuyResponse
+{
     @SerializedName("address")
     public String address;
 

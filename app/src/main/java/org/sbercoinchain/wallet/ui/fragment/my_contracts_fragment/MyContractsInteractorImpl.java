@@ -14,57 +14,67 @@ import java.util.List;
 
 import rx.Observable;
 
-public class MyContractsInteractorImpl implements MyContractsInteractor {
+public class MyContractsInteractorImpl implements MyContractsInteractor
+{
     private WeakReference<Context> mContext;
 
-    public MyContractsInteractorImpl(Context context) {
+    public MyContractsInteractorImpl(Context context)
+    {
         mContext = new WeakReference<>(context);
     }
 
     @Override
-    public List<Contract> getContracts() {
+    public List<Contract> getContracts()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         return tinyDB.getContractList();
     }
 
     @Override
-    public List<Contract> getContractsWithoutTokens() {
+    public List<Contract> getContractsWithoutTokens()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         return tinyDB.getContractListWithoutToken();
     }
 
     @Override
-    public List<Token> getTokens() {
+    public List<Token> getTokens()
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         return tinyDB.getTokenList();
     }
 
     @Override
-    public void setContractWithoutTokens(List<Contract> contracts) {
-        TinyDB tinyDB = new TinyDB(mContext.get());
-        tinyDB.putContractListWithoutToken(contracts);
-    }
-
-    @Override
-    public void setTokens(List<Token> tokens) {
+    public void setTokens(List<Token> tokens)
+    {
         TinyDB tinyDB = new TinyDB(mContext.get());
         tinyDB.putTokenList(tokens);
     }
 
     @Override
-    public boolean isShowWizard() {
+    public void setContractWithoutTokens(List<Contract> contracts)
+    {
+        TinyDB tinyDB = new TinyDB(mContext.get());
+        tinyDB.putContractListWithoutToken(contracts);
+    }
+
+    @Override
+    public boolean isShowWizard()
+    {
         SBERSettingSharedPreference sbercoinSettingSharedPreference = SBERSettingSharedPreference.getInstance();
         return sbercoinSettingSharedPreference.getShowContractsDeleteUnsubscribeWizard(mContext.get());
     }
 
     @Override
-    public void setShowWizard(boolean isShow) {
+    public void setShowWizard(boolean isShow)
+    {
         SBERSettingSharedPreference sbercoinSettingSharedPreference = SBERSettingSharedPreference.getInstance();
         sbercoinSettingSharedPreference.setShowContractsDeleteUnsubscribeWizard(mContext.get(), isShow);
     }
 
     @Override
-    public Observable<ExistContractResponse> isContractExist(String contractAddress) {
+    public Observable<ExistContractResponse> isContractExist(String contractAddress)
+    {
         return SBERService.newInstance().isContractExist(contractAddress);
     }
 }

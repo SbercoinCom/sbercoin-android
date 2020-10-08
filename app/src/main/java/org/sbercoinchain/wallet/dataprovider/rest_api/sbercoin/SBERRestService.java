@@ -1,19 +1,18 @@
 package org.sbercoin.wallet.dataprovider.rest_api.sbercoin;
 
 import org.sbercoin.wallet.model.gson.BlockChainInfo;
-
 import org.sbercoin.wallet.model.gson.CallSmartContractRequest;
 import org.sbercoin.wallet.model.gson.ContractParams;
 import org.sbercoin.wallet.model.gson.DGPInfo;
 import org.sbercoin.wallet.model.gson.ExistContractResponse;
 import org.sbercoin.wallet.model.gson.FeePerKb;
 import org.sbercoin.wallet.model.gson.QstoreContractType;
-import org.sbercoin.wallet.model.gson.call_smart_contract_response.CallSmartContractResponse;
-import org.sbercoin.wallet.model.gson.history.History;
-import org.sbercoin.wallet.model.gson.history.HistoryResponse;
 import org.sbercoin.wallet.model.gson.SendRawTransactionRequest;
 import org.sbercoin.wallet.model.gson.SendRawTransactionResponse;
 import org.sbercoin.wallet.model.gson.UnspentOutput;
+import org.sbercoin.wallet.model.gson.call_smart_contract_response.CallSmartContractResponse;
+import org.sbercoin.wallet.model.gson.history.History;
+import org.sbercoin.wallet.model.gson.history.HistoryResponse;
 import org.sbercoin.wallet.model.gson.history.TransactionReceipt;
 import org.sbercoin.wallet.model.gson.qstore.ContractPurchase;
 import org.sbercoin.wallet.model.gson.qstore.QSearchItem;
@@ -34,7 +33,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
-interface SBERRestService {
+interface SBERRestService
+{
 
     @GET("/outputs/unspent/{address}")
     Observable<List<UnspentOutput>> getOutputsUnspent(@Path("address") String address);

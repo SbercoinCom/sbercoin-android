@@ -19,7 +19,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ContractConfirmPresenterImpl extends BaseFragmentPresenterImpl implements ContractConfirmPresenter {
+public class ContractConfirmPresenterImpl extends BaseFragmentPresenterImpl implements ContractConfirmPresenter
+{
 
     private ContractConfirmView view;
     private ContractConfirmInteractor interactor;
@@ -37,8 +38,15 @@ public class ContractConfirmPresenterImpl extends BaseFragmentPresenterImpl impl
 
     private List<ContractMethodParameter> mContractMethodParameterList;
 
+    public ContractConfirmPresenterImpl(ContractConfirmView view, ContractConfirmInteractor contractConfirmInteractor)
+    {
+        this.view = view;
+        interactor = contractConfirmInteractor;
+    }
+
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         minFee = getInteractor().getFeePerKb().doubleValue();
         getView().updateFee(minFee, maxFee);
@@ -48,70 +56,81 @@ public class ContractConfirmPresenterImpl extends BaseFragmentPresenterImpl impl
     }
 
     @Override
-    public void setContractMethodParameterList(List<ContractMethodParameter> contractMethodParameterList) {
+    public List<ContractMethodParameter> getContractMethodParameterList()
+    {
+        return mContractMethodParameterList;
+    }
+
+    @Override
+    public void setContractMethodParameterList(List<ContractMethodParameter> contractMethodParameterList)
+    {
         this.mContractMethodParameterList = contractMethodParameterList;
     }
 
     @Override
-    public List<ContractMethodParameter> getContractMethodParameterList() {
-        return mContractMethodParameterList;
-    }
-
-    public ContractConfirmPresenterImpl(ContractConfirmView view, ContractConfirmInteractor contractConfirmInteractor) {
-        this.view = view;
-        interactor = contractConfirmInteractor;
-    }
-
-    @Override
-    public void onConfirmContract(final String uiid, final int gasLimit, final int gasPrice, final String fee, final String passphrase) {
+    public void onConfirmContract(final String uiid, final int gasLimit, final int gasPrice, final String fee, final String passphrase)
+    {
         getView().setProgressDialog();
         mContractTemplateUiid = uiid;
         getInteractor().createAbiConstructParams(mContractMethodParameterList, uiid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
+                .subscribe(new Observer<String>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().setAlertDialog(R.string.error, e.getMessage(), "Ok", BaseFragment.PopUpType.error);
                     }
 
                     @Override
-                    public void onNext(String s) {
+                    public void onNext(String s)
+                    {
                         createTx(s, gasLimit, gasPrice, fee.replace(',', '.'), passphrase);
                     }
                 });
     }
 
 
-    private void createTx(final String abiParams, final int gasLimit, final int gasPrice, final String fee, final String passphrase) {
+    private void createTx(final String abiParams, final int gasLimit, final int gasPrice, final String fee, final String passphrase)
+    {
         getInteractor().getUnspentOutputsForSeveralAddresses()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<UnspentOutput>>() {
+                .subscribe(new Subscriber<List<UnspentOutput>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().setAlertDialog(R.string.error, e.getMessage(), "Ok", BaseFragment.PopUpType.error);
                     }
 
                     @Override
-                    public void onNext(List<UnspentOutput> unspentOutputs) {
-                        for (Iterator<UnspentOutput> iterator = unspentOutputs.iterator(); iterator.hasNext(); ) {
+                    public void onNext(List<UnspentOutput> unspentOutputs)
+                    {
+                        for (Iterator<UnspentOutput> iterator = unspentOutputs.iterator(); iterator.hasNext(); )
+                        {
                             UnspentOutput unspentOutput = iterator.next();
-                            if (!unspentOutput.isOutputAvailableToPay()) {
+                            if (!unspentOutput.isOutputAvailableToPay())
+                            {
                                 iterator.remove();
                             }
                         }
-                        Collections.sort(unspentOutputs, new Comparator<UnspentOutput>() {
+                        Collections.sort(unspentOutputs, new Comparator<UnspentOutput>()
+                        {
                             @Override
-                            public int compare(UnspentOutput unspentOutput, UnspentOutput t1) {
+                            public int compare(UnspentOutput unspentOutput, UnspentOutput t1)
+                            {
                                 return unspentOutput.getAmount().doubleValue() < t1.getAmount().doubleValue() ? 1 : unspentOutput.getAmount().doubleValue() > t1.getAmount().doubleValue() ? -1 : 0;
                             }
                         });
@@ -121,43 +140,53 @@ public class ContractConfirmPresenterImpl extends BaseFragmentPresenterImpl impl
                 });
     }
 
-    private void sendTx(final String code, final String senderAddress) {
+    private void sendTx(final String code, final String senderAddress)
+    {
         getInteractor().sendRawTransaction(new SendRawTransactionRequest(code, 1))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SendRawTransactionResponse>() {
+                .subscribe(new Subscriber<SendRawTransactionResponse>()
+                {
                     @Override
-                    public void onCompleted() {
-                        getView().setAlertDialog(R.string.contract_created_successfully, "", "OK", BaseFragment.PopUpType.confirm, new BaseFragment.AlertDialogCallBack() {
+                    public void onCompleted()
+                    {
+                        getView().setAlertDialog(R.string.contract_created_successfully, "", "OK", BaseFragment.PopUpType.confirm, new BaseFragment.AlertDialogCallBack()
+                        {
                             @Override
-                            public void onButtonClick() {
+                            public void onButtonClick()
+                            {
                                 getView().closeFragments();
                             }
 
                             @Override
-                            public void onButton2Click() {
+                            public void onButton2Click()
+                            {
                             }
                         });
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         getView().setAlertDialog(R.string.error, e.getMessage(), "OK", BaseFragment.PopUpType.error);
                     }
 
                     @Override
-                    public void onNext(SendRawTransactionResponse sendRawTransactionResponse) {
+                    public void onNext(SendRawTransactionResponse sendRawTransactionResponse)
+                    {
                         getInteractor().saveContract(sendRawTransactionResponse.getTxid(), mContractTemplateUiid, getView().getContractName(), senderAddress);
                     }
                 });
     }
 
     @Override
-    public ContractConfirmView getView() {
+    public ContractConfirmView getView()
+    {
         return view;
     }
 
-    private ContractConfirmInteractor getInteractor() {
+    private ContractConfirmInteractor getInteractor()
+    {
         return interactor;
     }
 }

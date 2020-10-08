@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +21,7 @@
             android:padding="8dp"
             android:text="@string/org.sbercoin.wallet.activity"
             android:textColor="@color/bottom_nav_bar_text_color_light"
-            app:typefaceAsset="@string/proximaNovaSemibold"/>
+            app:typefaceAsset="@string/proximaNovaSemibold" />
 
 
         <RelativeLayout
@@ -33,7 +32,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:splitMotionEvents="false"/>
+                android:splitMotionEvents="false" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/histories_placeholder"
@@ -45,7 +44,7 @@
                 android:text="@string/no_transaction_available_yet"
                 android:textColor="@color/grey70"
                 android:textSize="18sp"
-                app:typefaceAsset="@string/proximaNovaRegular"/>
+                app:typefaceAsset="@string/proximaNovaRegular" />
 
         </RelativeLayout>
 
@@ -74,7 +73,7 @@
                 android:id="@+id/gradient_iv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/background_main"/>
+                android:src="@drawable/background_main" />
 
             <FrameLayout
                 android:id="@+id/balance_view"
@@ -87,9 +86,9 @@
                 <org.sbercoin.wallet.ui.wave_visualizer.WaveView
                     android:id="@+id/wave_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
-                <include layout="@layout/fragment_wallet_appbar_light"/>
+                <include layout="@layout/fragment_wallet_appbar_light" />
 
             </FrameLayout>
 
@@ -121,7 +120,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:text="@string/my_wallet"
-                            app:typefaceAsset="@string/proximaNovaSemibold"/>
+                            app:typefaceAsset="@string/proximaNovaSemibold" />
 
                         <ImageButton
                             android:id="@+id/bt_qr_code"
@@ -133,7 +132,7 @@
                             android:padding="4dp"
                             android:scaleType="centerInside"
                             android:tint="@color/white"
-                            app:srcCompat="@drawable/ic_qrcode_light"/>
+                            app:srcCompat="@drawable/ic_qrcode_light" />
 
                         <ImageView
                             android:id="@+id/iv_choose_address"
@@ -141,15 +140,15 @@
                             android:layout_height="36dp"
                             android:layout_centerVertical="true"
                             android:layout_toStartOf="@+id/bt_qr_code"
-                            android:paddingBottom="5dp"
                             android:paddingTop="3dp"
+                            android:paddingBottom="5dp"
                             android:tint="@color/white"
-                            app:srcCompat="@drawable/ic_address_book"/>
+                            app:srcCompat="@drawable/ic_address_book" />
 
                         <include
                             android:id="@+id/app_bar_placeholder"
                             layout="@layout/lyt_appbar_wallet_placeholder_light"
-                            android:visibility="invisible"/>
+                            android:visibility="invisible" />
                     </RelativeLayout>
 
                 </LinearLayout>

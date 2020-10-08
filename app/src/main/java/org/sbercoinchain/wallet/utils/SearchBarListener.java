@@ -1,6 +1,7 @@
 package org.sbercoin.wallet.utils;
 
-public interface SearchBarListener {
+public interface SearchBarListener
+{
     void onActivate();
 
     void onDeactivate();

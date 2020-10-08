@@ -6,6 +6,7 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface OtherTokensInteractor {
+public interface OtherTokensInteractor
+{
     Observable<List<Token>> getTokenObservable();
 }

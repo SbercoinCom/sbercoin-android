@@ -9,66 +9,76 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class LanguageFragment extends BaseFragment implements LanguageView, OnLanguageIntemClickListener {
+public abstract class LanguageFragment extends BaseFragment implements LanguageView, OnLanguageIntemClickListener
+{
 
-    private LanguagePresenter mLanguageFragmentPresenter;
     protected LanguageAdapter mLanguageAdapter;
     protected List<Pair<String, String>> mLanguagesList;
-
     @BindView(R.id.recycler_view)
     protected
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_toolbar_language)
     TextView mTextViewToolBarLanguage;
+    private LanguagePresenter mLanguageFragmentPresenter;
 
-    @OnClick({R.id.ibt_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ibt_back:
-                getActivity().onBackPressed();
-                break;
-        }
-    }
-
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, LanguageFragment.class);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @OnClick({R.id.ibt_back})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.ibt_back:
+                getActivity().onBackPressed();
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mLanguageFragmentPresenter = new LanguagePresenterImpl(this, new LanguageInteractorImpl(getContext()));
     }
 
     @Override
-    protected LanguagePresenter getPresenter() {
+    protected LanguagePresenter getPresenter()
+    {
         return mLanguageFragmentPresenter;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
-    public void resetText() {
+    public void resetText()
+    {
         mTextViewToolBarLanguage.setText(R.string.language);
     }
 
-    private int findLanguagePosition(String currentLanguage) {
+    private int findLanguagePosition(String currentLanguage)
+    {
         int pos = 0;
-        for (Pair<String, String> lang : mLanguagesList) {
-            if (lang.first.equals(currentLanguage)) {
+        for (Pair<String, String> lang : mLanguagesList)
+        {
+            if (lang.first.equals(currentLanguage))
+            {
                 return pos;
             }
             pos++;
@@ -77,9 +87,11 @@ public abstract class LanguageFragment extends BaseFragment implements LanguageV
     }
 
     @Override
-    public void onLanguageIntemClick(int adapterPosition) {
+    public void onLanguageIntemClick(int adapterPosition)
+    {
         int oldPosition = findLanguagePosition(getPresenter().getCurrentLanguage());
-        if (oldPosition != adapterPosition) {
+        if (oldPosition != adapterPosition)
+        {
             getPresenter().setCurrentLanguage(mLanguageAdapter.mLanguagesList.get(adapterPosition).first);
             mLanguageAdapter.notifyItemChanged(oldPosition);
             mLanguageAdapter.notifyItemChanged(adapterPosition);

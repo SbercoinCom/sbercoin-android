@@ -12,19 +12,24 @@ import org.sbercoin.wallet.ui.fragment.wallet_fragment.ProgressBarHolder;
 
 import java.util.List;
 
-public class TokenHistoryAdapterDark extends TokenHistoryAdapter {
+public class TokenHistoryAdapterDark extends TokenHistoryAdapter
+{
 
-    public TokenHistoryAdapterDark(List<TokenHistory> historyList, TokenHistoryClickListener listener, int decimalUnits) {
+    public TokenHistoryAdapterDark(List<TokenHistory> historyList, TokenHistoryClickListener listener, int decimalUnits)
+    {
         super(historyList, listener, decimalUnits);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_TRANSACTION) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        if (viewType == TYPE_TRANSACTION)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(org.sbercoin.wallet.R.layout.item_token_transaction, parent, false);
             return new TokenHistoryHolderDark(view, listener, decimalUnits);
-        } else {
+        } else
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(org.sbercoin.wallet.R.layout.item_progress_bar, parent, false);
             return new ProgressBarHolder(view);
@@ -32,10 +37,13 @@ public class TokenHistoryAdapterDark extends TokenHistoryAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ProgressBarHolder) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
+        if (holder instanceof ProgressBarHolder)
+        {
             ((ProgressBarHolder) holder).bindProgressBar(mLoadingFlag);
-        } else {
+        } else
+        {
             mHistory = mHistoryList.get(position);
             ((TokenHistoryHolderDark) holder).bindTransactionData(mHistory, mSymbol);
         }

@@ -2,7 +2,8 @@ package org.sbercoin.wallet.model.gson.history;
 
 import java.math.BigDecimal;
 
-public interface TransactionInfo {
+public interface TransactionInfo
+{
     String getAddress();
 
     BigDecimal getValue();

@@ -12,7 +12,11 @@ import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class WaveView extends View {
+public class WaveView extends View
+{
+    public static final int DEFAULT_BEHIND_WAVE_COLOR = Color.parseColor("#12FFFFFF");
+    public static final int DEFAULT_FRONT_WAVE_COLOR = Color.parseColor("#12FFFFFF");
+    public static final ShapeType DEFAULT_WAVE_SHAPE = ShapeType.CIRCLE;
     /**
      * +------------------------+
      * |<--wave length->        |______
@@ -32,58 +36,49 @@ public class WaveView extends View {
     private static final float DEFAULT_WATER_LEVEL_RATIO = 0.5f;
     private static final float DEFAULT_WAVE_LENGTH_RATIO = 1.0f;
     private static final float DEFAULT_WAVE_SHIFT_RATIO = 0.0f;
-
-    public static final int DEFAULT_BEHIND_WAVE_COLOR = Color.parseColor("#12FFFFFF");
-    public static final int DEFAULT_FRONT_WAVE_COLOR = Color.parseColor("#12FFFFFF");
-    public static final ShapeType DEFAULT_WAVE_SHAPE = ShapeType.CIRCLE;
-
-    public enum ShapeType {
-        CIRCLE,
-        SQUARE
-    }
-
     private boolean mShowWave;
     private BitmapShader mWaveShader;
     private Matrix mShaderMatrix;
     private Paint mViewPaint;
     private Paint mBorderPaint;
-
     private float mDefaultAmplitude;
     private float mDefaultWaterLevel;
     private float mDefaultWaveLength;
     private double mDefaultAngularFrequency;
-
     private float mAmplitudeRatio = DEFAULT_AMPLITUDE_RATIO;
     private float mWaveLengthRatio = DEFAULT_WAVE_LENGTH_RATIO;
     private float mWaterLevelRatio = DEFAULT_WATER_LEVEL_RATIO;
     private float mWaveShiftRatio = DEFAULT_WAVE_SHIFT_RATIO;
-
     private int mBehindWaveColor = DEFAULT_BEHIND_WAVE_COLOR;
     private int mFrontWaveColor = DEFAULT_FRONT_WAVE_COLOR;
     private ShapeType mShapeType = DEFAULT_WAVE_SHAPE;
-
-    public WaveView(Context context) {
+    public WaveView(Context context)
+    {
         super(context);
         init();
     }
 
-    public WaveView(Context context, AttributeSet attrs) {
+    public WaveView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         init();
     }
 
-    public WaveView(Context context, AttributeSet attrs, int defStyle) {
+    public WaveView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         init();
     }
 
-    private void init() {
+    private void init()
+    {
         mShaderMatrix = new Matrix();
         mViewPaint = new Paint();
         mViewPaint.setAntiAlias(true);
     }
 
-    public float getWaveShiftRatio() {
+    public float getWaveShiftRatio()
+    {
         return mWaveShiftRatio;
     }
 
@@ -93,14 +88,17 @@ public class WaveView extends View {
      * @param waveShiftRatio Should be 0 ~ 1. Default to be 0.
      *                       Result of waveShiftRatio multiples width of WaveView is the length to shift.
      */
-    public void setWaveShiftRatio(float waveShiftRatio) {
-        if (mWaveShiftRatio != waveShiftRatio) {
+    public void setWaveShiftRatio(float waveShiftRatio)
+    {
+        if (mWaveShiftRatio != waveShiftRatio)
+        {
             mWaveShiftRatio = waveShiftRatio;
             invalidate();
         }
     }
 
-    public float getWaterLevelRatio() {
+    public float getWaterLevelRatio()
+    {
         return mWaterLevelRatio;
     }
 
@@ -110,14 +108,17 @@ public class WaveView extends View {
      * @param waterLevelRatio Should be 0 ~ 1. Default to be 0.5.
      *                        Ratio of water level to WaveView height.
      */
-    public void setWaterLevelRatio(float waterLevelRatio) {
-        if (mWaterLevelRatio != waterLevelRatio) {
+    public void setWaterLevelRatio(float waterLevelRatio)
+    {
+        if (mWaterLevelRatio != waterLevelRatio)
+        {
             mWaterLevelRatio = waterLevelRatio;
             invalidate();
         }
     }
 
-    public float getAmplitudeRatio() {
+    public float getAmplitudeRatio()
+    {
         return mAmplitudeRatio;
     }
 
@@ -127,14 +128,17 @@ public class WaveView extends View {
      * @param amplitudeRatio Default to be 0.05. Result of amplitudeRatio + waterLevelRatio should be less than 1.
      *                       Ratio of amplitude to height of WaveView.
      */
-    public void setAmplitudeRatio(float amplitudeRatio) {
-        if (mAmplitudeRatio != amplitudeRatio) {
+    public void setAmplitudeRatio(float amplitudeRatio)
+    {
+        if (mAmplitudeRatio != amplitudeRatio)
+        {
             mAmplitudeRatio = amplitudeRatio;
             invalidate();
         }
     }
 
-    public float getWaveLengthRatio() {
+    public float getWaveLengthRatio()
+    {
         return mWaveLengthRatio;
     }
 
@@ -144,20 +148,25 @@ public class WaveView extends View {
      * @param waveLengthRatio Default to be 1.
      *                        Ratio of wave length to width of WaveView.
      */
-    public void setWaveLengthRatio(float waveLengthRatio) {
+    public void setWaveLengthRatio(float waveLengthRatio)
+    {
         mWaveLengthRatio = waveLengthRatio;
     }
 
-    public boolean isShowWave() {
+    public boolean isShowWave()
+    {
         return mShowWave;
     }
 
-    public void setShowWave(boolean showWave) {
+    public void setShowWave(boolean showWave)
+    {
         mShowWave = showWave;
     }
 
-    public void setBorder(int width, int color) {
-        if (mBorderPaint == null) {
+    public void setBorder(int width, int color)
+    {
+        if (mBorderPaint == null)
+        {
             mBorderPaint = new Paint();
             mBorderPaint.setAntiAlias(true);
             mBorderPaint.setStyle(Style.STROKE);
@@ -168,11 +177,13 @@ public class WaveView extends View {
         invalidate();
     }
 
-    public void setWaveColor(int behindWaveColor, int frontWaveColor) {
+    public void setWaveColor(int behindWaveColor, int frontWaveColor)
+    {
         mBehindWaveColor = behindWaveColor;
         mFrontWaveColor = frontWaveColor;
 
-        if (getWidth() > 0 && getHeight() > 0) {
+        if (getWidth() > 0 && getHeight() > 0)
+        {
             // need to recreate shader when color changed
             mWaveShader = null;
             createShader();
@@ -180,16 +191,19 @@ public class WaveView extends View {
         }
     }
 
-    public void setShapeType(ShapeType shapeType) {
+    public void setShapeType(ShapeType shapeType)
+    {
         mShapeType = shapeType;
         invalidate();
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        if(h > 0) {
+        if (h > 0)
+        {
             createShader();
         }
     }
@@ -197,7 +211,8 @@ public class WaveView extends View {
     /**
      * Create the shader with default waves which repeat horizontally, and clamp vertically
      */
-    private void createShader() {
+    private void createShader()
+    {
         mDefaultAngularFrequency = 2.0f * Math.PI / DEFAULT_WAVE_LENGTH_RATIO / getWidth();
         mDefaultAmplitude = getHeight() * DEFAULT_AMPLITUDE_RATIO;
         mDefaultWaterLevel = getHeight() * DEFAULT_WATER_LEVEL_RATIO;
@@ -215,7 +230,8 @@ public class WaveView extends View {
         float[] waveY = new float[endX];
 
         wavePaint.setColor(mBehindWaveColor);
-        for (int beginX = 0; beginX < endX; beginX++) {
+        for (int beginX = 0; beginX < endX; beginX++)
+        {
             double wx = beginX * mDefaultAngularFrequency;
             float beginY = (float) (mDefaultWaterLevel + mDefaultAmplitude * Math.sin(wx));
             canvas.drawLine(beginX, beginY, beginX, endY, wavePaint);
@@ -225,7 +241,8 @@ public class WaveView extends View {
 
         wavePaint.setColor(mFrontWaveColor);
         final int wave2Shift = (int) (mDefaultWaveLength / 4);
-        for (int beginX = 0; beginX < endX; beginX++) {
+        for (int beginX = 0; beginX < endX; beginX++)
+        {
             canvas.drawLine(beginX, waveY[(beginX + wave2Shift) % endX] - getHeight() / 10, beginX, endY, wavePaint);
         }
         mWaveShader = new BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.CLAMP);
@@ -233,9 +250,12 @@ public class WaveView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        if (mShowWave && mWaveShader != null) {
-            if (mViewPaint.getShader() == null) {
+    protected void onDraw(Canvas canvas)
+    {
+        if (mShowWave && mWaveShader != null)
+        {
+            if (mViewPaint.getShader() == null)
+            {
                 mViewPaint.setShader(mWaveShader);
             }
             mShaderMatrix.setScale(
@@ -249,9 +269,11 @@ public class WaveView extends View {
             mWaveShader.setLocalMatrix(mShaderMatrix);
 
             float borderWidth = mBorderPaint == null ? 0f : mBorderPaint.getStrokeWidth();
-            switch (mShapeType) {
+            switch (mShapeType)
+            {
                 case CIRCLE:
-                    if (borderWidth > 0) {
+                    if (borderWidth > 0)
+                    {
                         canvas.drawCircle(getWidth() / 2f, getHeight() / 2f,
                                 (getWidth() - borderWidth) / 2f - 1f, mBorderPaint);
                     }
@@ -259,7 +281,8 @@ public class WaveView extends View {
                     canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mViewPaint);
                     break;
                 case SQUARE:
-                    if (borderWidth > 0) {
+                    if (borderWidth > 0)
+                    {
                         canvas.drawRect(
                                 borderWidth / 2f,
                                 borderWidth / 2f,
@@ -271,8 +294,15 @@ public class WaveView extends View {
                             getHeight() - borderWidth, mViewPaint);
                     break;
             }
-        } else {
+        } else
+        {
             mViewPaint.setShader(null);
         }
+    }
+
+    public enum ShapeType
+    {
+        CIRCLE,
+        SQUARE
     }
 }

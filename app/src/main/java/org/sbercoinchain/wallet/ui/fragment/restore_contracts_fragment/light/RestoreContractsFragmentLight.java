@@ -6,15 +6,18 @@ import android.view.View;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.restore_contracts_fragment.RestoreContractsFragment;
 
-public class RestoreContractsFragmentLight extends RestoreContractsFragment {
+public class RestoreContractsFragmentLight extends RestoreContractsFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_restore_contracts_light;
     }
 
     @Override
-    public void setFile(String name, String size) {
+    public void setFile(String name, String size)
+    {
         mTextViewFileName.setText(name);
         mTextViewFileSize.setVisibility(View.VISIBLE);
         mTextViewFileSize.setText(size);
@@ -24,7 +27,8 @@ public class RestoreContractsFragmentLight extends RestoreContractsFragment {
     }
 
     @Override
-    public void deleteFile() {
+    public void deleteFile()
+    {
         mTextViewFileName.setText(R.string.select_back_up_file);
         mTextViewFileSize.setVisibility(View.GONE);
         mImageViewRestoreIcon.setClickable(false);

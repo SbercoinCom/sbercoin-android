@@ -6,23 +6,27 @@ import org.sbercoin.wallet.model.gson.history.TransactionInfo;
 
 import java.util.List;
 
-public abstract class AddressesDetailAdapter<T extends TransactionInfo> extends RecyclerView.Adapter<AddressesDetailHolder> {
+public abstract class AddressesDetailAdapter<T extends TransactionInfo> extends RecyclerView.Adapter<AddressesDetailHolder>
+{
 
     private List<T> mTransactionInfoList;
     private String mSymbol;
 
-    protected AddressesDetailAdapter(List<T> transactionInfoList, String symbol) {
+    protected AddressesDetailAdapter(List<T> transactionInfoList, String symbol)
+    {
         mTransactionInfoList = transactionInfoList;
         mSymbol = symbol;
     }
 
     @Override
-    public void onBindViewHolder(AddressesDetailHolder holder, int position) {
-        holder.bindTransactionDetail(mTransactionInfoList.get(position),mSymbol);
+    public void onBindViewHolder(AddressesDetailHolder holder, int position)
+    {
+        holder.bindTransactionDetail(mTransactionInfoList.get(position), mSymbol);
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mTransactionInfoList.size();
     }
 }

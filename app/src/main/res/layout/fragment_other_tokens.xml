@@ -17,27 +17,27 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:splitMotionEvents="false"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:splitMotionEvents="false" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_gravity="bottom|center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
-            android:src="@drawable/tab_indicator_default"
             android:layout_width="10dp"
-            android:layout_height="10dp" />
+            android:layout_height="10dp"
+            android:src="@drawable/tab_indicator_default" />
 
         <ImageView
-            android:src="@drawable/tab_indicator_selected"
             android:layout_width="12dp"
-            android:layout_height="12dp" />
+            android:layout_height="12dp"
+            android:src="@drawable/tab_indicator_selected" />
 
 
     </LinearLayout>

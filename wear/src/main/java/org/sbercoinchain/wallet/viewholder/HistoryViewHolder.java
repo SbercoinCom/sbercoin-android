@@ -1,7 +1,3 @@
-
-
-
-
 package org.sbercoin.wallet.viewholder;
 
 import android.support.wear.widget.WearableRecyclerView;
@@ -11,18 +7,18 @@ import android.widget.TextView;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.entity.History;
+import org.sbercoin.wallet.listener.ItemClickListener;
+import org.sbercoin.wallet.utils.DateCalculator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import org.sbercoin.wallet.listener.ItemClickListener;
-import org.sbercoin.wallet.utils.DateCalculator;
 
 /**
  * Created by kirillvolkov on 22.11.2017.
  */
 
-public class HistoryViewHolder extends WearableRecyclerView.ViewHolder {
+public class HistoryViewHolder extends WearableRecyclerView.ViewHolder
+{
 
     @BindView(R.id.tv_value)
     TextView mTextViewValue;
@@ -36,43 +32,55 @@ public class HistoryViewHolder extends WearableRecyclerView.ViewHolder {
     @BindView(R.id.iv_icon)
     ImageView mImageViewIcon;
 
-    public HistoryViewHolder(View itemView, final ItemClickListener itemClickListener) {
+    public HistoryViewHolder(View itemView, final ItemClickListener itemClickListener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
         itemView.setClickable(true);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(getAdapterPosition() -1);
+            public void onClick(View v)
+            {
+                itemClickListener.onItemClick(getAdapterPosition() - 1);
             }
         });
     }
 
-    public void bind(History history) {
-        if (history.getBlockTime() != null) {
+    public void bind(History history)
+    {
+        if (history.getBlockTime() != null)
+        {
             mTextViewDate.setText(DateCalculator.getShortDate(history.getBlockTime() * 1000L));
 
-        } else {
+        } else
+        {
             mTextViewDate.setText(mTextViewDate.getContext().getString(R.string.unconfirmed));
         }
-        if(history.getChangeInBalance() != null) {
-            if (history.getChangeInBalance().doubleValue() > 0) {
+        if (history.getChangeInBalance() != null)
+        {
+            if (history.getChangeInBalance().doubleValue() > 0)
+            {
                 mTextViewID.setText(history.getTxHash());
                 mImageViewIcon.setImageResource(R.drawable.receive_shape);
-            } else {
+            } else
+            {
                 mTextViewID.setText(history.getTxHash());
                 mImageViewIcon.setImageResource(R.drawable.send_shape);
             }
-        } else {
+        } else
+        {
             mTextViewID.setText("NULL");
             mImageViewIcon.setImageResource(R.drawable.red_point);
         }
-        if(history.getChangeInBalance() != null) {
-            mTextViewValue.setText(String.format("%s SBER",history.getChangeInBalance().toString()));
-        } else {
-            mTextViewValue.setText(String.format("%s SBER","null"));
+        if (history.getChangeInBalance() != null)
+        {
+            mTextViewValue.setText(String.format("%s SBER", history.getChangeInBalance().toString()));
+        } else
+        {
+            mTextViewValue.setText(String.format("%s SBER", "null"));
         }
     }
 }

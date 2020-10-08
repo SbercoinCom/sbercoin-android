@@ -4,7 +4,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-class ResizeAnimation extends Animation {
+class ResizeAnimation extends Animation
+{
 
     private int startWidth;
     private int deltaWidth; // distance between start and end height
@@ -16,12 +17,14 @@ class ResizeAnimation extends Animation {
      *
      * @param v
      */
-    public ResizeAnimation(View v) {
+    public ResizeAnimation(View v)
+    {
         this.view = v;
     }
 
     @Override
-    protected void applyTransformation(float interpolatedTime, Transformation t) {
+    protected void applyTransformation(float interpolatedTime, Transformation t)
+    {
 
         view.getLayoutParams().width = (int) (startWidth + deltaWidth * interpolatedTime);
         view.requestLayout();
@@ -35,7 +38,8 @@ class ResizeAnimation extends Animation {
      * @param start height in pixels
      * @param end   height in pixels
      */
-    public void setParams(int start, int end) {
+    public void setParams(int start, int end)
+    {
 
         this.startWidth = start;
         deltaWidth = end - startWidth;
@@ -45,12 +49,14 @@ class ResizeAnimation extends Animation {
      * set the duration for the hideshowanimation
      */
     @Override
-    public void setDuration(long durationMillis) {
+    public void setDuration(long durationMillis)
+    {
         super.setDuration(durationMillis);
     }
 
     @Override
-    public boolean willChangeBounds() {
+    public boolean willChangeBounds()
+    {
         return true;
     }
 }

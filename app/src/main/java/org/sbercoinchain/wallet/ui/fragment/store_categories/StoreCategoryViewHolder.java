@@ -11,7 +11,8 @@ import org.sbercoin.wallet.model.gson.QstoreContractType;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StoreCategoryViewHolder extends RecyclerView.ViewHolder {
+public class StoreCategoryViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.icon)
     ImageView icon;
@@ -25,18 +26,22 @@ public class StoreCategoryViewHolder extends RecyclerView.ViewHolder {
     OnCategoryClickListener mListener;
     QstoreContractType mQstoreContractType;
 
-    public StoreCategoryViewHolder(View itemView) {
+    public StoreCategoryViewHolder(View itemView)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mListener.onClick(mQstoreContractType.getType());
             }
         });
     }
 
-    public void bind(QstoreContractType item, OnCategoryClickListener listener) {
+    public void bind(QstoreContractType item, OnCategoryClickListener listener)
+    {
         mListener = listener;
         mQstoreContractType = item;
         icon.setImageResource(item.getIcon());
@@ -44,7 +49,8 @@ public class StoreCategoryViewHolder extends RecyclerView.ViewHolder {
         cost.setText(String.valueOf(item.getCount()));
     }
 
-    public interface OnCategoryClickListener {
+    public interface OnCategoryClickListener
+    {
         void onClick(String type);
     }
 }

@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.FontTextView;
 import org.sbercoin.wallet.utils.SearchBar;
 import org.sbercoin.wallet.utils.SearchBarListener;
@@ -29,72 +29,77 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public abstract class SubscribeTokensFragment extends BaseFragment implements SubscribeTokensView, SearchBarListener {
+public abstract class SubscribeTokensFragment extends BaseFragment implements SubscribeTokensView, SearchBarListener
+{
 
-    private AddressesListTokenPresenter mSubscribeTokensPresenterImpl;
     protected TokenAdapter mTokenAdapter;
-    private String mSearchString;
     protected List<Token> mCurrentList;
-
     @BindView(org.sbercoin.wallet.R.id.recycler_view)
     protected
     RecyclerView mRecyclerView;
-
     @BindView(org.sbercoin.wallet.R.id.tv_currency_title)
     TextView mTextViewCurrencyTitle;
-
     @BindView(org.sbercoin.wallet.R.id.search_bar)
     SearchBar searchBar;
-
     @BindView(org.sbercoin.wallet.R.id.ll_currency)
     RelativeLayout mFrameLayoutBase;
-
     @BindView(R.id.place_holder)
     FontTextView mFontTextViewPlaceHolder;
+    private AddressesListTokenPresenter mSubscribeTokensPresenterImpl;
+    private String mSearchString;
 
-    @OnClick({org.sbercoin.wallet.R.id.ibt_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case org.sbercoin.wallet.R.id.ibt_back:
-                getActivity().onBackPressed();
-                break;
-        }
-    }
-
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, SubscribeTokensFragment.class);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @OnClick({org.sbercoin.wallet.R.id.ibt_back})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case org.sbercoin.wallet.R.id.ibt_back:
+                getActivity().onBackPressed();
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mSubscribeTokensPresenterImpl = new SubscribeTokensPresenterImpl(this, new SubscribeTokensInteractorImpl(getContext()));
     }
 
     @Override
-    protected AddressesListTokenPresenter getPresenter() {
+    protected AddressesListTokenPresenter getPresenter()
+    {
         return mSubscribeTokensPresenterImpl;
     }
 
 
     @Override
-    public void setPlaceHolder() {
+    public void setPlaceHolder()
+    {
         mFontTextViewPlaceHolder.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         searchBar.setListener(this);
         mTextViewCurrencyTitle.setText(org.sbercoin.wallet.R.string.chose_to_subscribe);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mFrameLayoutBase.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mFrameLayoutBase.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void onFocusChange(View view, boolean b)
+            {
                 if (b)
                     hideKeyBoard();
             }
@@ -103,38 +108,51 @@ public abstract class SubscribeTokensFragment extends BaseFragment implements Su
 
 
     @Override
-    public void onActivate() {
+    public void onActivate()
+    {
     }
 
     @Override
-    public void onDeactivate() {
-        if (mFrameLayoutBase != null) {
+    public void onDeactivate()
+    {
+        if (mFrameLayoutBase != null)
+        {
             mFrameLayoutBase.requestFocus();
         }
         hideKeyBoard();
     }
 
     @Override
-    public void onRequestSearch(String filter) {
-        if (mTokenAdapter != null) {
-            if (filter.isEmpty()) {
+    public void onRequestSearch(String filter)
+    {
+        if (mTokenAdapter != null)
+        {
+            if (filter.isEmpty())
+            {
                 mTokenAdapter.setFilter(mCurrentList);
-            } else {
+            } else
+            {
                 mSearchString = filter.toLowerCase();
                 List<Token> newList = new ArrayList<>();
-                for (Token currency : mCurrentList) {
+                for (Token currency : mCurrentList)
+                {
                     if (currency.getContractName().toLowerCase().contains(mSearchString))
                         newList.add(currency);
                 }
                 final int searchStringSize = mSearchString.length();
-                Collections.sort(newList, new Comparator<Token>() {
+                Collections.sort(newList, new Comparator<Token>()
+                {
                     @Override
-                    public int compare(Token token, Token token2) {
-                        if (token.getContractName().substring(0, searchStringSize).equals(mSearchString) && !token2.getContractName().substring(0, searchStringSize).equals(mSearchString)) {
+                    public int compare(Token token, Token token2)
+                    {
+                        if (token.getContractName().substring(0, searchStringSize).equals(mSearchString) && !token2.getContractName().substring(0, searchStringSize).equals(mSearchString))
+                        {
                             return -1;
-                        } else if (!token.getContractName().substring(0, searchStringSize).equals(mSearchString) && token2.getContractName().substring(0, searchStringSize).equals(mSearchString)) {
+                        } else if (!token.getContractName().substring(0, searchStringSize).equals(mSearchString) && token2.getContractName().substring(0, searchStringSize).equals(mSearchString))
+                        {
                             return 1;
-                        } else {
+                        } else
+                        {
                             return 0;
                         }
                     }
@@ -144,7 +162,8 @@ public abstract class SubscribeTokensFragment extends BaseFragment implements Su
         }
     }
 
-    class TokenHolder extends RecyclerView.ViewHolder {
+    class TokenHolder extends RecyclerView.ViewHolder
+    {
 
         @BindView(org.sbercoin.wallet.R.id.tv_single_string)
         TextView mTextViewCurrency;
@@ -155,14 +174,18 @@ public abstract class SubscribeTokensFragment extends BaseFragment implements Su
 
         Token mToken;
 
-        TokenHolder(View itemView) {
+        TokenHolder(View itemView)
+        {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
-                    if (getAdapterPosition() >= 0) {
+                public void onClick(View view)
+                {
+                    if (getAdapterPosition() >= 0)
+                    {
                         mTokenAdapter.getTokenList().get(getAdapterPosition()).setSubscribe(!mToken.isSubscribe());
                         getPresenter().onSubscribeChanged(mToken);
                         mTokenAdapter.notifyItemChanged(getAdapterPosition());
@@ -171,51 +194,61 @@ public abstract class SubscribeTokensFragment extends BaseFragment implements Su
             });
         }
 
-        void bindToken(Token currency) {
+        void bindToken(Token currency)
+        {
             mTextViewCurrency.setText(currency.getContractName());
             mToken = currency;
-            if (currency.isSubscribe()) {
+            if (currency.isSubscribe())
+            {
                 mImageViewCheckIndicator.setVisibility(View.VISIBLE);
-            } else {
+            } else
+            {
                 mImageViewCheckIndicator.setVisibility(View.GONE);
             }
         }
     }
 
-    public class TokenAdapter extends RecyclerView.Adapter<TokenHolder> {
+    public class TokenAdapter extends RecyclerView.Adapter<TokenHolder>
+    {
 
         List<Token> mTokenList;
         int resId;
 
-        public TokenAdapter(List<Token> tokenList, int resId) {
+        public TokenAdapter(List<Token> tokenList, int resId)
+        {
             mTokenList = tokenList;
             this.resId = resId;
         }
 
         @Override
-        public TokenHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public TokenHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(resId, parent, false);
             return new TokenHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(TokenHolder holder, int position) {
+        public void onBindViewHolder(TokenHolder holder, int position)
+        {
             holder.bindToken(mTokenList.get(position));
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return mTokenList.size();
         }
 
-        void setFilter(List<Token> newList) {
+        void setFilter(List<Token> newList)
+        {
             mTokenList = new ArrayList<>();
             mTokenList.addAll(newList);
             notifyDataSetChanged();
         }
 
-        List<Token> getTokenList() {
+        List<Token> getTokenList()
+        {
             return mTokenList;
         }
     }

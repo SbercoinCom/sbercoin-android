@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.sbercoin.wallet.model.backup.TemplateJSON;
 
-public class ContractTemplate104 {
+public class ContractTemplate104
+{
     @SerializedName("name")
     private String mName;
     @SerializedName("date")
@@ -15,10 +16,10 @@ public class ContractTemplate104 {
     private String mUuid;
     @SerializedName("isFullContractTemplate")
     private boolean mIsFullContractTemplate;
+    private boolean selectedABI;
 
-
-
-    public ContractTemplate104(String name, String date, String contractType, String uuid) {
+    public ContractTemplate104(String name, String date, String contractType, String uuid)
+    {
         this.mName = name;
         this.mDate = date;
         this.mType = contractType;
@@ -26,7 +27,8 @@ public class ContractTemplate104 {
         mIsFullContractTemplate = true;
     }
 
-    public ContractTemplate104(TemplateJSON templateJSON) {
+    public ContractTemplate104(TemplateJSON templateJSON)
+    {
         this.mName = templateJSON.getName();
         this.mDate = templateJSON.getCreationDate();
         this.mType = templateJSON.getType();
@@ -34,53 +36,63 @@ public class ContractTemplate104 {
         mIsFullContractTemplate = true;
     }
 
-    public boolean isSelectedABI() {
+    public boolean isSelectedABI()
+    {
         return selectedABI;
     }
 
-    public void setSelectedABI(boolean selectedABI) {
+    public void setSelectedABI(boolean selectedABI)
+    {
         this.selectedABI = selectedABI;
     }
 
-    private boolean selectedABI;
-
-    public String getName() {
+    public String getName()
+    {
         return mName;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.mName = name;
     }
 
-    public String getDate() {
+    public String getDate()
+    {
         return mDate;
     }
 
-    public void setData(String date) {
+    public void setData(String date)
+    {
         this.mDate = date;
     }
 
-    public String getContractType() {
+    public String getContractType()
+    {
         return mType;
     }
 
-    public void setContractType(String contractType) {
+    public void setContractType(String contractType)
+    {
         this.mType = contractType;
     }
 
-    public String getUuid() {
+    public String getUuid()
+    {
         return mUuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(String uuid)
+    {
         this.mUuid = uuid;
     }
 
-    public boolean isFullContractTemplate() {
+    public boolean isFullContractTemplate()
+    {
         return mIsFullContractTemplate;
     }
 
-    public void setFullContractTemplate(boolean fullContractTemplate) {
+    public void setFullContractTemplate(boolean fullContractTemplate)
+    {
         mIsFullContractTemplate = fullContractTemplate;
     }
 }

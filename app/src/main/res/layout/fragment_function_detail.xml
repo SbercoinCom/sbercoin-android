@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:background="@color/background"
-                                                 android:clickable="true"
-                                                 android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clickable="true"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -27,12 +27,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_ibtn_back"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
                 android:tint="@color/background"
-                app:srcCompat="@drawable/ic_back_indicator"/>
+                app:srcCompat="@drawable/ic_back_indicator" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_toolbar_send"
@@ -43,30 +43,30 @@
                 android:text="@string/function_detail"
                 android:textColor="@color/background"
                 android:textSize="@dimen/toolbar_text_size"
-                app:typefaceAsset="@string/euclidFlexMedium"/>
+                app:typefaceAsset="@string/euclidFlexMedium" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:id="@+id/nested_scroll_view"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:splitMotionEvents="false"/>
+                android:splitMotionEvents="false" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_send_to_contract"
@@ -86,7 +86,7 @@
                     android:gravity="left"
                     android:hint="Send to contract"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -103,7 +103,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:textColor="@color/colorPrimary"
-                    app:typefaceAsset="@string/simplonMonoRegular"/>
+                    app:typefaceAsset="@string/simplonMonoRegular" />
 
                 <org.sbercoin.wallet.utils.FontTextView
                     android:id="@+id/tv_max_fee"
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="@color/colorPrimary"
-                    app:typefaceAsset="@string/simplonMonoRegular"/>
+                    app:typefaceAsset="@string/simplonMonoRegular" />
 
             </LinearLayout>
 
@@ -123,17 +123,17 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:progressDrawable="@drawable/seekbar_progress"
-                android:thumb="@drawable/seekbar_thumb"/>
+                android:thumb="@drawable/seekbar_thumb" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_fee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/seekBar"
-                android:layout_marginBottom="16dp"
+                android:layout_alignParentStart="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
                 android:focusable="true"
                 android:textColorHint="@color/colorPrimary"
                 android:theme="@style/InputText">
@@ -145,14 +145,14 @@
                     android:gravity="left"
                     android:hint="@string/_fee"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_below="@+id/til_fee"
+                android:layout_alignParentBottom="true"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
                 android:orientation="vertical">
@@ -183,7 +183,7 @@
                                 android:layout_gravity="center"
                                 android:text="Gas Price: "
                                 android:textColor="@color/colorPrimary"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
 
                             <org.sbercoin.wallet.utils.FontTextView
                                 android:id="@+id/tv_gas_price"
@@ -191,7 +191,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:textColor="@color/colorAccent"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -207,7 +207,7 @@
                                 android:layout_gravity="center"
                                 android:text="Gas Limit: "
                                 android:textColor="@color/colorPrimary"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
 
                             <org.sbercoin.wallet.utils.FontTextView
                                 android:id="@+id/tv_gas_limit"
@@ -215,7 +215,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:textColor="@color/colorAccent"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -224,9 +224,9 @@
                         android:id="@+id/ll_address_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_below="@+id/ll_gas_price_and_gas_limit"
-                        android:layout_centerHorizontal="true">
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp">
 
                         <org.sbercoin.wallet.utils.FontTextView
                             android:layout_width="wrap_content"
@@ -234,18 +234,18 @@
                             android:layout_gravity="center"
                             android:text="Address: "
                             android:textColor="@color/colorPrimary"
-                            app:typefaceAsset="@string/simplonMonoRegular"/>
+                            app:typefaceAsset="@string/simplonMonoRegular" />
 
                         <org.sbercoin.wallet.utils.FontTextView
                             android:id="@+id/tv_address"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:layout_weight="1"
                             android:textColor="@color/colorAccent"
-                            app:typefaceAsset="@string/simplonMonoRegular"/>
+                            app:typefaceAsset="@string/simplonMonoRegular" />
 
                     </LinearLayout>
 
@@ -259,10 +259,10 @@
 
                         <LinearLayout
                             android:id="@+id/ll_gas_price"
-                            android:paddingTop="16dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp">
+                            android:layout_marginBottom="16dp"
+                            android:paddingTop="16dp">
 
                             <org.sbercoin.wallet.utils.FontTextView
                                 android:id="@+id/tv_min_gas_price"
@@ -271,7 +271,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:textColor="@color/colorPrimary"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
 
                             <org.sbercoin.wallet.utils.FontTextView
                                 android:id="@+id/tv_max_gas_price"
@@ -279,7 +279,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:textColor="@color/colorPrimary"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
 
                         </LinearLayout>
 
@@ -288,14 +288,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:progressDrawable="@drawable/seekbar_progress"
-                            android:thumb="@drawable/seekbar_thumb"/>
+                            android:thumb="@drawable/seekbar_thumb" />
 
                         <LinearLayout
                             android:id="@+id/ll_gas_limit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="16dp"
-                            android:layout_marginBottom="16dp">
+                            android:layout_marginBottom="16dp"
+                            android:paddingTop="16dp">
 
                             <org.sbercoin.wallet.utils.FontTextView
                                 android:id="@+id/tv_min_gas_limit"
@@ -304,7 +304,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:textColor="@color/colorPrimary"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
 
                             <org.sbercoin.wallet.utils.FontTextView
                                 android:id="@+id/tv_max_gas_limit"
@@ -312,7 +312,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:textColor="@color/colorPrimary"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
 
                         </LinearLayout>
 
@@ -321,15 +321,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:progressDrawable="@drawable/seekbar_progress"
-                            android:thumb="@drawable/seekbar_thumb"/>
+                            android:thumb="@drawable/seekbar_thumb" />
 
                         <LinearLayout
                             android:id="@+id/spinner_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="4dp"
-                            android:layout_marginRight="4dp"
                             android:layout_marginTop="16dp"
+                            android:layout_marginRight="4dp"
                             android:orientation="vertical">
 
                             <org.sbercoin.wallet.utils.FontTextView
@@ -338,19 +338,18 @@
                                 android:text="@string/default_address"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12dp"
-                                app:typefaceAsset="@string/simplonMonoRegular"/>
+                                app:typefaceAsset="@string/simplonMonoRegular" />
 
                             <android.support.v7.widget.AppCompatSpinner
                                 android:id="@+id/spinner_default_address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:backgroundTint="@color/colorPrimary">
-                            </android.support.v7.widget.AppCompatSpinner>
+                                android:backgroundTint="@color/colorPrimary"></android.support.v7.widget.AppCompatSpinner>
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="@color/colorPrimary"/>
+                                android:background="@color/colorPrimary" />
 
                         </LinearLayout>
 
@@ -371,7 +370,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
                         android:textSize="16sp"
-                        app:typeface="@string/simplonMonoRegular"/>
+                        app:typeface="@string/simplonMonoRegular" />
 
                 </RelativeLayout>
 
@@ -388,7 +387,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/background"
                     android:textSize="16sp"
-                    app:typeface="@string/simplonMonoRegular"/>
+                    app:typeface="@string/simplonMonoRegular" />
 
             </LinearLayout>
 

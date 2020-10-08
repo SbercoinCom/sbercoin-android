@@ -9,16 +9,20 @@ import android.util.Log;
 
 import org.sbercoin.wallet.R;
 
-public class FontEditText extends android.support.v7.widget.AppCompatEditText {
-    public FontEditText(Context context) {
+public class FontEditText extends android.support.v7.widget.AppCompatEditText
+{
+    public FontEditText(Context context)
+    {
         this(context, null);
     }
 
-    public FontEditText(Context context, AttributeSet attrs) {
+    public FontEditText(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public FontEditText(Context context, AttributeSet attrs, int defStyle) {
+    public FontEditText(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
 
         if (isInEditMode())
@@ -26,10 +30,12 @@ public class FontEditText extends android.support.v7.widget.AppCompatEditText {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FontEditText);
 
-        if (ta != null) {
+        if (ta != null)
+        {
             String fontAsset = ta.getString(R.styleable.FontEditText_editTextTypeface);
 
-            if (!TextUtils.isEmpty(fontAsset)) {
+            if (!TextUtils.isEmpty(fontAsset))
+            {
                 Typeface tf = FontManager.getInstance().getFont(fontAsset);
                 int style = Typeface.NORMAL;
 

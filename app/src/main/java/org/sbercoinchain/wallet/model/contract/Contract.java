@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Contract implements Serializable {
+public class Contract implements Serializable
+{
 
     @SerializedName("contractAddress")
     protected String mContractAddress;
@@ -21,7 +22,8 @@ public class Contract implements Serializable {
     @SerializedName("isSubscribe")
     protected boolean mIsSubscribe;
 
-    public Contract(String contractAddress, String uiid, ContractCreationStatus creationStatus, Long date, String senderAddress, String contractName) {
+    public Contract(String contractAddress, String uiid, ContractCreationStatus creationStatus, Long date, String senderAddress, String contractName)
+    {
         this.mContractAddress = contractAddress;
         this.mUiid = uiid;
         this.mCreationStatus = creationStatus;
@@ -32,7 +34,8 @@ public class Contract implements Serializable {
     }
 
     public Contract(String contractAddress, String uiid, String contractName,
-                    ContractCreationStatus creationStatus, Long date, String senderAddress, boolean isSubscribe) {
+                    ContractCreationStatus creationStatus, Long date, String senderAddress, boolean isSubscribe)
+    {
         mContractAddress = contractAddress;
         mUiid = uiid;
         mContractName = contractName;
@@ -45,85 +48,103 @@ public class Contract implements Serializable {
     /**
      * Default constructor for unit testing
      */
-    public Contract() {
+    public Contract()
+    {
     }
 
 
     /**
      * Constructor for unit testing
      */
-    public Contract(boolean isSubscribe) {
+    public Contract(boolean isSubscribe)
+    {
         this.mIsSubscribe = isSubscribe;
     }
 
     /**
      * Constructor for unit testing
      */
-    public Contract(String contractAddress) {
+    public Contract(String contractAddress)
+    {
         this.mContractAddress = contractAddress;
     }
 
     /**
      * Constructor for unit testing
      */
-    public Contract(boolean isSubscribe, String contractAddress) {
+    public Contract(boolean isSubscribe, String contractAddress)
+    {
         this.mIsSubscribe = isSubscribe;
         this.mContractAddress = contractAddress;
     }
 
-    public String getContractAddress() {
+    public String getContractAddress()
+    {
         return mContractAddress;
     }
 
-    public void setContractAddress(String contractAddress) {
+    public void setContractAddress(String contractAddress)
+    {
         this.mContractAddress = contractAddress;
     }
 
-    public String getUiid() {
+    public String getUiid()
+    {
         return mUiid;
     }
 
-    public void setUiid(String uiid) {
+    public void setUiid(String uiid)
+    {
         this.mUiid = uiid;
     }
 
-    public ContractCreationStatus getCreationStatus() {
+    public ContractCreationStatus getCreationStatus()
+    {
         return mCreationStatus;
     }
 
-    public void setCreationStatus(ContractCreationStatus creationStatus) {
+    public void setCreationStatus(ContractCreationStatus creationStatus)
+    {
         mCreationStatus = creationStatus;
     }
 
-    public Long getDate() {
+    public Long getDate()
+    {
         return mDate;
     }
 
-    public void setDate(Long date) {
+    public void setDate(Long date)
+    {
         this.mDate = date;
     }
 
-    public String getContractName() {
+    public String getContractName()
+    {
         return mContractName;
     }
 
-    public void setContractName(String contractName) {
+    public void setContractName(String contractName)
+    {
         this.mContractName = contractName;
     }
 
-    public String getSenderAddress() {
+    public String getSenderAddress()
+    {
         return mSenderAddress;
     }
 
-    public void setSenderAddress(String senderAddress) {
+    public void setSenderAddress(String senderAddress)
+    {
         this.mSenderAddress = senderAddress;
     }
 
-    public boolean isSubscribe() {
+    public boolean isSubscribe()
+    {
         return mIsSubscribe;
     }
 
-    public void setSubscribe(boolean subscribe) {
+    public void setSubscribe(boolean subscribe)
+    {
         mIsSubscribe = subscribe;
     }
 }

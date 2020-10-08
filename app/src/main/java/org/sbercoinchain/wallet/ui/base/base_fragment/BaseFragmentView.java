@@ -5,10 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import org.sbercoin.wallet.ui.base.base_activity.BaseContextView;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
+import org.sbercoin.wallet.ui.base.base_activity.BaseContextView;
 
-public interface BaseFragmentView extends BaseContextView {
+public interface BaseFragmentView extends BaseContextView
+{
     void openRootFragment(Fragment fragment);
 
     void openFragment(Fragment fragment);

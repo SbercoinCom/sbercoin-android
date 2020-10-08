@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-public class QrCodePreview extends AppCompatDialogFragment {
+public class QrCodePreview extends AppCompatDialogFragment
+{
 
     public static String QR_CODE_DATA = "QR_CODE_DATA";
 
-    public static QrCodePreview newInstance(Bitmap bm) {
+    public static QrCodePreview newInstance(Bitmap bm)
+    {
         Bundle args = new Bundle();
         QrCodePreview fragment = new QrCodePreview();
         args.putParcelable(QR_CODE_DATA, bm);
@@ -26,9 +28,11 @@ public class QrCodePreview extends AppCompatDialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         return dialog;
@@ -36,21 +40,26 @@ public class QrCodePreview extends AppCompatDialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         ImageView view = new ImageView(getContext());
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        if (layoutParams == null) {
+        if (layoutParams == null)
+        {
             layoutParams = new ViewGroup.LayoutParams(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
-        } else {
+        } else
+        {
             layoutParams.width = getResources().getDisplayMetrics().widthPixels;
             layoutParams.height = getResources().getDisplayMetrics().heightPixels;
         }
         view.setLayoutParams(layoutParams);
         view.setImageBitmap((Bitmap) getArguments().getParcelable(QR_CODE_DATA));
         view.setClickable(true);
-        view.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 dismiss();
             }
         });
@@ -58,7 +67,8 @@ public class QrCodePreview extends AppCompatDialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
     }
 }

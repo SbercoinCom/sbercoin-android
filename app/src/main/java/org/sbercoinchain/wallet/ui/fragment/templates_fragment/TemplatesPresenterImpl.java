@@ -8,31 +8,38 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TemplatesPresenterImpl extends BaseFragmentPresenterImpl implements TemplatesPresenter {
+public class TemplatesPresenterImpl extends BaseFragmentPresenterImpl implements TemplatesPresenter
+{
 
     private final TemplatesView view;
     private final TemplatesInteractor interactor;
 
-    public TemplatesPresenterImpl(TemplatesView view, TemplatesInteractor interactor) {
+    public TemplatesPresenterImpl(TemplatesView view, TemplatesInteractor interactor)
+    {
         this.view = view;
         this.interactor = interactor;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         List<ContractTemplate> contractTemplateList = getInteractor().getContractTemplates();
 
         List<ContractTemplate> contractFullTemplateList = new ArrayList<>();
-        for (ContractTemplate contractTemplate : contractTemplateList) {
-            if (contractTemplate.isFullContractTemplate()) {
+        for (ContractTemplate contractTemplate : contractTemplateList)
+        {
+            if (contractTemplate.isFullContractTemplate())
+            {
                 contractFullTemplateList.add(contractTemplate);
             }
         }
 
-        Collections.sort(contractFullTemplateList, new Comparator<ContractTemplate>() {
+        Collections.sort(contractFullTemplateList, new Comparator<ContractTemplate>()
+        {
             @Override
-            public int compare(ContractTemplate contractInfo, ContractTemplate t1) {
+            public int compare(ContractTemplate contractInfo, ContractTemplate t1)
+            {
                 return contractInfo.getDate().compareTo(t1.getDate());
             }
         });
@@ -40,11 +47,13 @@ public class TemplatesPresenterImpl extends BaseFragmentPresenterImpl implements
     }
 
     @Override
-    public TemplatesView getView() {
+    public TemplatesView getView()
+    {
         return view;
     }
 
-    public TemplatesInteractor getInteractor() {
+    public TemplatesInteractor getInteractor()
+    {
         return interactor;
     }
 }

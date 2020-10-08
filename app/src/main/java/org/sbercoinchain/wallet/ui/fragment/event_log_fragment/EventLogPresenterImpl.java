@@ -6,24 +6,29 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
 import io.realm.Realm;
 
-public class EventLogPresenterImpl extends BaseFragmentPresenterImpl implements EventLogPresenter{
+public class EventLogPresenterImpl extends BaseFragmentPresenterImpl implements EventLogPresenter
+{
 
     EventLogView mEventLogView;
     EventLogInteractor mEventLogInteractor;
 
-    EventLogPresenterImpl(EventLogView view, EventLogInteractor interactor){
+    EventLogPresenterImpl(EventLogView view, EventLogInteractor interactor)
+    {
         mEventLogInteractor = interactor;
         mEventLogView = view;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(new Realm.Transaction() {
+        realm.executeTransaction(new Realm.Transaction()
+        {
             @Override
-            public void execute(Realm realm) {
-                TransactionReceipt transactionReceipt = realm.where(TransactionReceipt.class).equalTo("transactionHash",getView().getTxHash()).findFirst();
+            public void execute(Realm realm)
+            {
+                TransactionReceipt transactionReceipt = realm.where(TransactionReceipt.class).equalTo("transactionHash", getView().getTxHash()).findFirst();
                 getView().updateEventLog(transactionReceipt.getLog());
             }
         });
@@ -31,11 +36,13 @@ public class EventLogPresenterImpl extends BaseFragmentPresenterImpl implements 
     }
 
     @Override
-    public EventLogView getView() {
+    public EventLogView getView()
+    {
         return mEventLogView;
     }
 
-    EventLogInteractor getInteractor(){
+    EventLogInteractor getInteractor()
+    {
         return mEventLogInteractor;
     }
 }

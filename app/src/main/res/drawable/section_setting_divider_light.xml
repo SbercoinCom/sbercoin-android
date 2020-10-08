@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <size android:height="16dp"/>
-            <solid android:color="@color/bottom_nav_bar_color_light"/>
+            <size android:height="16dp" />
+            <solid android:color="@color/bottom_nav_bar_color_light" />
         </shape>
     </item>
 </layer-list>

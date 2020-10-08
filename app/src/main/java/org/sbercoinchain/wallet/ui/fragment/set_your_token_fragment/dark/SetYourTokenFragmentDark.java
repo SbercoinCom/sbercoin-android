@@ -8,22 +8,26 @@ import java.util.List;
 
 import butterknife.OnClick;
 
-public class SetYourTokenFragmentDark extends SetYourTokenFragment {
+public class SetYourTokenFragmentDark extends SetYourTokenFragment
+{
 
     private final int LAYOUT = R.layout.fragment_set_your_token;
 
     @OnClick(R.id.cancel)
-    public void onCancelClick() {
+    public void onCancelClick()
+    {
         getActivity().onBackPressed();
     }
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return LAYOUT;
     }
 
     @Override
-    public void onContractConstructorPrepared(List<ContractMethodParameter> params) {
+    public void onContractConstructorPrepared(List<ContractMethodParameter> params)
+    {
         adapter = new ConstructorAdapterDark(params, this);
         constructorList.setAdapter(adapter);
     }

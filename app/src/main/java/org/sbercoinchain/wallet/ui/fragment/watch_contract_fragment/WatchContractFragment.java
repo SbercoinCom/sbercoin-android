@@ -15,46 +15,40 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.sbercoin.wallet.dataprovider.services.update_service.UpdateService;
 import org.sbercoin.wallet.model.ContractTemplate;
+import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.template_library_fragment.TemplateLibraryFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.utils.FontButton;
 import org.sbercoin.wallet.utils.FontTextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class WatchContractFragment extends BaseFragment implements WatchContractView {
-
-    private WatchContractPresenter mWatchContractFragmentPresenter;
+public abstract class WatchContractFragment extends BaseFragment implements WatchContractView
+{
 
     @BindView(org.sbercoin.wallet.R.id.et_contract_name)
     protected TextInputEditText mEditTextContractName;
-
     @BindView(org.sbercoin.wallet.R.id.et_contract_address)
     protected TextInputEditText mEditTextContractAddress;
-
     @BindView(org.sbercoin.wallet.R.id.et_abi_interface)
     protected EditText mEditTextABIInterface;
-
     @BindView(org.sbercoin.wallet.R.id.tv_toolbar_watch)
     protected FontTextView mTextViewToolbar;
-
     @BindView(org.sbercoin.wallet.R.id.rv_templates)
     protected RecyclerView mRecyclerViewTemplates;
-
     @BindView(org.sbercoin.wallet.R.id.bt_ok)
     FontButton mButtonConfirm;
-
+    @BindView(org.sbercoin.wallet.R.id.bt_choose_from_library)
+    FontButton mFontButtonChooseFromLibrary;
+    private WatchContractPresenter mWatchContractFragmentPresenter;
     private boolean isEmptyContractName = true;
     private boolean isEmptyContractAddress = true;
     private boolean isEmptyABIInterface = true;
     private UpdateService mUpdateService;
 
-    @BindView(org.sbercoin.wallet.R.id.bt_choose_from_library)
-    FontButton mFontButtonChooseFromLibrary;
-
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, WatchContractFragment.class);
         fragment.setArguments(args);
@@ -62,7 +56,8 @@ public abstract class WatchContractFragment extends BaseFragment implements Watc
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
 
         mTextViewToolbar.setText(getString(org.sbercoin.wallet.R.string.watch_contract));
@@ -72,49 +67,61 @@ public abstract class WatchContractFragment extends BaseFragment implements Watc
         mRecyclerViewTemplates.setLayoutManager(chipsLayoutManager);
         mEditTextABIInterface.setHorizontallyScrolling(false);
         mEditTextABIInterface.setMaxLines(Integer.MAX_VALUE);
-        mEditTextABIInterface.addTextChangedListener(new TextWatcher() {
+        mEditTextABIInterface.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
                 isEmptyABIInterface = editable.toString().isEmpty();
                 checkForNoEmpty(isEmptyABIInterface, isEmptyContractAddress, isEmptyContractName);
             }
         });
 
-        mEditTextContractAddress.addTextChangedListener(new TextWatcher() {
+        mEditTextContractAddress.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
                 isEmptyContractAddress = editable.toString().isEmpty();
                 checkForNoEmpty(isEmptyABIInterface, isEmptyContractAddress, isEmptyContractName);
             }
         });
 
-        mEditTextContractName.addTextChangedListener(new TextWatcher() {
+        mEditTextContractName.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
                 isEmptyContractName = editable.toString().isEmpty();
                 checkForNoEmpty(isEmptyABIInterface, isEmptyContractAddress, isEmptyContractName);
             }
@@ -123,36 +130,43 @@ public abstract class WatchContractFragment extends BaseFragment implements Watc
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         mUpdateService = getMainActivity().getUpdateService();
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mWatchContractFragmentPresenter = new WatchContractPresenterImpl(this, new WatchContractInteractorImpl(getContext()));
     }
 
     @Override
-    protected WatchContractPresenter getPresenter() {
+    protected WatchContractPresenter getPresenter()
+    {
         return mWatchContractFragmentPresenter;
     }
 
     @Override
-    public void onResume() {
-       // hideBottomNavView(false);
+    public void onResume()
+    {
+        // hideBottomNavView(false);
         super.onResume();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
-       // showBottomNavView(false);
+        // showBottomNavView(false);
     }
 
     @OnClick({org.sbercoin.wallet.R.id.ibt_back, org.sbercoin.wallet.R.id.bt_ok, org.sbercoin.wallet.R.id.bt_cancel, org.sbercoin.wallet.R.id.bt_choose_from_library})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case org.sbercoin.wallet.R.id.bt_cancel:
             case org.sbercoin.wallet.R.id.ibt_back:
                 getActivity().onBackPressed();
@@ -171,18 +185,23 @@ public abstract class WatchContractFragment extends BaseFragment implements Watc
     }
 
     @Override
-    public void setABIInterface(String name, String abiInterface) {
+    public void setABIInterface(String name, String abiInterface)
+    {
         mEditTextABIInterface.setText(abiInterface);
     }
 
-    public void setABIInterfaceForResult(String name, String abiInterface) {
+    public void setABIInterfaceForResult(String name, String abiInterface)
+    {
         mEditTextABIInterface.setText(abiInterface);
         ((TemplatesAdapter) mRecyclerViewTemplates.getAdapter()).setSelection(name);
     }
 
-    private void checkForNoEmpty(boolean... isEmptyParams) {
-        for (boolean isEmpty : isEmptyParams) {
-            if (isEmpty) {
+    private void checkForNoEmpty(boolean... isEmptyParams)
+    {
+        for (boolean isEmpty : isEmptyParams)
+        {
+            if (isEmpty)
+            {
                 mButtonConfirm.setEnabled(false);
                 return;
             }
@@ -191,39 +210,49 @@ public abstract class WatchContractFragment extends BaseFragment implements Watc
     }
 
     @Override
-    public void notifyAdapter(int adapterPosition) {
+    public void notifyAdapter(int adapterPosition)
+    {
         ((TemplatesAdapter) mRecyclerViewTemplates.getAdapter()).setSelection(adapterPosition);
     }
 
     @Override
-    public OnTemplateClickListener getTemplateClickListener() {
-        return new OnTemplateClickListener() {
+    public OnTemplateClickListener getTemplateClickListener()
+    {
+        return new OnTemplateClickListener()
+        {
             @Override
-            public void updateSelection(int adapterPosition) {
+            public void updateSelection(int adapterPosition)
+            {
                 notifyAdapter(adapterPosition);
             }
 
             @Override
-            public void onTemplateClick(ContractTemplate contractTemplate) {
+            public void onTemplateClick(ContractTemplate contractTemplate)
+            {
                 getPresenter().onTemplateClick(contractTemplate);
             }
         };
     }
 
     @Override
-    public AlertDialogCallBack getAlertCallback() {
-        return new BaseFragment.AlertDialogCallBack() {
+    public AlertDialogCallBack getAlertCallback()
+    {
+        return new BaseFragment.AlertDialogCallBack()
+        {
             @Override
-            public void onButtonClick() {
+            public void onButtonClick()
+            {
                 FragmentManager fm = getFragmentManager();
                 int count = fm.getBackStackEntryCount() - 2;
-                for (int i = 0; i < count; ++i) {
+                for (int i = 0; i < count; ++i)
+                {
                     fm.popBackStack();
                 }
             }
 
             @Override
-            public void onButton2Click() {
+            public void onButton2Click()
+            {
             }
         };
     }

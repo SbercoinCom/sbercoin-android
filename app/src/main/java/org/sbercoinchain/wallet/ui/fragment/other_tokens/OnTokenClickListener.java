@@ -1,5 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.other_tokens;
 
-public interface OnTokenClickListener {
+public interface OnTokenClickListener
+{
     void onTokenClick(int adapterPosition);
 }

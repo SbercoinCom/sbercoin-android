@@ -5,7 +5,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 
 import java.util.List;
 
-public interface AddressListPresenter extends BaseFragmentPresenter {
+public interface AddressListPresenter extends BaseFragmentPresenter
+{
     AddressWithBalance getKeyWithBalanceFrom();
 
     void setKeyWithBalanceFrom(AddressWithBalance keyWithBalanceFrom);

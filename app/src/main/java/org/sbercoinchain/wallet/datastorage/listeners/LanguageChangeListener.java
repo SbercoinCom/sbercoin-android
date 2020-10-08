@@ -1,5 +1,6 @@
 package org.sbercoin.wallet.datastorage.listeners;
 
-public interface LanguageChangeListener {
+public interface LanguageChangeListener
+{
     void onLanguageChange();
 }

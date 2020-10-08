@@ -48,33 +48,33 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
-public class SBERService {
+public class SBERService
+{
 
     private static SBERService sSBERService;
     private org.sbercoin.wallet.dataprovider.rest_api.sbercoin.SBERRestService mServiceApi;
 
-    public static SBERService newInstance() {
-        if (sSBERService == null) {
-            sSBERService = new SBERService();
-        }
-        return sSBERService;
-    }
-
-    private SBERService() {
-        try {
+    private SBERService()
+    {
+        try
+        {
             final TrustManager[] trustAllCerts = new TrustManager[]{
-                    new X509TrustManager() {
+                    new X509TrustManager()
+                    {
                         @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType)
+                        {
                         }
 
                         @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType)
+                        {
 
                         }
 
                         @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers()
+                        {
                             return new java.security.cert.X509Certificate[]{};
                         }
                     }
@@ -98,9 +98,11 @@ public class SBERService {
             keyManagerFactory.init(keyStore, "keystore_pass".toCharArray());
             sslContext.init(null, trustAllCerts, new SecureRandom());
             client.sslSocketFactory(sslContext.getSocketFactory())
-                    .hostnameVerifier(new HostnameVerifier() {
+                    .hostnameVerifier(new HostnameVerifier()
+                    {
                         @Override
-                        public boolean verify(String hostname, SSLSession session) {
+                        public boolean verify(String hostname, SSLSession session)
+                        {
                             return true;
                         }
                     });
@@ -118,83 +120,113 @@ public class SBERService {
                     .build();
 
             mServiceApi = retrofit.create(org.sbercoin.wallet.dataprovider.rest_api.sbercoin.SBERRestService.class);
-        } catch (Exception ignored) {
+        } catch (Exception ignored)
+        {
         }
     }
 
-    public Observable<List<UnspentOutput>> getUnspentOutputs(final String address) {
+    public static SBERService newInstance()
+    {
+        if (sSBERService == null)
+        {
+            sSBERService = new SBERService();
+        }
+        return sSBERService;
+    }
+
+    public Observable<List<UnspentOutput>> getUnspentOutputs(final String address)
+    {
         return mServiceApi.getOutputsUnspent(address);
     }
 
-    public Observable<List<UnspentOutput>> getUnspentOutputsForSeveralAddresses(final List<String> addresses) {
+    public Observable<List<UnspentOutput>> getUnspentOutputsForSeveralAddresses(final List<String> addresses)
+    {
         return mServiceApi.getUnspentOutputsForSeveralAddresses(addresses);
     }
 
-    public Observable<HistoryResponse> getHistoryListForSeveralAddresses(final List<String> addresses, final int limit, final int offset) {
+    public Observable<HistoryResponse> getHistoryListForSeveralAddresses(final List<String> addresses, final int limit, final int offset)
+    {
         return mServiceApi.getHistoryListForSeveralAddresses(limit, offset, addresses);
     }
 
-    public Observable<List<History>> getHistoryList(final String address, final int limit, final int offset) {
+    public Observable<List<History>> getHistoryList(final String address, final int limit, final int offset)
+    {
         return mServiceApi.getHistoryList(address, limit, offset);
     }
 
-    public Observable<BlockChainInfo> getBlockChainInfo() {
+    public Observable<BlockChainInfo> getBlockChainInfo()
+    {
         return mServiceApi.getBlockChainInfo();
     }
 
-    public Observable<FeePerKb> getEstimateFeePerKb(int nBlock) {
+    public Observable<FeePerKb> getEstimateFeePerKb(int nBlock)
+    {
         return mServiceApi.getEstimateFeePerKb(nBlock);
     }
 
-    public Observable<SendRawTransactionResponse> sendRawTransaction(final SendRawTransactionRequest sendRawTransactionRequest) {
+    public Observable<SendRawTransactionResponse> sendRawTransaction(final SendRawTransactionRequest sendRawTransactionRequest)
+    {
         return mServiceApi.sendRawTransaction(sendRawTransactionRequest);
     }
 
-    public Observable<CallSmartContractResponse> callSmartContract(String contractAddress, final CallSmartContractRequest callSmartContractRequest) {
+    public Observable<CallSmartContractResponse> callSmartContract(String contractAddress, final CallSmartContractRequest callSmartContractRequest)
+    {
         return mServiceApi.callSmartContract(contractAddress, callSmartContractRequest);
     }
 
-    public Observable<History> getTransaction(final String txHash) {
+    public Observable<History> getTransaction(final String txHash)
+    {
         return mServiceApi.getTransaction(txHash);
     }
 
-    public Observable<List<QstoreItem>> getTrendingNow() {
+    public Observable<List<QstoreItem>> getTrendingNow()
+    {
         return mServiceApi.getTrendingNow();
     }
 
-    public Observable<List<QstoreItem>> getWatsNew() {
+    public Observable<List<QstoreItem>> getWatsNew()
+    {
         return mServiceApi.getWatsNew();
     }
 
-    public Observable<List<QSearchItem>> searchContracts(int offset, String type, String data, boolean byTag) {
-        if (byTag) {
+    public Observable<List<QSearchItem>> searchContracts(int offset, String type, String data, boolean byTag)
+    {
+        if (byTag)
+        {
             return mServiceApi.getSearchContracts(20, offset, type, new String[]{data});
-        } else {
+        } else
+        {
             return mServiceApi.getSearchContracts(20, offset, type, data);
         }
     }
 
-    public Observable<QstoreContract> getContractById(String id) {
+    public Observable<QstoreContract> getContractById(String id)
+    {
         return mServiceApi.getContract(id);
     }
 
-    public Observable<Object> getAbiByContractId(String contractId) {
+    public Observable<Object> getAbiByContractId(String contractId)
+    {
         return mServiceApi.getAbiByContractId(contractId);
     }
 
-    public Observable<QstoreBuyResponse> buyRequest(String contractId) {
+    public Observable<QstoreBuyResponse> buyRequest(String contractId)
+    {
         return mServiceApi.buyRequest(contractId);
     }
 
-    public Observable<ContractPurchase> isPaidByRequestId(String contractId, String requestId) {
+    public Observable<ContractPurchase> isPaidByRequestId(String contractId, String requestId)
+    {
         return mServiceApi.isPaidByRequestId(contractId, requestId);
     }
 
-    public Observable<DGPInfo> getDGPInfo() {
+    public Observable<DGPInfo> getDGPInfo()
+    {
         return mServiceApi.getDGPInfo();
     }
 
-    public Observable<QstoreSourceCodeResponse> getSourceCode(String contractId, String requestId, String accessToken) {
+    public Observable<QstoreSourceCodeResponse> getSourceCode(String contractId, String requestId, String accessToken)
+    {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("request_id", requestId);
@@ -202,31 +234,37 @@ public class SBERService {
         return mServiceApi.getSourceCode(contractId, body);
     }
 
-    public Observable<QstoreByteCodeResponse> getByteCode(String contractId, String requestId, String accessToken) {
+    public Observable<QstoreByteCodeResponse> getByteCode(String contractId, String requestId, String accessToken)
+    {
         HashMap<String, String> body = new HashMap<>();
         body.put("request_id", requestId);
         body.put("access_token", accessToken);
         return mServiceApi.getByteCode(contractId, body);
     }
 
-    public Observable<List<QstoreContractType>> getContractTypes() {
+    public Observable<List<QstoreContractType>> getContractTypes()
+    {
         return mServiceApi.getContractTypes();
     }
 
-    public Observable<ContractParams> getContractParams(String contractAddress) {
+    public Observable<ContractParams> getContractParams(String contractAddress)
+    {
         return mServiceApi.getContractParams(contractAddress);
     }
 
 
-    public Observable<ExistContractResponse> isContractExist(String contractAddress) {
+    public Observable<ExistContractResponse> isContractExist(String contractAddress)
+    {
         return mServiceApi.isContractExist(contractAddress);
     }
 
-    public Observable<TokenHistoryResponse> getTokenHistoryList(String qrc20ContractAddress, int limit, int offset, List<String> addresses){
+    public Observable<TokenHistoryResponse> getTokenHistoryList(String qrc20ContractAddress, int limit, int offset, List<String> addresses)
+    {
         return mServiceApi.getTokenHistoryList(qrc20ContractAddress, limit, offset, addresses);
     }
 
-    public Observable<List<TransactionReceipt>> getTransactionReceipt(String txHash){
+    public Observable<List<TransactionReceipt>> getTransactionReceipt(String txHash)
+    {
         return mServiceApi.getTransactionReceipt(txHash);
     }
 

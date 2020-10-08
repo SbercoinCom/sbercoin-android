@@ -4,7 +4,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.util.List;
 
-public interface AddressesView extends BaseFragmentView {
+public interface AddressesView extends BaseFragmentView
+{
     void updateAddressList(List<String> deterministicKeys);
 
     void setAdapterNull();

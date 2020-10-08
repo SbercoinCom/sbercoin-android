@@ -11,7 +11,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface ContractConfirmInteractor {
+public interface ContractConfirmInteractor
+{
     Observable<String> createAbiConstructParams(List<ContractMethodParameter> contractMethodParameterList, String uiid);
 
     Observable<List<UnspentOutput>> getUnspentOutputsForSeveralAddresses();

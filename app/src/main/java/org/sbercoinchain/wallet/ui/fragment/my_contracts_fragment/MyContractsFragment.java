@@ -12,17 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import org.sbercoin.wallet.R;
+import org.sbercoin.wallet.datastorage.TinyDB;
 import org.sbercoin.wallet.model.ContractTemplate;
 import org.sbercoin.wallet.model.contract.Contract;
-import org.sbercoin.wallet.datastorage.TinyDB;
 import org.sbercoin.wallet.model.contract.ContractCreationStatus;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.activity.main_activity.WizardDialogFragment;
+import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.change_contract_name_fragment.ChangeContractNameFragment;
+import org.sbercoin.wallet.ui.fragment.contract_management_fragment.ContractManagementFragment;
 import org.sbercoin.wallet.ui.fragment.deleted_contract_fragment.DeletedContractFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
-import org.sbercoin.wallet.ui.fragment.contract_management_fragment.ContractManagementFragment;
 import org.sbercoin.wallet.utils.DateCalculator;
 import org.sbercoin.wallet.utils.FontTextView;
 
@@ -32,83 +32,123 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public abstract class MyContractsFragment extends BaseFragment implements MyContractsView {
-
-    private MyContractsPresenter mMyContractsPresenterImpl;
+public abstract class MyContractsFragment extends BaseFragment implements MyContractsView
+{
 
     @BindView(R.id.recycler_view)
     protected RecyclerView mRecyclerView;
-
     protected ContractAdapter mContractAdapter;
-
     @BindView(R.id.place_holder)
     FontTextView mFontTextViewPlaceHolder;
-
     WizardDialogFragment wizardDialogFragment;
+    private MyContractsPresenter mMyContractsPresenterImpl;
     private boolean isShowWizard = false;
 
-    @OnClick({R.id.ibt_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ibt_back:
-                getActivity().onBackPressed();
-                break;
-        }
-    }
-
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, MyContractsFragment.class);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @OnClick({R.id.ibt_back})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.ibt_back:
+                getActivity().onBackPressed();
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mMyContractsPresenterImpl = new MyContractsPresenterImpl(this, new MyContractsInteractorImpl(getContext()));
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getMainActivity().addAuthenticationListener(new MainActivity.AuthenticationListener() {
+        getMainActivity().addAuthenticationListener(new MainActivity.AuthenticationListener()
+        {
             @Override
-            public void onAuthenticate() {
-                if (isShowWizard) {
+            public void onAuthenticate()
+            {
+                if (isShowWizard)
+                {
                     wizardDialogFragment.show(getFragmentManager(), WizardDialogFragment.class.getCanonicalName());
                 }
             }
         });
     }
 
-    public void onUnsubscribeClick(){
+    public void onUnsubscribeClick()
+    {
         getPresenter().onUnsubscribeClick();
     }
 
     @Override
-    public void setPlaceHolder() {
+    public void setPlaceHolder()
+    {
         mFontTextViewPlaceHolder.setVisibility(View.VISIBLE);
     }
 
     @Override
-    protected MyContractsPresenter getPresenter() {
+    protected MyContractsPresenter getPresenter()
+    {
         return mMyContractsPresenterImpl;
     }
 
     @Override
-    public void openContractFunctionFragment(Contract contract){
+    public void openContractFunctionFragment(Contract contract)
+    {
         BaseFragment contractManagementFragment = ContractManagementFragment.newInstance(getContext(), contract.getUiid(), contract.getContractAddress());
         openFragment(contractManagementFragment);
     }
 
     @Override
-    public void openDeletedContractFragment(String contractAddress, String contractName) {
+    public void openDeletedContractFragment(String contractAddress, String contractName)
+    {
         BaseFragment deletedContractFragment = DeletedContractFragment.newInstance(getContext(), contractAddress, contractName);
         openFragmentForResult(deletedContractFragment);
     }
 
-    class ContractViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void updateRecyclerView(List<Contract> contracts)
+    {
+        mContractAdapter.setContractList(contracts);
+        mContractAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showWizard()
+    {
+        wizardDialogFragment = new WizardDialogFragment();
+        isShowWizard = true;
+        wizardDialogFragment.setTargetFragment(this, 5000);
+        wizardDialogFragment.show(getFragmentManager(), WizardDialogFragment.class.getCanonicalName());
+    }
+
+    public void onWizardCanceled()
+    {
+        isShowWizard = false;
+        getPresenter().onWizardClose();
+    }
+
+    public void onRenameContract(int position, String newContractName)
+    {
+        mContractAdapter.getContractList().get(position).setContractName(newContractName);
+        mContractAdapter.notifyItemChanged(position);
+        getPresenter().onRenameContract(mContractAdapter.getContractList().get(position));
+    }
+
+    class ContractViewHolder extends RecyclerView.ViewHolder
+    {
 
         @BindView(R.id.title)
         FontTextView mTextViewTitle;
@@ -130,40 +170,51 @@ public abstract class MyContractsFragment extends BaseFragment implements MyCont
 
         Contract mContract;
 
-        public ContractViewHolder(View itemView) {
+        public ContractViewHolder(View itemView)
+        {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            mRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            mRelativeLayout.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
 
-                    if (mContract.getCreationStatus().equals(ContractCreationStatus.Created)) {
+                    if (mContract.getCreationStatus().equals(ContractCreationStatus.Created))
+                    {
                         getPresenter().onContractClick(mContract);
                     }
                 }
             });
 
-            mImageViewRenameContract.setOnClickListener(new View.OnClickListener() {
+            mImageViewRenameContract.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
-                    BaseFragment baseFragment = ChangeContractNameFragment.newInstance(getContext(), mTextViewTitle.getText().toString(),getAdapterPosition());
+                public void onClick(View view)
+                {
+                    BaseFragment baseFragment = ChangeContractNameFragment.newInstance(getContext(), mTextViewTitle.getText().toString(), getAdapterPosition());
                     openFragmentForResult(baseFragment);
                 }
             });
         }
 
-        public void bindContract(Contract contract, final ContractItemListener contractItemListener) {
+        public void bindContract(Contract contract, final ContractItemListener contractItemListener)
+        {
             mContract = contract;
-            mLinearLayoutUnsubscribe.setOnClickListener(new View.OnClickListener() {
+            mLinearLayoutUnsubscribe.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     contractItemListener.onUnsubscribeClick(mContract);
                 }
             });
-            if (contract.getCreationStatus().equals(ContractCreationStatus.Created)) {
+            if (contract.getCreationStatus().equals(ContractCreationStatus.Created))
+            {
                 mTextViewDate.setText(DateCalculator.getShortDate(contract.getDate()));
-            } else {
+            } else
+            {
                 mTextViewDate.setText(contract.getCreationStatus().name());
             }
             mTextViewTitle.setText(contract.getContractName());
@@ -174,66 +225,48 @@ public abstract class MyContractsFragment extends BaseFragment implements MyCont
         }
     }
 
-    protected class ContractAdapter extends RecyclerView.Adapter<ContractViewHolder> {
+    protected class ContractAdapter extends RecyclerView.Adapter<ContractViewHolder>
+    {
 
         List<Contract> mContractList;
         int mResId;
         ContractItemListener mContractItemListener;
 
-        public ContractAdapter(List<Contract> contractList, int resId, ContractItemListener contractItemListener) {
+        public ContractAdapter(List<Contract> contractList, int resId, ContractItemListener contractItemListener)
+        {
             mContractList = contractList;
             mResId = resId;
             mContractItemListener = contractItemListener;
         }
 
         @Override
-        public ContractViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ContractViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(mResId, parent, false);
             return new ContractViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ContractViewHolder holder, int position) {
+        public void onBindViewHolder(ContractViewHolder holder, int position)
+        {
             holder.bindContract(mContractList.get(position), mContractItemListener);
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return mContractList.size();
         }
 
-        public void setContractList(List<Contract> contractList) {
-            mContractList = contractList;
-        }
-
-        public List<Contract> getContractList() {
+        public List<Contract> getContractList()
+        {
             return mContractList;
         }
-    }
 
-    @Override
-    public void updateRecyclerView(List<Contract> contracts) {
-        mContractAdapter.setContractList(contracts);
-        mContractAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showWizard() {
-        wizardDialogFragment = new WizardDialogFragment();
-        isShowWizard = true;
-        wizardDialogFragment.setTargetFragment(this, 5000);
-        wizardDialogFragment.show(getFragmentManager(), WizardDialogFragment.class.getCanonicalName());
-    }
-
-    public void onWizardCanceled() {
-        isShowWizard = false;
-        getPresenter().onWizardClose();
-    }
-
-    public void onRenameContract(int position, String newContractName){
-        mContractAdapter.getContractList().get(position).setContractName(newContractName);
-        mContractAdapter.notifyItemChanged(position);
-        getPresenter().onRenameContract(mContractAdapter.getContractList().get(position));
+        public void setContractList(List<Contract> contractList)
+        {
+            mContractList = contractList;
+        }
     }
 }

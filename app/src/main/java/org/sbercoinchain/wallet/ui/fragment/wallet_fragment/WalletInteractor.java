@@ -8,7 +8,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface WalletInteractor {
+public interface WalletInteractor
+{
 
     Observable<HistoryResponse> getHistoryList(int limit, int offset);
 

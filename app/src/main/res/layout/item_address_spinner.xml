@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:orientation="vertical"
-                android:id="@+id/root_layout"
-                android:layout_width="match_parent"
-                android:background="@color/colorPrimary"
-                android:layout_height="56dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <org.sbercoin.wallet.utils.FontTextView
         android:id="@+id/address_name"
-        android:textSize="16sp"
-        android:textColor="@color/background"
-        android:text="@string/token_name"
-        android:gravity="left|center_vertical"
-        android:layout_toStartOf="@+id/ll_balance"
-        android:maxLines="1"
-        android:ellipsize="end"
-        app:typefaceAsset="@string/simplonMonoRegular"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/ll_balance"
+        android:ellipsize="end"
+        android:gravity="left|center_vertical"
+        android:maxLines="1"
+        android:text="@string/token_name"
+        android:textColor="@color/background"
+        android:textSize="16sp"
+        app:typefaceAsset="@string/simplonMonoRegular" />
 
     <LinearLayout
         android:id="@+id/ll_balance"
@@ -30,22 +30,22 @@
         android:orientation="horizontal">
 
         <org.sbercoin.wallet.utils.FontTextView
-            android:visibility="gone"
             android:id="@+id/address_balance"
-            android:textSize="14sp"
-            android:textColor="@color/background"
-            app:typefaceAsset="@string/simplonMonoMedium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/background"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
         <org.sbercoin.wallet.utils.FontTextView
-            android:visibility="gone"
             android:id="@+id/address_symbol"
-            android:textSize="14sp"
-            android:textColor="@color/background"
-            app:typefaceAsset="@string/simplonMonoMedium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/background"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
     </LinearLayout>
 

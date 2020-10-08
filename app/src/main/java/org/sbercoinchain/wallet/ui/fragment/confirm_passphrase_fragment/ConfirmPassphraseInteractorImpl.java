@@ -11,26 +11,32 @@ import java.util.concurrent.Callable;
 
 import rx.Observable;
 
-public class ConfirmPassphraseInteractorImpl implements ConfirmPassphraseInteractor {
+public class ConfirmPassphraseInteractorImpl implements ConfirmPassphraseInteractor
+{
 
     WeakReference<Context> mContext;
 
-    ConfirmPassphraseInteractorImpl(Context context){
+    ConfirmPassphraseInteractorImpl(Context context)
+    {
         mContext = new WeakReference<Context>(context);
     }
 
     @Override
-    public Observable<String> createWallet(final String passphrase) {
-        return Observable.fromCallable(new Callable<String>() {
+    public Observable<String> createWallet(final String passphrase)
+    {
+        return Observable.fromCallable(new Callable<String>()
+        {
             @Override
-            public String call() throws Exception {
+            public String call() throws Exception
+            {
                 return KeyStorage.getInstance().loadWallet(passphrase);
             }
         });
     }
 
     @Override
-    public void setKeyGeneratedInstance(boolean isKeyGenerated) {
+    public void setKeyGeneratedInstance(boolean isKeyGenerated)
+    {
         SBERSharedPreference.getInstance().setKeyGeneratedInstance(mContext.get(), isKeyGenerated);
     }
 }

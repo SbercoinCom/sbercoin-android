@@ -8,33 +8,40 @@ import android.preference.PreferenceManager;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.base.base_activity.BaseActivity;
 
-public class ThemeUtils {
+public class ThemeUtils
+{
 
     public static final String THEME_KEY = "THEME_KEY";
     public static final String THEME_DARK = "THEME_DARK";
     public static final String THEME_LIGHT = "THEME_LIGHT";
     public static String currentTheme;
 
-    public static String getCurrentTheme(Context context) {
-        if (currentTheme == null) {
+    public static String getCurrentTheme(Context context)
+    {
+        if (currentTheme == null)
+        {
             currentTheme = PreferenceManager.getDefaultSharedPreferences(context).getString(THEME_KEY, THEME_DARK);
         }
         return currentTheme;
     }
 
-    public static void setAppTheme(BaseActivity activity, String themeName) {
+    public static void setAppTheme(BaseActivity activity, String themeName)
+    {
         activity.getApplication().setTheme(getThemeIdByName(themeName));
     }
 
-    public static void setCurrentPreferencesTheme(Context context, String themeName) {
+    public static void setCurrentPreferencesTheme(Context context, String themeName)
+    {
         currentTheme = themeName;
         SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
         edit.putString(THEME_KEY, themeName);
         edit.apply();
     }
 
-    public static void switchPreferencesTheme(Context context) {
-        switch (getCurrentTheme(context)) {
+    public static void switchPreferencesTheme(Context context)
+    {
+        switch (getCurrentTheme(context))
+        {
             case THEME_LIGHT:
                 setCurrentPreferencesTheme(context, THEME_DARK);
                 break;
@@ -44,8 +51,10 @@ public class ThemeUtils {
         }
     }
 
-    public static int getThemeIdByName(String themeName) {
-        switch (themeName) {
+    public static int getThemeIdByName(String themeName)
+    {
+        switch (themeName)
+        {
             case THEME_LIGHT:
                 return R.style.AppThemeWhite;
             case THEME_DARK:

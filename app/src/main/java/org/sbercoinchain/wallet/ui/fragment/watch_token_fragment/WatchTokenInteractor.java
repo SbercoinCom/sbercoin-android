@@ -8,7 +8,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface WatchTokenInteractor {
+public interface WatchTokenInteractor
+{
     List<ContractTemplate> getContractTemplates();
 
     int compareDates(String date, String date1);

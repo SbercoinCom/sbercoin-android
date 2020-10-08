@@ -17,24 +17,22 @@ import org.sbercoin.wallet.utils.FontButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class WatchTokenFragment extends BaseFragment implements WatchTokenView {
-
-    private WatchTokenPresenter mWatchContractFragmentPresenter;
+public abstract class WatchTokenFragment extends BaseFragment implements WatchTokenView
+{
 
     @BindView(org.sbercoin.wallet.R.id.et_contract_name)
     protected TextInputEditText mEditTextContractName;
-
     @BindView(org.sbercoin.wallet.R.id.et_contract_address)
     protected TextInputEditText mEditTextContractAddress;
-
     @BindView(org.sbercoin.wallet.R.id.bt_ok)
     FontButton mButtonConfirm;
-
+    private WatchTokenPresenter mWatchContractFragmentPresenter;
     private boolean isEmptyContractName = true;
     private boolean isEmptyContractAddress = true;
     private UpdateService mUpdateService;
 
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, WatchTokenFragment.class);
         fragment.setArguments(args);
@@ -42,39 +40,49 @@ public abstract class WatchTokenFragment extends BaseFragment implements WatchTo
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
 
-        mEditTextContractAddress.addTextChangedListener(new TextWatcher() {
+        mEditTextContractAddress.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
                 isEmptyContractAddress = editable.toString().isEmpty();
                 checkForNoEmpty(isEmptyContractAddress, isEmptyContractName);
-                if(editable.toString().length()==40){
+                if (editable.toString().length() == 40)
+                {
                     getPresenter().onContractAddressEntered(editable.toString());
                 }
             }
         });
 
-        mEditTextContractName.addTextChangedListener(new TextWatcher() {
+        mEditTextContractName.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
                 isEmptyContractName = editable.toString().isEmpty();
                 checkForNoEmpty(isEmptyContractAddress, isEmptyContractName);
             }
@@ -83,36 +91,43 @@ public abstract class WatchTokenFragment extends BaseFragment implements WatchTo
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         mUpdateService = getMainActivity().getUpdateService();
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         mWatchContractFragmentPresenter = new WatchTokenPresenterImpl(this, new WatchTokenInteractorImpl(getContext()));
     }
 
     @Override
-    protected WatchTokenPresenter getPresenter() {
+    protected WatchTokenPresenter getPresenter()
+    {
         return mWatchContractFragmentPresenter;
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         //hideBottomNavView(false);
         super.onResume();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         //showBottomNavView(false);
     }
 
     @OnClick({org.sbercoin.wallet.R.id.ibt_back, org.sbercoin.wallet.R.id.bt_ok, org.sbercoin.wallet.R.id.bt_cancel})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case org.sbercoin.wallet.R.id.bt_cancel:
             case org.sbercoin.wallet.R.id.ibt_back:
                 getActivity().onBackPressed();
@@ -125,9 +140,12 @@ public abstract class WatchTokenFragment extends BaseFragment implements WatchTo
         }
     }
 
-    private void checkForNoEmpty(boolean... isEmptyParams) {
-        for (boolean isEmpty : isEmptyParams) {
-            if (isEmpty) {
+    private void checkForNoEmpty(boolean... isEmptyParams)
+    {
+        for (boolean isEmpty : isEmptyParams)
+        {
+            if (isEmpty)
+            {
                 mButtonConfirm.setEnabled(false);
                 return;
             }
@@ -136,31 +154,39 @@ public abstract class WatchTokenFragment extends BaseFragment implements WatchTo
     }
 
     @Override
-    public void subscribeTokenBalanceChanges(String contractAddress) {
+    public void subscribeTokenBalanceChanges(String contractAddress)
+    {
         mUpdateService.subscribeTokenBalanceChange(contractAddress);
     }
 
     @Override
-    public AlertDialogCallBack getAlertCallback() {
-        return new BaseFragment.AlertDialogCallBack() {
+    public AlertDialogCallBack getAlertCallback()
+    {
+        return new BaseFragment.AlertDialogCallBack()
+        {
             @Override
-            public void onButtonClick() {
+            public void onButtonClick()
+            {
                 FragmentManager fm = getFragmentManager();
                 int count = fm.getBackStackEntryCount() - 2;
-                for (int i = 0; i < count; ++i) {
+                for (int i = 0; i < count; ++i)
+                {
                     fm.popBackStack();
                 }
             }
 
             @Override
-            public void onButton2Click() {
+            public void onButton2Click()
+            {
             }
         };
     }
 
     @Override
-    public void setContractName(String contractName) {
-        if(mEditTextContractName.getText().toString().isEmpty()){
+    public void setContractName(String contractName)
+    {
+        if (mEditTextContractName.getText().toString().isEmpty())
+        {
             mEditTextContractName.setText(contractName);
             mEditTextContractName.setSelection(contractName.length());
         }

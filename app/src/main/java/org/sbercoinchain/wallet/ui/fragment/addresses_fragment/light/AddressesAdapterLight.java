@@ -11,21 +11,25 @@ import org.sbercoin.wallet.ui.fragment.addresses_fragment.OnAddressClickListener
 
 import java.util.List;
 
-public class AddressesAdapterLight extends AddressesAdapter {
+public class AddressesAdapterLight extends AddressesAdapter
+{
 
-    public AddressesAdapterLight(List<String> deterministicKeys, OnAddressClickListener listener) {
+    public AddressesAdapterLight(List<String> deterministicKeys, OnAddressClickListener listener)
+    {
         super(deterministicKeys, listener);
     }
 
     @Override
-    public AddressHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AddressHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_single_checkable_light, parent, false);
         return new AddressHolderLight(view, listener);
     }
 
     @Override
-    public void onBindViewHolder(AddressHolder holder, int position) {
+    public void onBindViewHolder(AddressHolder holder, int position)
+    {
         mAddress = mAddresses.get(position);
         ((AddressHolderLight) holder).bindAddress(mAddress, position);
     }

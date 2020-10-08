@@ -11,7 +11,8 @@ import org.sbercoin.wallet.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class LanguageHolder extends RecyclerView.ViewHolder {
+public abstract class LanguageHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.tv_single_string)
     protected
@@ -23,11 +24,14 @@ public abstract class LanguageHolder extends RecyclerView.ViewHolder {
     protected
     LinearLayout mLinearLayoutAddress;
 
-    public LanguageHolder(View itemView, final OnLanguageIntemClickListener listener) {
+    public LanguageHolder(View itemView, final OnLanguageIntemClickListener listener)
+    {
         super(itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 listener.onLanguageIntemClick(getAdapterPosition());
             }
         });

@@ -14,38 +14,46 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class QStorePresenterImpl extends BaseFragmentPresenterImpl implements QStorePresenter {
+public class QStorePresenterImpl extends BaseFragmentPresenterImpl implements QStorePresenter
+{
 
+    private final String EMPTY_TYPE = "";
     private QStoreView view;
     private QStoreInteractor interactor;
     private List<QstoreCategory> categories;
     private int searchOffset;
-    private final String EMPTY_TYPE = "";
 
-    public QStorePresenterImpl(QStoreView view, QStoreInteractor interactor) {
+    public QStorePresenterImpl(QStoreView view, QStoreInteractor interactor)
+    {
         this.view = view;
         this.interactor = interactor;
     }
 
     @Override
-    public QStoreView getView() {
+    public QStoreView getView()
+    {
         return view;
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated()
+    {
         super.onViewCreated();
         categories = new ArrayList<>();
         loadCategories();
     }
 
-    private void loadCategories() {
+    private void loadCategories()
+    {
         getInteractor().getTrendingNowObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<List<QstoreItem>, Boolean>() {
+                .map(new Func1<List<QstoreItem>, Boolean>()
+                {
                     @Override
-                    public Boolean call(List<QstoreItem> qstoreItems) {
-                        if (!qstoreItems.isEmpty()) {
+                    public Boolean call(List<QstoreItem> qstoreItems)
+                    {
+                        if (!qstoreItems.isEmpty())
+                        {
                             QstoreCategory qstoreCategory = new QstoreCategory(getInteractor().getTrendingString(), qstoreItems);
                             categories.add(qstoreCategory);
                             getView().setCategories(categories);
@@ -54,27 +62,34 @@ public class QStorePresenterImpl extends BaseFragmentPresenterImpl implements QS
                     }
                 })
                 .observeOn(Schedulers.io())
-                .flatMap(new Func1<Boolean, Observable<List<QstoreItem>>>() {
+                .flatMap(new Func1<Boolean, Observable<List<QstoreItem>>>()
+                {
                     @Override
-                    public Observable<List<QstoreItem>> call(Boolean aBoolean) {
+                    public Observable<List<QstoreItem>> call(Boolean aBoolean)
+                    {
                         return getInteractor().getWhatsNewObservable();
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<QstoreItem>>() {
+                .subscribe(new Subscriber<List<QstoreItem>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(List<QstoreItem> qstoreItems) {
-                        if (!qstoreItems.isEmpty()) {
+                    public void onNext(List<QstoreItem> qstoreItems)
+                    {
+                        if (!qstoreItems.isEmpty())
+                        {
                             QstoreCategory qstoreCategory = new QstoreCategory(getInteractor().getWhatsNewString(), qstoreItems);
                             categories.add(qstoreCategory);
                             getView().setCategories(categories);
@@ -85,33 +100,40 @@ public class QStorePresenterImpl extends BaseFragmentPresenterImpl implements QS
     }
 
     @Override
-    public void searchItems(String tag, boolean byTag) {
+    public void searchItems(String tag, boolean byTag)
+    {
         searchOffset = 0;
         getInteractor().searchContracts(searchOffset, EMPTY_TYPE, tag, byTag)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<QSearchItem>>() {
+                .subscribe(new Subscriber<List<QSearchItem>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(List<QSearchItem> qstoreItems) {
+                    public void onNext(List<QSearchItem> qstoreItems)
+                    {
                         getView().setSearchResult(qstoreItems);
                     }
                 });
     }
 
-    public QStoreInteractor getInteractor() {
+    public QStoreInteractor getInteractor()
+    {
         return interactor;
     }
 
-    public List<QstoreCategory> getCategories() {
+    public List<QstoreCategory> getCategories()
+    {
         return categories;
     }
 }

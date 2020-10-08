@@ -5,7 +5,8 @@ import android.text.TextUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ContractJSON {
+public class ContractJSON
+{
 
     @SerializedName("name")
     @Expose
@@ -29,7 +30,8 @@ public class ContractJSON {
     @Expose
     private Boolean isActive;
 
-    public ContractJSON(String name, String contractCreationAddres, String contractAddress, String type, String publishDate, String template, Boolean isActive) {
+    public ContractJSON(String name, String contractCreationAddres, String contractAddress, String type, String publishDate, String template, Boolean isActive)
+    {
         this.name = name;
         this.contractCreationAddres = contractCreationAddres;
         this.contractAddress = contractAddress;
@@ -39,63 +41,78 @@ public class ContractJSON {
         this.isActive = isActive;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getContractCreationAddres() {
+    public String getContractCreationAddres()
+    {
         return contractCreationAddres;
     }
 
-    public void setContractCreationAddres(String contractCreationAddres) {
+    public void setContractCreationAddres(String contractCreationAddres)
+    {
         this.contractCreationAddres = contractCreationAddres;
     }
 
-    public String getContractAddress() {
+    public String getContractAddress()
+    {
         return contractAddress;
     }
 
-    public void setContractAddress(String contractAddress) {
+    public void setContractAddress(String contractAddress)
+    {
         this.contractAddress = contractAddress;
     }
 
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(String type)
+    {
         this.type = type;
     }
 
-    public String getPublishDate() {
+    public String getPublishDate()
+    {
         return publishDate;
     }
 
-    public void setPublishDate(String publishDate) {
+    public void setPublishDate(String publishDate)
+    {
         this.publishDate = publishDate;
     }
 
-    public String getTemplate() {
+    public String getTemplate()
+    {
         return template;
     }
 
-    public void setTemplate(String template) {
+    public void setTemplate(String template)
+    {
         this.template = template;
     }
 
-    public Boolean getIsActive() {
+    public Boolean getIsActive()
+    {
         return isActive;
     }
 
-    public void setIsActive(Boolean isActive) {
+    public void setIsActive(Boolean isActive)
+    {
         this.isActive = isActive;
     }
 
-    public boolean getValidity() {
-        return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(type) && !TextUtils.isEmpty(contractAddress)  && !TextUtils.isEmpty(template);
+    public boolean getValidity()
+    {
+        return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(type) && !TextUtils.isEmpty(contractAddress) && !TextUtils.isEmpty(template);
     }
 }

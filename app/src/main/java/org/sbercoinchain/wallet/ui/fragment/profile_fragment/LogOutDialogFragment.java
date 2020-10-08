@@ -7,32 +7,39 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
-public class LogOutDialogFragment extends DialogFragment {
+public class LogOutDialogFragment extends DialogFragment
+{
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
 
         return new AlertDialog
                 .Builder(getActivity())
                 .setTitle(org.sbercoin.wallet.R.string.are_you_sure)
-                .setPositiveButton(org.sbercoin.wallet.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton(org.sbercoin.wallet.R.string.yes, new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
                         OnYesClickListener onYesClickListener = (OnYesClickListener) getTargetFragment();
                         onYesClickListener.onClick();
                     }
                 })
-                .setNegativeButton(org.sbercoin.wallet.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(org.sbercoin.wallet.R.string.no, new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
                         dismiss();
                     }
                 })
                 .create();
     }
 
-    public interface OnYesClickListener {
+    public interface OnYesClickListener
+    {
         void onClick();
     }
 }

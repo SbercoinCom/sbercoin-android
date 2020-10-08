@@ -3,68 +3,84 @@ package org.sbercoin.wallet.ui.base.base_activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public abstract class BasePresenterImpl implements BasePresenter {
+public abstract class BasePresenterImpl implements BasePresenter
+{
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
     }
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
     }
 
     @Override
-    public void onPostCreate() {
+    public void onPostCreate()
+    {
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
     }
 
     @Override
-    public void onPostResume() {
+    public void onPostResume()
+    {
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
     }
 
     @Override
-    public void onStop() {
+    public void onStop()
+    {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         getView().initializeViews();
     }
 
 
     @Override
-    public void onRestoreInstanceState(Bundle savedState) {
+    public void onRestoreInstanceState(Bundle savedState)
+    {
     }
 
     @Override
-    public void restoreState(Bundle savedState) {
+    public void restoreState(Bundle savedState)
+    {
     }
 
     @Override
-    public void saveState(Bundle outState) {
+    public void saveState(Bundle outState)
+    {
     }
 
     @Override
-    public void handleInitialArguments(Bundle arg) {
+    public void handleInitialArguments(Bundle arg)
+    {
     }
 
     @Override
-    public void startActivity(Intent intent) {
+    public void startActivity(Intent intent)
+    {
     }
 
     @Override
-    public BaseContextView getView() {
+    public BaseContextView getView()
+    {
         return null;
     }
 }

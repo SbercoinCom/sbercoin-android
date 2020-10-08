@@ -24,8 +24,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class AddressListTokenPresenterTest {
+public class AddressListTokenPresenterTest
+{
 
+    private final String TEST_ZERO_AMOUNT = "0";
+    private final String TEST_AMOUNT = "10";
     @Mock
     private AddressesListTokenView view;
     @Mock
@@ -33,14 +36,16 @@ public class AddressListTokenPresenterTest {
     private AddressesListTokenPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new AddressesListTokenPresenterImpl(view, interactor);
     }
 
     @Test
-    public void run_BalanceChanged_Success() {
+    public void run_BalanceChanged_Success()
+    {
         presenter.setKeysWithTokenBalance(Collections.<DeterministicKeyWithTokenBalance>emptyList());
         when(interactor.isCurrencyValid(anyString()))
                 .thenReturn(true);
@@ -51,7 +56,8 @@ public class AddressListTokenPresenterTest {
     }
 
     @Test
-    public void run_BalanceChanged_Error() {
+    public void run_BalanceChanged_Error()
+    {
         presenter.setKeysWithTokenBalance(Collections.<DeterministicKeyWithTokenBalance>emptyList());
         when(interactor.isCurrencyValid(anyString()))
                 .thenReturn(false);
@@ -62,7 +68,8 @@ public class AddressListTokenPresenterTest {
     }
 
     @Test
-    public void transfer_InvalidAmount() {
+    public void transfer_InvalidAmount()
+    {
         when(interactor.isAmountValid(anyString()))
                 .thenReturn(false);
 
@@ -73,11 +80,9 @@ public class AddressListTokenPresenterTest {
                 (DeterministicKeyWithTokenBalance) any(), anyString(), anyString());
     }
 
-    private final String TEST_ZERO_AMOUNT = "0";
-    private final String TEST_AMOUNT = "10";
-
     @Test
-    public void transfer_AmountIsZeroError() {
+    public void transfer_AmountIsZeroError()
+    {
         when(interactor.isAmountValid(anyString()))
                 .thenReturn(true);
 
@@ -90,7 +95,8 @@ public class AddressListTokenPresenterTest {
     }
 
     @Test
-    public void transfer_InvalidTokenBalanceError() {
+    public void transfer_InvalidTokenBalanceError()
+    {
         when(interactor.isAmountValid(anyString()))
                 .thenReturn(true);
 
@@ -105,7 +111,8 @@ public class AddressListTokenPresenterTest {
     }
 
     @Test
-    public void transfer_Success() {
+    public void transfer_Success()
+    {
         when(interactor.isAmountValid(anyString()))
                 .thenReturn(true);
         presenter.setTokenBalance(new TokenBalance());

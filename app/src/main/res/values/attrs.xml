@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name="FontTextView">
-        <attr name="typefaceAsset" format="string"/>
+        <attr name="typefaceAsset" format="string" />
     </declare-styleable>
 
     <declare-styleable name="FontButton">
-        <attr name="typeface" format="string"/>
+        <attr name="typeface" format="string" />
     </declare-styleable>
 
     <declare-styleable name="FontTextInputEditText">
-        <attr name="inputTypeface" format="string"/>
+        <attr name="inputTypeface" format="string" />
     </declare-styleable>
 
     <declare-styleable name="FontEditText">
-        <attr name="editTextTypeface" format="string"/>
+        <attr name="editTextTypeface" format="string" />
     </declare-styleable>
 
     <declare-styleable name="FontTextInputLayout">
-        <attr name="textInputLayoutTypeface" format="string"/>
+        <attr name="textInputLayoutTypeface" format="string" />
     </declare-styleable>
 
     <declare-styleable name="FontCheckBox">
-        <attr name="checkBoxTypeface" format="string"/>
+        <attr name="checkBoxTypeface" format="string" />
     </declare-styleable>
 
     <declare-styleable name="GLWaveVisualizationView" tools:ignore="ResourceName">
@@ -33,11 +33,11 @@
     </declare-styleable>
 
     <declare-styleable name="SearchBar">
-        <attr name="lytSearchView" format="reference"/>
+        <attr name="lytSearchView" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="CustomProgressBarView">
-        <attr name="progressSrc" format="reference"/>
+        <attr name="progressSrc" format="reference" />
     </declare-styleable>
 
 </resources>

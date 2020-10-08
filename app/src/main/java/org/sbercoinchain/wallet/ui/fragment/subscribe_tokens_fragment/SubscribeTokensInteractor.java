@@ -4,7 +4,8 @@ import org.sbercoin.wallet.model.contract.Token;
 
 import java.util.List;
 
-public interface SubscribeTokensInteractor {
+public interface SubscribeTokensInteractor
+{
     void saveTokenList(List<Token> tokens);
 
     List<Token> getTokenList();

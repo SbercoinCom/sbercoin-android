@@ -1,15 +1,5 @@
 package org.sbercoin.wallet.datastorage;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,37 +12,86 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.sbercoin.wallet.model.ContractTemplate;
 import org.sbercoin.wallet.model.SharedTemplate;
 import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.model.ContractTemplate;
 import org.sbercoin.wallet.model.news.News;
 
-public class TinyDB {
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
-    private SharedPreferences preferences;
-    private String DEFAULT_APP_IMAGEDATA_DIRECTORY;
-    private String lastImagePath = "";
+public class TinyDB
+{
+
+    public final String CURRENT_CONTRACT_PACKAGE_NAME = "current_contract_package_name";
     private final String CONTRACT_LIST = "contract_list";
     private final String TOKEN_LIST = "token_list";
     private final String CONTRACT_TEMPLATE_LIST = "contract_template_list";
-    public final String CURRENT_CONTRACT_PACKAGE_NAME = "current_contract_package_name";
     private final String TEMPLATE_NAME_LIST = "TEMPLATE_NAME_LIST";
     private final String TEMPLATE_UUID_LIST = "TEMPLATE_UUID_LIST";
     private final String SHARED_TEMPLATE_LIST = "SHARED_TEMPLATE_LIST";
     private final String UNCONFIRMED_CONTRACT_TX_HAS_LIST = "unconfirmed_contract_tx_hash_list";
     private final String NEWS_LIST = "news_list";
     private final String PUB_ADRESSES = "sbercoin_addresses";
+    private SharedPreferences preferences;
+    private String DEFAULT_APP_IMAGEDATA_DIRECTORY;
+    private String lastImagePath = "";
 
-    public TinyDB(Context appContext) {
+    public TinyDB(Context appContext)
+    {
         preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
     }
 
-    public void savePublicAddresses(List<String> addresses) {
+    public static boolean isTemplateUnique(List<ContractTemplate> templates, String uuid)
+    {
+        for (ContractTemplate template : templates)
+        {
+            if (uuid.equals(template.getUuid()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if external storage is writable or not
+     *
+     * @return true if writable, false otherwise
+     */
+    public static boolean isExternalStorageWritable()
+    {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
+
+    /**
+     * Check if external storage is readable or not
+     *
+     * @return true if readable, false otherwise
+     */
+    public static boolean isExternalStorageReadable()
+    {
+        String state = Environment.getExternalStorageState();
+
+        return Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
+    }
+
+    public void savePublicAddresses(List<String> addresses)
+    {
         putListString(PUB_ADRESSES, new ArrayList<String>(addresses));
     }
 
-    public List<String> getPublicAddresses() {
+    public List<String> getPublicAddresses()
+    {
         return getListString(PUB_ADRESSES);
     }
 
@@ -62,44 +101,42 @@ public class TinyDB {
      * @param path image path
      * @return the Bitmap from 'path'
      */
-    public Bitmap getImage(String path) {
+    public Bitmap getImage(String path)
+    {
         Bitmap bitmapFromPath = null;
-        try {
+        try
+        {
             bitmapFromPath = BitmapFactory.decodeFile(path);
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         return bitmapFromPath;
     }
 
-    public static boolean isTemplateUnique(List<ContractTemplate> templates, String uuid) {
-        for (ContractTemplate template : templates) {
-            if (uuid.equals(template.getUuid())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public List<SharedTemplate> getTemplates() {
+    public List<SharedTemplate> getTemplates()
+    {
         Gson gson = new Gson();
 
         ArrayList<String> objStrings = getListString(SHARED_TEMPLATE_LIST);
         List<SharedTemplate> objects = new ArrayList<>();
 
-        for (String jObjString : objStrings) {
+        for (String jObjString : objStrings)
+        {
             SharedTemplate value = gson.fromJson(jObjString, SharedTemplate.class);
             objects.add(value);
         }
         return objects;
     }
 
-    public SharedTemplate addTemplate(String name, String uuid) {
+    public SharedTemplate addTemplate(String name, String uuid)
+    {
         List<SharedTemplate> templates = getTemplates();
 
-        if (templates == null) {
+        if (templates == null)
+        {
             templates = new ArrayList<>();
         }
         SharedTemplate newTemplate = new SharedTemplate(uuid, name);
@@ -108,26 +145,32 @@ public class TinyDB {
         return newTemplate;
     }
 
-    public void addTemplates(List<SharedTemplate> templates) {
+    public void addTemplates(List<SharedTemplate> templates)
+    {
         List<SharedTemplate> sharedTemplates = getTemplates();
-        if (sharedTemplates == null || sharedTemplates.size() == 0) {
+        if (sharedTemplates == null || sharedTemplates.size() == 0)
+        {
             putListTemplates(templates);
-        } else {
+        } else
+        {
             sharedTemplates.addAll(templates);
             putListTemplates(sharedTemplates);
         }
     }
 
-    private void putListTemplates(List<SharedTemplate> templates) {
+    private void putListTemplates(List<SharedTemplate> templates)
+    {
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<>();
-        for (Object obj : templates) {
+        for (Object obj : templates)
+        {
             objStrings.add(gson.toJson(obj));
         }
         putListString(SHARED_TEMPLATE_LIST, objStrings);
     }
 
-    public void clearTemplateList() {
+    public void clearTemplateList()
+    {
         putListString(SHARED_TEMPLATE_LIST, new ArrayList<String>());
     }
 
@@ -136,10 +179,10 @@ public class TinyDB {
      *
      * @return string path of the last saved image
      */
-    public String getSavedImagePath() {
+    public String getSavedImagePath()
+    {
         return lastImagePath;
     }
-
 
     /**
      * Saves 'theBitmap' into folder 'theFolder' with the name 'theImageName'
@@ -149,21 +192,22 @@ public class TinyDB {
      * @param theBitmap    the image you want to save as a Bitmap
      * @return returns the full path(file system address) of the saved image
      */
-    public String putImage(String theFolder, String theImageName, Bitmap theBitmap) {
+    public String putImage(String theFolder, String theImageName, Bitmap theBitmap)
+    {
         if (theFolder == null || theImageName == null || theBitmap == null)
             return null;
 
         this.DEFAULT_APP_IMAGEDATA_DIRECTORY = theFolder;
         String mFullPath = setupFullPath(theImageName);
 
-        if (!mFullPath.equals("")) {
+        if (!mFullPath.equals(""))
+        {
             lastImagePath = mFullPath;
             saveBitmap(mFullPath, theBitmap);
         }
 
         return mFullPath;
     }
-
 
     /**
      * Saves 'theBitmap' into 'fullPath'
@@ -172,9 +216,12 @@ public class TinyDB {
      * @param theBitmap the image you want to save as a Bitmap
      * @return true if image was saved, false otherwise
      */
-    public boolean putImageWithFullPath(String fullPath, Bitmap theBitmap) {
+    public boolean putImageWithFullPath(String fullPath, Bitmap theBitmap)
+    {
         return !(fullPath == null || theBitmap == null) && saveBitmap(fullPath, theBitmap);
     }
+
+    // Getters
 
     /**
      * Creates the path for the image with name 'imageName' in DEFAULT_APP.. directory
@@ -182,11 +229,14 @@ public class TinyDB {
      * @param imageName name of the image
      * @return the full path of the image. If it failed to create directory, return empty string
      */
-    private String setupFullPath(String imageName) {
+    private String setupFullPath(String imageName)
+    {
         File mFolder = new File(Environment.getExternalStorageDirectory(), DEFAULT_APP_IMAGEDATA_DIRECTORY);
 
-        if (isExternalStorageReadable() && isExternalStorageWritable() && !mFolder.exists()) {
-            if (!mFolder.mkdirs()) {
+        if (isExternalStorageReadable() && isExternalStorageWritable() && !mFolder.exists())
+        {
+            if (!mFolder.mkdirs())
+            {
                 Log.e("ERROR", "Failed to setup folder");
                 return "";
             }
@@ -202,7 +252,8 @@ public class TinyDB {
      * @param bitmap   the image as a Bitmap
      * @return true if it successfully saved, false otherwise
      */
-    private boolean saveBitmap(String fullPath, Bitmap bitmap) {
+    private boolean saveBitmap(String fullPath, Bitmap bitmap)
+    {
         if (fullPath == null || bitmap == null)
             return false;
 
@@ -216,30 +267,38 @@ public class TinyDB {
             if (!imageFile.delete())
                 return false;
 
-        try {
+        try
+        {
             fileCreated = imageFile.createNewFile();
 
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
 
         FileOutputStream out = null;
-        try {
+        try
+        {
             out = new FileOutputStream(imageFile);
             bitmapCompressed = bitmap.compress(CompressFormat.PNG, 100, out);
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             bitmapCompressed = false;
 
-        } finally {
-            if (out != null) {
-                try {
+        } finally
+        {
+            if (out != null)
+            {
+                try
+                {
                     out.flush();
                     out.close();
                     streamClosed = true;
 
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                     streamClosed = false;
                 }
@@ -249,15 +308,14 @@ public class TinyDB {
         return (fileCreated && bitmapCompressed && streamClosed);
     }
 
-    // Getters
-
     /**
      * Get int value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
      *
      * @param key SharedPreferences key
      * @return int value at 'key' or 'defaultValue' if key not found
      */
-    public int getInt(String key) {
+    public int getInt(String key)
+    {
         return preferences.getInt(key, 0);
     }
 
@@ -267,7 +325,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return ArrayList of Integers
      */
-    public ArrayList<Integer> getListInt(String key) {
+    public ArrayList<Integer> getListInt(String key)
+    {
         String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
         ArrayList<String> arrayToList = new ArrayList<>(Arrays.asList(myList));
         ArrayList<Integer> newList = new ArrayList<>();
@@ -285,7 +344,8 @@ public class TinyDB {
      * @param defaultValue long value returned if key was not found
      * @return long value at 'key' or 'defaultValue' if key not found
      */
-    public long getLong(String key, long defaultValue) {
+    public long getLong(String key, long defaultValue)
+    {
         return preferences.getLong(key, defaultValue);
     }
 
@@ -295,7 +355,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return float value at 'key' or 'defaultValue' if key not found
      */
-    public float getFloat(String key) {
+    public float getFloat(String key)
+    {
         return preferences.getFloat(key, 0);
     }
 
@@ -306,13 +367,16 @@ public class TinyDB {
      * @param defaultValue double value returned if exception is thrown
      * @return double value at 'key' or 'defaultValue' if exception is thrown
      */
-    public double getDouble(String key, double defaultValue) {
+    public double getDouble(String key, double defaultValue)
+    {
         String number = getString(key);
 
-        try {
+        try
+        {
             return Double.parseDouble(number);
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e)
+        {
             return defaultValue;
         }
     }
@@ -323,7 +387,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return ArrayList of Double
      */
-    public ArrayList<Double> getListDouble(String key) {
+    public ArrayList<Double> getListDouble(String key)
+    {
         String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
         ArrayList<String> arrayToList = new ArrayList<>(Arrays.asList(myList));
         ArrayList<Double> newList = new ArrayList<>();
@@ -340,7 +405,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return String value at 'key' or "" (empty String) if key not found
      */
-    public String getString(String key) {
+    public String getString(String key)
+    {
         return preferences.getString(key, "");
     }
 
@@ -350,7 +416,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return ArrayList of String
      */
-    public ArrayList<String> getListString(String key) {
+    public ArrayList<String> getListString(String key)
+    {
         return new ArrayList<>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
     }
 
@@ -360,7 +427,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return boolean value at 'key' or 'defaultValue' if key not found
      */
-    public boolean getBoolean(String key) {
+    public boolean getBoolean(String key)
+    {
         return preferences.getBoolean(key, false);
     }
 
@@ -370,14 +438,18 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return ArrayList of Boolean
      */
-    public ArrayList<Boolean> getListBoolean(String key) {
+    public ArrayList<Boolean> getListBoolean(String key)
+    {
         ArrayList<String> myList = getListString(key);
         ArrayList<Boolean> newList = new ArrayList<>();
 
-        for (String item : myList) {
-            if (item.equals("true")) {
+        for (String item : myList)
+        {
+            if (item.equals("true"))
+            {
                 newList.add(true);
-            } else {
+            } else
+            {
                 newList.add(false);
             }
         }
@@ -385,21 +457,23 @@ public class TinyDB {
         return newList;
     }
 
-
-    public ArrayList<Object> getListObject(String key, Class<?> mClass) {
+    public ArrayList<Object> getListObject(String key, Class<?> mClass)
+    {
         Gson gson = new Gson();
 
         ArrayList<String> objStrings = getListString(key);
         ArrayList<Object> objects = new ArrayList<>();
 
-        for (String jObjString : objStrings) {
+        for (String jObjString : objStrings)
+        {
             Object value = gson.fromJson(jObjString, mClass);
             objects.add(value);
         }
         return objects;
     }
 
-    public <T> T getObject(String key, Class<T> classOfT) {
+    public <T> T getObject(String key, Class<T> classOfT)
+    {
 
         String json = getString(key);
         Object value = new Gson().fromJson(json, classOfT);
@@ -408,21 +482,27 @@ public class TinyDB {
         return (T) value;
     }
 
-    public List<Contract> getContractList() {
+    public List<Contract> getContractList()
+    {
 
         ArrayList<Contract> contractArrayList = new ArrayList<>();
 
         contractArrayList.addAll(getContractListWithoutToken());
         contractArrayList.addAll(getTokenList());
 
-        Collections.sort(contractArrayList, new Comparator<Contract>() {
+        Collections.sort(contractArrayList, new Comparator<Contract>()
+        {
             @Override
-            public int compare(Contract contract, Contract t1) {
-                if (contract.getDate() == null) {
+            public int compare(Contract contract, Contract t1)
+            {
+                if (contract.getDate() == null)
+                {
                     return -1;
-                } else if (t1.getDate() == null) {
+                } else if (t1.getDate() == null)
+                {
                     return 1;
-                } else {
+                } else
+                {
                     return contract.getDate().compareTo(t1.getDate());
                 }
             }
@@ -431,15 +511,18 @@ public class TinyDB {
         return contractArrayList;
     }
 
-    public List<Contract> getContractListWithoutToken() {
+    public List<Contract> getContractListWithoutToken()
+    {
         Gson gson = new Gson();
 
         ArrayList<String> contractInfoStrings = getListString(CONTRACT_LIST);
         ArrayList<Contract> contractArrayList = new ArrayList<>();
 
-        for (String contractInfoString : contractInfoStrings) {
+        for (String contractInfoString : contractInfoStrings)
+        {
             Contract contract = gson.fromJson(contractInfoString, Contract.class);
-            if (contract != null) {
+            if (contract != null)
+            {
                 contractArrayList.add(contract);
             }
         }
@@ -447,14 +530,17 @@ public class TinyDB {
         return contractArrayList;
     }
 
-    public List<Token> getTokenList() {
+    public List<Token> getTokenList()
+    {
         Gson gson = new Gson();
 
         ArrayList<String> tokenStrings = getListString(TOKEN_LIST);
         ArrayList<Token> tokenArrayList = new ArrayList<>();
-        for (String contractInfoString : tokenStrings) {
+        for (String contractInfoString : tokenStrings)
+        {
             Token token = gson.fromJson(contractInfoString, Token.class);
-            if (token != null) {
+            if (token != null)
+            {
                 tokenArrayList.add(token);
             }
         }
@@ -462,12 +548,14 @@ public class TinyDB {
         return tokenArrayList;
     }
 
-    public List<News> getNewsList() {
+    public List<News> getNewsList()
+    {
         Gson gson = new Gson();
 
         ArrayList<String> newsStrings = getListString(NEWS_LIST);
         ArrayList<News> newsArrayList = new ArrayList<>();
-        for (String newsString : newsStrings) {
+        for (String newsString : newsStrings)
+        {
             News news = gson.fromJson(newsString, News.class);
             newsArrayList.add(news);
         }
@@ -475,11 +563,14 @@ public class TinyDB {
         return newsArrayList;
     }
 
-    public Token setTokenDecimals(Token token, int decimalUnits) {
+    public Token setTokenDecimals(Token token, int decimalUnits)
+    {
 
         List<Token> tokenList = getTokenList();
-        for (Token t : tokenList) {
-            if (token.getContractAddress().equals(t.getContractAddress())) {
+        for (Token t : tokenList)
+        {
+            if (token.getContractAddress().equals(t.getContractAddress()))
+            {
                 t.setLastBalance(token.getLastBalance());
                 t.setDecimalUnits(decimalUnits);
                 token = t;
@@ -489,10 +580,13 @@ public class TinyDB {
         return token;
     }
 
-    public Token setTokenSymbol(Token token, String symbol) {
+    public Token setTokenSymbol(Token token, String symbol)
+    {
         List<Token> tokenList = getTokenList();
-        for (Token t : tokenList) {
-            if (token.getContractAddress().equals(t.getContractAddress())) {
+        for (Token t : tokenList)
+        {
+            if (token.getContractAddress().equals(t.getContractAddress()))
+            {
                 t.setSymbol(symbol);
                 token = t;
             }
@@ -501,27 +595,36 @@ public class TinyDB {
         return token;
     }
 
-    public ArrayList<String> getUnconfirmedContractTxHasList() {
+    public ArrayList<String> getUnconfirmedContractTxHasList()
+    {
         return getListString(UNCONFIRMED_CONTRACT_TX_HAS_LIST);
     }
 
-    public void clearTokenList() {
+    public void clearTokenList()
+    {
         putListString(TOKEN_LIST, new ArrayList<String>());
     }
 
-    public void clearContractList() {
+
+    // Put methods
+
+    public void clearContractList()
+    {
         putListString(CONTRACT_LIST, new ArrayList<String>());
     }
 
-    public List<ContractTemplate> getContractTemplateList() {
+    public List<ContractTemplate> getContractTemplateList()
+    {
         Gson gson = new Gson();
 
         ArrayList<String> contractTemplateString = getListString(CONTRACT_TEMPLATE_LIST);
         ArrayList<ContractTemplate> contractTemplateArrayList = new ArrayList<>();
 
-        for (String contractInfoString : contractTemplateString) {
+        for (String contractInfoString : contractTemplateString)
+        {
             ContractTemplate contractTemplate = gson.fromJson(contractInfoString, ContractTemplate.class);
-            if (contractTemplate != null) {
+            if (contractTemplate != null)
+            {
                 contractTemplateArrayList.add(contractTemplate);
             }
         }
@@ -529,16 +632,14 @@ public class TinyDB {
         return contractTemplateArrayList;
     }
 
-
-    // Put methods
-
     /**
      * Put int value into SharedPreferences with 'key' and save
      *
      * @param key   SharedPreferences key
      * @param value int value to be added
      */
-    public void putInt(String key, int value) {
+    public void putInt(String key, int value)
+    {
         checkForNullKey(key);
         preferences.edit().putInt(key, value).apply();
     }
@@ -549,7 +650,8 @@ public class TinyDB {
      * @param key     SharedPreferences key
      * @param intList ArrayList of Integer to be added
      */
-    public void putListInt(String key, ArrayList<Integer> intList) {
+    public void putListInt(String key, ArrayList<Integer> intList)
+    {
         checkForNullKey(key);
         Integer[] myIntList = intList.toArray(new Integer[intList.size()]);
         preferences.edit().putString(key, TextUtils.join("‚‗‚", myIntList)).apply();
@@ -561,7 +663,8 @@ public class TinyDB {
      * @param key   SharedPreferences key
      * @param value long value to be added
      */
-    public void putLong(String key, long value) {
+    public void putLong(String key, long value)
+    {
         checkForNullKey(key);
         preferences.edit().putLong(key, value).apply();
     }
@@ -572,7 +675,8 @@ public class TinyDB {
      * @param key   SharedPreferences key
      * @param value float value to be added
      */
-    public void putFloat(String key, float value) {
+    public void putFloat(String key, float value)
+    {
         checkForNullKey(key);
         preferences.edit().putFloat(key, value).apply();
     }
@@ -583,7 +687,8 @@ public class TinyDB {
      * @param key   SharedPreferences key
      * @param value double value to be added
      */
-    public void putDouble(String key, double value) {
+    public void putDouble(String key, double value)
+    {
         checkForNullKey(key);
         putString(key, String.valueOf(value));
     }
@@ -594,7 +699,8 @@ public class TinyDB {
      * @param key        SharedPreferences key
      * @param doubleList ArrayList of Double to be added
      */
-    public void putListDouble(String key, ArrayList<Double> doubleList) {
+    public void putListDouble(String key, ArrayList<Double> doubleList)
+    {
         checkForNullKey(key);
         Double[] myDoubleList = doubleList.toArray(new Double[doubleList.size()]);
         preferences.edit().putString(key, TextUtils.join("‚‗‚", myDoubleList)).apply();
@@ -606,7 +712,8 @@ public class TinyDB {
      * @param key   SharedPreferences key
      * @param value String value to be added
      */
-    public void putString(String key, String value) {
+    public void putString(String key, String value)
+    {
         checkForNullKey(key);
         checkForNullValue(value);
         preferences.edit().putString(key, value).apply();
@@ -618,17 +725,20 @@ public class TinyDB {
      * @param key        SharedPreferences key
      * @param stringList ArrayList of String to be added
      */
-    public void putListString(String key, ArrayList<String> stringList) {
+    public void putListString(String key, ArrayList<String> stringList)
+    {
         checkForNullKey(key);
         String[] myStringList = stringList.toArray(new String[stringList.size()]);
         preferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).apply();
     }
 
-    public void putUnconfirmedContractTxHashList(ArrayList<String> unconfirmedTokenTxHashList) {
+    public void putUnconfirmedContractTxHashList(ArrayList<String> unconfirmedTokenTxHashList)
+    {
         putListString(UNCONFIRMED_CONTRACT_TX_HAS_LIST, unconfirmedTokenTxHashList);
     }
 
-    public void putArrayString(String key, String[] myStringList) {
+    public void putArrayString(String key, String[] myStringList)
+    {
         checkForNullKey(key);
         preferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).apply();
     }
@@ -639,7 +749,8 @@ public class TinyDB {
      * @param key   SharedPreferences key
      * @param value boolean value to be added
      */
-    public void putBoolean(String key, boolean value) {
+    public void putBoolean(String key, boolean value)
+    {
         checkForNullKey(key);
         preferences.edit().putBoolean(key, value).apply();
     }
@@ -650,14 +761,18 @@ public class TinyDB {
      * @param key      SharedPreferences key
      * @param boolList ArrayList of Boolean to be added
      */
-    public void putListBoolean(String key, ArrayList<Boolean> boolList) {
+    public void putListBoolean(String key, ArrayList<Boolean> boolList)
+    {
         checkForNullKey(key);
         ArrayList<String> newList = new ArrayList<>();
 
-        for (Boolean item : boolList) {
-            if (item) {
+        for (Boolean item : boolList)
+        {
+            if (item)
+            {
                 newList.add("true");
-            } else {
+            } else
+            {
                 newList.add("false");
             }
         }
@@ -671,53 +786,64 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @param obj is the Object you want to put
      */
-    public void putObject(String key, Object obj) {
+    public void putObject(String key, Object obj)
+    {
         checkForNullKey(key);
         Gson gson = new Gson();
         putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<Object> objArray) {
+    public void putListObject(String key, ArrayList<Object> objArray)
+    {
         checkForNullKey(key);
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<>();
-        for (Object obj : objArray) {
+        for (Object obj : objArray)
+        {
             objStrings.add(gson.toJson(obj));
         }
         putListString(key, objStrings);
     }
 
-    public void putContractListWithoutToken(List<Contract> contractArrayList) {
+    public void putContractListWithoutToken(List<Contract> contractArrayList)
+    {
         Gson gson = new Gson();
         ArrayList<String> contractInfoStrings = new ArrayList<>();
-        for (Contract contract : contractArrayList) {
+        for (Contract contract : contractArrayList)
+        {
             contractInfoStrings.add(gson.toJson(contract));
         }
         putListString(CONTRACT_LIST, contractInfoStrings);
     }
 
-    public void putTokenList(List<Token> tokenArrayList) {
+    public void putTokenList(List<Token> tokenArrayList)
+    {
         Gson gson = new Gson();
         ArrayList<String> tokenStrings = new ArrayList<>();
-        for (Token token : tokenArrayList) {
+        for (Token token : tokenArrayList)
+        {
             tokenStrings.add(gson.toJson(token));
         }
         putListString(TOKEN_LIST, tokenStrings);
     }
 
-    public void putNewsList(List<News> newsList) {
+    public void putNewsList(List<News> newsList)
+    {
         Gson gson = new Gson();
         ArrayList<String> newsStrings = new ArrayList<>();
-        for (News news : newsList) {
+        for (News news : newsList)
+        {
             newsStrings.add(gson.toJson(news));
         }
         putListString(NEWS_LIST, newsStrings);
     }
 
-    public void putContractTemplate(List<ContractTemplate> contractTemplateList) {
+    public void putContractTemplate(List<ContractTemplate> contractTemplateList)
+    {
         Gson gson = new Gson();
         ArrayList<String> contractTemplateListString = new ArrayList<>();
-        for (ContractTemplate contractTemplate : contractTemplateList) {
+        for (ContractTemplate contractTemplate : contractTemplateList)
+        {
             contractTemplateListString.add(gson.toJson(contractTemplate));
         }
         putListString(CONTRACT_TEMPLATE_LIST, contractTemplateListString);
@@ -728,7 +854,8 @@ public class TinyDB {
      *
      * @param key SharedPreferences key
      */
-    public void remove(String key) {
+    public void remove(String key)
+    {
         preferences.edit().remove(key).apply();
     }
 
@@ -738,15 +865,16 @@ public class TinyDB {
      * @param path path of image file
      * @return true if it successfully deleted, false otherwise
      */
-    public boolean deleteImage(String path) {
+    public boolean deleteImage(String path)
+    {
         return new File(path).delete();
     }
-
 
     /**
      * Clear SharedPreferences (remove everything)
      */
-    public void clear() {
+    public void clear()
+    {
         preferences.edit().clear().apply();
     }
 
@@ -755,10 +883,10 @@ public class TinyDB {
      *
      * @return a Map representing a list of key/value pairs from SharedPreferences
      */
-    public Map<String, ?> getAll() {
+    public Map<String, ?> getAll()
+    {
         return preferences.getAll();
     }
-
 
     /**
      * Register SharedPreferences change listener
@@ -766,7 +894,8 @@ public class TinyDB {
      * @param listener listener object of OnSharedPreferenceChangeListener
      */
     public void registerOnSharedPreferenceChangeListener(
-            SharedPreferences.OnSharedPreferenceChangeListener listener) {
+            SharedPreferences.OnSharedPreferenceChangeListener listener)
+    {
 
         preferences.registerOnSharedPreferenceChangeListener(listener);
     }
@@ -777,38 +906,19 @@ public class TinyDB {
      * @param listener listener object of OnSharedPreferenceChangeListener to be unregistered
      */
     public void unregisterOnSharedPreferenceChangeListener(
-            SharedPreferences.OnSharedPreferenceChangeListener listener) {
+            SharedPreferences.OnSharedPreferenceChangeListener listener)
+    {
 
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-
-    /**
-     * Check if external storage is writable or not
-     *
-     * @return true if writable, false otherwise
-     */
-    public static boolean isExternalStorageWritable() {
-        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
-    }
-
-    /**
-     * Check if external storage is readable or not
-     *
-     * @return true if readable, false otherwise
-     */
-    public static boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-
-        return Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
-    }
-
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
      */
-    public void checkForNullKey(String key) {
-        if (key == null) {
+    public void checkForNullKey(String key)
+    {
+        if (key == null)
+        {
             throw new NullPointerException();
         }
     }
@@ -816,15 +926,20 @@ public class TinyDB {
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
      */
-    public void checkForNullValue(String value) {
-        if (value == null) {
+    public void checkForNullValue(String value)
+    {
+        if (value == null)
+        {
             throw new NullPointerException();
         }
     }
 
-    public ContractTemplate getContractTemplateByUiid(String uiid) {
-        for (ContractTemplate contractTemplate : getContractTemplateList()) {
-            if (contractTemplate.getUuid().equals(uiid)) {
+    public ContractTemplate getContractTemplateByUiid(String uiid)
+    {
+        for (ContractTemplate contractTemplate : getContractTemplateList())
+        {
+            if (contractTemplate.getUuid().equals(uiid))
+            {
                 return contractTemplate;
             }
         }

@@ -14,22 +14,21 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MyContractsPresenterImpl extends BaseFragmentPresenterImpl implements MyContractsPresenter {
+public class MyContractsPresenterImpl extends BaseFragmentPresenterImpl implements MyContractsPresenter
+{
 
     private MyContractsView mMyContractsView;
     private MyContractsInteractor mMyContractsInteractor;
-
-    public MyContractsPresenterImpl(MyContractsView myContractsView, MyContractsInteractor myContractsInteractor) {
-        mMyContractsView = myContractsView;
-        mMyContractsInteractor = myContractsInteractor;
-    }
-
-    ContractItemListener mContractItemListener = new ContractItemListener() {
+    ContractItemListener mContractItemListener = new ContractItemListener()
+    {
         @Override
-        public void onUnsubscribeClick(Contract contract) {
+        public void onUnsubscribeClick(Contract contract)
+        {
             List<Contract> contractListWithoutTokens = getInteractor().getContractsWithoutTokens();
-            for (Iterator<Contract> contractIterator = contractListWithoutTokens.iterator(); contractIterator.hasNext(); ) {
-                if (contract.getContractAddress().equals(contractIterator.next().getContractAddress())) {
+            for (Iterator<Contract> contractIterator = contractListWithoutTokens.iterator(); contractIterator.hasNext(); )
+            {
+                if (contract.getContractAddress().equals(contractIterator.next().getContractAddress()))
+                {
                     contractIterator.remove();
                     getInteractor().setContractWithoutTokens(contractListWithoutTokens);
                     getView().updateRecyclerView(getInteractor().getContracts());
@@ -37,8 +36,10 @@ public class MyContractsPresenterImpl extends BaseFragmentPresenterImpl implemen
                 }
             }
             List<Token> tokens = getInteractor().getTokens();
-            for (Iterator<Token> tokenIterator = tokens.iterator(); tokenIterator.hasNext(); ) {
-                if (contract.getContractAddress().equals(tokenIterator.next().getContractAddress())) {
+            for (Iterator<Token> tokenIterator = tokens.iterator(); tokenIterator.hasNext(); )
+            {
+                if (contract.getContractAddress().equals(tokenIterator.next().getContractAddress()))
+                {
                     tokenIterator.remove();
                     getInteractor().setTokens(tokens);
                     getView().updateRecyclerView(getInteractor().getContracts());
@@ -48,53 +49,73 @@ public class MyContractsPresenterImpl extends BaseFragmentPresenterImpl implemen
         }
     };
 
+    public MyContractsPresenterImpl(MyContractsView myContractsView, MyContractsInteractor myContractsInteractor)
+    {
+        mMyContractsView = myContractsView;
+        mMyContractsInteractor = myContractsInteractor;
+    }
+
     @Override
-    public void onUnsubscribeClick() {
+    public void onUnsubscribeClick()
+    {
         getView().updateRecyclerView(getInteractor().getContracts());
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
 
         List<Contract> contractList = getInteractor().getContracts();
-        if (contractList != null) {
-            if (contractList.size() != 0) {
+        if (contractList != null)
+        {
+            if (contractList.size() != 0)
+            {
                 getView().setUpRecyclerView(contractList, mContractItemListener);
-                if (getInteractor().isShowWizard()) {
+                if (getInteractor().isShowWizard())
+                {
                     getView().showWizard();
                 }
-            } else {
+            } else
+            {
                 getView().setPlaceHolder();
             }
-        } else {
+        } else
+        {
             getView().setAlertDialog(R.string.error, R.string.fail_to_get_contracts, BaseFragment.PopUpType.error);
         }
     }
 
     @Override
-    public void onContractClick(final Contract contract) {
+    public void onContractClick(final Contract contract)
+    {
         getView().setProgressDialog();
         getInteractor().isContractExist(contract.getContractAddress())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ExistContractResponse>() {
+                .subscribe(new Subscriber<ExistContractResponse>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
 
                     }
 
                     @Override
-                    public void onNext(ExistContractResponse existContractResponse) {
+                    public void onNext(ExistContractResponse existContractResponse)
+                    {
                         getView().dismissProgressDialog();
-                        if(existContractResponse.isExist()){
+                        if (existContractResponse.isExist())
+                        {
                             getView().openContractFunctionFragment(contract);
-                        }else{
+                        } else
+                        {
                             getView().openDeletedContractFragment(contract.getContractAddress(), contract.getContractName());
                         }
                     }
@@ -102,26 +123,34 @@ public class MyContractsPresenterImpl extends BaseFragmentPresenterImpl implemen
     }
 
     @Override
-    public void onWizardClose() {
+    public void onWizardClose()
+    {
         getInteractor().setShowWizard(false);
     }
 
     @Override
-    public void onRenameContract(Contract contract) {
-        if(contract instanceof Token){
+    public void onRenameContract(Contract contract)
+    {
+        if (contract instanceof Token)
+        {
             List<Token> list = getInteractor().getTokens();
-            for (Iterator<Token> tokenIterator = list.iterator(); tokenIterator.hasNext(); ) {
-                if(tokenIterator.next().getContractAddress().equals(contract.getContractAddress())){
+            for (Iterator<Token> tokenIterator = list.iterator(); tokenIterator.hasNext(); )
+            {
+                if (tokenIterator.next().getContractAddress().equals(contract.getContractAddress()))
+                {
                     tokenIterator.remove();
-                    list.add((Token)contract);
+                    list.add((Token) contract);
                     getInteractor().setTokens(list);
                     return;
                 }
             }
-        } else {
+        } else
+        {
             List<Contract> contractListWithoutTokens = getInteractor().getContractsWithoutTokens();
-            for (Iterator<Contract> contractIterator = contractListWithoutTokens.iterator(); contractIterator.hasNext(); ) {
-                if (contract.getContractAddress().equals(contractIterator.next().getContractAddress())) {
+            for (Iterator<Contract> contractIterator = contractListWithoutTokens.iterator(); contractIterator.hasNext(); )
+            {
+                if (contract.getContractAddress().equals(contractIterator.next().getContractAddress()))
+                {
                     contractIterator.remove();
                     contractListWithoutTokens.add(contract);
                     getInteractor().setContractWithoutTokens(contractListWithoutTokens);
@@ -132,11 +161,13 @@ public class MyContractsPresenterImpl extends BaseFragmentPresenterImpl implemen
     }
 
     @Override
-    public MyContractsView getView() {
+    public MyContractsView getView()
+    {
         return mMyContractsView;
     }
 
-    public MyContractsInteractor getInteractor() {
+    public MyContractsInteractor getInteractor()
+    {
         return mMyContractsInteractor;
     }
 }

@@ -10,42 +10,53 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AESUtil {
+public class AESUtil
+{
 
     private static final String ENCRYPTION_IV = "4e5Wa71fYoT7MFEX";
 
-    public static byte[] encryptToBytes(String key, String src) {
-        try {
+    public static byte[] encryptToBytes(String key, String src)
+    {
+        try
+        {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
             cipher.init(Cipher.ENCRYPT_MODE, makeKey(key), makeIv());
             return cipher.doFinal(src.getBytes());
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public static String decryptBytes(String key, byte[] src) {
+    public static String decryptBytes(String key, byte[] src)
+    {
         String decrypted = "";
-        try {
+        try
+        {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
             cipher.init(Cipher.DECRYPT_MODE, makeKey(key), makeIv());
             decrypted = new String(cipher.doFinal(src));
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
         return decrypted;
     }
 
-    private static AlgorithmParameterSpec makeIv() {
+    private static AlgorithmParameterSpec makeIv()
+    {
         return new IvParameterSpec(ENCRYPTION_IV.getBytes(StandardCharsets.UTF_8));
     }
 
-    private static Key makeKey(String keyString) {
-        try {
+    private static Key makeKey(String keyString)
+    {
+        try
+        {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] key = md.digest(keyString.getBytes(StandardCharsets.UTF_8));
             return new SecretKeySpec(key, "AES");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e)
+        {
             e.printStackTrace();
         }
         return null;

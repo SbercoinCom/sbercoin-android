@@ -9,7 +9,8 @@ import org.sbercoin.wallet.ui.fragment.backup_wallet_fragment.BackUpWalletFragme
 
 import butterknife.BindView;
 
-public class BackUpWalletFragmentDark extends BackUpWalletFragment {
+public class BackUpWalletFragmentDark extends BackUpWalletFragment
+{
 
     @BindView(R.id.toolbar)
     View toolbar;
@@ -21,16 +22,19 @@ public class BackUpWalletFragmentDark extends BackUpWalletFragment {
     TextView toolbarTitle;
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_back_up_wallet;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         getMainActivity().recolorStatusBar(R.color.background);
         getMainActivity().recolorStatusBar(R.color.colorPrimary);
-        if (getArguments().getBoolean(IS_WALLET_CREATING)) {
+        if (getArguments().getBoolean(IS_WALLET_CREATING))
+        {
             toolbar.setBackgroundColor(getResources().getColor(R.color.background));
             btnBack.setColorFilter(getResources().getColor(R.color.colorPrimary));
             btnShare.setColorFilter(getResources().getColor(R.color.colorPrimary));

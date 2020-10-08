@@ -32,8 +32,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class WatchTokenPresenterTest {
+public class WatchTokenPresenterTest
+{
 
+    private final static String TEST_ADDRESS = "test";
+    private final static String TEST_CONTRACT_NAME = "test_name";
+    private final static ContractParams TEST_CONTRACT_PARAMS = new ContractParams();
+    private final static String TEST_NAME = "test_name";
+    private static final List<Contract> TEST_VALID_CONTRACTS = Arrays.asList(new Contract("some address"),
+            new Contract("other address"));
     @Mock
     private WatchTokenView view;
     @Mock
@@ -41,42 +48,40 @@ public class WatchTokenPresenterTest {
     private WatchTokenPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
         presenter = new WatchTokenPresenterImpl(view, interactor);
     }
 
-    private final static String TEST_ADDRESS = "test";
-    private final static String TEST_CONTRACT_NAME = "test_name";
-    private final static ContractParams TEST_CONTRACT_PARAMS = new ContractParams();
-
     @Test
-    public void onContractAddressEntered_test(){
+    public void onContractAddressEntered_test()
+    {
         TEST_CONTRACT_PARAMS.setName(TEST_CONTRACT_NAME);
         when(interactor.getContractParams(TEST_ADDRESS)).thenReturn(Observable.just(TEST_CONTRACT_PARAMS));
         presenter.onContractAddressEntered(TEST_ADDRESS);
-        verify(view,times(1)).setContractName(TEST_CONTRACT_NAME);
+        verify(view, times(1)).setContractName(TEST_CONTRACT_NAME);
     }
 
-    private final static String TEST_NAME = "test_name";
-
-    private static final List<Contract> TEST_VALID_CONTRACTS = Arrays.asList(new Contract("some address"),
-            new Contract("other address"));
-
     @Test
-    public void onOkClick_Success(){
+    public void onOkClick_Success()
+    {
         when(interactor.isValidContractAddress(TEST_ADDRESS)).thenReturn(true);
         when(interactor.getContracts()).thenReturn(TEST_VALID_CONTRACTS);
         presenter.onOkClick(TEST_NAME, TEST_ADDRESS);
@@ -84,7 +89,8 @@ public class WatchTokenPresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

@@ -3,7 +3,8 @@ package org.sbercoin.wallet.model.gson.call_smart_contract_response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Item {
+public class Item
+{
 
     @SerializedName("hash")
     @Expose
@@ -21,45 +22,54 @@ public class Item {
     /**
      * Constructor for unit testing
      */
-    public Item() {
+    public Item()
+    {
     }
 
     /**
      * Constructor for unit testing
      */
-    public Item(String excepted) {
+    public Item(String excepted)
+    {
         this.excepted = excepted;
     }
 
     /**
      * Constructor for unit testing
      */
-    public Item(String excepted, int gasUsed) {
+    public Item(String excepted, int gasUsed)
+    {
         this.excepted = excepted;
         this.gasUsed = gasUsed;
     }
 
-    public String getExcepted() {
+    public String getExcepted()
+    {
         return excepted;
     }
 
-    public int getGasUsed() {
+    public int getGasUsed()
+    {
         return gasUsed;
     }
 
-    public String getHash() {
+    public String getHash()
+    {
         return hash;
     }
 
-    public void setHash(String hash) {
+    public void setHash(String hash)
+    {
         this.hash = hash;
     }
 
-    public String getOutput() {
+    public String getOutput()
+    {
         return output;
     }
 
-    public void setOutput(String output) {
+    public void setOutput(String output)
+    {
         this.output = output;
     }
 }

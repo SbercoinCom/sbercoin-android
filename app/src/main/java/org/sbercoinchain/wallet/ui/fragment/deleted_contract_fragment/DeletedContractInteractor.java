@@ -6,14 +6,15 @@ import org.sbercoin.wallet.model.contract.Token;
 
 import java.util.List;
 
-public interface DeletedContractInteractor {
+public interface DeletedContractInteractor
+{
 
     List<Contract> getContractsWithoutTokens();
 
     List<Token> getTokens();
 
-    void setContractWithoutTokens(List<Contract> contracts);
-
     void setTokens(List<Token> tokens);
+
+    void setContractWithoutTokens(List<Contract> contracts);
 
 }

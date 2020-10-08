@@ -4,33 +4,42 @@ import org.sbercoin.wallet.model.news.News;
 
 import java.util.List;
 
-public class NewsStorage {
+public class NewsStorage
+{
 
     private static NewsStorage sNewsStorage;
     private List<News> mNewses;
 
-    private NewsStorage(){
+    private NewsStorage()
+    {
     }
 
-    public static NewsStorage newInstance(){
-        if(sNewsStorage == null){
+    public static NewsStorage newInstance()
+    {
+        if (sNewsStorage == null)
+        {
             sNewsStorage = new NewsStorage();
         }
         return sNewsStorage;
     }
 
-    public List<News> getNewses() {
+    public List<News> getNewses()
+    {
         return mNewses;
     }
 
-    public void setNewses(List<News> newses) {
+    public void setNewses(List<News> newses)
+    {
         mNewses = newses;
     }
 
-    public News getNews(int position){
-        if(mNewses != null && mNewses.size() > position) {
+    public News getNews(int position)
+    {
+        if (mNewses != null && mNewses.size() > position)
+        {
             return mNewses.get(position);
-        } else {
+        } else
+        {
             return null;
         }
     }

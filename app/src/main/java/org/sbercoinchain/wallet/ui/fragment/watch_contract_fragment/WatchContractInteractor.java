@@ -5,7 +5,8 @@ import org.sbercoin.wallet.model.contract.Contract;
 
 import java.util.List;
 
-public interface WatchContractInteractor {
+public interface WatchContractInteractor
+{
     List<ContractTemplate> getContractTemplates();
 
     int compareDates(String date, String date1);

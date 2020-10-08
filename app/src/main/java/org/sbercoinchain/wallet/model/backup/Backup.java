@@ -7,7 +7,8 @@ import org.sbercoin.wallet.utils.DateCalculator;
 
 import java.util.List;
 
-public class Backup {
+public class Backup
+{
 
     @SerializedName("date_create")
     @Expose
@@ -31,7 +32,8 @@ public class Backup {
     @Expose
     private String platform;
 
-    public Backup(String dateCreate, List<TemplateJSON> templates, String platformVersion, String fileVersion, List<ContractJSON> contracts, String platform) {
+    public Backup(String dateCreate, List<TemplateJSON> templates, String platformVersion, String fileVersion, List<ContractJSON> contracts, String platform)
+    {
         this.dateCreate = dateCreate;
         this.templates = templates;
         this.platformVersion = platformVersion;
@@ -40,51 +42,63 @@ public class Backup {
         this.platform = platform;
     }
 
-    public String getDateCreate() {
+    public String getDateCreate()
+    {
         return DateCalculator.getDateInFormat(DateCalculator.getLongDateInTimeZone(dateCreate));
     }
 
-    public void setDateCreate(String dateCreate) {
+    public void setDateCreate(String dateCreate)
+    {
         this.dateCreate = dateCreate;
     }
 
-    public List<TemplateJSON> getTemplates() {
+    public List<TemplateJSON> getTemplates()
+    {
         return templates;
     }
 
-    public void setTemplates(List<TemplateJSON> templates) {
+    public void setTemplates(List<TemplateJSON> templates)
+    {
         this.templates = templates;
     }
 
-    public String getPlatformVersion() {
+    public String getPlatformVersion()
+    {
         return platformVersion;
     }
 
-    public void setPlatformVersion(String platformVersion) {
+    public void setPlatformVersion(String platformVersion)
+    {
         this.platformVersion = platformVersion;
     }
 
-    public String getFileVersion() {
+    public String getFileVersion()
+    {
         return fileVersion;
     }
 
-    public void setFileVersion(String fileVersion) {
+    public void setFileVersion(String fileVersion)
+    {
         this.fileVersion = fileVersion;
     }
 
-    public List<ContractJSON> getContracts() {
+    public List<ContractJSON> getContracts()
+    {
         return contracts;
     }
 
-    public void setContracts(List<ContractJSON> contracts) {
+    public void setContracts(List<ContractJSON> contracts)
+    {
         this.contracts = contracts;
     }
 
-    public String getPlatform() {
+    public String getPlatform()
+    {
         return platform;
     }
 
-    public void setPlatform(String platform) {
+    public void setPlatform(String platform)
+    {
         this.platform = platform;
     }
 

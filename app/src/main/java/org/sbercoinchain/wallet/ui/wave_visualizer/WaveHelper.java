@@ -10,24 +10,29 @@ import android.view.animation.LinearInterpolator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaveHelper {
+public class WaveHelper
+{
     private WaveView mWaveView;
 
     private AnimatorSet mAnimatorSet;
 
-    public WaveHelper(WaveView waveView) {
+    public WaveHelper(WaveView waveView)
+    {
         mWaveView = waveView;
         initAnimation();
     }
 
-    public void start() {
+    public void start()
+    {
         mWaveView.setShowWave(true);
-        if (mAnimatorSet != null) {
+        if (mAnimatorSet != null)
+        {
             mAnimatorSet.start();
         }
     }
 
-    private void initAnimation() {
+    private void initAnimation()
+    {
         List<Animator> animators = new ArrayList<>();
 
         ObjectAnimator waveWidthAnim = ObjectAnimator.ofFloat(
@@ -65,8 +70,10 @@ public class WaveHelper {
         mAnimatorSet.playTogether(animators);
     }
 
-    public void cancel() {
-        if (mAnimatorSet != null) {
+    public void cancel()
+    {
+        if (mAnimatorSet != null)
+        {
             mAnimatorSet.end();
         }
     }

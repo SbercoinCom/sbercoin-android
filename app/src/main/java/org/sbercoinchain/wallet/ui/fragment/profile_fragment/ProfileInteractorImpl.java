@@ -10,25 +10,30 @@ import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
 
 import io.realm.Realm;
 
-class ProfileInteractorImpl implements ProfileInteractor {
+class ProfileInteractorImpl implements ProfileInteractor
+{
 
     private Context mContext;
     private Realm mRealm;
 
-    ProfileInteractorImpl(Context context, Realm realm) {
+    ProfileInteractorImpl(Context context, Realm realm)
+    {
         mContext = context;
         mRealm = realm;
     }
 
     @Override
-    public void clearWallet() {
+    public void clearWallet()
+    {
         SBERSharedPreference.getInstance().clear(mContext);
         KeyStorage.getInstance().clearKeyStorage();
 
         mRealm.removeAllChangeListeners();
-        mRealm.executeTransaction(new Realm.Transaction() {
+        mRealm.executeTransaction(new Realm.Transaction()
+        {
             @Override
-            public void execute(Realm realm) {
+            public void execute(Realm realm)
+            {
                 realm.deleteAll();
             }
         });
@@ -39,22 +44,26 @@ class ProfileInteractorImpl implements ProfileInteractor {
     }
 
     @Override
-    public void setupLanguageChangeListener(LanguageChangeListener listener) {
+    public void setupLanguageChangeListener(LanguageChangeListener listener)
+    {
         SBERSettingSharedPreference.getInstance().addLanguageListener(listener);
     }
 
     @Override
-    public void removeLanguageListener(LanguageChangeListener listener) {
+    public void removeLanguageListener(LanguageChangeListener listener)
+    {
         SBERSettingSharedPreference.getInstance().removeLanguageListener(listener);
     }
 
     @Override
-    public boolean isTouchIdEnable() {
+    public boolean isTouchIdEnable()
+    {
         return SBERSharedPreference.getInstance().isTouchIdEnable(mContext);
     }
 
     @Override
-    public void saveTouchIdEnable(boolean isChecked) {
+    public void saveTouchIdEnable(boolean isChecked)
+    {
         SBERSharedPreference.getInstance().saveTouchIdEnable(mContext, isChecked);
     }
 }

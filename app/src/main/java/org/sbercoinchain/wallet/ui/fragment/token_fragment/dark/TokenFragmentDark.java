@@ -14,105 +14,36 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class TokenFragmentDark extends TokenFragment {
+public class TokenFragmentDark extends TokenFragment
+{
 
     private final int LAYOUT = R.layout.lyt_token_fragment;
-
-    @BindView(R.id.fade_divider)
-    View fadeDivider;
-
     @BindView(R.id.collapse_layout)
     protected
     StackCollapseLinearLayout collapseLinearLayout;
-
+    @BindView(R.id.fade_divider)
+    View fadeDivider;
     @BindView(R.id.rvContainer)
     View rvContainer;
-
-    @Override
-    protected int getLayout() {
-        return LAYOUT;
-    }
-
-    @Override
-    public void initializeViews() {
-        super.initializeViews();
-
-        collapseLinearLayout.requestLayout();
-        doDividerCollapse();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mAppBarLayout.addOnOffsetChangedListener(appBarLayoutListener);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mAppBarLayout.removeOnOffsetChangedListener(appBarLayoutListener);
-    }
-
-    protected void doDividerExpand() {
-        if (!expanded) {
-            expanded = true;
-            fadeDivider.clearAnimation();
-            ResizeWidthAnimation anim = new ResizeWidthAnimation(fadeDivider, getResources().getDisplayMetrics().widthPixels);
-            anim.setDuration(300);
-            anim.setFillEnabled(true);
-            anim.setFillAfter(true);
-            fadeDivider.startAnimation(anim);
-        }
-    }
-
-    protected void doDividerCollapse() {
-        if (expanded) {
-            fadeDivider.clearAnimation();
-            fadeDivider.setVisibility(View.INVISIBLE);
-            ViewGroup.LayoutParams lp = fadeDivider.getLayoutParams();
-            lp.width = 0;
-            fadeDivider.setLayoutParams(lp);
-            expanded = false;
-        }
-    }
-
-    @Override
-    public void setBalance(String balance) {
-        mTextViewBalance.setLongNumberText(balance, getResources().getDisplayMetrics().widthPixels * 2 / 3);
-    }
-
-    @Override
-    public void onContractPropertyUpdated(String propName, String propValue) {
-        switch (propName) {
-            case totalSupply:
-                totalSupplyValue.setLongNumberText(propValue, getResources().getDisplayMetrics().widthPixels * 2 / 3);
-                break;
-            case decimals:
-                decimalsValue.setText(propValue);
-                break;
-            case symbol:
-                mTextViewCurrency.setText(" " + propValue);
-                break;
-            case name:
-                mTextViewTokenName.setText(propValue);
-                break;
-        }
-    }
-
-    AppBarLayout.OnOffsetChangedListener appBarLayoutListener = new AppBarLayout.OnOffsetChangedListener() {
+    AppBarLayout.OnOffsetChangedListener appBarLayoutListener = new AppBarLayout.OnOffsetChangedListener()
+    {
         @Override
-        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset)
+        {
             percents = (((getTotalRange() - Math.abs(verticalOffset)) * 1.0f) / getTotalRange());
             balanceView.setAlpha((percents > 0.5f) ? percents : 1 - percents);
-            if (percents == 0) {
+            if (percents == 0)
+            {
                 doDividerExpand();
-            } else {
+            } else
+            {
                 doDividerCollapse();
             }
             final float textPercent = (percents >= .5f) ? percents : .5f;
             final float textPercent3f = (percents >= .3f) ? percents : .3f;
 
-            if (uncomfirmedBalanceTitle.getVisibility() == View.VISIBLE) {
+            if (uncomfirmedBalanceTitle.getVisibility() == View.VISIBLE)
+            {
                 animateText(percents, mLinearLayoutBalance, .5f);
                 mLinearLayoutBalance.setX(balanceView.getWidth() - (balanceView.getWidth() / 2 * percents + (mLinearLayoutBalance.getWidth() * textPercent) / 2) - mLinearLayoutBalance.getWidth() * (1 - textPercent) - headerPAdding * (1 - percents));
                 mLinearLayoutBalance.setY(balanceView.getHeight() / 2 - balanceTitle.getHeight() * percents - mLinearLayoutBalance.getHeight() * percents - mLinearLayoutBalance.getHeight() * (1 - percents));
@@ -127,7 +58,8 @@ public class TokenFragmentDark extends TokenFragment {
                 animateText(percents, uncomfirmedBalanceTitle, .7f);
                 uncomfirmedBalanceTitle.setY(balanceView.getHeight() / 2 + uncomfirmedBalanceValue.getHeight() * percents - (uncomfirmedBalanceTitle.getHeight() * percents * (1 - percents)));
                 uncomfirmedBalanceTitle.setX(balanceView.getWidth() / 2 * percents - (uncomfirmedBalanceTitle.getWidth() * textPercent3f) / 2 + headerPAdding * (1 - percents));
-            } else {
+            } else
+            {
                 animateText(percents, balanceTitle, .7f);
                 balanceTitle.setX(balanceView.getWidth() / 2 * percents - (balanceTitle.getWidth() * textPercent3f) / 2 + headerPAdding * (1 - percents));
                 balanceTitle.setY(balanceView.getHeight() / 2 + balanceTitle.getHeight() / 2 * percents - balanceTitle.getHeight() / 2 * (1 - percents));
@@ -144,8 +76,91 @@ public class TokenFragmentDark extends TokenFragment {
     };
 
     @Override
-    protected void createAdapter() {
-        mAdapter = new TokenHistoryAdapterDark(new ArrayList<TokenHistory>(),this,token.getDecimalUnits());
+    protected int getLayout()
+    {
+        return LAYOUT;
+    }
+
+    @Override
+    public void initializeViews()
+    {
+        super.initializeViews();
+
+        collapseLinearLayout.requestLayout();
+        doDividerCollapse();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mAppBarLayout.addOnOffsetChangedListener(appBarLayoutListener);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        mAppBarLayout.removeOnOffsetChangedListener(appBarLayoutListener);
+    }
+
+    protected void doDividerExpand()
+    {
+        if (!expanded)
+        {
+            expanded = true;
+            fadeDivider.clearAnimation();
+            ResizeWidthAnimation anim = new ResizeWidthAnimation(fadeDivider, getResources().getDisplayMetrics().widthPixels);
+            anim.setDuration(300);
+            anim.setFillEnabled(true);
+            anim.setFillAfter(true);
+            fadeDivider.startAnimation(anim);
+        }
+    }
+
+    protected void doDividerCollapse()
+    {
+        if (expanded)
+        {
+            fadeDivider.clearAnimation();
+            fadeDivider.setVisibility(View.INVISIBLE);
+            ViewGroup.LayoutParams lp = fadeDivider.getLayoutParams();
+            lp.width = 0;
+            fadeDivider.setLayoutParams(lp);
+            expanded = false;
+        }
+    }
+
+    @Override
+    public void setBalance(String balance)
+    {
+        mTextViewBalance.setLongNumberText(balance, getResources().getDisplayMetrics().widthPixels * 2 / 3);
+    }
+
+    @Override
+    public void onContractPropertyUpdated(String propName, String propValue)
+    {
+        switch (propName)
+        {
+            case totalSupply:
+                totalSupplyValue.setLongNumberText(propValue, getResources().getDisplayMetrics().widthPixels * 2 / 3);
+                break;
+            case decimals:
+                decimalsValue.setText(propValue);
+                break;
+            case symbol:
+                mTextViewCurrency.setText(" " + propValue);
+                break;
+            case name:
+                mTextViewTokenName.setText(propValue);
+                break;
+        }
+    }
+
+    @Override
+    protected void createAdapter()
+    {
+        mAdapter = new TokenHistoryAdapterDark(new ArrayList<TokenHistory>(), this, token.getDecimalUnits());
         mRecyclerView.setAdapter(mAdapter);
     }
 }

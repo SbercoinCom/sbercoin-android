@@ -13,7 +13,8 @@ import org.sbercoin.wallet.utils.ClipboardUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddressHolder extends RecyclerView.ViewHolder {
+public class AddressHolder extends RecyclerView.ViewHolder
+{
     @BindView(org.sbercoin.wallet.R.id.tv_single_string)
     protected TextView mTextViewAddress;
     @BindView(org.sbercoin.wallet.R.id.iv_check_indicator)
@@ -23,20 +24,27 @@ public class AddressHolder extends RecyclerView.ViewHolder {
 
     protected int defaultTextColor, selectedTextColor;
 
-    protected AddressHolder(View itemView, final OnAddressClickListener listener) {
+    protected AddressHolder(View itemView, final OnAddressClickListener listener)
+    {
         super(itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 listener.onAddressClick(getAdapterPosition());
             }
         });
-        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        itemView.setOnLongClickListener(new View.OnLongClickListener()
+        {
             @Override
-            public boolean onLongClick(View view) {
-                ClipboardUtils.copyToClipBoard(mTextViewAddress.getContext(), mTextViewAddress.getText().toString(), new ClipboardUtils.CopyCallback() {
+            public boolean onLongClick(View view)
+            {
+                ClipboardUtils.copyToClipBoard(mTextViewAddress.getContext(), mTextViewAddress.getText().toString(), new ClipboardUtils.CopyCallback()
+                {
                     @Override
-                    public void onCopyToClipBoard() {
+                    public void onCopyToClipBoard()
+                    {
                         Toast.makeText(mTextViewAddress.getContext(), mTextViewAddress.getContext().getString(R.string.copied), Toast.LENGTH_SHORT).show();
                     }
                 });

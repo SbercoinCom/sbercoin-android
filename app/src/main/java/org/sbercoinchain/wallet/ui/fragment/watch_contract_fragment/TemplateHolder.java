@@ -12,7 +12,8 @@ import org.sbercoin.wallet.utils.FontButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TemplateHolder extends RecyclerView.ViewHolder {
+public class TemplateHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(R.id.bt_template)
     FontButton mButton;
@@ -24,14 +25,17 @@ public class TemplateHolder extends RecyclerView.ViewHolder {
 
     Handler handler;
 
-    public TemplateHolder(View itemView, final OnTemplateClickListener listener, final int selectionColor) {
+    public TemplateHolder(View itemView, final OnTemplateClickListener listener, final int selectionColor)
+    {
         super(itemView);
         handler = new Handler();
         this.selectionColor = selectionColor;
         ButterKnife.bind(this, itemView);
-        mButton.setOnClickListener(new View.OnClickListener() {
+        mButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 listener.updateSelection(getAdapterPosition());
                 listener.onTemplateClick(mContractTemplate);
             }
@@ -39,12 +43,15 @@ public class TemplateHolder extends RecyclerView.ViewHolder {
         defaultDrawable = mButton.getBackground();
     }
 
-    public void onBind(ContractTemplate contractTemplate) {
+    public void onBind(ContractTemplate contractTemplate)
+    {
         mButton.setText(contractTemplate.getName());
         mContractTemplate = contractTemplate;
-        if (contractTemplate.isSelectedABI()) {
+        if (contractTemplate.isSelectedABI())
+        {
             mButton.setBackgroundResource(selectionColor);
-        } else {
+        } else
+        {
             mButton.setBackground(defaultDrawable);
         }
     }

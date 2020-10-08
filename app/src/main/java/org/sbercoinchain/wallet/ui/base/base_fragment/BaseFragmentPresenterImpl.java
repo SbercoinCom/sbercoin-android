@@ -2,18 +2,22 @@ package org.sbercoin.wallet.ui.base.base_fragment;
 
 import org.sbercoin.wallet.ui.base.base_activity.BasePresenterImpl;
 
-public class BaseFragmentPresenterImpl extends BasePresenterImpl implements BaseFragmentPresenter {
+public class BaseFragmentPresenterImpl extends BasePresenterImpl implements BaseFragmentPresenter
+{
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated()
+    {
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
     }
 
     @Override
-    public BaseFragmentView getView() {
+    public BaseFragmentView getView()
+    {
         return (BaseFragmentView) super.getView();
     }
 }

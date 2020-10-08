@@ -28,9 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/import_wallet"
-                app:typefaceAsset="@string/proximaNovaSemibold"
                 android:textColor="@color/white"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                app:typefaceAsset="@string/proximaNovaSemibold" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -45,56 +45,56 @@
         <org.sbercoin.wallet.utils.FontEditText
             android:id="@+id/et_your_brain_code"
             android:layout_width="match_parent"
-            app:editTextTypeface="@string/proximaNovaRegular"
             android:layout_height="128dp"
             android:background="@drawable/background_et_import_wallet_light"
             android:gravity="left|top"
             android:hint="@string/your_brain_code"
-            android:textSize="16sp"
             android:inputType="textMultiLine|textFilter|textNoSuggestions"
             android:padding="16dp"
             android:textColor="@color/bottom_nav_bar_text_color_light"
-            android:textColorHint="@color/bottom_nav_bar_text_color_light"/>
+            android:textColorHint="@color/bottom_nav_bar_text_color_light"
+            android:textSize="16sp"
+            app:editTextTypeface="@string/proximaNovaRegular" />
 
-<LinearLayout
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal"
-    android:weightSum="2"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-    <org.sbercoin.wallet.utils.FontButton
-        android:id="@+id/bt_cancel"
-        android:padding="16dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_margin="8dp"
-        android:background="@drawable/btn_gray_corner_background_light"
-        android:text="@string/cancel"
-        app:typeface="@string/proximaNovaSemibold"
-        android:textAllCaps="true"
-        android:textColor="@color/bottom_nav_bar_text_color_light"
-        android:textSize="@dimen/button_text"/>
+            <org.sbercoin.wallet.utils.FontButton
+                android:id="@+id/bt_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_gray_corner_background_light"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/bottom_nav_bar_text_color_light"
+                android:textSize="@dimen/button_text"
+                app:typeface="@string/proximaNovaSemibold" />
 
-    <org.sbercoin.wallet.utils.FontButton
-        android:id="@+id/bt_import"
-        android:layout_width="0dp"
-        android:padding="16dp"
-        android:layout_weight="1"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:layout_height="wrap_content"
-        app:typeface="@string/proximaNovaSemibold"
-        android:background="@drawable/btn_sea_corner_background_light_selector"
-        android:text="@string/import_button"
-        android:textAllCaps="true"
-        android:enabled="false"
-        android:textColor="@color/primary_text_color_enabled_selector_light"
-        android:textSize="@dimen/button_text"/>
+            <org.sbercoin.wallet.utils.FontButton
+                android:id="@+id/bt_import"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_sea_corner_background_light_selector"
+                android:enabled="false"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/import_button"
+                android:textAllCaps="true"
+                android:textColor="@color/primary_text_color_enabled_selector_light"
+                android:textSize="@dimen/button_text"
+                app:typeface="@string/proximaNovaSemibold" />
 
-</LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 

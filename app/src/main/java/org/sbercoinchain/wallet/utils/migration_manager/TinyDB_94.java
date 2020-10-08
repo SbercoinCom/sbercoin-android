@@ -16,32 +16,40 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class TinyDB_94 {
+public class TinyDB_94
+{
 
     private final String CONTRACT_LIST = "contract_list";
     private final String TOKEN_LIST = "token_list";
 
     private SharedPreferences preferences;
 
-    public TinyDB_94(Context appContext) {
+    public TinyDB_94(Context appContext)
+    {
         preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
     }
 
-    public List<Contract94> getContractList() {
+    public List<Contract94> getContractList()
+    {
 
         ArrayList<Contract94> contractArrayList = new ArrayList<>();
 
         contractArrayList.addAll(getContractListWithoutToken());
         contractArrayList.addAll(getTokenList());
 
-        Collections.sort(contractArrayList, new Comparator<Contract94>() {
+        Collections.sort(contractArrayList, new Comparator<Contract94>()
+        {
             @Override
-            public int compare(Contract94 contract, Contract94 t1) {
-                if (contract.getDate() == null) {
+            public int compare(Contract94 contract, Contract94 t1)
+            {
+                if (contract.getDate() == null)
+                {
                     return -1;
-                } else if (t1.getDate() == null) {
+                } else if (t1.getDate() == null)
+                {
                     return 1;
-                } else {
+                } else
+                {
                     return DateCalculator.equals(contract.getDate(), t1.getDate());
                 }
             }
@@ -50,15 +58,18 @@ public class TinyDB_94 {
         return contractArrayList;
     }
 
-    public List<Contract94> getContractListWithoutToken() {
+    public List<Contract94> getContractListWithoutToken()
+    {
         Gson gson = new Gson();
 
         ArrayList<String> contractInfoStrings = getListString(CONTRACT_LIST);
         ArrayList<Contract94> contractArrayList = new ArrayList<>();
 
-        for (String contractInfoString : contractInfoStrings) {
+        for (String contractInfoString : contractInfoStrings)
+        {
             Contract94 contract = gson.fromJson(contractInfoString, Contract94.class);
-            if (contract != null) {
+            if (contract != null)
+            {
                 contractArrayList.add(contract);
             }
         }
@@ -66,14 +77,17 @@ public class TinyDB_94 {
         return contractArrayList;
     }
 
-    public List<Token94> getTokenList() {
+    public List<Token94> getTokenList()
+    {
         Gson gson = new Gson();
 
         ArrayList<String> tokenStrings = getListString(TOKEN_LIST);
         ArrayList<Token94> tokenArrayList = new ArrayList<>();
-        for (String contractInfoString : tokenStrings) {
+        for (String contractInfoString : tokenStrings)
+        {
             Token94 token = gson.fromJson(contractInfoString, Token94.class);
-            if (token != null) {
+            if (token != null)
+            {
                 tokenArrayList.add(token);
             }
         }
@@ -81,7 +95,8 @@ public class TinyDB_94 {
         return tokenArrayList;
     }
 
-    public ArrayList<String> getListString(String key) {
+    public ArrayList<String> getListString(String key)
+    {
         return new ArrayList<>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
     }
 

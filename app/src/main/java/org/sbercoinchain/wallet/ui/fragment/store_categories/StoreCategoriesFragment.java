@@ -9,9 +9,9 @@ import android.view.View;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.gson.QstoreContractType;
+import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.qstore_by_type.QStoreByTypeFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.utils.SearchBar;
 import org.sbercoin.wallet.utils.SearchBarListener;
 
@@ -24,61 +24,69 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public abstract class StoreCategoriesFragment extends BaseFragment implements StoreCategoriesView, SearchBarListener {
+public abstract class StoreCategoriesFragment extends BaseFragment implements StoreCategoriesView, SearchBarListener
+{
 
-    private StoreCategoriesPresenter presenter;
-    private Subscription s;
     protected StoreCategoriesAdapter adapter;
-
-    @OnClick(R.id.ibt_back)
-    public void onBackClick() {
-        getActivity().onBackPressed();
-    }
-
     @BindView(R.id.content_list)
     protected
     RecyclerView contentList;
-
-
     @BindView(R.id.search_bar)
     SearchBar searchBar;
+    private StoreCategoriesPresenter presenter;
+    private Subscription s;
 
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, StoreCategoriesFragment.class);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @OnClick(R.id.ibt_back)
+    public void onBackClick()
+    {
+        getActivity().onBackPressed();
+    }
+
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         contentList.setLayoutManager(new LinearLayoutManager(getContext()));
         searchBar.setListener(this);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         s = getPresenter().categoriesObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<QstoreContractType>>() {
+                .subscribe(new Subscriber<List<QstoreContractType>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(List<QstoreContractType> types) {
+                    public void onNext(List<QstoreContractType> types)
+                    {
                         getPresenter().setContractTypes(types);
-                        setUpCategoriesList(types, new StoreCategoryViewHolder.OnCategoryClickListener() {
+                        setUpCategoriesList(types, new StoreCategoryViewHolder.OnCategoryClickListener()
+                        {
                             @Override
-                            public void onClick(String type) {
+                            public void onClick(String type)
+                            {
                                 BaseFragment qStoreByTypeFragment = QStoreByTypeFragment.newInstance(type, getContext());
                                 openFragment(qStoreByTypeFragment);
                             }
@@ -88,33 +96,40 @@ public abstract class StoreCategoriesFragment extends BaseFragment implements St
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         presenter = new StoreCategoriesPresenterImpl(this, new StoreCategoriesInteractorImpl(getContext()));
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        if (s != null) {
+        if (s != null)
+        {
             s.unsubscribe();
         }
     }
 
     @Override
-    protected StoreCategoriesPresenter getPresenter() {
+    protected StoreCategoriesPresenter getPresenter()
+    {
         return presenter;
     }
 
     @Override
-    public void onActivate() {
+    public void onActivate()
+    {
     }
 
     @Override
-    public void onDeactivate() {
+    public void onDeactivate()
+    {
     }
 
     @Override
-    public void onRequestSearch(String filter) {
+    public void onRequestSearch(String filter)
+    {
         adapter.updateItems(presenter.getFilter(filter));
     }
 }

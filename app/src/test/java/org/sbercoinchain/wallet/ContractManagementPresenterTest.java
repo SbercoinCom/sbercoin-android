@@ -23,8 +23,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ContractManagementPresenterTest {
+public class ContractManagementPresenterTest
+{
 
+    private final String TEST_UIID = "test_uiid";
+    private final String TEST_METHOD_NAME = "Method name";
+    private final List<ContractMethod> TEST_METHODS = Arrays.asList(new ContractMethod("some name"), new ContractMethod(TEST_METHOD_NAME));
+    private final String TEST_NOT_EMPTY_STRING = "test_not_empty_string";
+    private final String TEST_EMPTY_STRING = "";
+    private final String TEST_ABI = "test_abi";
     @Mock
     ContractManagementView view;
     @Mock
@@ -32,19 +39,16 @@ public class ContractManagementPresenterTest {
     ContractManagementPresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new ContractManagementPresenterImpl(view, interactor);
     }
 
-    private final String TEST_UIID = "test_uiid";
-    private final String TEST_METHOD_NAME = "Method name";
-    private final List<ContractMethod> TEST_METHODS = Arrays.asList(new ContractMethod("some name"), new ContractMethod(TEST_METHOD_NAME));
-    private final String TEST_NOT_EMPTY_STRING = "test_not_empty_string";
-
     @Test
-    public void initialize_contractAddressNotEmpty_contractListNotEmpty() {
+    public void initialize_contractAddressNotEmpty_contractListNotEmpty()
+    {
         when(view.getContractAddress()).thenReturn(TEST_NOT_EMPTY_STRING);
         when(view.getContractTemplateUiid()).thenReturn(TEST_UIID);
         when(interactor.getContractListByUiid(TEST_UIID)).thenReturn(TEST_METHODS);
@@ -54,7 +58,8 @@ public class ContractManagementPresenterTest {
     }
 
     @Test
-    public void initialize_contractAddressNotEmpty_contractListNull() {
+    public void initialize_contractAddressNotEmpty_contractListNull()
+    {
         when(view.getContractAddress()).thenReturn(TEST_NOT_EMPTY_STRING);
         when(view.getContractTemplateUiid()).thenReturn(TEST_UIID);
         when(interactor.getContractListByUiid(TEST_UIID)).thenReturn(null);
@@ -64,11 +69,9 @@ public class ContractManagementPresenterTest {
 
     }
 
-    private final String TEST_EMPTY_STRING = "";
-    private final String TEST_ABI = "test_abi";
-
     @Test
-    public void initialize_contractAddressEmpty_contractListNotEmpty() {
+    public void initialize_contractAddressEmpty_contractListNotEmpty()
+    {
         when(view.getContractAddress()).thenReturn(TEST_EMPTY_STRING);
         when(view.getContractABI()).thenReturn(TEST_ABI);
         when(interactor.getContractListByAbi(TEST_ABI)).thenReturn(TEST_METHODS);
@@ -78,7 +81,8 @@ public class ContractManagementPresenterTest {
     }
 
     @Test
-    public void initialize_contractAddressEmpty_contractListNull() {
+    public void initialize_contractAddressEmpty_contractListNull()
+    {
         when(view.getContractAddress()).thenReturn(TEST_EMPTY_STRING);
         when(view.getContractABI()).thenReturn(TEST_ABI);
         when(interactor.getContractListByAbi(TEST_ABI)).thenReturn(null);
@@ -89,7 +93,8 @@ public class ContractManagementPresenterTest {
     }
 
     @Test
-    public void initialize_contractAddressEmpty() {
+    public void initialize_contractAddressEmpty()
+    {
         when(view.getContractAddress()).thenReturn("");
 
     }

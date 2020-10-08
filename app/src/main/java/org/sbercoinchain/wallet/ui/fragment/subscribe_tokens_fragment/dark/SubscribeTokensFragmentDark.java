@@ -7,24 +7,32 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SubscribeTokensFragmentDark extends SubscribeTokensFragment {
+public class SubscribeTokensFragmentDark extends SubscribeTokensFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return org.sbercoin.wallet.R.layout.fragment_currency;
     }
 
     @Override
-    public void setTokenList(List<Token> tokenList) {
+    public void setTokenList(List<Token> tokenList)
+    {
 
-        Collections.sort(tokenList, new Comparator<Token>() {
+        Collections.sort(tokenList, new Comparator<Token>()
+        {
             @Override
-            public int compare(Token token, Token t1) {
-                if (token.isSubscribe() && !t1.isSubscribe()) {
+            public int compare(Token token, Token t1)
+            {
+                if (token.isSubscribe() && !t1.isSubscribe())
+                {
                     return -1;
-                } else if (!token.isSubscribe() && t1.isSubscribe()) {
+                } else if (!token.isSubscribe() && t1.isSubscribe())
+                {
                     return 1;
-                } else {
+                } else
+                {
                     return 0;
                 }
             }

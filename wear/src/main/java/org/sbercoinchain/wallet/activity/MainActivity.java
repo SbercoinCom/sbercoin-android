@@ -21,7 +21,6 @@ import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 
-import org.sbercoin.wallet.BuildConfig;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.adapter.HistoryAdapter;
 import org.sbercoin.wallet.entity.HeaderData;
@@ -38,27 +37,24 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends WearableActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        DataApi.DataListener, ItemClickListener, HeaderClickListener, MessageApi.MessageListener {
+        DataApi.DataListener, ItemClickListener, HeaderClickListener, MessageApi.MessageListener
+{
 
     public static final String ITEMS = "items";
     public static final String BALANCE = "balance";
     public static final String UNC_BALANCE = "uncBalance";
     public static final String ADDRESS = "address";
-
-    private GoogleApiClient mApiClient;
-
     @BindView(R.id.history_list)
     WearableRecyclerView listView;
-
     @BindView(R.id.v_background)
     ImageView background;
-
-
     HistoryAdapter adapter;
     HeaderData headerData;
+    private GoogleApiClient mApiClient;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -77,9 +73,12 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     }
 
     @Override
-    protected void onStop() {
-        if (mApiClient != null) {
-            if (mApiClient.isConnected()) {
+    protected void onStop()
+    {
+        if (mApiClient != null)
+        {
+            if (mApiClient.isConnected())
+            {
                 Wearable.MessageApi.sendMessage(mApiClient, "/stop_service", "/stop_service", null);
                 mApiClient.disconnect();
             }
@@ -88,50 +87,60 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         if (mApiClient != null)
             mApiClient.unregisterConnectionCallbacks(this);
         super.onDestroy();
     }
 
-    private void initGoogleApiClient() {
+    private void initGoogleApiClient()
+    {
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        if (!(mApiClient.isConnected() || mApiClient.isConnecting())) {
+        if (!(mApiClient.isConnected() || mApiClient.isConnecting()))
+        {
             mApiClient.connect();
         }
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(@Nullable Bundle bundle)
+    {
         Wearable.DataApi.addListener(mApiClient, this);
         Wearable.MessageApi.addListener(mApiClient, this);
         Wearable.MessageApi.sendMessage(mApiClient, "/get_history", "/get_history", null);
     }
 
-    private void removeListeners() {
+    private void removeListeners()
+    {
         Wearable.DataApi.removeListener(mApiClient, this);
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int i)
+    {
         removeListeners();
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+    {
         removeListeners();
     }
 
     @Override
-    public void onDataChanged(DataEventBuffer dataEventBuffer) {
+    public void onDataChanged(DataEventBuffer dataEventBuffer)
+    {
 
-        for (DataEvent dataEvent : dataEventBuffer) {
-            if (dataEvent.getType() == DataEvent.TYPE_CHANGED) {
+        for (DataEvent dataEvent : dataEventBuffer)
+        {
+            if (dataEvent.getType() == DataEvent.TYPE_CHANGED)
+            {
                 DataMap dataMap = DataMapItem.fromDataItem(dataEvent.getDataItem()).getDataMap();
                 final String content = dataMap.getString(ITEMS);
                 String balance = dataMap.getString(BALANCE);
@@ -140,9 +149,11 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
                 DataStorage.setHeaderData(MainActivity.this, balance, uncBalance, address);
                 DataStorage.saveLastHistory(MainActivity.this, content);
                 final List<History> histories = DataStorage.loadLastHistory(MainActivity.this);
-                runOnUiThread(new Runnable() {
+                runOnUiThread(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         listView.setVisibility(View.VISIBLE);
                         background.setImageResource(R.drawable.radial_circle);
                         headerData = DataStorage.getHeaderData(MainActivity.this);
@@ -151,27 +162,32 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
                         listView.setAdapter(adapter);
                     }
                 });
-            } else if (dataEvent.getType() == DataEvent.TYPE_DELETED) {
+            } else if (dataEvent.getType() == DataEvent.TYPE_DELETED)
+            {
 
             }
         }
     }
 
     @Override
-    public void onItemClick(int adapterPosition) {
+    public void onItemClick(int adapterPosition)
+    {
 
     }
 
     @Override
-    public void onHeaderClick(HeaderData headerData) {
+    public void onHeaderClick(HeaderData headerData)
+    {
         Intent intent = new Intent(this, QrCodeActivity.class);
         intent.putExtra(ADDRESS, headerData.getAddress());
         startActivity(intent);
     }
 
     @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
-        if (messageEvent.getPath().contains("/app_started")) {
+    public void onMessageReceived(MessageEvent messageEvent)
+    {
+        if (messageEvent.getPath().contains("/app_started"))
+        {
             Wearable.MessageApi.sendMessage(mApiClient, "/stop_service", "/stop_service", null);
         }
     }

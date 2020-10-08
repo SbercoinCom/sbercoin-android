@@ -8,7 +8,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
 import java.util.List;
 
-public interface AddressesListTokenView extends BaseFragmentView {
+public interface AddressesListTokenView extends BaseFragmentView
+{
     void updateAddressList(List<AddressWithTokenBalance> deterministicKeyWithBalance, String currency);
 
     UpdateService getSocketInstance();

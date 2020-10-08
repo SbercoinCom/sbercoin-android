@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,27 +12,27 @@
         android:padding="16dp">
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/address"
-            android:textColor="@color/overview_title_color"/>
+            android:textColor="@color/overview_title_color"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <org.sbercoin.wallet.utils.FontTextView
             android:id="@+id/tv_address"
-            app:typefaceAsset="@string/simplonMonoMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorAccent"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            app:typefaceAsset="@string/simplonMonoMedium" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,11 +41,11 @@
         android:padding="16dp">
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/topics"
-            android:textColor="@color/overview_title_color"/>
+            android:textColor="@color/overview_title_color"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_topics"
@@ -61,7 +60,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,11 +69,11 @@
         android:padding="16dp">
 
         <org.sbercoin.wallet.utils.FontTextView
-            app:typefaceAsset="@string/simplonMonoRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/data"
-            android:textColor="@color/overview_title_color"/>
+            android:textColor="@color/overview_title_color"
+            app:typefaceAsset="@string/simplonMonoRegular" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_data"

@@ -1,5 +1,6 @@
 package org.sbercoin.wallet.dataprovider.services.update_service.listeners;
 
-public interface TokenListener {
+public interface TokenListener
+{
     void newToken();
 }

@@ -27,12 +27,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_ibtn_back"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:tint="@color/white"
                 android:paddingTop="10dp"
-                app:srcCompat="@drawable/ic_back_indicator"/>
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_back_indicator" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_toolbar_send"
@@ -43,41 +43,42 @@
                 android:text="@string/templates"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:typefaceAsset="@string/proximaNovaSemibold"/>
+                app:typefaceAsset="@string/proximaNovaSemibold" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
+            android:id="@+id/ll_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bottom_nav_bar_color_light"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:id="@+id/ll_footer">
+            android:padding="8dp">
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/footer_text_color"
-                app:typefaceAsset="@string/proximaNovaSemibold"
+                android:layout_gravity="left"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:layout_gravity="left"
-                android:text="Type"/>
+                android:text="Type"
+                android:textColor="@color/footer_text_color"
+                app:typefaceAsset="@string/proximaNovaSemibold" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/footer_text_color"
-                app:typefaceAsset="@string/proximaNovaSemibold"
                 android:layout_gravity="end"
-                android:text="Purchase Date"/>
+                android:text="Purchase Date"
+                android:textColor="@color/footer_text_color"
+                app:typefaceAsset="@string/proximaNovaSemibold" />
 
         </LinearLayout>
 
@@ -88,8 +89,6 @@
             android:splitMotionEvents="false" />
 
     </LinearLayout>
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>

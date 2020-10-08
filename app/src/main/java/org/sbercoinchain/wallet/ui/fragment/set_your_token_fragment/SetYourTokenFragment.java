@@ -9,11 +9,10 @@ import android.widget.Button;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.datastorage.TinyDB;
 import org.sbercoin.wallet.model.ContractTemplate;
-import org.sbercoin.wallet.ui.fragment.contract_confirm_fragment.ContractConfirmFragment;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
-
+import org.sbercoin.wallet.ui.fragment.contract_confirm_fragment.ContractConfirmFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.FontEditText;
 
 import java.util.List;
@@ -21,15 +20,25 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class SetYourTokenFragment extends BaseFragment implements SetYourTokenView, OnValidateParamsListener {
+public abstract class SetYourTokenFragment extends BaseFragment implements SetYourTokenView, OnValidateParamsListener
+{
 
     protected final static String CONTRACT_TEMPLATE_UIID = "mUiid";
 
     protected String templateUiid;
 
     protected ConstructorAdapter adapter;
+    protected SetYourTokenPresenterImpl presenter;
+    @BindView(R.id.recycler_view)
+    protected
+    RecyclerView constructorList;
+    @BindView(R.id.tv_template_name)
+    FontEditText mTextViewTemplateName;
+    @BindView(R.id.confirm)
+    Button confirmBtn;
 
-    public static BaseFragment newInstance(Context context, String uiid) {
+    public static BaseFragment newInstance(Context context, String uiid)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, SetYourTokenFragment.class);
         args.putString(CONTRACT_TEMPLATE_UIID, uiid);
@@ -37,29 +46,20 @@ public abstract class SetYourTokenFragment extends BaseFragment implements SetYo
         return fragment;
     }
 
-    protected SetYourTokenPresenterImpl presenter;
-
-    @BindView(R.id.recycler_view)
-    protected
-    RecyclerView constructorList;
-
-
-    @BindView(R.id.tv_template_name)
-    FontEditText mTextViewTemplateName;
-
     @OnClick({R.id.ibt_back})
-    public void onBackClick() {
+    public void onBackClick()
+    {
         getActivity().onBackPressed();
     }
 
-    @BindView(R.id.confirm)
-    Button confirmBtn;
-
     @OnClick(R.id.confirm)
-    public void onConfirmClick() {
-        if (adapter != null) {
+    public void onConfirmClick()
+    {
+        if (adapter != null)
+        {
             String name = mTextViewTemplateName.getText().toString();
-            if (adapter.validateMethods() && !name.isEmpty()) {
+            if (adapter.validateMethods() && !name.isEmpty())
+            {
                 BaseFragment fragment = ContractConfirmFragment.newInstance(getContext(), adapter.getParams(), getArguments().getString(CONTRACT_TEMPLATE_UIID), name);
                 openFragment(fragment);
             }
@@ -67,17 +67,20 @@ public abstract class SetYourTokenFragment extends BaseFragment implements SetYo
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         presenter = new SetYourTokenPresenterImpl(this, new SetYourTokenInteractorImpl(getContext()));
     }
 
     @Override
-    protected BaseFragmentPresenterImpl getPresenter() {
+    protected BaseFragmentPresenterImpl getPresenter()
+    {
         return presenter;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         constructorList.setLayoutManager(new LinearLayoutManager(getContext()));
         templateUiid = getArguments().getString(CONTRACT_TEMPLATE_UIID);
@@ -86,8 +89,10 @@ public abstract class SetYourTokenFragment extends BaseFragment implements SetYo
         String templateName = "";
         TinyDB tinyDB = new TinyDB(getContext());
         List<ContractTemplate> contractTemplateList = tinyDB.getContractTemplateList();
-        for (ContractTemplate contractTemplate : contractTemplateList) {
-            if (contractTemplate.getUuid().equals(templateUiid)) {
+        for (ContractTemplate contractTemplate : contractTemplateList)
+        {
+            if (contractTemplate.getUuid().equals(templateUiid))
+            {
                 templateName = contractTemplate.getName();
                 break;
             }
@@ -97,19 +102,22 @@ public abstract class SetYourTokenFragment extends BaseFragment implements SetYo
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         //hideBottomNavView(false);
         super.onResume();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         //showBottomNavView(false);
     }
 
     @Override
-    public void onValidate() {
+    public void onValidate()
+    {
         confirmBtn.setEnabled(adapter.validateMethods());
     }
 }

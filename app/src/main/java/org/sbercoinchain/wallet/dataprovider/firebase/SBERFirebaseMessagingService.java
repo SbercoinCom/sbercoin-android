@@ -10,23 +10,27 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.sbercoin.wallet.SBERApplication;
 import org.sbercoin.wallet.R;
+import org.sbercoin.wallet.SBERApplication;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.utils.SBERIntent;
 
-public class SBERFirebaseMessagingService extends FirebaseMessagingService {
+public class SBERFirebaseMessagingService extends FirebaseMessagingService
+{
 
     private static final String TAG = "FCM Service";
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        if (SBERApplication.instance == null) {
+    public void onMessageReceived(RemoteMessage remoteMessage)
+    {
+        if (SBERApplication.instance == null)
+        {
             sendNotification("", "SBER", remoteMessage.getNotification().getBody());
         }
     }
 
-    private void sendNotification(String Ticker, String Title, String Text) {
+    private void sendNotification(String Ticker, String Title, String Text)
+    {
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setAction(SBERIntent.OPEN_FROM_NOTIFICATION);
@@ -39,9 +43,11 @@ public class SBERFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(Text)
                 .setWhen(System.currentTimeMillis());
 
-        if (android.os.Build.VERSION.SDK_INT <= 21) {
+        if (android.os.Build.VERSION.SDK_INT <= 21)
+        {
             builder.setSmallIcon(R.mipmap.ic_launcher);
-        } else {
+        } else
+        {
             builder.setSmallIcon(org.sbercoin.wallet.R.drawable.logo);
         }
         Notification notification = builder.build();

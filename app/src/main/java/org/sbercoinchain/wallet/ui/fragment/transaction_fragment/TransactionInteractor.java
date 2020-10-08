@@ -6,7 +6,8 @@ import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 
 import io.realm.Realm;
 
-public interface TransactionInteractor {
+public interface TransactionInteractor
+{
 
     History getHistory(String txHash);
 

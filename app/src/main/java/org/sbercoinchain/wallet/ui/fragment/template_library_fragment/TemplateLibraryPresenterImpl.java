@@ -8,36 +8,44 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TemplateLibraryPresenterImpl extends BaseFragmentPresenterImpl implements TemplateLibraryPresenter {
+public class TemplateLibraryPresenterImpl extends BaseFragmentPresenterImpl implements TemplateLibraryPresenter
+{
 
     private TemplateLibraryView mTemplateLibraryView;
     private TemplateLibraryInteractor mTemplateLibraryInteractor;
 
-    public TemplateLibraryPresenterImpl(TemplateLibraryView view, TemplateLibraryInteractor interactor) {
+    public TemplateLibraryPresenterImpl(TemplateLibraryView view, TemplateLibraryInteractor interactor)
+    {
         mTemplateLibraryView = view;
         mTemplateLibraryInteractor = interactor;
     }
 
     @Override
-    public TemplateLibraryView getView() {
+    public TemplateLibraryView getView()
+    {
         return mTemplateLibraryView;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         List<ContractTemplate> contractFullTemplateList = new ArrayList<>();
 
         List<ContractTemplate> contractTemplateList = getInteractor().getContactTemplates();
 
-        for (ContractTemplate contractTemplate : contractTemplateList) {
-            if (contractTemplate.isFullContractTemplate()) {
+        for (ContractTemplate contractTemplate : contractTemplateList)
+        {
+            if (contractTemplate.isFullContractTemplate())
+            {
                 contractFullTemplateList.add(contractTemplate);
             }
         }
-        Collections.sort(contractFullTemplateList, new Comparator<ContractTemplate>() {
+        Collections.sort(contractFullTemplateList, new Comparator<ContractTemplate>()
+        {
             @Override
-            public int compare(ContractTemplate contractInfo, ContractTemplate t1) {
+            public int compare(ContractTemplate contractInfo, ContractTemplate t1)
+            {
                 return contractInfo.getDate().compareTo(t1.getDate());
             }
         });
@@ -45,7 +53,8 @@ public class TemplateLibraryPresenterImpl extends BaseFragmentPresenterImpl impl
         getView().setUpTemplateList(contractFullTemplateList);
     }
 
-    public TemplateLibraryInteractor getInteractor() {
+    public TemplateLibraryInteractor getInteractor()
+    {
         return mTemplateLibraryInteractor;
     }
 }

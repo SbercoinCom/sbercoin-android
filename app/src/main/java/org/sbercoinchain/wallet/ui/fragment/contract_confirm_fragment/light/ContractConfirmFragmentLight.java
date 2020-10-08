@@ -8,17 +8,20 @@ import org.sbercoin.wallet.ui.fragment.contract_confirm_fragment.ContractConfirm
 
 import java.util.List;
 
-public class ContractConfirmFragmentLight extends ContractConfirmFragment {
+public class ContractConfirmFragmentLight extends ContractConfirmFragment
+{
 
     public final int LAYOUT = R.layout.lyt_contract_confirm_light;
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return LAYOUT;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         getPresenter().setContractMethodParameterList((List<ContractMethodParameter>) getArguments().getSerializable(paramsKey));
         confirmList.setLayoutManager(new LinearLayoutManager(getContext()));

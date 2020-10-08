@@ -10,7 +10,8 @@ import org.sbercoin.wallet.utils.FontManager;
 
 import butterknife.BindView;
 
-public class ReceiveFragmentLight extends ReceiveFragment {
+public class ReceiveFragmentLight extends ReceiveFragment
+{
 
     @BindView(R.id.til_amount)
     TextInputLayout mTilAmount;
@@ -19,12 +20,14 @@ public class ReceiveFragmentLight extends ReceiveFragment {
     TextInputEditText mEtAmount;
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_receive_light;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         setQrColors(ContextCompat.getColor(getContext(), R.color.qr_code_background), ContextCompat.getColor(getContext(), R.color.qr_code_tint_color));
         mTilAmount.setTypeface(FontManager.getInstance().getFont(getString(R.string.proximaNovaRegular)));

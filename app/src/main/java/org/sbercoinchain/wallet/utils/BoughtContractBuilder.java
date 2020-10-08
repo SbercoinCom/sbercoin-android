@@ -15,7 +15,8 @@ import org.sbercoin.wallet.model.gson.qstore.QstoreSourceCodeResponse;
 
 import rx.Subscriber;
 
-public class BoughtContractBuilder {
+public class BoughtContractBuilder
+{
 
     private String sourceContract;
     private String byteCodeContract;
@@ -25,36 +26,47 @@ public class BoughtContractBuilder {
     private String dateString;
     private String uuid;
 
-    public void build(final Context context, ContractPurchase contractPurchase, final ContractBuilderListener listener) {
+    public void build(final Context context, ContractPurchase contractPurchase, final ContractBuilderListener listener)
+    {
         final PurchaseItem purchaseItem = QStoreStorage.getInstance(context).getPurchaseByContractId(contractPurchase.getContractId());
         SBERService.newInstance()
                 .getSourceCode(purchaseItem.getContractId(), purchaseItem.getRequestId(), purchaseItem.getAccessToken())
-                .subscribe(new Subscriber<QstoreSourceCodeResponse>() {
+                .subscribe(new Subscriber<QstoreSourceCodeResponse>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                         SBERService.newInstance()
                                 .getByteCode(purchaseItem.getContractId(), purchaseItem.getRequestId(), purchaseItem.getAccessToken())
-                                .subscribe(new Subscriber<QstoreByteCodeResponse>() {
+                                .subscribe(new Subscriber<QstoreByteCodeResponse>()
+                                {
                                     @Override
-                                    public void onCompleted() {
+                                    public void onCompleted()
+                                    {
                                         SBERService.newInstance().getAbiByContractId(purchaseItem.getContractId())
-                                                .subscribe(new Subscriber<Object>() {
+                                                .subscribe(new Subscriber<Object>()
+                                                {
                                                     @Override
-                                                    public void onCompleted() {
+                                                    public void onCompleted()
+                                                    {
                                                         SBERService.newInstance().getContractById(purchaseItem.getContractId())
-                                                                .subscribe(new Subscriber<QstoreContract>() {
+                                                                .subscribe(new Subscriber<QstoreContract>()
+                                                                {
                                                                     @Override
-                                                                    public void onCompleted() {
+                                                                    public void onCompleted()
+                                                                    {
                                                                         FileStorageManager.getInstance().importTemplate(context, sourceContract, byteCodeContract, abiContract, type, name, null/*TODO dateString*/, uuid);
                                                                         listener.onBuildSuccess();
                                                                     }
 
                                                                     @Override
-                                                                    public void onError(Throwable e) {
+                                                                    public void onError(Throwable e)
+                                                                    {
                                                                     }
 
                                                                     @Override
-                                                                    public void onNext(QstoreContract qstoreContract) {
+                                                                    public void onNext(QstoreContract qstoreContract)
+                                                                    {
                                                                         type = qstoreContract.type;
                                                                         name = qstoreContract.name;
                                                                         dateString = qstoreContract.creationDate;
@@ -64,39 +76,46 @@ public class BoughtContractBuilder {
                                                     }
 
                                                     @Override
-                                                    public void onError(Throwable e) {
+                                                    public void onError(Throwable e)
+                                                    {
                                                     }
 
                                                     @Override
-                                                    public void onNext(Object abi) {
+                                                    public void onNext(Object abi)
+                                                    {
                                                         abiContract = (new Gson()).toJson(abi);
                                                     }
                                                 });
                                     }
 
                                     @Override
-                                    public void onError(Throwable e) {
+                                    public void onError(Throwable e)
+                                    {
                                     }
 
                                     @Override
-                                    public void onNext(QstoreByteCodeResponse qstoreByteCodeResponse) {
+                                    public void onNext(QstoreByteCodeResponse qstoreByteCodeResponse)
+                                    {
                                         byteCodeContract = qstoreByteCodeResponse.bytecode;
                                     }
                                 });
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                     }
 
                     @Override
-                    public void onNext(QstoreSourceCodeResponse qstoreSourceCodeResponse) {
+                    public void onNext(QstoreSourceCodeResponse qstoreSourceCodeResponse)
+                    {
                         sourceContract = qstoreSourceCodeResponse.sourceCode;
                     }
                 });
     }
 
-    public interface ContractBuilderListener {
+    public interface ContractBuilderListener
+    {
         void onBuildSuccess();
     }
 }

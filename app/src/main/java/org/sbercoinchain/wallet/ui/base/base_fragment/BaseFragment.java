@@ -24,9 +24,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.ui.fragment.processing_dialog.ProcessingDialogFragment;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
+import org.sbercoin.wallet.ui.fragment.processing_dialog.ProcessingDialogFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.FontButton;
 import org.sbercoin.wallet.utils.FontTextView;
 import org.sbercoin.wallet.utils.ThemeUtils;
@@ -35,7 +35,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment extends Fragment implements BaseFragmentView {
+public abstract class BaseFragment extends Fragment implements BaseFragmentView
+{
+
+    public static final String BACK_STACK_ROOT_TAG = "root_fragment";
+    AlertDialog mAlertDialog;
+    ProcessingDialogFragment mProcessingDialog;
+    @Nullable
+    @BindView(org.sbercoin.wallet.R.id.toolbar)
+    Toolbar mToolbar;
+    private Unbinder mUnbinder;
 
     protected abstract void createPresenter();
 
@@ -43,88 +52,88 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
 
     protected abstract int getLayout();
 
-    public static final String BACK_STACK_ROOT_TAG = "root_fragment";
-
-    private Unbinder mUnbinder;
-
-    AlertDialog mAlertDialog;
-    ProcessingDialogFragment mProcessingDialog;
-
-    @Nullable
-    @BindView(org.sbercoin.wallet.R.id.toolbar)
-    Toolbar mToolbar;
-
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         getPresenter().onResume();
     }
 
     @Override
-    public void setProgressDialog() {
+    public void setProgressDialog()
+    {
         hideKeyBoard();
         mProcessingDialog = Factory.getProcessingDialog(getContext());
         mProcessingDialog.show(getFragmentManager(), mProcessingDialog.getClass().getCanonicalName());
     }
 
     @Override
-    public void dismissProgressDialog() {
-        if (mProcessingDialog != null) {
+    public void dismissProgressDialog()
+    {
+        if (mProcessingDialog != null)
+        {
             mProcessingDialog.dismiss();
         }
     }
 
-    protected void showToast(String text) {
+    protected void showToast(String text)
+    {
         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
     }
 
-    public enum PopUpType {
-        error, confirm
-    }
-
     @Override
-    public void setAlertDialog(String title, String buttonText, PopUpType type) {
+    public void setAlertDialog(String title, String buttonText, PopUpType type)
+    {
         setAlertDialog(title, "", buttonText, type);
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, String message, @StringRes int buttonTextResId, PopUpType type) {
+    public void setAlertDialog(@StringRes int titleResId, String message, @StringRes int buttonTextResId, PopUpType type)
+    {
         setAlertDialog(getString(titleResId), message, getString(buttonTextResId), type);
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, @StringRes int buttonTextResId, PopUpType type) {
+    public void setAlertDialog(@StringRes int titleResId, @StringRes int buttonTextResId, PopUpType type)
+    {
         setAlertDialog(getString(titleResId), "", getString(buttonTextResId), type);
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, String buttonText, PopUpType type) {
+    public void setAlertDialog(@StringRes int titleResId, String buttonText, PopUpType type)
+    {
         setAlertDialog(getString(titleResId), "", buttonText, type);
     }
 
     @Override
-    public void setAlertDialog(String title, String message, String buttonText, PopUpType popUpType) {
+    public void setAlertDialog(String title, String message, String buttonText, PopUpType popUpType)
+    {
         setAlertDialog(title, message, buttonText, popUpType, null);
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, String message, String buttonText, PopUpType type) {
+    public void setAlertDialog(@StringRes int titleResId, String message, String buttonText, PopUpType type)
+    {
         setAlertDialog(getString(titleResId), message, buttonText, type, null);
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, @StringRes int messageResId, String buttonText, PopUpType type) {
+    public void setAlertDialog(@StringRes int titleResId, @StringRes int messageResId, String buttonText, PopUpType type)
+    {
         setAlertDialog(getString(titleResId), getString(messageResId), buttonText, type, null);
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, @StringRes int messageResId, @StringRes int buttonTextResId, PopUpType type) {
+    public void setAlertDialog(@StringRes int titleResId, @StringRes int messageResId, @StringRes int buttonTextResId, PopUpType type)
+    {
         setAlertDialog(getString(titleResId), getString(messageResId), getString(buttonTextResId), type, null);
     }
 
     @Override
-    public void setAlertDialog(String title, String message, String buttonText, PopUpType type, final AlertDialogCallBack callBack) {
-        try {
+    public void setAlertDialog(String title, String message, String buttonText, PopUpType type, final AlertDialogCallBack callBack)
+    {
+        try
+        {
             dismissProgressDialog();
             dismissAlertDialog();
             View view = LayoutInflater.from(getContext()).inflate(ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK) ? org.sbercoin.wallet.R.layout.dialog_popup_fragment : org.sbercoin.wallet.R.layout.dialog_popup_fragment_light, null);
@@ -139,18 +148,23 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
             ImageView icon = view.findViewById(org.sbercoin.wallet.R.id.iv_icon);
             popUpButton.setText(buttonText);
 
-            popUpButton.setOnClickListener(new View.OnClickListener() {
+            popUpButton.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     mAlertDialog.cancel();
-                    if (callBack != null) {
+                    if (callBack != null)
+                    {
                         callBack.onButtonClick();
                     }
                 }
             });
 
-            if (ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK)) {
-                switch (type.name()) {
+            if (ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK))
+            {
+                switch (type.name())
+                {
                     case "error":
                         icon.setImageResource(org.sbercoin.wallet.R.drawable.ic_error);
                         view.findViewById(org.sbercoin.wallet.R.id.red_line).setVisibility(View.VISIBLE);
@@ -160,8 +174,10 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
                         view.findViewById(org.sbercoin.wallet.R.id.red_line).setVisibility(View.GONE);
                         break;
                 }
-            } else {
-                switch (type.name()) {
+            } else
+            {
+                switch (type.name())
+                {
                     case "error":
                         tvTitle.setTextColor(ContextCompat.getColor(getContext(), org.sbercoin.wallet.R.color.title_red_color));
                         icon.setImageResource(org.sbercoin.wallet.R.drawable.ic_popup_error_light);
@@ -177,30 +193,36 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
                     .setView(view)
                     .create();
 
-            if (mAlertDialog.getWindow() != null) {
+            if (mAlertDialog.getWindow() != null)
+            {
                 mAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
 
             mAlertDialog.setCanceledOnTouchOutside(false);
             mAlertDialog.show();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             System.out.println(e.getMessage());
         }
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, String message, @StringRes int buttonTextResId, PopUpType type, final AlertDialogCallBack callBack) {
+    public void setAlertDialog(@StringRes int titleResId, String message, @StringRes int buttonTextResId, PopUpType type, final AlertDialogCallBack callBack)
+    {
         setAlertDialog(getString(titleResId), message, getString(buttonTextResId), type, callBack);
     }
 
     @Override
-    public void setAlertDialog(@StringRes int titleResId, String message, String buttonText, PopUpType type, final AlertDialogCallBack callBack) {
+    public void setAlertDialog(@StringRes int titleResId, String message, String buttonText, PopUpType type, final AlertDialogCallBack callBack)
+    {
         setAlertDialog(getString(titleResId), message, buttonText, type, callBack);
     }
 
     @Override
-    public void setAlertDialog(String title, String message, String buttonText, String buttonText2, PopUpType type, final AlertDialogCallBack callBack) {
-        try {
+    public void setAlertDialog(String title, String message, String buttonText, String buttonText2, PopUpType type, final AlertDialogCallBack callBack)
+    {
+        try
+        {
             dismissProgressDialog();
             dismissAlertDialog();
             View view = LayoutInflater.from(getContext()).inflate(ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK) ? org.sbercoin.wallet.R.layout.dialog_popup_fragment : org.sbercoin.wallet.R.layout.dialog_popup_fragment_light, null);
@@ -217,28 +239,36 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
             popUpButton.setText(buttonText);
             popUpButton2.setText(buttonText2);
 
-            popUpButton.setOnClickListener(new View.OnClickListener() {
+            popUpButton.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     mAlertDialog.cancel();
-                    if (callBack != null) {
+                    if (callBack != null)
+                    {
                         callBack.onButtonClick();
                     }
                 }
             });
 
-            popUpButton2.setOnClickListener(new View.OnClickListener() {
+            popUpButton2.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     mAlertDialog.cancel();
-                    if (callBack != null) {
+                    if (callBack != null)
+                    {
                         callBack.onButton2Click();
                     }
                 }
             });
 
-            if (ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK)) {
-                switch (type.name()) {
+            if (ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK))
+            {
+                switch (type.name())
+                {
                     case "error":
                         icon.setImageResource(org.sbercoin.wallet.R.drawable.ic_error);
                         view.findViewById(org.sbercoin.wallet.R.id.red_line).setVisibility(View.VISIBLE);
@@ -248,8 +278,10 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
                         view.findViewById(org.sbercoin.wallet.R.id.red_line).setVisibility(View.GONE);
                         break;
                 }
-            } else {
-                switch (type.name()) {
+            } else
+            {
+                switch (type.name())
+                {
                     case "error":
                         tvTitle.setTextColor(ContextCompat.getColor(getContext(), org.sbercoin.wallet.R.color.title_red_color));
                         icon.setImageResource(org.sbercoin.wallet.R.drawable.ic_popup_error_light);
@@ -265,42 +297,51 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
                     .setView(view)
                     .create();
 
-            if (mAlertDialog.getWindow() != null) {
+            if (mAlertDialog.getWindow() != null)
+            {
                 mAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
 
             mAlertDialog.setCanceledOnTouchOutside(false);
             mAlertDialog.show();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             System.out.println(e.getMessage());
         }
     }
 
-    public void hideBottomNavView(boolean recolorStatusBar) {
+    public void hideBottomNavView(boolean recolorStatusBar)
+    {
         ((MainActivity) getActivity()).hideBottomNavigationView(recolorStatusBar);
     }
 
-    public void showBottomNavView(boolean recolorStatusBar) {
+    public void showBottomNavView(boolean recolorStatusBar)
+    {
         ((MainActivity) getActivity()).showBottomNavigationView(recolorStatusBar);
     }
 
-    public void hideBottomNavView(int colorRes) {
+    public void hideBottomNavView(int colorRes)
+    {
         ((MainActivity) getActivity()).hideBottomNavigationView(colorRes);
     }
 
-    public void showBottomNavView(int colorRes) {
+    public void showBottomNavView(int colorRes)
+    {
         ((MainActivity) getActivity()).showBottomNavigationView(colorRes);
     }
 
     @Override
-    public void dismissAlertDialog() {
-        if (mAlertDialog != null) {
+    public void dismissAlertDialog()
+    {
+        if (mAlertDialog != null)
+        {
             mAlertDialog.cancel();
         }
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         hideKeyBoard();
         getPresenter().onPause();
@@ -309,19 +350,22 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
     }
 
     @Override
-    public void hideKeyBoard(View v) {
+    public void hideKeyBoard(View v)
+    {
 
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         createPresenter();
         getPresenter().onCreate();
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         getPresenter().initializeViews();
         getPresenter().onViewCreated();
@@ -329,52 +373,61 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         View view = inflater.inflate(getLayout(), container, false);
         bindView(view);
-        view.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
+        view.setOnTouchListener(new View.OnTouchListener()
+        {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 return true;
             }
         });
         return view;
     }
 
-
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         getPresenter().onStart();
     }
 
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         super.onStop();
         getPresenter().onStop();
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         getPresenter().onDestroyView();
         unBindView();
     }
 
     @Override
-    public void showSoftInput() {
+    public void showSoftInput()
+    {
         ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     @Override
-    public void showSoftKeyboard(View view) {
-        if (view.requestFocus()) {
+    public void showSoftKeyboard(View view)
+    {
+        if (view.requestFocus())
+        {
             InputMethodManager imm = (InputMethodManager)
                     getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
     }
 
-    public void setFocusTextInput(View textInputEditText, View textInputLayout) {
+    public void setFocusTextInput(View textInputEditText, View textInputLayout)
+    {
         textInputEditText.setFocusableInTouchMode(true);
         textInputEditText.requestFocus();
         textInputLayout.setFocusableInTouchMode(true);
@@ -382,48 +435,61 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
     }
 
     @Override
-    public void finish() {
+    public void finish()
+    {
         ActivityCompat.finishAffinity(getActivity());
     }
 
     @Override
-    public void startActivity(Intent intent) {
+    public void startActivity(Intent intent)
+    {
 
     }
 
     @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
+    public void startActivityForResult(Intent intent, int requestCode)
+    {
         getActivity().startActivityForResult(intent, requestCode);
     }
 
     @Override
-    public void hideKeyBoard() {
+    public void hideKeyBoard()
+    {
         Activity activity = getActivity();
         View view = activity.getCurrentFocus();
-        if (view != null) {
+        if (view != null)
+        {
             hideKeyBoard(activity, view);
         }
     }
 
-    public void hideKeyBoard(Activity activity, View view) {
+    public void hideKeyBoard(Activity activity, View view)
+    {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
     @Override
-    public void dismiss() {
-        if (getMainActivity() != null && !getMainActivity().isFinishing()) {
-            try {
-                if(getFragmentManager() != null) {
+    public void dismiss()
+    {
+        if (getMainActivity() != null && !getMainActivity().isFinishing())
+        {
+            try
+            {
+                if (getFragmentManager() != null)
+                {
                     getFragmentManager().beginTransaction().remove(this).commit();
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored)
+            {
+            }
         }
     }
 
     @Override
-    public void openRootFragment(Fragment fragment) {
+    public void openRootFragment(Fragment fragment)
+    {
         getFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         hideKeyBoard();
         getFragmentManager()
@@ -433,10 +499,11 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
                 .commit();
     }
 
-
     @Override
-    public void openFragment(Fragment fragment) {
-        if(getFragmentManager().findFragmentByTag(fragment.getClass().getCanonicalName())==null) {
+    public void openFragment(Fragment fragment)
+    {
+        if (getFragmentManager().findFragmentByTag(fragment.getClass().getCanonicalName()) == null)
+        {
             hideKeyBoard();
             getFragmentManager()
                     .beginTransaction()
@@ -448,8 +515,10 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
     }
 
     @Override
-    public void openFragmentForResult(Fragment fragment) {
-        if(getFragmentManager().findFragmentByTag(fragment.getClass().getCanonicalName())==null) {
+    public void openFragmentForResult(Fragment fragment)
+    {
+        if (getFragmentManager().findFragmentByTag(fragment.getClass().getCanonicalName()) == null)
+        {
             hideKeyBoard();
             int code_response = 200;
             fragment.setTargetFragment(this, code_response);
@@ -463,7 +532,8 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
     }
 
     @Override
-    public void openFragmentWithBackStack(Fragment fragment, String tag) {
+    public void openFragmentWithBackStack(Fragment fragment, String tag)
+    {
         hideKeyBoard();
         getFragmentManager()
                 .beginTransaction()
@@ -473,36 +543,49 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentView 
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (null != mToolbar) {
+        if (null != mToolbar)
+        {
             activity.setSupportActionBar(mToolbar);
             ActionBar actionBar = activity.getSupportActionBar();
-            if (actionBar != null) {
+            if (actionBar != null)
+            {
                 actionBar.setDisplayShowTitleEnabled(false);
             }
         }
     }
 
     @Override
-    public MainActivity getMainActivity() {
+    public MainActivity getMainActivity()
+    {
         return (MainActivity) getActivity();
     }
 
-    protected void bindView(View view) {
+    protected void bindView(View view)
+    {
         mUnbinder = ButterKnife.bind(this, view);
     }
 
-    protected void unBindView() {
+    protected void unBindView()
+    {
         mUnbinder.unbind();
     }
 
     @Override
-    public Fragment getFragment() {
+    public Fragment getFragment()
+    {
         return this;
     }
 
-    public interface AlertDialogCallBack {
+    public enum PopUpType
+    {
+        error, confirm
+    }
+
+    public interface AlertDialogCallBack
+    {
         void onButtonClick();
 
         void onButton2Click();

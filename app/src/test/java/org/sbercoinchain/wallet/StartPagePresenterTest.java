@@ -14,7 +14,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class StartPagePresenterTest {
+public class StartPagePresenterTest
+{
 
     @Mock
     private StartPageView view;
@@ -23,14 +24,16 @@ public class StartPagePresenterTest {
     private StartPagePresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
         presenter = new StartPagePresenterImpl(view, interactor);
     }
 
     @Test
-    public void initialize_KeyGenerated() {
+    public void initialize_KeyGenerated()
+    {
         when(interactor.getGeneratedKey())
                 .thenReturn(true);
 
@@ -40,7 +43,8 @@ public class StartPagePresenterTest {
     }
 
     @Test
-    public void initialize_KeyIsNotGenerated() {
+    public void initialize_KeyIsNotGenerated()
+    {
         when(interactor.getGeneratedKey())
                 .thenReturn(false);
 
@@ -50,7 +54,8 @@ public class StartPagePresenterTest {
     }
 
     @Test
-    public void clearWallet() {
+    public void clearWallet()
+    {
         presenter.clearWallet();
         verify(interactor, times(1)).clearWallet();
     }

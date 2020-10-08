@@ -15,8 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import org.sbercoin.wallet.SBERApplication;
 import org.sbercoin.wallet.R;
+import org.sbercoin.wallet.SBERApplication;
 import org.sbercoin.wallet.model.contract.ContractMethodParameter;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.pin_fragment.PinDialogFragment;
@@ -33,7 +33,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class ContractConfirmFragment extends BaseFragment implements ContractConfirmView, OnValueClick {
+public abstract class ContractConfirmFragment extends BaseFragment implements ContractConfirmView, OnValueClick
+{
 
     protected static final String paramsKey = "params";
     private static final String CONTRACT_TEMPLATE_UIID = "mUiid";
@@ -43,6 +44,11 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     protected TextInputEditText mTextInputEditTextFee;
     @BindView(R.id.til_fee)
     protected TextInputLayout tilFee;
+    protected ContractConfirmPresenter presenter;
+    protected ContractConfirmAdapter adapter;
+    @BindView(R.id.recycler_view)
+    protected
+    RecyclerView confirmList;
     @BindView(R.id.seekBar)
     SeekBar mSeekBarFee;
     @BindView(R.id.seekBar_gas_limit)
@@ -57,47 +63,56 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     FontTextView mFontTextViewMaxGasPrice;
     @BindView(R.id.tv_min_gas_price)
     FontTextView mFontTextViewMinGasPrice;
-
     @BindView(R.id.nested_scroll_view)
     NestedScrollView mNestedScrollView;
-
     @BindView(R.id.tv_max_gas_limit)
     FontTextView mFontTextViewMaxGasLimit;
     @BindView(R.id.tv_min_gas_limit)
     FontTextView mFontTextViewMinGasLimit;
-
     @BindView(R.id.tv_gas_price)
     FontTextView mFontTextViewGasPrice;
-
     @BindView(R.id.tv_gas_limit)
     FontTextView mFontTextViewGasLimit;
-
     @BindView(R.id.bt_edit_close)
     FontButton mFontButtonEditClose;
     @BindView(R.id.seek_bar_container)
     LinearLayout mLinearLayoutSeekBarContainer;
-
     int mMinFee;
     int mMaxFee;
     int stepFee = 1;
-
     int mMinGasPrice;
     int mMaxGasPrice;
     int stepGasPrice = 5;
-
     boolean seekBarChangeValue = false;
     boolean textViewChangeValue = false;
-
     int mMinGasLimit;
     int mMaxGasLimit;
     int stepGasLimit = 100000;
+    boolean showing = false;
+    PinDialogFragment.PinCallBack callback = new PinDialogFragment.PinCallBack()
+    {
+        @Override
+        public void onSuccess(String pin)
+        {
+            int gasLimit = Integer.valueOf(mFontTextViewGasLimit.getText().toString());
+            int gasPrice = Integer.valueOf(mFontTextViewGasPrice.getText().toString());
+            String fee = mTextInputEditTextFee.getText().toString();
+            getPresenter().onConfirmContract(getArguments().getString(CONTRACT_TEMPLATE_UIID), gasLimit, gasPrice, fee, KeyStoreHelper.getSeed(getContext(), pin));
+        }
 
+        @Override
+        public void onError(String error)
+        {
+            hideKeyBoard();
+            setAlertDialog(R.string.warning, error, R.string.cancel, PopUpType.error);
+        }
+    };
     private int appLogoHeight = 0;
     private ResizeHeightAnimation mAnimForward;
     private ResizeHeightAnimation mAnimBackward;
-    boolean showing = false;
 
-    public static BaseFragment newInstance(Context context, List<ContractMethodParameter> params, String uiid, String name) {
+    public static BaseFragment newInstance(Context context, List<ContractMethodParameter> params, String uiid, String name)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, ContractConfirmFragment.class);
         args.putSerializable(paramsKey, (ArrayList) params);
@@ -107,27 +122,24 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
         return fragment;
     }
 
-    protected ContractConfirmPresenter presenter;
-    protected ContractConfirmAdapter adapter;
-
-    @BindView(R.id.recycler_view)
-    protected
-    RecyclerView confirmList;
-
     @OnClick(R.id.bt_edit_close)
-    public void onEditCloseClick() {
-        if (showing) {
+    public void onEditCloseClick()
+    {
+        if (showing)
+        {
             mLinearLayoutSeekBarContainer.startAnimation(mAnimBackward);
             mFontButtonEditClose.setText(R.string.edit);
             showing = !showing;
-        } else {
+        } else
+        {
             mLinearLayoutSeekBarContainer.startAnimation(mAnimForward);
             mFontButtonEditClose.setText(R.string.close);
             showing = !showing;
         }
     }
 
-    private void initializeAnim() {
+    private void initializeAnim()
+    {
         mAnimForward = new ResizeHeightAnimation(mLinearLayoutSeekBarContainer, 0, appLogoHeight);
         mAnimForward.setDuration(300);
         mAnimForward.setFillEnabled(true);
@@ -140,29 +152,38 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
 
-        mTextInputEditTextFee.addTextChangedListener(new TextWatcher() {
+        mTextInputEditTextFee.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (seekBarChangeValue) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (seekBarChangeValue)
+                {
                     seekBarChangeValue = false;
                     return;
                 }
-                if (!s.toString().isEmpty()) {
+                if (!s.toString().isEmpty())
+                {
                     Double fee = Double.valueOf(s.toString()) * 10000000;
                     textViewChangeValue = true;
                     int progress;
-                    if (fee < mMinFee) {
+                    if (fee < mMinFee)
+                    {
                         progress = 0;
-                    } else if (fee > mMaxFee) {
+                    } else if (fee > mMaxFee)
+                    {
                         progress = (mMaxFee - mMinFee) / stepFee;
-                    } else {
+                    } else
+                    {
                         progress = (fee.intValue() - mMinFee) / stepFee;
                     }
                     mSeekBarFee.setProgress(progress);
@@ -170,14 +191,18 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
             }
         });
 
-        mSeekBarFee.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarFee.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (textViewChangeValue) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                if (textViewChangeValue)
+                {
                     textViewChangeValue = false;
                     return;
                 }
@@ -187,50 +212,63 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
             }
         });
 
-        mSeekBarGasPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarGasPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
                 int value = (mMinGasPrice + (progress * stepGasPrice));
                 mFontTextViewGasPrice.setText(String.valueOf(value));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
             }
         });
 
-        mSeekBarGasLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarGasLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
                 int value = (mMinGasLimit + (progress * stepGasLimit));
                 mFontTextViewGasLimit.setText(String.valueOf(value));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
             }
         });
 
-        if (mLinearLayoutSeekBarContainer.getHeight() == 0) {
-            mLinearLayoutSeekBarContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        if (mLinearLayoutSeekBarContainer.getHeight() == 0)
+        {
+            mLinearLayoutSeekBarContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+            {
                 @Override
-                public void onGlobalLayout() {
+                public void onGlobalLayout()
+                {
                     mLinearLayoutSeekBarContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     appLogoHeight = (appLogoHeight == 0) ? mLinearLayoutSeekBarContainer.getHeight() : appLogoHeight;
                     initializeAnim();
@@ -238,7 +276,8 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
                     mLinearLayoutSeekBarContainer.requestLayout();
                 }
             });
-        } else {
+        } else
+        {
             appLogoHeight = (appLogoHeight == 0) ? mLinearLayoutSeekBarContainer.getHeight() : appLogoHeight;
             initializeAnim();
             mLinearLayoutSeekBarContainer.getLayoutParams().height = 0;
@@ -246,11 +285,15 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
         }
 
 
-        mTextInputEditTextFee.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mTextInputEditTextFee.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mSeekBarFee != null) {
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (!hasFocus)
+                {
+                    if (mSeekBarFee != null)
+                    {
                         textViewChangeValue = true;
                         double value = (mMinFee + (mSeekBarFee.getProgress() * stepFee)) / 10000000.;
                         seekBarChangeValue = true;
@@ -260,13 +303,17 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
             }
         });
 
-        mLinearLayoutSeekBarContainer.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        mLinearLayoutSeekBarContainer.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+        {
             @Override
-            public void onLayoutChange(View view, int i, int i1, int i2, final int i3, final int i4, int i5, int i6, final int i7) {
-                mNestedScrollView.post(new Runnable() {
+            public void onLayoutChange(View view, int i, int i1, int i2, final int i3, final int i4, int i5, int i6, final int i7)
+            {
+                mNestedScrollView.post(new Runnable()
+                {
 
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         if (i3 > i7)
                             mNestedScrollView.scrollTo(0, mNestedScrollView.getScrollY() + i3);
                     }
@@ -276,7 +323,8 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     }
 
     @Override
-    public void updateFee(double minFee, double maxFee) {
+    public void updateFee(double minFee, double maxFee)
+    {
         mFontTextViewMaxFee.setText(new DecimalFormat("#.########").format(maxFee));
         mFontTextViewMinFee.setText(new DecimalFormat("#.########").format(minFee));
         mMinFee = Double.valueOf(minFee * 10000000).intValue();
@@ -286,7 +334,8 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     }
 
     @Override
-    public void updateGasPrice(int minGasPrice, int maxGasPrice) {
+    public void updateGasPrice(int minGasPrice, int maxGasPrice)
+    {
         mFontTextViewMaxGasPrice.setText(String.valueOf(maxGasPrice));
         mFontTextViewMinGasPrice.setText(String.valueOf(minGasPrice));
         mMinGasPrice = minGasPrice;
@@ -295,7 +344,8 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     }
 
     @Override
-    public void updateGasLimit(int minGasLimit, int maxGasLimit) {
+    public void updateGasLimit(int minGasLimit, int maxGasLimit)
+    {
         mFontTextViewMaxGasLimit.setText(String.valueOf(maxGasLimit));
         mFontTextViewMinGasLimit.setText(String.valueOf(minGasLimit));
         mMinGasLimit = minGasLimit;
@@ -305,73 +355,68 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     }
 
     @OnClick(R.id.ibt_back)
-    public void onBackClick() {
+    public void onBackClick()
+    {
         getActivity().onBackPressed();
     }
 
     @OnClick(R.id.confirm)
-    public void onConfirmClick() {
+    public void onConfirmClick()
+    {
         showPinDialog();
     }
 
-    private void showPinDialog() {
+    private void showPinDialog()
+    {
         PinDialogFragment pinDialogFragment = new PinDialogFragment();
         pinDialogFragment.setTouchIdFlag(getMainActivity().checkTouchIdEnable());
         pinDialogFragment.addPinCallBack(callback);
         pinDialogFragment.show(getFragmentManager(), pinDialogFragment.getClass().getCanonicalName());
     }
 
-    PinDialogFragment.PinCallBack callback = new PinDialogFragment.PinCallBack() {
-        @Override
-        public void onSuccess(String pin) {
-            int gasLimit = Integer.valueOf(mFontTextViewGasLimit.getText().toString());
-            int gasPrice = Integer.valueOf(mFontTextViewGasPrice.getText().toString());
-            String fee = mTextInputEditTextFee.getText().toString();
-            getPresenter().onConfirmContract(getArguments().getString(CONTRACT_TEMPLATE_UIID), gasLimit, gasPrice, fee,KeyStoreHelper.getSeed(getContext(), pin));
-        }
-
-        @Override
-        public void onError(String error) {
-            hideKeyBoard();
-            setAlertDialog(R.string.warning, error, R.string.cancel, PopUpType.error);
-        }
-    };
-
     @Override
-    public void closeFragments() {
+    public void closeFragments()
+    {
         FragmentManager fm = getFragmentManager();
         int count = fm.getBackStackEntryCount() - 2;
-        for (int i = 0; i < count; ++i) {
+        for (int i = 0; i < count; ++i)
+        {
             fm.popBackStack();
         }
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         presenter = new ContractConfirmPresenterImpl(this, new ContractConfirmInteractorImpl(getContext()));
     }
 
     @Override
-    protected ContractConfirmPresenter getPresenter() {
+    protected ContractConfirmPresenter getPresenter()
+    {
         return presenter;
     }
 
     @Override
-    public String getContractName() {
+    public String getContractName()
+    {
         return getArguments().getString(CONTRACT_NAME);
     }
 
     @Override
-    public void onClick(int adapterPosition) {
+    public void onClick(int adapterPosition)
+    {
     }
 
     @Override
-    public void makeToast(String s) {
+    public void makeToast(String s)
+    {
         Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public SBERApplication getApplication() {
+    public SBERApplication getApplication()
+    {
         return getMainActivity().getSBERApplication();
     }
 }

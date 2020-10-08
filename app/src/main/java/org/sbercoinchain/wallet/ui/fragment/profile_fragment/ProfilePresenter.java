@@ -5,7 +5,8 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 
 import java.util.List;
 
-public interface ProfilePresenter extends BaseFragmentPresenter {
+public interface ProfilePresenter extends BaseFragmentPresenter
+{
     void onTouchIdSwitched(boolean isChecked);
 
     void clearWallet();

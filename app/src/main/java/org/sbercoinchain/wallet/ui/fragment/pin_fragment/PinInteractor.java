@@ -4,7 +4,8 @@ import javax.crypto.Cipher;
 
 import rx.Observable;
 
-public interface PinInteractor {
+public interface PinInteractor
+{
     String getPassword();
 
     void savePassword(String password);
@@ -33,9 +34,9 @@ public interface PinInteractor {
 
     Integer getFailedAttemptsCount();
 
-    Long getBanTime();
-
     void setFailedAttemptsCount(int failedAttemptsCount);
+
+    Long getBanTime();
 
     void setBanTime(long banTime);
 

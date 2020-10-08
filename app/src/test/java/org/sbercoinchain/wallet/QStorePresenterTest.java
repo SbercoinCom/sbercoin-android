@@ -30,8 +30,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class QStorePresenterTest {
+public class QStorePresenterTest
+{
 
+    private final List<QstoreItem> TEST_TRENDING_CATEGORIES = Arrays.asList(new QstoreItem(), new QstoreItem());
+    private final List<QstoreItem> TEST_WHATS_NEW_CATEGORIES = Arrays.asList(new QstoreItem(), new QstoreItem());
     @Mock
     private QStoreView view;
     @Mock
@@ -39,17 +42,22 @@ public class QStorePresenterTest {
     private QStorePresenterImpl presenter;
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -58,7 +66,8 @@ public class QStorePresenterTest {
     }
 
     @Test
-    public void initialize_TrendingError() {
+    public void initialize_TrendingError()
+    {
         when(interactor.getTrendingNowObservable())
                 .thenReturn(Observable.<List<QstoreItem>>error(new Throwable("Getting Trending now error")));
 
@@ -69,11 +78,9 @@ public class QStorePresenterTest {
                 .isEmpty();
     }
 
-    private final List<QstoreItem> TEST_TRENDING_CATEGORIES = Arrays.asList(new QstoreItem(), new QstoreItem());
-    private final List<QstoreItem> TEST_WHATS_NEW_CATEGORIES = Arrays.asList(new QstoreItem(), new QstoreItem());
-
     @Test
-    public void initialize_TrendingSuccess_WhatsNewError() {
+    public void initialize_TrendingSuccess_WhatsNewError()
+    {
         when(interactor.getTrendingNowObservable())
                 .thenReturn(Observable.just(TEST_TRENDING_CATEGORIES));
         when(interactor.getTrendingString())
@@ -89,7 +96,8 @@ public class QStorePresenterTest {
     }
 
     @Test
-    public void initialize_TrendingSuccess_WhatsNewSuccess() {
+    public void initialize_TrendingSuccess_WhatsNewSuccess()
+    {
         when(interactor.getTrendingNowObservable())
                 .thenReturn(Observable.just(TEST_TRENDING_CATEGORIES));
         when(interactor.getTrendingString())
@@ -108,7 +116,8 @@ public class QStorePresenterTest {
 
 
     @Test
-    public void initialize_TrendingEmpty_WhatsNewSuccess() {
+    public void initialize_TrendingEmpty_WhatsNewSuccess()
+    {
         when(interactor.getTrendingNowObservable())
                 .thenReturn(Observable.just(Collections.<QstoreItem>emptyList()));
         when(interactor.getWhatsNewObservable())
@@ -125,7 +134,8 @@ public class QStorePresenterTest {
     }
 
     @Test
-    public void initialize_TrendingSuccess_WhatsNewEmpty() {
+    public void initialize_TrendingSuccess_WhatsNewEmpty()
+    {
         when(interactor.getTrendingNowObservable())
                 .thenReturn(Observable.just(TEST_TRENDING_CATEGORIES));
         when(interactor.getTrendingString())
@@ -142,7 +152,8 @@ public class QStorePresenterTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

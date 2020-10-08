@@ -15,7 +15,8 @@ import butterknife.ButterKnife;
  * Created by kirillvolkov on 22.11.2017.
  */
 
-public class HeaderViewHolder extends WearableRecyclerView.ViewHolder {
+public class HeaderViewHolder extends WearableRecyclerView.ViewHolder
+{
 
     @BindView(R.id.tv_balance_value)
     TextView balance;
@@ -31,28 +32,34 @@ public class HeaderViewHolder extends WearableRecyclerView.ViewHolder {
 
     HeaderData headerData;
 
-    public HeaderViewHolder(View itemView, final HeaderClickListener headerClickListener) {
+    public HeaderViewHolder(View itemView, final HeaderClickListener headerClickListener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
         itemView.setClickable(true);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 headerClickListener.onHeaderClick(headerData);
             }
         });
     }
 
-    public void bind(HeaderData headerData) {
+    public void bind(HeaderData headerData)
+    {
         this.headerData = headerData;
         balance.setText(headerData.getBalance());
-        if (headerData.getUnconfirmedBalance() != null && Float.valueOf(headerData.getUnconfirmedBalance()) != 0f) {
+        if (headerData.getUnconfirmedBalance() != null && Float.valueOf(headerData.getUnconfirmedBalance()) != 0f)
+        {
             unconfirmedBalance.setVisibility(View.VISIBLE);
             unconfirmedBalanceCurr.setVisibility(View.VISIBLE);
             unconfirmedBalance.setText(headerData.getUnconfirmedBalance());
-        } else {
+        } else
+        {
             unconfirmedBalance.setVisibility(View.GONE);
             unconfirmedBalanceCurr.setVisibility(View.GONE);
         }

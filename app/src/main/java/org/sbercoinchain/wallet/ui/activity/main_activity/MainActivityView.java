@@ -5,7 +5,8 @@ import android.support.v4.app.Fragment;
 import org.sbercoin.wallet.ui.base.base_activity.BaseContextView;
 import org.sbercoin.wallet.ui.fragment.pin_fragment.PinAction;
 
-public interface MainActivityView extends BaseContextView {
+public interface MainActivityView extends BaseContextView
+{
     void openRootFragment(Fragment fragment);
 
     void popBackStack();

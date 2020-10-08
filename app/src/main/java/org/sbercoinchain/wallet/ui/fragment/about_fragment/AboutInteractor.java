@@ -1,6 +1,7 @@
 package org.sbercoin.wallet.ui.fragment.about_fragment;
 
-public interface AboutInteractor {
+public interface AboutInteractor
+{
     String getVersion() throws Exception;
 
     int getCodeVersion() throws Exception;

@@ -12,37 +12,45 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class NewsPresenterImpl extends BaseFragmentPresenterImpl implements NewsPresenter {
+public class NewsPresenterImpl extends BaseFragmentPresenterImpl implements NewsPresenter
+{
 
     private NewsView mNewsFragmentView;
     private NewsInteractor mNewsFragmentInteractor;
     private boolean mNetworkConnectedFlag = false;
 
-    public NewsPresenterImpl(NewsView newsFragmentView, NewsInteractor newsInteractor) {
+    public NewsPresenterImpl(NewsView newsFragmentView, NewsInteractor newsInteractor)
+    {
         mNewsFragmentView = newsFragmentView;
         mNewsFragmentInteractor = newsInteractor;
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         getInteractor().unSubscribe();
     }
 
-    private NewsInteractor getInteractor() {
+    private NewsInteractor getInteractor()
+    {
         return mNewsFragmentInteractor;
     }
 
     @Override
-    public NewsView getView() {
+    public NewsView getView()
+    {
         return mNewsFragmentView;
     }
 
     @Override
-    public void onRefresh() {
-        if (mNetworkConnectedFlag) {
+    public void onRefresh()
+    {
+        if (mNetworkConnectedFlag)
+        {
             loadAndUpdateNews();
-        } else {
+        } else
+        {
             getView().setAlertDialog(org.sbercoin.wallet.R.string.no_internet_connection,
                     org.sbercoin.wallet.R.string.please_check_your_network_settings,
                     org.sbercoin.wallet.R.string.ok,
@@ -52,44 +60,57 @@ public class NewsPresenterImpl extends BaseFragmentPresenterImpl implements News
     }
 
     @Override
-    public void onNetworkStateChanged(boolean networkConnectedFlag) {
+    public void onNetworkStateChanged(boolean networkConnectedFlag)
+    {
         mNetworkConnectedFlag = networkConnectedFlag;
-        if (networkConnectedFlag) {
+        if (networkConnectedFlag)
+        {
             loadAndUpdateNews();
-        } else {
+        } else
+        {
             getView().updateNews(getInteractor().getNewses());
             NewsStorage.newInstance().setNewses(getInteractor().getNewses());
         }
     }
 
-    private void loadAndUpdateNews() {
+    private void loadAndUpdateNews()
+    {
         getView().startRefreshAnimation();
         getInteractor().getMediumRssFeed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<RssFeed>() {
+                .subscribe(new Subscriber<RssFeed>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                     }
 
                     @Override
-                    public void onNext(RssFeed rssFeed) {
+                    public void onNext(RssFeed rssFeed)
+                    {
                         List<News> newNews = rssFeed.getNewses();
                         List<News> oldNews = getInteractor().getNewses();
-                        if (oldNews.size() == 0) {
+                        if (oldNews.size() == 0)
+                        {
                             oldNews.addAll(newNews);
-                        } else {
+                        } else
+                        {
                             int pos = 0;
                             News lastNews = oldNews.get(0);
-                            for (News news : newNews) {
-                                if (!news.getPubDate().equals(lastNews.getPubDate())) {
+                            for (News news : newNews)
+                            {
+                                if (!news.getPubDate().equals(lastNews.getPubDate()))
+                                {
                                     oldNews.add(pos, news);
                                     pos++;
-                                } else {
+                                } else
+                                {
                                     break;
                                 }
                             }

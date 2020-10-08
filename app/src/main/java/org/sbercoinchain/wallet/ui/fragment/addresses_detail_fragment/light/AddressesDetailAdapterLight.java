@@ -10,14 +10,17 @@ import org.sbercoin.wallet.ui.fragment.addresses_detail_fragment.AddressesDetail
 
 import java.util.List;
 
-class AddressesDetailAdapterLight<T extends TransactionInfo> extends AddressesDetailAdapter {
+class AddressesDetailAdapterLight<T extends TransactionInfo> extends AddressesDetailAdapter
+{
 
-    protected AddressesDetailAdapterLight(List<T> transactionInfoList, String symbol) {
+    protected AddressesDetailAdapterLight(List<T> transactionInfoList, String symbol)
+    {
         super(transactionInfoList, symbol);
     }
 
     @Override
-    public AddressesDetailHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AddressesDetailHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(org.sbercoin.wallet.R.layout.item_transaction_detail_light, parent, false);
         return new AddressesDetailHolder(view);

@@ -2,7 +2,8 @@ package org.sbercoin.wallet.model.gson.qstore;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ContractPurchase {
+public class ContractPurchase
+{
 
     @SerializedName("contract_id")
     private String contractId;
@@ -22,51 +23,63 @@ public class ContractPurchase {
     @SerializedName("from_addresses")
     private String[] fromAddresses;
 
-    public String getContractId() {
+    public String getContractId()
+    {
         return contractId;
     }
 
-    public void setContractId(String contractId) {
+    public void setContractId(String contractId)
+    {
         this.contractId = contractId;
     }
 
-    public String getRequestId() {
+    public String getRequestId()
+    {
         return requestId;
     }
 
-    public void setRequestId(String requestId) {
+    public void setRequestId(String requestId)
+    {
         this.requestId = requestId;
     }
 
-    public Float getAmount() {
+    public Float getAmount()
+    {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Float amount)
+    {
         this.amount = amount;
     }
 
-    public String getPayedAt() {
+    public String getPayedAt()
+    {
         return payedAt;
     }
 
-    public void setPayedAt(String payedAt) {
+    public void setPayedAt(String payedAt)
+    {
         this.payedAt = payedAt;
     }
 
-    public String getCreatedAt() {
+    public String getCreatedAt()
+    {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(String createdAt)
+    {
         this.createdAt = createdAt;
     }
 
-    public String[] getFromAddresses() {
+    public String[] getFromAddresses()
+    {
         return fromAddresses;
     }
 
-    public void setFromAddresses(String[] fromAddresses) {
+    public void setFromAddresses(String[] fromAddresses)
+    {
         this.fromAddresses = fromAddresses;
     }
 }

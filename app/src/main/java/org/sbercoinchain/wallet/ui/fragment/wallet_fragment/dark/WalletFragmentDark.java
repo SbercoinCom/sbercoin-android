@@ -10,42 +10,40 @@ import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.WalletFragment;
 import org.sbercoin.wallet.utils.ResizeWidthAnimation;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 
-public class WalletFragmentDark extends WalletFragment {
+public class WalletFragmentDark extends WalletFragment
+{
 
-    float headerPAdding = 0;
-    float prevPercents = 1;
-
-    float noInternetViewHeight;
-
-    @BindView(R.id.fade_divider)
-    View fadeDivider;
-
+    final DisplayMetrics dm = new DisplayMetrics();
     @BindView(R.id.page_indicator)
     public View pagerIndicator;
-
+    float headerPAdding = 0;
+    float prevPercents = 1;
+    float noInternetViewHeight;
+    @BindView(R.id.fade_divider)
+    View fadeDivider;
     @BindView(R.id.no_internet_title)
     View mNoInternetTitleTextView;
-
     @BindView(R.id.scroll_content)
     View scrollContent;
-
     @BindView(R.id.recycler_content)
     View recyclerContent;
+    boolean expanded = false;
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_wallet;
     }
 
-    final DisplayMetrics dm = new DisplayMetrics();
-
-    boolean expanded = false;
-
-    public void doDividerExpand() {
-        if (!expanded) {
+    public void doDividerExpand()
+    {
+        if (!expanded)
+        {
             expanded = true;
             fadeDivider.clearAnimation();
             fadeDivider.setVisibility(View.VISIBLE);
@@ -57,8 +55,10 @@ public class WalletFragmentDark extends WalletFragment {
         }
     }
 
-    public void doDividerCollapse() {
-        if (expanded) {
+    public void doDividerCollapse()
+    {
+        if (expanded)
+        {
             fadeDivider.clearAnimation();
             fadeDivider.setVisibility(View.INVISIBLE);
             ViewGroup.LayoutParams lp = fadeDivider.getLayoutParams();
@@ -69,7 +69,8 @@ public class WalletFragmentDark extends WalletFragment {
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
 
         showBottomNavView(R.color.primary_text_color);
@@ -81,10 +82,13 @@ public class WalletFragmentDark extends WalletFragment {
 
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener()
+        {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (mAppBarLayout != null) {
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset)
+            {
+                if (mAppBarLayout != null)
+                {
 
                     percents = (((getTotalRange() - Math.abs(verticalOffset)) * 1.0f) / getTotalRange());
 
@@ -92,16 +96,19 @@ public class WalletFragmentDark extends WalletFragment {
 
                     scrollContent.setY(noInternetViewHeight * percents - pxFromDp(1));
 
-                    if (percents == 0) {
+                    if (percents == 0)
+                    {
                         doDividerExpand();
-                    } else {
+                    } else
+                    {
                         doDividerCollapse();
                     }
 
                     final float textPercent = (percents >= .5f) ? percents : .5f;
                     final float textPercent3f = (percents >= .3f) ? percents : .3f;
 
-                    if (uncomfirmedBalanceTitle.getVisibility() == View.VISIBLE) {
+                    if (uncomfirmedBalanceTitle.getVisibility() == View.VISIBLE)
+                    {
                         animateText(percents, balanceLayout, .5f);
                         balanceLayout.setX(balanceView.getWidth() - (balanceView.getWidth() / 2 * percents + (balanceLayout.getWidth() * textPercent) / 2) - balanceLayout.getWidth() * (1 - textPercent) - headerPAdding * (1 - percents));
                         balanceLayout.setY(balanceView.getHeight() / 2 - balanceTitle.getHeight() * percents - balanceLayout.getHeight() * percents - balanceLayout.getHeight() * (1 - percents));
@@ -117,7 +124,8 @@ public class WalletFragmentDark extends WalletFragment {
                         uncomfirmedBalanceTitle.setY(balanceView.getHeight() / 2 + uncomfirmedBalanceValue.getHeight() * percents - (uncomfirmedBalanceTitle.getHeight() * percents * (1 - percents)));
                         uncomfirmedBalanceTitle.setX(balanceView.getWidth() / 2 * percents - (uncomfirmedBalanceTitle.getWidth() * textPercent3f) / 2 + headerPAdding * (1 - percents));
 
-                    } else {
+                    } else
+                    {
                         animateText(percents, balanceTitle, .7f);
                         balanceTitle.setX(balanceView.getWidth() / 2 * percents - (balanceTitle.getWidth() * textPercent3f) / 2 + headerPAdding * (1 - percents));
                         balanceTitle.setY(balanceView.getHeight() / 2 + balanceTitle.getHeight() / 2 * percents - balanceTitle.getHeight() / 2 * (1 - percents));
@@ -133,15 +141,19 @@ public class WalletFragmentDark extends WalletFragment {
 
     }
 
-    public int getTotalRange() {
+    public int getTotalRange()
+    {
         return mAppBarLayout.getTotalScrollRange();
     }
 
-    protected void animateText(float percents, View view, float fringe) {
-        if (percents > fringe) {
+    protected void animateText(float percents, View view, float fringe)
+    {
+        if (percents > fringe)
+        {
             view.setScaleX(percents);
             view.setScaleY(percents);
-        } else {
+        } else
+        {
             view.setScaleX(fringe);
             view.setScaleY(fringe);
         }
@@ -149,24 +161,30 @@ public class WalletFragmentDark extends WalletFragment {
 
 
     @Override
-    public void updateBalance(String balance, String unconfirmedBalance) {
-        try {
+    public void updateBalance(String balance, String unconfirmedBalance)
+    {
+        try
+        {
             balanceValue.setText(String.format("%s SBER", balance));
-            if (unconfirmedBalance != null) {
+            if (unconfirmedBalance != null)
+            {
                 uncomfirmedBalanceValue.setVisibility(View.VISIBLE);
                 uncomfirmedBalanceTitle.setVisibility(View.VISIBLE);
                 uncomfirmedBalanceValue.setText(String.format("%s SBER", unconfirmedBalance));
-            } else {
+            } else
+            {
                 uncomfirmedBalanceValue.setVisibility(View.GONE);
                 uncomfirmedBalanceTitle.setVisibility(View.GONE);
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e)
+        {
             Log.d("WalletFragmentDark", "updateBalance: " + e.getMessage());
         }
     }
 
     @Override
-    protected void createAdapter() {
+    protected void createAdapter()
+    {
         mTransactionAdapter = new TransactionAdapterDark(new ArrayList<History>(), getAdapterListener());
         mRecyclerView.setAdapter(mTransactionAdapter);
 //
@@ -180,25 +198,29 @@ public class WalletFragmentDark extends WalletFragment {
 
 
     @Override
-    public void offlineModeView() {
+    public void offlineModeView()
+    {
         noInternetViewHeight = pxFromDp(72);
         super.offlineModeView();
         resizeNoInetConnection();
     }
 
     @Override
-    public void onlineModeView() {
+    public void onlineModeView()
+    {
         noInternetViewHeight = pxFromDp(18);
         super.onlineModeView();
         resizeNoInetConnection();
     }
 
-    private void resizeNoInetConnection() {
+    private void resizeNoInetConnection()
+    {
         mLinearLayoutNoInternetConnection.getLayoutParams().height = (int) (noInternetViewHeight * percents);
         mLinearLayoutNoInternetConnection.requestLayout();
     }
 
-    public int pxFromDp(final float dp) {
+    public int pxFromDp(final float dp)
+    {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 

@@ -3,8 +3,8 @@ package org.sbercoin.wallet.ui.fragment.wallet_fragment;
 import android.support.v4.app.Fragment;
 
 import org.sbercoin.wallet.model.gson.history.History;
-import org.sbercoin.wallet.model.gson.history.HistoryResponse;
 import org.sbercoin.wallet.model.gson.history.HistoryPayType;
+import org.sbercoin.wallet.model.gson.history.HistoryResponse;
 import org.sbercoin.wallet.model.gson.history.TransactionReceipt;
 import org.sbercoin.wallet.model.gson.history.Vin;
 import org.sbercoin.wallet.model.gson.history.Vout;
@@ -26,7 +26,9 @@ import rx.schedulers.Schedulers;
 
 import static org.sbercoin.wallet.utils.StringUtils.convertBalanceToString;
 
-public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements WalletPresenter {
+public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements WalletPresenter
+{
+    private final int ONE_PAGE_COUNT = 25;
     private WalletInteractor mWalletFragmentInteractor;
     private WalletView mWalletView;
     private boolean mVisibility = false;
@@ -35,25 +37,28 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
     private int visibleItemCount = 0;
     private Integer totalItem;
 
-    private final int ONE_PAGE_COUNT = 25;
-
-    public WalletPresenterImpl(WalletView walletView, WalletInteractor interactor) {
+    public WalletPresenterImpl(WalletView walletView, WalletInteractor interactor)
+    {
         mWalletView = walletView;
         mWalletFragmentInteractor = interactor;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         String pubKey = getInteractor().getAddress();
         getView().updatePubKey(pubKey);
 
         //List<History> histories = getInteractor().getHistoriesFromDb(0,ONE_PAGE_COUNT);
 
-        getInteractor().addHistoryInDbChangeListener(new HistoryInDbChangeListener<History>() {
+        getInteractor().addHistoryInDbChangeListener(new HistoryInDbChangeListener<History>()
+        {
             @Override
-            public void onHistoryChange(RealmResults<History> histories, @Nullable OrderedCollectionChangeSet changeSet) {
-                if (visibleItemCount <= histories.size()) {
+            public void onHistoryChange(RealmResults<History> histories, @Nullable OrderedCollectionChangeSet changeSet)
+            {
+                if (visibleItemCount <= histories.size())
+                {
                     getView().updateHistory(histories.subList(0, visibleItemCount), changeSet, visibleItemCount);
                 }
             }
@@ -61,29 +66,36 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
 
     }
 
-    private void getHistoriesFromApi(final int start) {
-        if (totalItem != null && totalItem == start) {
+    private void getHistoriesFromApi(final int start)
+    {
+        if (totalItem != null && totalItem == start)
+        {
             getView().hideBottomLoader();
             return;
         }
         getInteractor().getHistoryList(ONE_PAGE_COUNT, start)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HistoryResponse>() {
+                .subscribe(new Subscriber<HistoryResponse>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
 
                     }
 
                     @Override
-                    public void onNext(final HistoryResponse historyResponse) {
+                    public void onNext(final HistoryResponse historyResponse)
+                    {
                         setTotalItem(historyResponse.getTotalItems());
-                        for (History history : historyResponse.getItems()) {
+                        for (History history : historyResponse.getItems())
+                        {
                             prepareHistory(history);
                         }
                         visibleItemCount += historyResponse.getItems().size();
@@ -94,31 +106,40 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
                 });
     }
 
-    private void getHistoriesFromRealm() {
+    private void getHistoriesFromRealm()
+    {
         int allCount = getInteractor().getHistoryDbCount();
-        if (allCount - visibleItemCount > 0) {
+        if (allCount - visibleItemCount > 0)
+        {
             int toUpdate;
-            if (allCount - visibleItemCount > 25) {
+            if (allCount - visibleItemCount > 25)
+            {
                 toUpdate = 25;
-            } else {
+            } else
+            {
                 toUpdate = allCount - visibleItemCount;
             }
             List<History> historiesFromRealm = getInteractor().getHistorySubList(0, visibleItemCount + toUpdate);
             visibleItemCount += toUpdate;
             visibleItemCount = historiesFromRealm.size();
             getView().updateHistory(historiesFromRealm, 0, toUpdate);
-        } else {
+        } else
+        {
             getView().hideBottomLoader();
         }
     }
 
-    private void prepareHistory(History history) {
+    private void prepareHistory(History history)
+    {
         calculateChangeInBalance(history, getInteractor().getAddresses());
-        if (history.getBlockTime() != null) {
+        if (history.getBlockTime() != null)
+        {
             TransactionReceipt transactionReceipt = getInteractor().getReceiptByRxhHashFromRealm(history.getTxHash());
-            if (transactionReceipt == null) {
+            if (transactionReceipt == null)
+            {
                 initTransactionReceipt(history.getTxHash());
-            } else {
+            } else
+            {
                 history.setReceiptUpdated(true);
                 history.setContractType(transactionReceipt.getContractAddress() != null);
             }
@@ -126,31 +147,38 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
     }
 
     @Override
-    public WalletView getView() {
+    public WalletView getView()
+    {
         return mWalletView;
     }
 
-    private WalletInteractor getInteractor() {
+    private WalletInteractor getInteractor()
+    {
         return mWalletFragmentInteractor;
     }
 
     @Override
-    public void onTransactionClick(String txHash) {
+    public void onTransactionClick(String txHash)
+    {
         Fragment fragment = TransactionFragment.newInstance(getView().getContext(), txHash, HistoryType.History);
         getView().openFragment(fragment);
     }
 
     @Override
-    public void onLastItem(final int currentItemCount) {
+    public void onLastItem(final int currentItemCount)
+    {
         getView().showBottomLoader();
-        if (mNetworkConnectedFlag) {
+        if (mNetworkConnectedFlag)
+        {
             getHistoriesFromApi(currentItemCount);
-        } else {
+        } else
+        {
             getHistoriesFromRealm();
         }
     }
 
-    private void calculateChangeInBalance(History history, List<String> addresses) {
+    private void calculateChangeInBalance(History history, List<String> addresses)
+    {
         BigDecimal totalVin = new BigDecimal("0.0");
         BigDecimal totalVout = new BigDecimal("0.0");
         BigDecimal totalOwnVin = new BigDecimal("0.0");
@@ -159,10 +187,13 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
         boolean isOwnVin = false;
         boolean isEnemyVout = false;
 
-        for (Vin vin : history.getVin()) {
+        for (Vin vin : history.getVin())
+        {
             vin.setValueString(convertBalanceToString(vin.getValue()));
-            for (String address : addresses) {
-                if (vin.getAddress().equals(address)) {
+            for (String address : addresses)
+            {
+                if (vin.getAddress().equals(address))
+                {
                     isOwnVin = true;
                     vin.setOwnAddress(true);
                     totalOwnVin = totalOwnVin.add(vin.getValue());
@@ -171,15 +202,19 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
             totalVin = totalVin.add(vin.getValue());
         }
 
-        for (Vout vout : history.getVout()) {
+        for (Vout vout : history.getVout())
+        {
             vout.setValueString(convertBalanceToString(vout.getValue()));
-            for (String address : addresses) {
-                if (vout.getAddress().equals(address)) {
+            for (String address : addresses)
+            {
+                if (vout.getAddress().equals(address))
+                {
                     vout.setOwnAddress(true);
                     totalOwnVout = totalOwnVout.add(vout.getValue());
                 }
             }
-            if(!vout.isOwnAddress()){
+            if (!vout.isOwnAddress())
+            {
                 isEnemyVout = true;
             }
             totalVout = totalVout.add(vout.getValue());
@@ -187,31 +222,40 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
 
         history.setFee(convertBalanceToString(totalVin.subtract(totalVout)));
         BigDecimal changeInBalance;
-        if (isOwnVin) {
+        if (isOwnVin)
+        {
             changeInBalance = totalOwnVout.subtract(totalOwnVin).add(totalVin.subtract(totalVout));
-        } else {
+        } else
+        {
             changeInBalance = totalOwnVout.subtract(totalOwnVin);
         }
         history.setChangeInBalance(convertBalanceToString(changeInBalance));
-        if (!isEnemyVout && isOwnVin) {
+        if (!isEnemyVout && isOwnVin)
+        {
             history.setHistoryType(HistoryPayType.Internal_Transaction);
-        } else {
-            if (changeInBalance.doubleValue() > 0) {
+        } else
+        {
+            if (changeInBalance.doubleValue() > 0)
+            {
                 history.setHistoryType(HistoryPayType.Received);
-            } else {
+            } else
+            {
                 history.setHistoryType(HistoryPayType.Sent);
             }
         }
     }
 
     @Override
-    public void onNetworkStateChanged(boolean networkConnectedFlag) {
-        if (networkConnectedFlag) {
+    public void onNetworkStateChanged(boolean networkConnectedFlag)
+    {
+        if (networkConnectedFlag)
+        {
             getView().onlineModeView();
             visibleItemCount = 0;
             getView().clearAdapter();
             getHistoriesFromApi(0);
-        } else {
+        } else
+        {
             getView().offlineModeView();
             getHistoriesFromRealm();
         }
@@ -219,38 +263,46 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
     }
 
     @Override
-    public void onNewHistory(final History history) {
+    public void onNewHistory(final History history)
+    {
         prepareHistory(history);
-        if(getInteractor().getHistory(history.getTxHash())==null) {
+        if (getInteractor().getHistory(history.getTxHash()) == null)
+        {
             visibleItemCount++;
         }
         getInteractor().updateHistoryInRealm(history);
 
     }
 
-    private void initTransactionReceipt(final String txHash) {
+    private void initTransactionReceipt(final String txHash)
+    {
 
         getInteractor().getTransactionReceipt(txHash)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<TransactionReceipt>>() {
+                .subscribe(new Subscriber<List<TransactionReceipt>>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
 
                     }
 
                     @Override
-                    public void onNext(final List<TransactionReceipt> transactionReceipt) {
+                    public void onNext(final List<TransactionReceipt> transactionReceipt)
+                    {
 
                         TransactionReceipt transactionReceiptRealm = new TransactionReceipt(txHash);
-                        getInteractor().setUpHistoryReceipt(txHash, transactionReceipt.size()>0);
+                        getInteractor().setUpHistoryReceipt(txHash, transactionReceipt.size() > 0);
 
-                        if (transactionReceipt.size() > 0) {
+                        if (transactionReceipt.size() > 0)
+                        {
                             transactionReceiptRealm = transactionReceipt.get(0);
                         }
                         getInteractor().updateReceiptInRealm(transactionReceiptRealm);
@@ -261,30 +313,35 @@ public class WalletPresenterImpl extends BaseFragmentPresenterImpl implements Wa
     }
 
     @Override
-    public boolean getVisibility() {
+    public boolean getVisibility()
+    {
         return mVisibility;
     }
 
     @Override
-    public void updateVisibility(boolean value) {
+    public void updateVisibility(boolean value)
+    {
         this.mVisibility = value;
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        if (mSubscriptionList != null) {
+        if (mSubscriptionList != null)
+        {
             mSubscriptionList.clear();
         }
     }
 
-    public void setNetworkConnectedFlag(boolean mNetworkConnectedFlag) {
+    public void setNetworkConnectedFlag(boolean mNetworkConnectedFlag)
+    {
         this.mNetworkConnectedFlag = mNetworkConnectedFlag;
     }
 
 
-
-    public void setTotalItem(Integer totalItem) {
+    public void setTotalItem(Integer totalItem)
+    {
         this.totalItem = totalItem;
     }
 }

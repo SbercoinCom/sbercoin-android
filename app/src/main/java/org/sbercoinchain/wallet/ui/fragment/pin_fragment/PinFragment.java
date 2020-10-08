@@ -19,73 +19,41 @@ import android.widget.Toast;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
+import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.backup_wallet_fragment.BackUpWalletFragment;
 import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;
 import org.sbercoin.wallet.ui.fragment.touch_id_preference_fragment.TouchIDPreferenceFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.utils.CryptoUtils;
-import org.sbercoin.wallet.utils.PinEntryEditText;
 import org.sbercoin.wallet.utils.FontTextView;
+import org.sbercoin.wallet.utils.PinEntryEditText;
 
 import javax.crypto.Cipher;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public abstract class PinFragment extends BaseFragment implements PinView {
-
-    private PinPresenter mPinFragmentPresenter;
-
-    protected int prevStatusBarColor;
+public abstract class PinFragment extends BaseFragment implements PinView
+{
 
     private final static String ACTION = "action";
     private final static String PASSPHRASE = "passphrase";
-
-    private FingerprintHelper mFingerprintHelper;
-    private FingerPrintHelperCompat23 mFingerPrintHelperCompat23;
-
+    protected int prevStatusBarColor;
     @BindView(R.id.til_wallet_pin)
     PinEntryEditText mWalletPin;
-
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.tv_toolbar_title)
     FontTextView mTextViewToolBarTitle;
-
     @BindView(R.id.tooltip)
     FontTextView tooltip;
+    Handler softHandler;
+    private PinPresenter mPinFragmentPresenter;
+    private FingerprintHelper mFingerprintHelper;
+    private FingerPrintHelperCompat23 mFingerPrintHelperCompat23;
 
-    @OnClick({R.id.bt_cancel})
-    void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_cancel:
-                getPresenter().cancel();
-                break;
-        }
-    }
-
-    @Override
-    public void unregisterKeyboardListener() {
-        getMainActivity().unregisterKeyboardListener();
-    }
-
-    @Override
-    public void onCancelClick() {
-        getMainActivity().onBackPressed();
-    }
-
-    @Override
-    public void setCheckAuthenticationShowFlag(boolean checkAuthenticationShowFlag) {
-        getMainActivity().setCheckAuthenticationShowFlag(checkAuthenticationShowFlag);
-    }
-
-    @Override
-    public void onBackPressed() {
-        getMainActivity().onBackPressed();
-    }
-
-    public static BaseFragment newInstance(PinAction action, String passphrase, Context context) {
+    public static BaseFragment newInstance(PinAction action, String passphrase, Context context)
+    {
         BaseFragment pinFragment = Factory.instantiateFragment(context, PinFragment.class);
         Bundle args = new Bundle();
         args.putSerializable(ACTION, action);
@@ -94,7 +62,8 @@ public abstract class PinFragment extends BaseFragment implements PinView {
         return pinFragment;
     }
 
-    public static BaseFragment newInstance(PinAction action, Context context) {
+    public static BaseFragment newInstance(PinAction action, Context context)
+    {
         BaseFragment pinFragment = Factory.instantiateFragment(context, PinFragment.class);
         Bundle args = new Bundle();
         args.putSerializable(ACTION, action);
@@ -102,19 +71,58 @@ public abstract class PinFragment extends BaseFragment implements PinView {
         return pinFragment;
     }
 
+    @OnClick({R.id.bt_cancel})
+    void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.bt_cancel:
+                getPresenter().cancel();
+                break;
+        }
+    }
+
     @Override
-    protected void createPresenter() {
+    public void unregisterKeyboardListener()
+    {
+        getMainActivity().unregisterKeyboardListener();
+    }
+
+    @Override
+    public void onCancelClick()
+    {
+        getMainActivity().onBackPressed();
+    }
+
+    @Override
+    public void setCheckAuthenticationShowFlag(boolean checkAuthenticationShowFlag)
+    {
+        getMainActivity().setCheckAuthenticationShowFlag(checkAuthenticationShowFlag);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        getMainActivity().onBackPressed();
+    }
+
+    @Override
+    protected void createPresenter()
+    {
         mPinFragmentPresenter = new PinPresenterImpl(this, new PinInteractorImpl(getContext()));
     }
 
     @Override
-    protected PinPresenter getPresenter() {
+    protected PinPresenter getPresenter()
+    {
         return mPinFragmentPresenter;
     }
 
     @Override
-    public void confirmError(String errorText) {
-        if (mWalletPin != null) {
+    public void confirmError(String errorText)
+    {
+        if (mWalletPin != null)
+        {
             mWalletPin.setText("");
             tooltip.setText(errorText);
             tooltip.setTextColor(ContextCompat.getColor(getContext(), R.color.accent_red_color));
@@ -123,8 +131,10 @@ public abstract class PinFragment extends BaseFragment implements PinView {
     }
 
     @Override
-    public void confirmError(@StringRes int resId) {
-        if (mWalletPin != null) {
+    public void confirmError(@StringRes int resId)
+    {
+        if (mWalletPin != null)
+        {
             mWalletPin.setText("");
             tooltip.setText(resId);
             tooltip.setTextColor(ContextCompat.getColor(getContext(), R.color.accent_red_color));
@@ -133,12 +143,14 @@ public abstract class PinFragment extends BaseFragment implements PinView {
     }
 
     @Override
-    public void clearPin() {
+    public void clearPin()
+    {
         mWalletPin.setText("");
     }
 
     @Override
-    public void updateState(int state) {
+    public void updateState(int state)
+    {
         mWalletPin.setText("");
         tooltip.setText(state);
         tooltip.setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
@@ -146,269 +158,325 @@ public abstract class PinFragment extends BaseFragment implements PinView {
     }
 
     @Override
-    public boolean checkTouchIdEnable() {
+    public boolean checkTouchIdEnable()
+    {
         return getMainActivity().checkTouchIdEnable();
     }
 
     @Override
-    public boolean checkAvailabilityTouchId() {
+    public boolean checkAvailabilityTouchId()
+    {
         return getMainActivity().checkAvailabilityTouchId();
     }
 
     @Override
-    public void clearError() {
-        if (!this.isDetached() && tooltip != null) {
+    public void clearError()
+    {
+        if (!this.isDetached() && tooltip != null)
+        {
             tooltip.setText("");
             tooltip.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
-    public void setToolBarTitle(int titleID) {
+    public void setToolBarTitle(int titleID)
+    {
         mTextViewToolBarTitle.setText(titleID);
     }
 
     @Override
-    public void setPin(String pin) {
-        if (!this.isDetached() && mWalletPin != null) {
+    public void setPin(String pin)
+    {
+        if (!this.isDetached() && mWalletPin != null)
+        {
             mWalletPin.setText(pin);
         }
     }
 
     @Override
-    public String getPassphrase() {
+    public String getPassphrase()
+    {
         return getArguments().getString(PASSPHRASE);
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         hideKeyBoard();
         getMainActivity().resetAuthFlags();
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         String hexColor = String.format("#%06X", (0xFFFFFF & prevStatusBarColor));
         getMainActivity().recolorStatusBar(hexColor);
     }
 
-    Handler softHandler;
-
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         mWalletPin.setFocusableInTouchMode(true);
         mWalletPin.requestFocus();
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
+        if (imm != null)
+        {
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
         }
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         softHandler = new Handler();
         getPresenter().setAction((PinAction) getArguments().getSerializable(ACTION));
-        mWalletPin.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener() {
+        mWalletPin.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener()
+        {
             @Override
-            public void onPinEntered(CharSequence str) {
+            public void onPinEntered(CharSequence str)
+            {
                 getPresenter().confirm(str.toString());
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             prevStatusBarColor = getMainActivity().getWindow().getStatusBarColor();
         }
         getMainActivity().hideBottomNavigationView(getThemedStatusBarColor());
     }
 
     @Override
-    public void prepareSensor() {
+    public void prepareSensor()
+    {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        {
             FingerprintManagerCompat.CryptoObject cryptoObject = CryptoUtils.getCryptoObject();
-            if (cryptoObject != null) {
+            if (cryptoObject != null)
+            {
                 mFingerprintHelper = new FingerprintHelper(getContext());
                 mFingerprintHelper.startAuth(cryptoObject);
-            } else {
+            } else
+            {
                 //TODO: make
                 Toast.makeText(getContext(), "new fingerprint enrolled. enter pin again", Toast.LENGTH_SHORT).show();
             }
-        } else {
+        } else
+        {
             FingerprintManager.CryptoObject cryptoObject = CryptoUtils.getCryptoObjectCompat23();
-            if (cryptoObject != null) {
+            if (cryptoObject != null)
+            {
                 mFingerPrintHelperCompat23 = new FingerPrintHelperCompat23(getContext());
                 mFingerPrintHelperCompat23.startAuth(cryptoObject);
-            } else {
+            } else
+            {
                 //TODO: make
                 Toast.makeText(getContext(), "new fingerprint enrolled. enter pin again", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public class FingerPrintHelperCompat23 extends FingerprintManager.AuthenticationCallback {
-
-        private Context mContext;
-        private android.os.CancellationSignal mCancellationSignal;
-
-        FingerPrintHelperCompat23(Context context) {
-            mContext = context;
-        }
-
-        void cancel() {
-            if (mCancellationSignal != null) {
-                mCancellationSignal.cancel();
-            }
-        }
-
-        void startAuth(FingerprintManager.CryptoObject cryptoObject) {
-            mCancellationSignal = new android.os.CancellationSignal();
-            FingerprintManager manager = (FingerprintManager) mContext.getSystemService(Context.FINGERPRINT_SERVICE);
-            manager.authenticate(cryptoObject, mCancellationSignal, 0, this, null);
-        }
-
-        @Override
-        public void onAuthenticationError(int errorCode, CharSequence errString) {
-            super.onAuthenticationError(errorCode, errString);
-            confirmError(errString.toString());
-        }
-
-        @Override
-        public void onAuthenticationFailed() {
-            super.onAuthenticationFailed();
-            confirmError("try again");
-        }
-
-        @Override
-        public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
-            super.onAuthenticationHelp(helpCode, helpString);
-            confirmError(helpString.toString());
-        }
-
-        @Override
-        public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
-            super.onAuthenticationSucceeded(result);
-            Cipher cipher = result.getCryptoObject().getCipher();
-            getPresenter().onAuthenticationSucceeded(cipher);
-        }
-    }
-
-    public class FingerprintHelper extends FingerprintManagerCompat.AuthenticationCallback {
-        private Context mContext;
-        private CancellationSignal mCancellationSignal;
-
-        FingerprintHelper(Context context) {
-            mContext = context;
-        }
-
-        void startAuth(FingerprintManagerCompat.CryptoObject cryptoObject) {
-            mCancellationSignal = new CancellationSignal();
-            FingerprintManagerCompat manager = FingerprintManagerCompat.from(mContext);
-            manager.authenticate(cryptoObject, 0, mCancellationSignal, this, null);
-        }
-
-        void cancel() {
-            if (mCancellationSignal != null) {
-                mCancellationSignal.cancel();
-            }
-        }
-
-        @Override
-        public void onAuthenticationError(int errMsgId, CharSequence errString) {
-            confirmError(errString.toString());
-        }
-
-        @Override
-        public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-            confirmError(helpString.toString());
-        }
-
-        @Override
-        public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
-            Cipher cipher = result.getCryptoObject().getCipher();
-            getPresenter().onAuthenticationSucceeded(cipher);
-        }
-
-        @Override
-        public void onAuthenticationFailed() {
-            confirmError("try again");
         }
     }
 
     @Override
-    public void checkSensorState(MainActivity.SensorStateListener sensorStateListener) {
+    public void checkSensorState(MainActivity.SensorStateListener sensorStateListener)
+    {
         getMainActivity().checkSensorState(sensorStateListener);
     }
 
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         super.onStop();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            if (mFingerprintHelper != null) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        {
+            if (mFingerprintHelper != null)
+            {
                 mFingerprintHelper.cancel();
             }
-        } else {
-            if (mFingerPrintHelperCompat23 != null) {
+        } else
+        {
+            if (mFingerPrintHelperCompat23 != null)
+            {
                 mFingerPrintHelperCompat23.cancel();
             }
         }
     }
 
     @Override
-    public void openTouchIDPreferenceFragment(boolean isImporting, String pin) {
+    public void openTouchIDPreferenceFragment(boolean isImporting, String pin)
+    {
         Fragment fragment = TouchIDPreferenceFragment.newInstance(getContext(), isImporting, pin);
         openRootFragment(fragment);
     }
 
     @Override
-    public void openSendFragment(boolean qrCodeRecognition, String address, String amount, String tokenAddress) {
+    public void openSendFragment(boolean qrCodeRecognition, String address, String amount, String tokenAddress)
+    {
         final BaseFragment sendFragment = SendFragment.newInstance(false, address, amount, tokenAddress, getContext());
         getMainActivity().setRootFragment(sendFragment);
         openRootFragment(sendFragment);
     }
 
     @Override
-    public void openBackUpWalletFragment(boolean isWalletCreating, String pin) {
-        if (isWalletCreating) {
+    public void openBackUpWalletFragment(boolean isWalletCreating, String pin)
+    {
+        if (isWalletCreating)
+        {
             Fragment backUpWalletFragment = BackUpWalletFragment.newInstance(getContext(), isWalletCreating, pin);
             openFragmentWithBackStack(backUpWalletFragment, backUpWalletFragment.getClass().getName());
-        } else {
+        } else
+        {
             Fragment backUpWalletFragment = BackUpWalletFragment.newInstance(getContext(), isWalletCreating, pin);
             openFragment(backUpWalletFragment);
         }
     }
 
     @Override
-    public String getAddressForSendAction() {
+    public String getAddressForSendAction()
+    {
         return getMainActivity().getAddressForSendAction();
     }
 
     @Override
-    public String getAmountForSendAction() {
+    public String getAmountForSendAction()
+    {
         return getMainActivity().getAmountForSendAction();
     }
 
     @Override
-    public String getTokenForSendAction() {
+    public String getTokenForSendAction()
+    {
         return getMainActivity().getTokenForSendAction();
     }
 
     @Override
-    public void onLogin() {
+    public void onLogin()
+    {
         getMainActivity().onLogin();
     }
 
     @Override
-    public void onAuth() {
+    public void onAuth()
+    {
         getMainActivity().onAuth();
     }
 
     @Override
-    public void setDigitPin(int digit) {
+    public void setDigitPin(int digit)
+    {
         mWalletPin.setFilters(new InputFilter[]{
                 new InputFilter.LengthFilter(digit)
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public class FingerPrintHelperCompat23 extends FingerprintManager.AuthenticationCallback
+    {
+
+        private Context mContext;
+        private android.os.CancellationSignal mCancellationSignal;
+
+        FingerPrintHelperCompat23(Context context)
+        {
+            mContext = context;
+        }
+
+        void cancel()
+        {
+            if (mCancellationSignal != null)
+            {
+                mCancellationSignal.cancel();
+            }
+        }
+
+        void startAuth(FingerprintManager.CryptoObject cryptoObject)
+        {
+            mCancellationSignal = new android.os.CancellationSignal();
+            FingerprintManager manager = (FingerprintManager) mContext.getSystemService(Context.FINGERPRINT_SERVICE);
+            manager.authenticate(cryptoObject, mCancellationSignal, 0, this, null);
+        }
+
+        @Override
+        public void onAuthenticationError(int errorCode, CharSequence errString)
+        {
+            super.onAuthenticationError(errorCode, errString);
+            confirmError(errString.toString());
+        }
+
+        @Override
+        public void onAuthenticationFailed()
+        {
+            super.onAuthenticationFailed();
+            confirmError("try again");
+        }
+
+        @Override
+        public void onAuthenticationHelp(int helpCode, CharSequence helpString)
+        {
+            super.onAuthenticationHelp(helpCode, helpString);
+            confirmError(helpString.toString());
+        }
+
+        @Override
+        public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result)
+        {
+            super.onAuthenticationSucceeded(result);
+            Cipher cipher = result.getCryptoObject().getCipher();
+            getPresenter().onAuthenticationSucceeded(cipher);
+        }
+    }
+
+    public class FingerprintHelper extends FingerprintManagerCompat.AuthenticationCallback
+    {
+        private Context mContext;
+        private CancellationSignal mCancellationSignal;
+
+        FingerprintHelper(Context context)
+        {
+            mContext = context;
+        }
+
+        void startAuth(FingerprintManagerCompat.CryptoObject cryptoObject)
+        {
+            mCancellationSignal = new CancellationSignal();
+            FingerprintManagerCompat manager = FingerprintManagerCompat.from(mContext);
+            manager.authenticate(cryptoObject, 0, mCancellationSignal, this, null);
+        }
+
+        void cancel()
+        {
+            if (mCancellationSignal != null)
+            {
+                mCancellationSignal.cancel();
+            }
+        }
+
+        @Override
+        public void onAuthenticationError(int errMsgId, CharSequence errString)
+        {
+            confirmError(errString.toString());
+        }
+
+        @Override
+        public void onAuthenticationHelp(int helpMsgId, CharSequence helpString)
+        {
+            confirmError(helpString.toString());
+        }
+
+        @Override
+        public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result)
+        {
+            Cipher cipher = result.getCryptoObject().getCipher();
+            getPresenter().onAuthenticationSucceeded(cipher);
+        }
+
+        @Override
+        public void onAuthenticationFailed()
+        {
+            confirmError("try again");
+        }
     }
 }

@@ -7,16 +7,19 @@ import org.sbercoin.wallet.model.news.News;
 
 import java.lang.ref.WeakReference;
 
-public class NewsDetailInteractorImpl implements NewsDetailInteractor {
+public class NewsDetailInteractorImpl implements NewsDetailInteractor
+{
 
     WeakReference<Context> mContext;
 
-    public NewsDetailInteractorImpl(Context context) {
+    public NewsDetailInteractorImpl(Context context)
+    {
         mContext = new WeakReference<>(context);
     }
 
     @Override
-    public News getNews(int newsPosition) {
+    public News getNews(int newsPosition)
+    {
         return NewsStorage.newInstance().getNews(newsPosition);
     }
 }

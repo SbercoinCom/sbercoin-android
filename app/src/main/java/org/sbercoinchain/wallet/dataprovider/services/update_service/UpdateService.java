@@ -26,33 +26,32 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.dataprovider.firebase.FirebaseSharedPreferences;
 import org.sbercoin.wallet.dataprovider.firebase.listeners.FireBaseTokenRefreshListener;
 import org.sbercoin.wallet.dataprovider.rest_api.sbercoin.SBERService;
 import org.sbercoin.wallet.dataprovider.services.update_service.listeners.BalanceChangeListener;
+import org.sbercoin.wallet.dataprovider.services.update_service.listeners.ContractPurchaseListener;
+import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenBalanceChangeListener;
+import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenListener;
+import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TransactionListener;
+import org.sbercoin.wallet.datastorage.KeyStorage;
 import org.sbercoin.wallet.datastorage.QStoreStorage;
 import org.sbercoin.wallet.datastorage.SBERSharedPreference;
 import org.sbercoin.wallet.datastorage.TinyDB;
+import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.ContractCreationStatus;
+import org.sbercoin.wallet.model.contract.Token;
+import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.history.HistoryResponse;
 import org.sbercoin.wallet.model.gson.history.Vin;
 import org.sbercoin.wallet.model.gson.history.Vout;
+import org.sbercoin.wallet.model.gson.qstore.ContractPurchase;
 import org.sbercoin.wallet.model.gson.qstore.PurchaseItem;
 import org.sbercoin.wallet.model.gson.token_balance.Balance;
 import org.sbercoin.wallet.model.gson.token_balance.TokenBalance;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.utils.BoughtContractBuilder;
-
-import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.dataprovider.services.update_service.listeners.ContractPurchaseListener;
-import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenListener;
-import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TransactionListener;
-import org.sbercoin.wallet.model.contract.Contract;
-import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenBalanceChangeListener;
-import org.sbercoin.wallet.model.gson.history.History;
-import org.sbercoin.wallet.model.gson.qstore.ContractPurchase;
-import org.sbercoin.wallet.datastorage.KeyStorage;
 import org.sbercoin.wallet.utils.ContractBuilder;
 import org.sbercoin.wallet.utils.CurrentNetParams;
 import org.sbercoin.wallet.utils.DateCalculator;
@@ -86,10 +85,13 @@ import static org.sbercoin.wallet.WearListCallListenerService.ITEMS;
 import static org.sbercoin.wallet.WearListCallListenerService.UNC_BALANCE;
 import static org.sbercoin.wallet.utils.StringUtils.convertBalanceToString;
 
-public class UpdateService extends Service implements GoogleApiClient.ConnectionCallbacks {
+public class UpdateService extends Service implements GoogleApiClient.ConnectionCallbacks
+{
 
     private final static String TAG = "UPDATE_SERVICE";
+    private static UpdateService instance;
     private final int DEFAULT_NOTIFICATION_ID = 101;
+    String[] firebaseTokens;
     private NotificationManager notificationManager;
     private TransactionListener mTransactionListener = null;
     private List<BalanceChangeListener> mBalanceChangeListeners = new ArrayList<>();
@@ -107,34 +109,36 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
     private Long mLastUpdatedBalanceTime = System.currentTimeMillis();
     private GoogleApiClient mApiClient;
     private List<String> addresses;
-
-    public String getBalance() {
-        return balance != null ? balance.toString() : null;
-    }
-
-    public String getUnconfirmedBalance() {
-        return unconfirmedBalance != null ? unconfirmedBalance.toString() : null;
-    }
-
     private String mFirebasePrevToken;
     private String mFirebaseCurrentToken;
 
     private UpdateBinder mUpdateBinder = new UpdateBinder();
-    String[] firebaseTokens;
 
-    private static UpdateService instance;
+    public String getBalance()
+    {
+        return balance != null ? balance.toString() : null;
+    }
 
-    public UpdateService getInstance() {
+    public String getUnconfirmedBalance()
+    {
+        return unconfirmedBalance != null ? unconfirmedBalance.toString() : null;
+    }
+
+    public UpdateService getInstance()
+    {
         return instance;
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
     }
 
-    public void initGoogleApiClient() {
-        if (mApiClient == null) {
+    public void initGoogleApiClient()
+    {
+        if (mApiClient == null)
+        {
             mApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Wearable.API)
                     .addConnectionCallbacks(this)
@@ -144,7 +148,8 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
 
         initGoogleApiClient();
@@ -154,36 +159,45 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
         String balanceString = sbercoinSharedPreference.getBalanceString(getApplicationContext());
         final String unconfirmedBalanceString = sbercoinSharedPreference.getUnconfirmedBalanceString(getApplicationContext());
         Long lastUpdatedBalanceTime = sbercoinSharedPreference.getLastUpdatedBalanceTime(getApplicationContext());
-        if(!balanceString.isEmpty()) {
+        if (!balanceString.isEmpty())
+        {
             balance = new BigDecimal(balanceString);
         }
-        if(!unconfirmedBalanceString.isEmpty()){
+        if (!unconfirmedBalanceString.isEmpty())
+        {
             unconfirmedBalance = new BigDecimal(unconfirmedBalanceString);
         }
 
-            mLastUpdatedBalanceTime = lastUpdatedBalanceTime;
+        mLastUpdatedBalanceTime = lastUpdatedBalanceTime;
 
 
-        try {
+        try
+        {
             SSLContext mySSLContext = SSLContext.getInstance("TLS");
-            HostnameVerifier myHostnameVerifier = new HostnameVerifier() {
+            HostnameVerifier myHostnameVerifier = new HostnameVerifier()
+            {
                 @Override
-                public boolean verify(String hostname, SSLSession session) {
+                public boolean verify(String hostname, SSLSession session)
+                {
                     return true;
                 }
             };
-            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager()
+            {
                 @Override
-                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
+                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException
+                {
 
                 }
 
                 @Override
-                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
+                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException
+                {
 
                 }
 
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers()
+                {
                     return new java.security.cert.X509Certificate[]{};
                 }
             }};
@@ -193,7 +207,8 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
             opts.hostnameVerifier = myHostnameVerifier;
 
             socket = IO.socket(CurrentNetParams.getUrl(), opts);
-        } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException e) {
+        } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException e)
+        {
             e.printStackTrace();
         }
 
@@ -204,59 +219,75 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
         mFirebasePrevToken = firebaseTokens[0];
         mFirebaseCurrentToken = firebaseTokens[1];
 
-        FirebaseSharedPreferences.getInstance().addFirebaseTokenRefreshListener(new FireBaseTokenRefreshListener() {
+        FirebaseSharedPreferences.getInstance().addFirebaseTokenRefreshListener(new FireBaseTokenRefreshListener()
+        {
             @Override
-            public void onRefresh(String prevToken, String currentToken) {
+            public void onRefresh(String prevToken, String currentToken)
+            {
                 mFirebasePrevToken = prevToken;
                 mFirebaseCurrentToken = currentToken;
                 subscribeSocket();
             }
         });
 
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener()
+        {
             @Override
-            public void call(Object... args) {
+            public void call(Object... args)
+            {
 
                 subscribeSocket();
 
             }
-        }).on("balance_changed", new Emitter.Listener() {
+        }).on("balance_changed", new Emitter.Listener()
+        {
             @Override
-            public void call(Object... args) {
-                try {
+            public void call(Object... args)
+            {
+                try
+                {
                     JSONObject data = (JSONObject) args[0];
 
-                    try {
+                    try
+                    {
                         unconfirmedBalance = (new BigDecimal(data.getString("unconfirmedBalance"))).divide(new BigDecimal("10000000"), MathContext.DECIMAL128);
                         balance = (new BigDecimal(data.getString("balance"))).divide(new BigDecimal("10000000"), MathContext.DECIMAL128);
                         mLastUpdatedBalanceTime = DateCalculator.getCurrentDate();
                         sbercoinSharedPreference.setBalanceString(getApplicationContext(), balance.toString());
                         sbercoinSharedPreference.setUnconfirmedBalanceString(getApplicationContext(), unconfirmedBalance.toString());
                         sbercoinSharedPreference.setLastUpdatedBalanceTime(getApplicationContext(), mLastUpdatedBalanceTime);
-                    } catch (JSONException e) {
+                    } catch (JSONException e)
+                    {
                         e.printStackTrace();
                     }
-                    for (BalanceChangeListener balanceChangeListener : mBalanceChangeListeners) {
+                    for (BalanceChangeListener balanceChangeListener : mBalanceChangeListeners)
+                    {
                         balanceChangeListener.onChangeBalance(unconfirmedBalance, balance, mLastUpdatedBalanceTime);
                     }
                     onBalanceChange();
-                } catch (ClassCastException e) {
+                } catch (ClassCastException e)
+                {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
-        }).on("new_transaction", new Emitter.Listener() {
+        }).on("new_transaction", new Emitter.Listener()
+        {
             @Override
-            public void call(Object... args) {
+            public void call(Object... args)
+            {
                 Gson gson = new Gson();
                 JSONObject data = (JSONObject) args[0];
                 History history = gson.fromJson(data.toString(), History.class);
 
-                if (history.getBlockTime() != null) {
+                if (history.getBlockTime() != null)
+                {
 
                     ContractCreationStatus contractCreationStatus;
-                    if (history.getContractHasBeenCreated() != null && history.getContractHasBeenCreated()) {
+                    if (history.getContractHasBeenCreated() != null && history.getContractHasBeenCreated())
+                    {
                         contractCreationStatus = ContractCreationStatus.Created;
-                    } else {
+                    } else
+                    {
                         contractCreationStatus = ContractCreationStatus.Failed;
                     }
                     String txHash = history.getTxHash();
@@ -267,8 +298,10 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                     boolean done = false;
 
                     List<Contract> contractList = tinyDB.getContractListWithoutToken();
-                    for (Contract contract : contractList) {
-                        if (contract.getContractAddress() != null && contract.getContractAddress().equals(contractAddress)) {
+                    for (Contract contract : contractList)
+                    {
+                        if (contract.getContractAddress() != null && contract.getContractAddress().equals(contractAddress))
+                        {
                             contract.setCreationStatus(contractCreationStatus);
                             contract.setDate(history.getBlockTime() * 1000L);
                             done = true;
@@ -280,10 +313,13 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                     }
                     tinyDB.putContractListWithoutToken(contractList);
 
-                    if (!done) {
+                    if (!done)
+                    {
                         List<Token> tokenList = tinyDB.getTokenList();
-                        for (Token token : tokenList) {
-                            if (token.getContractAddress() != null && token.getContractAddress().equals(contractAddress)) {
+                        for (Token token : tokenList)
+                        {
+                            if (token.getContractAddress() != null && token.getContractAddress().equals(contractAddress))
+                            {
                                 token.setCreationStatus(contractCreationStatus);
                                 token.setDate(history.getBlockTime() * 1000L);
                                 ArrayList<String> unconfirmedContractTxHashList = tinyDB.getUnconfirmedContractTxHasList();
@@ -293,24 +329,30 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                             }
                         }
                         tinyDB.putTokenList(tokenList);
-                        if (mTokenListener != null) {
+                        if (mTokenListener != null)
+                        {
                             mTokenListener.newToken();
                         }
                     }
 
                     subscribeTokenBalanceChange(contractAddress, mFirebasePrevToken, mFirebaseCurrentToken);
                 }
-                if (mTransactionListener != null) {
+                if (mTransactionListener != null)
+                {
                     mTransactionListener.onNewHistory(history);
-                    if (!mTransactionListener.getVisibility()) {
-                        if (history.getBlockTime() != null) {
+                    if (!mTransactionListener.getVisibility())
+                    {
+                        if (history.getBlockTime() != null)
+                        {
                             totalTransaction++;
                             sendNotification(getString(R.string.new_confirmed_transaction), totalTransaction + " " + getString(R.string.new_confirmed_transaction),
                                     getString(R.string.touch_to_open_transaction_history), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                         }
                     }
-                } else {
-                    if (history.getBlockTime() != null) {
+                } else
+                {
+                    if (history.getBlockTime() != null)
+                    {
                         totalTransaction++;
                         sendNotification(getString(R.string.new_confirmed_transaction), totalTransaction + " " + getString(R.string.new_confirmed_transaction),
                                 getString(R.string.touch_to_open_transaction_history), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -318,38 +360,47 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                 }
 
             }
-        }).on("token_balance_change", new Emitter.Listener() {
+        }).on("token_balance_change", new Emitter.Listener()
+        {
             @Override
-            public void call(Object... args) {
+            public void call(Object... args)
+            {
                 Gson gson = new Gson();
                 JSONObject data = (JSONObject) args[0];
                 TokenBalance tokenBalance = gson.fromJson(data.toString(), TokenBalance.class);
                 updateTokenBalance(tokenBalance);
 
             }
-        }).on("contract_purchase", new Emitter.Listener() {
+        }).on("contract_purchase", new Emitter.Listener()
+        {
             @Override
-            public void call(Object... args) {
+            public void call(Object... args)
+            {
                 Gson gson = new Gson();
                 JSONObject data = (JSONObject) args[0];
                 final ContractPurchase objectData = gson.fromJson(data.toString(), ContractPurchase.class);
 
                 BoughtContractBuilder boughtContractBuilder = new BoughtContractBuilder();
-                boughtContractBuilder.build(getApplicationContext(), objectData, new BoughtContractBuilder.ContractBuilderListener() {
+                boughtContractBuilder.build(getApplicationContext(), objectData, new BoughtContractBuilder.ContractBuilderListener()
+                {
                     @Override
-                    public void onBuildSuccess() {
+                    public void onBuildSuccess()
+                    {
                         QStoreStorage.getInstance(getApplicationContext()).setPurchaseItemBuyStatus(objectData.getContractId(), PurchaseItem.PAID_STATUS);
                     }
                 });
 
-                if (mContractPurchaseListener != null) {
+                if (mContractPurchaseListener != null)
+                {
                     mContractPurchaseListener.onContractPurchased(objectData);
                 }
 
             }
-        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener()
+        {
             @Override
-            public void call(Object... args) {
+            public void call(Object... args)
+            {
                 Log.d("socket", "disconnect");
             }
         });
@@ -359,24 +410,30 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
 
     //WEAR
 
-    private void onBalanceChange() {
+    private void onBalanceChange()
+    {
         SBERService.newInstance().getHistoryListForSeveralAddresses(addresses, 10, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new Subscriber<HistoryResponse>() {
+                .subscribe(new Subscriber<HistoryResponse>()
+                {
                     @Override
-                    public void onCompleted() {
+                    public void onCompleted()
+                    {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e)
+                    {
                     }
 
                     @Override
-                    public void onNext(HistoryResponse historyResponse) {
+                    public void onNext(HistoryResponse historyResponse)
+                    {
                         Gson gson = new Gson();
                         List<History> items = historyResponse.getItems();
-                        for (History item : items) {
+                        for (History item : items)
+                        {
                             calculateChangeInBalance(item, addresses);
                         }
                         String s = gson.toJson(items);
@@ -385,7 +442,8 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                 });
     }
 
-    private void sendData(String items, String balance, String uncBalance, String address) {
+    private void sendData(String items, String balance, String uncBalance, String address)
+    {
         PutDataMapRequest putDataMapReq = PutDataMapRequest.create("/data");
         putDataMapReq.getDataMap().putLong(CURR_TIME_MILLS, System.currentTimeMillis());
         putDataMapReq.getDataMap().putString(ITEMS, items);
@@ -396,33 +454,43 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
         DataApi.DataItemResult await = Wearable.DataApi.putDataItem(mApiClient, putDataReq).await();
     }
 
-    private void calculateChangeInBalance(History history, List<String> addresses) {
+    private void calculateChangeInBalance(History history, List<String> addresses)
+    {
         BigDecimal changeInBalance = calculateVout(history, addresses).subtract(calculateVin(history, addresses));
         history.setChangeInBalance(convertBalanceToString(changeInBalance));
     }
 
-    private BigDecimal calculateVin(History history, List<String> addresses) {
+    private BigDecimal calculateVin(History history, List<String> addresses)
+    {
         BigDecimal totalVin = new BigDecimal("0.0");
         boolean equals = false;
-        for (Vin vin : history.getVin()) {
-            for (String address : addresses) {
-                if (vin.getAddress().equals(address)) {
+        for (Vin vin : history.getVin())
+        {
+            for (String address : addresses)
+            {
+                if (vin.getAddress().equals(address))
+                {
                     vin.setOwnAddress(true);
                     equals = true;
                 }
             }
         }
-        if (equals) {
+        if (equals)
+        {
             totalVin = history.getAmount();
         }
         return totalVin;
     }
 
-    private BigDecimal calculateVout(History history, List<String> addresses) {
+    private BigDecimal calculateVout(History history, List<String> addresses)
+    {
         BigDecimal totalVout = new BigDecimal("0.0");
-        for (Vout vout : history.getVout()) {
-            for (String address : addresses) {
-                if (vout.getAddress().equals(address)) {
+        for (Vout vout : history.getVout())
+        {
+            for (String address : addresses)
+            {
+                if (vout.getAddress().equals(address))
+                {
                     vout.setOwnAddress(true);
                     totalVout = totalVout.add(vout.getValue());
                 }
@@ -434,56 +502,74 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
     //WEAR
 
 
-    private void updateTokenBalance(TokenBalance tokenBalance) {
+    private void updateTokenBalance(TokenBalance tokenBalance)
+    {
         TokenBalance tokenBalanceFromList = mAllTokenBalanceList.get(tokenBalance.getContractAddress());
-        if (tokenBalanceFromList != null) {
-            for (Balance balance : tokenBalance.getBalances()) {
-                for (Balance balanceFromList : tokenBalanceFromList.getBalances()) {
-                    if (balance.getAddress().equals(balanceFromList.getAddress())) {
+        if (tokenBalanceFromList != null)
+        {
+            for (Balance balance : tokenBalance.getBalances())
+            {
+                for (Balance balanceFromList : tokenBalanceFromList.getBalances())
+                {
+                    if (balance.getAddress().equals(balanceFromList.getAddress()))
+                    {
                         balanceFromList.setBalance(balance.getBalance());
                     }
                 }
             }
-        } else {
+        } else
+        {
             mAllTokenBalanceList.put(tokenBalance.getContractAddress(), tokenBalance);
         }
 
         List<TokenBalanceChangeListener> tokenBalanceChangeListeners = mStringTokenBalanceChangeListenerHashMap.get(tokenBalance.getContractAddress());
-        if (tokenBalanceChangeListeners != null) {
-            for (TokenBalanceChangeListener tokenBalanceChangeListener : tokenBalanceChangeListeners) {
+        if (tokenBalanceChangeListeners != null)
+        {
+            for (TokenBalanceChangeListener tokenBalanceChangeListener : tokenBalanceChangeListeners)
+            {
                 tokenBalanceChangeListener.onBalanceChange(mAllTokenBalanceList.get(tokenBalance.getContractAddress()));
             }
         }
     }
 
-    private void checkPurchaseContract() {
-        for (final PurchaseItem purchaseItem : QStoreStorage.getInstance(getApplicationContext()).getNonPayedContracts()) {
+    private void checkPurchaseContract()
+    {
+        for (final PurchaseItem purchaseItem : QStoreStorage.getInstance(getApplicationContext()).getNonPayedContracts())
+        {
             SBERService.newInstance()
                     .isPaidByRequestId(purchaseItem.getContractId(), purchaseItem.getRequestId())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<ContractPurchase>() {
+                    .subscribe(new Subscriber<ContractPurchase>()
+                    {
                         @Override
-                        public void onCompleted() {
+                        public void onCompleted()
+                        {
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(Throwable e)
+                        {
                         }
 
                         @Override
-                        public void onNext(ContractPurchase contractPurchase) {
-                            if (contractPurchase.getPayedAt() != null) {
+                        public void onNext(ContractPurchase contractPurchase)
+                        {
+                            if (contractPurchase.getPayedAt() != null)
+                            {
                                 QStoreStorage.getInstance(getApplicationContext()).setPurchaseItemBuyStatus(purchaseItem.getContractId(), PurchaseItem.PAID_STATUS);
 
                                 BoughtContractBuilder boughtContractBuilder = new BoughtContractBuilder();
-                                boughtContractBuilder.build(getApplicationContext(), contractPurchase, new BoughtContractBuilder.ContractBuilderListener() {
+                                boughtContractBuilder.build(getApplicationContext(), contractPurchase, new BoughtContractBuilder.ContractBuilderListener()
+                                {
                                     @Override
-                                    public void onBuildSuccess() {
+                                    public void onBuildSuccess()
+                                    {
                                         int i = 0;
                                     }
                                 });
 
-                                if (mContractPurchaseListener != null) {
+                                if (mContractPurchaseListener != null)
+                                {
                                     mContractPurchaseListener.onContractPurchased(contractPurchase);
                                 }
                             }
@@ -493,40 +579,51 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
 
     }
 
-    private void checkConfirmContract() {
+    private void checkConfirmContract()
+    {
         final TinyDB tinyDB = new TinyDB(getApplicationContext());
         final ArrayList<String> unconfirmedContractTxHashList = tinyDB.getUnconfirmedContractTxHasList();
-        for (final String unconfirmedContractTxHash : unconfirmedContractTxHashList) {
+        for (final String unconfirmedContractTxHash : unconfirmedContractTxHashList)
+        {
             SBERService.newInstance()
                     .getTransaction(unconfirmedContractTxHash)
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<History>() {
+                    .subscribe(new Subscriber<History>()
+                    {
                         @Override
-                        public void onCompleted() {
+                        public void onCompleted()
+                        {
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(Throwable e)
+                        {
                         }
 
                         @Override
-                        public void onNext(History history) {
-                            if (history.getBlockTime() != null) {
+                        public void onNext(History history)
+                        {
+                            if (history.getBlockTime() != null)
+                            {
 
                                 String contractAddress = ContractBuilder.generateContractAddress(unconfirmedContractTxHash);
 
                                 ContractCreationStatus contractCreationStatus;
-                                if (history.getContractHasBeenCreated() != null && history.getContractHasBeenCreated()) {
+                                if (history.getContractHasBeenCreated() != null && history.getContractHasBeenCreated())
+                                {
                                     contractCreationStatus = ContractCreationStatus.Created;
-                                } else {
+                                } else
+                                {
                                     contractCreationStatus = ContractCreationStatus.Failed;
                                 }
 
                                 boolean done = false;
 
                                 List<Contract> contractList = tinyDB.getContractListWithoutToken();
-                                for (Contract contract : contractList) {
-                                    if (contract.getContractAddress() != null && contract.getContractAddress().equals(contractAddress)) {
+                                for (Contract contract : contractList)
+                                {
+                                    if (contract.getContractAddress() != null && contract.getContractAddress().equals(contractAddress))
+                                    {
                                         contract.setCreationStatus(contractCreationStatus);
                                         contract.setDate(history.getBlockTime() * 1000L);
                                         done = true;
@@ -537,10 +634,13 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                                 }
                                 tinyDB.putContractListWithoutToken(contractList);
 
-                                if (!done) {
+                                if (!done)
+                                {
                                     List<Token> tokenList = tinyDB.getTokenList();
-                                    for (Token token : tokenList) {
-                                        if (token.getContractAddress() != null && token.getContractAddress().equals(contractAddress)) {
+                                    for (Token token : tokenList)
+                                    {
+                                        if (token.getContractAddress() != null && token.getContractAddress().equals(contractAddress))
+                                        {
                                             token.setCreationStatus(contractCreationStatus);
                                             token.setDate(history.getBlockTime() * 1000L);
                                             unconfirmedContractTxHashList.remove(history.getTxHash());
@@ -549,7 +649,8 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                                         }
                                     }
                                     tinyDB.putTokenList(tokenList);
-                                    if (mTokenListener != null) {
+                                    if (mTokenListener != null)
+                                    {
                                         mTokenListener.newToken();
                                     }
                                 }
@@ -561,63 +662,79 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
         }
     }
 
-    private void subscribeSocket() {
+    private void subscribeSocket()
+    {
         subscribeBalanceChange(mFirebasePrevToken, mFirebaseCurrentToken);
-        for (Contract contract : (new TinyDB(getApplicationContext())).getContractList()) {
+        for (Contract contract : (new TinyDB(getApplicationContext())).getContractList())
+        {
             subscribeTokenBalanceChange(contract.getContractAddress(), mFirebasePrevToken, mFirebaseCurrentToken);
         }
         subscribeStoreContracts();
     }
 
-    private void subscribeStoreContracts() {
-        for (PurchaseItem purchaseItem : QStoreStorage.getInstance(getApplicationContext()).getNonPayedContracts()) {
+    private void subscribeStoreContracts()
+    {
+        for (PurchaseItem purchaseItem : QStoreStorage.getInstance(getApplicationContext()).getNonPayedContracts())
+        {
             socket.emit("subscribe", "contract_purchase", purchaseItem.getRequestId());
         }
     }
 
-    public void subscribeStoreContract(String id) {
+    public void subscribeStoreContract(String id)
+    {
         socket.emit("subscribe", "contract_purchase", id);
     }
 
-    public void subscribeTokenBalanceChange(String tokenAddress) {
+    public void subscribeTokenBalanceChange(String tokenAddress)
+    {
         subscribeTokenBalanceChange(tokenAddress, mFirebasePrevToken, mFirebaseCurrentToken);
     }
 
-    private void subscribeTokenBalanceChange(String tokenAddress, String prevToken, String currentToken) {
+    private void subscribeTokenBalanceChange(String tokenAddress, String prevToken, String currentToken)
+    {
         JSONObject jsonObject = new JSONObject();
         JSONObject jsonObjectToken = new JSONObject();
-        try {
+        try
+        {
             jsonObject.put("contract_address", tokenAddress);
             jsonObject.put("addresses", mAddresses);
 
             jsonObjectToken.put("notificationToken", currentToken);
             jsonObjectToken.put("prevToken", prevToken);
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
         }
         socket.emit("subscribe", "token_balance_change", jsonObject, jsonObjectToken);
     }
 
-    private void subscribeBalanceChange(String prevToken, String currentToken) {
+    private void subscribeBalanceChange(String prevToken, String currentToken)
+    {
         JSONObject jsonObject = new JSONObject();
-        try {
+        try
+        {
             jsonObject.put("notificationToken", currentToken);
             jsonObject.put("prevToken", prevToken);
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
         }
         socket.emit("subscribe", "balance_subscribe", mAddresses, jsonObject);
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
         return START_NOT_STICKY;
     }
 
-    public void startMonitoring() {
-        if (!monitoringFlag) {
+    public void startMonitoring()
+    {
+        if (!monitoringFlag)
+        {
             mAddresses = new JSONArray();
-            for (String address : getPublicAddresses()) {
+            for (String address : getPublicAddresses())
+            {
                 mAddresses.put(address);
             }
             socket.connect();
@@ -625,12 +742,15 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
         }
     }
 
-    private List<String> getPublicAddresses() {
+    private List<String> getPublicAddresses()
+    {
         List<String> addresses = KeyStorage.getInstance().getAddresses();
         TinyDB tinyDB = new TinyDB(getApplicationContext());
-        if (addresses == null) {
+        if (addresses == null)
+        {
             addresses = tinyDB.getPublicAddresses();
-        } else {
+        } else
+        {
             tinyDB.savePublicAddresses(addresses);
         }
 
@@ -639,11 +759,14 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
         return addresses;
     }
 
-    public void stopMonitoring() {
+    public void stopMonitoring()
+    {
         JSONObject obj = new JSONObject();
-        try {
+        try
+        {
             obj.put("notificationToken", mFirebaseCurrentToken);
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
         }
         socket.emit("unsubscribe", "token_balance_change", null, obj);
@@ -657,7 +780,8 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
         notificationManager.cancel(DEFAULT_NOTIFICATION_ID);
     }
 
-    private void sendNotification(String Ticker, String Title, String Text, Uri sound) {
+    private void sendNotification(String Ticker, String Title, String Text, Uri sound)
+    {
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setAction(SBERIntent.OPEN_FROM_NOTIFICATION);
@@ -673,9 +797,11 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                 .setWhen(System.currentTimeMillis())
                 .setSound(sound);
 
-        if (android.os.Build.VERSION.SDK_INT <= 21) {
+        if (android.os.Build.VERSION.SDK_INT <= 21)
+        {
             builder.setSmallIcon(R.mipmap.ic_launcher);
-        } else {
+        } else
+        {
             builder.setSmallIcon(R.drawable.logo);
         }
         notification = builder.build();
@@ -686,87 +812,108 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent)
+    {
         return mUpdateBinder;
     }
 
     @Override
-    public boolean onUnbind(Intent intent) {
+    public boolean onUnbind(Intent intent)
+    {
         return true;
     }
 
-    public void addTransactionListener(TransactionListener updateServiceListener) {
+    public void addTransactionListener(TransactionListener updateServiceListener)
+    {
         mTransactionListener = updateServiceListener;
     }
 
-    public void removeTransactionListener() {
+    public void removeTransactionListener()
+    {
         mTransactionListener = null;
     }
 
-    public void addBalanceChangeListener(BalanceChangeListener balanceChangeListener) {
+    public void addBalanceChangeListener(BalanceChangeListener balanceChangeListener)
+    {
         mBalanceChangeListeners.add(balanceChangeListener);
-        if (balance != null) {
+        if (balance != null)
+        {
             balanceChangeListener.onChangeBalance(unconfirmedBalance, balance, mLastUpdatedBalanceTime);
         }
     }
 
-    public void addTokenListener(TokenListener tokenListener) {
+    public void addTokenListener(TokenListener tokenListener)
+    {
         mTokenListener = tokenListener;
     }
 
-    public void removeTokenListener() {
+    public void removeTokenListener()
+    {
         mTokenListener = null;
     }
 
-    public void setContractPurchaseListener(ContractPurchaseListener contractPurchaseListener) {
+    public void setContractPurchaseListener(ContractPurchaseListener contractPurchaseListener)
+    {
         this.mContractPurchaseListener = contractPurchaseListener;
     }
 
-    public void removeContractPurchaseListener() {
+    public void removeContractPurchaseListener()
+    {
         this.mContractPurchaseListener = null;
     }
 
-    public void addTokenBalanceChangeListener(String address, TokenBalanceChangeListener tokenBalanceChangeListener) {
-        if (mStringTokenBalanceChangeListenerHashMap.get(address) == null) {
+    public void addTokenBalanceChangeListener(String address, TokenBalanceChangeListener tokenBalanceChangeListener)
+    {
+        if (mStringTokenBalanceChangeListenerHashMap.get(address) == null)
+        {
             mStringTokenBalanceChangeListenerHashMap.put(address, new ArrayList<TokenBalanceChangeListener>());
         }
         mStringTokenBalanceChangeListenerHashMap.get(address).add(tokenBalanceChangeListener);
         TokenBalance tokenBalance = mAllTokenBalanceList.get(address);
-        if (tokenBalance != null) {
+        if (tokenBalance != null)
+        {
             tokenBalanceChangeListener.onBalanceChange(tokenBalance);
         }
     }
 
-    public TokenBalance getTokenBalance(String address) {
+    public TokenBalance getTokenBalance(String address)
+    {
         return mAllTokenBalanceList.get(address);
     }
 
-    public void removeTokenBalanceChangeListener(String address, TokenBalanceChangeListener tokenBalanceChangeListener) {
+    public void removeTokenBalanceChangeListener(String address, TokenBalanceChangeListener tokenBalanceChangeListener)
+    {
         mStringTokenBalanceChangeListenerHashMap.get(address).remove(tokenBalanceChangeListener);
     }
 
-    public void removeBalanceChangeListener(BalanceChangeListener balanceChangeListener) {
+    public void removeBalanceChangeListener(BalanceChangeListener balanceChangeListener)
+    {
         mBalanceChangeListeners.remove(balanceChangeListener);
     }
 
-    public void clearNotification() {
+    public void clearNotification()
+    {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
         totalTransaction = 0;
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(@Nullable Bundle bundle)
+    {
         Wearable.MessageApi.sendMessage(mApiClient, "/app_started", "/app_started", null);
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int i)
+    {
 
     }
 
-    public class UpdateBinder extends Binder {
-        public UpdateService getService() {
+    public class UpdateBinder extends Binder
+    {
+        public UpdateService getService()
+        {
             return UpdateService.this;
         }
     }

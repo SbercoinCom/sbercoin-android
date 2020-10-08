@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.math.BigDecimal;
 
-public class Balance {
+public class Balance
+{
 
     @SerializedName("address")
     @Expose
@@ -14,37 +15,44 @@ public class Balance {
     @Expose
     private BigDecimal balance;
 
-    public Balance() {
+    public Balance()
+    {
     }
 
     /**
      * Constructor for unit testing
      */
-    public Balance(String address) {
+    public Balance(String address)
+    {
         this.address = address;
     }
 
     /**
      * Constructor for unit testing
      */
-    public Balance(String address, BigDecimal balance) {
+    public Balance(String address, BigDecimal balance)
+    {
         this.address = address;
         this.balance = balance;
     }
 
-    public String getAddress() {
+    public String getAddress()
+    {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String address)
+    {
         this.address = address;
     }
 
-    public BigDecimal getBalance() {
+    public BigDecimal getBalance()
+    {
         return (balance != null) ? balance : new BigDecimal(0);
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(BigDecimal balance)
+    {
         this.balance = balance;
     }
 }

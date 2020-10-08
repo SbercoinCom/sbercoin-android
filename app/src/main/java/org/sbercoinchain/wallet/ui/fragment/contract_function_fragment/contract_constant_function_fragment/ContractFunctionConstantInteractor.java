@@ -9,7 +9,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface ContractFunctionConstantInteractor {
+public interface ContractFunctionConstantInteractor
+{
     List<ContractMethod> getContractMethod(String contractTemplateUiid);
 
     BigDecimal getFeePerKb();
@@ -17,8 +18,8 @@ public interface ContractFunctionConstantInteractor {
     int getMinGasPrice();
 
     Observable<ContractFunctionConstantInteractorImpl.CallSmartContractRespWrapper> callSmartContractObservable(String methodName,
-                                                                                                        List<ContractMethodParameter> contractMethodParameterList,
-                                                                                                        Contract contract);
+                                                                                                                List<ContractMethodParameter> contractMethodParameterList,
+                                                                                                                Contract contract);
 
     Contract getContractByAddress(String address);
 }

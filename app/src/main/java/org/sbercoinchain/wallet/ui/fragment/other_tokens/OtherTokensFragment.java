@@ -10,61 +10,71 @@ import android.support.v7.widget.RecyclerView;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.dataprovider.services.update_service.UpdateService;
 import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
+import org.sbercoin.wallet.ui.fragment_factory.Factory;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public abstract class OtherTokensFragment extends BaseFragment implements OtherTokensView, OnTokenClickListener, UpdateSocketInstance {
+public abstract class OtherTokensFragment extends BaseFragment implements OtherTokensView, OnTokenClickListener, UpdateSocketInstance
+{
 
-    public static BaseFragment newInstance(Context context) {
+    protected OtherTokensPresenter presenter;
+    @BindView(R.id.recycler_view)
+    protected
+    RecyclerView tokensList;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, OtherTokensFragment.class);
         fragment.setArguments(args);
         return fragment;
     }
 
-    protected OtherTokensPresenter presenter;
-
-    @BindView(R.id.recycler_view)
-    protected
-    RecyclerView tokensList;
-
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-
-    public void notifyTokenChange() {
+    public void notifyTokenChange()
+    {
         getPresenter().notifyNewToken();
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         presenter = new OtherTokensPresenterImpl(this, new OtherTokensInteractorImpl(getContext()));
     }
 
     @Override
-    protected OtherTokensPresenter getPresenter() {
+    protected OtherTokensPresenter getPresenter()
+    {
         return presenter;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         tokensList.setLayoutManager(new LinearLayoutManager(getContext()));
         presenter.notifyNewToken();
 
         mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.colorAccent));
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
             @Override
-            public void onRefresh() {
-                if (tokensList.getAdapter() != null) {
+            public void onRefresh()
+            {
+                if (tokensList.getAdapter() != null)
+                {
                     tokensList.getAdapter().notifyDataSetChanged();
-                    mSwipeRefreshLayout.postDelayed(new Runnable() {
+                    mSwipeRefreshLayout.postDelayed(new Runnable()
+                    {
                         @Override
-                        public void run() {
-                            if (mSwipeRefreshLayout != null) {
+                        public void run()
+                        {
+                            if (mSwipeRefreshLayout != null)
+                            {
                                 mSwipeRefreshLayout.setRefreshing(false);
                             }
                         }
@@ -75,15 +85,18 @@ public abstract class OtherTokensFragment extends BaseFragment implements OtherT
     }
 
     @Override
-    public void updateTokensData(List<Token> tokensData) {
-        if (tokensList.getAdapter() != null) {
+    public void updateTokensData(List<Token> tokensData)
+    {
+        if (tokensList.getAdapter() != null)
+        {
             ((TokensAdapter) tokensList.getAdapter()).setTokens(tokensData);
             tokensList.getAdapter().notifyDataSetChanged();
         }
     }
 
     @Override
-    public UpdateService getSocketInstance() {
+    public UpdateService getSocketInstance()
+    {
         return getMainActivity().getUpdateService();
     }
 }

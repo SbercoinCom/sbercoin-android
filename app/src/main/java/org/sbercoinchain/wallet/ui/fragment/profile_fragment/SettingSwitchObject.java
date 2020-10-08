@@ -1,22 +1,27 @@
 package org.sbercoin.wallet.ui.fragment.profile_fragment;
 
-public class SettingSwitchObject extends SettingObject {
+public class SettingSwitchObject extends SettingObject
+{
     private boolean mIsChecked;
 
-    public SettingSwitchObject(int title, int image, int section) {
+    public SettingSwitchObject(int title, int image, int section)
+    {
         super(title, image, section);
     }
 
-    public SettingSwitchObject(int title, int image, int section, boolean isChecked) {
+    public SettingSwitchObject(int title, int image, int section, boolean isChecked)
+    {
         this(title, image, section);
         mIsChecked = isChecked;
     }
 
-    public boolean isChecked() {
+    public boolean isChecked()
+    {
         return mIsChecked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(boolean checked)
+    {
         mIsChecked = checked;
     }
 }

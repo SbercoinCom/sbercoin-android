@@ -29,27 +29,38 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ImportWalletInteractorTest {
+public class ImportWalletInteractorTest
+{
 
     @Mock
     ImportWalletView view;
     @Mock
     ImportWalletInteractor interactor;
     ImportWalletPresenterImpl presenter;
+    private String VALID_PASSPHRASE1 = "a b c d e f g h i j k l";
+    private String VALID_PASSPHRASE2 = "   a b c d e f g    h i j k l   ";
+    private String INVALID_PASSPHRASE_WORD_COUNT_11 = "a b c de f g h i j k l";
+    private String INVALID_PASSPHRASE_WORD_COUNT_13 = "a b c d e f g h i j k l m";
+    private String INVALID_NUMBER_IN_PASSPHRASE = "a b c d e 9 g h i j k l m";
 
     @Before
-    public void setup() {
+    public void setup()
+    {
         MockitoAnnotations.initMocks(this);
 
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook()
+        {
             @Override
-            public Scheduler getMainThreadScheduler() {
+            public Scheduler getMainThreadScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook()
+        {
             @Override
-            public Scheduler getIOScheduler() {
+            public Scheduler getIOScheduler()
+            {
                 return Schedulers.immediate();
             }
         });
@@ -57,49 +68,49 @@ public class ImportWalletInteractorTest {
         presenter = new ImportWalletPresenterImpl(view, interactor);
     }
 
-    private String VALID_PASSPHRASE1 = "a b c d e f g h i j k l";
-    private String VALID_PASSPHRASE2 = "   a b c d e f g    h i j k l   ";
-    private String INVALID_PASSPHRASE_WORD_COUNT_11 = "a b c de f g h i j k l";
-    private String INVALID_PASSPHRASE_WORD_COUNT_13 = "a b c d e f g h i j k l m";
-    private String INVALID_NUMBER_IN_PASSPHRASE = "a b c d e 9 g h i j k l m";
-
     @Test
-    public void onPassphraseChange_validString1_test() {
+    public void onPassphraseChange_validString1_test()
+    {
         presenter.onPassphraseChange(VALID_PASSPHRASE1);
         verify(view, never()).disableImportButton();
         verify(view, times(1)).enableImportButton();
     }
 
     @Test
-    public void onPassphraseChange_validString2_test() {
+    public void onPassphraseChange_validString2_test()
+    {
         presenter.onPassphraseChange(VALID_PASSPHRASE2);
         verify(view, never()).disableImportButton();
         verify(view, times(1)).enableImportButton();
     }
 
     @Test
-    public void onPassphraseChange_invalidWordCount11_test() {
+    public void onPassphraseChange_invalidWordCount11_test()
+    {
         presenter.onPassphraseChange(INVALID_PASSPHRASE_WORD_COUNT_11);
         verify(view, times(1)).disableImportButton();
         verify(view, never()).enableImportButton();
     }
 
     @Test
-    public void onPassphraseChange_invalidWordCount13_test() {
+    public void onPassphraseChange_invalidWordCount13_test()
+    {
         presenter.onPassphraseChange(INVALID_PASSPHRASE_WORD_COUNT_13);
         verify(view, times(1)).disableImportButton();
         verify(view, never()).enableImportButton();
     }
 
     @Test
-    public void onPassphraseChange_invalidNumberInString_test() {
+    public void onPassphraseChange_invalidNumberInString_test()
+    {
         presenter.onPassphraseChange(INVALID_NUMBER_IN_PASSPHRASE);
         verify(view, times(1)).disableImportButton();
         verify(view, never()).enableImportButton();
     }
 
     @Test
-    public void onResume_dataLoadedTrue_test() {
+    public void onResume_dataLoadedTrue_test()
+    {
         presenter.setDataLoaded(true);
         presenter.onResume();
         verify(view, times(1)).dismissProgressDialog();
@@ -107,7 +118,8 @@ public class ImportWalletInteractorTest {
     }
 
     @Test
-    public void onResume_dataLoadedFalse_test() {
+    public void onResume_dataLoadedFalse_test()
+    {
         presenter.setDataLoaded(false);
         presenter.onResume();
         verify(view, never()).dismissProgressDialog();
@@ -115,7 +127,8 @@ public class ImportWalletInteractorTest {
     }
 
     @Test
-    public void onImportClick_Success() {
+    public void onImportClick_Success()
+    {
         when(interactor.importWallet(VALID_PASSPHRASE1)).thenReturn(Observable.just(VALID_PASSPHRASE1));
         presenter.onImportClick(VALID_PASSPHRASE1);
         verify(view, times(1)).dismissProgressDialog();
@@ -123,7 +136,8 @@ public class ImportWalletInteractorTest {
     }
 
     @Test
-    public void onImportClick_Error() {
+    public void onImportClick_Error()
+    {
         when(interactor.importWallet(VALID_PASSPHRASE1)).thenReturn(Observable.<String>error(new Throwable()));
         presenter.onImportClick(VALID_PASSPHRASE1);
         verify(view, never()).openPinFragment(eq(VALID_PASSPHRASE1), (PinAction) any());
@@ -131,7 +145,8 @@ public class ImportWalletInteractorTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         RxAndroidPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().reset();
     }

@@ -3,9 +3,10 @@ package org.sbercoin.wallet.datastorage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SBERSharedPreference {
+public class SBERSharedPreference
+{
     private static SBERSharedPreference sInstance = null;
-
+    private static String passphrase_migration_state = "passphrase_migration_state";
     private final String SBER_DATA_STORAGE = "sbercoin_data_storage";
     private final String SBER_PASSWORD = "sbercoin_wallet_password";
     private final String SBER_SIX_DIGIT_PASSWORD = "sbercoin_wallet_six_digit_password";
@@ -21,135 +22,156 @@ public class SBERSharedPreference {
     private final String UNCONFIRMED_BALANCE_STRING = "unconfirmed_balance_string";
     private final String LAST_UPDATED_BALANCE_TIME = "last_updated_balance_time";
 
-    private static String passphrase_migration_state = "passphrase_migration_state";
-
-    private SBERSharedPreference() {
+    private SBERSharedPreference()
+    {
 
     }
 
-    public static SBERSharedPreference getInstance() {
-        if (sInstance == null) {
+    public static SBERSharedPreference getInstance()
+    {
+        if (sInstance == null)
+        {
             sInstance = new SBERSharedPreference();
         }
         return sInstance;
     }
 
-    public String getKeystoreMigrationState(Context context) {
+    public String getKeystoreMigrationState(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(passphrase_migration_state
                 , null);
     }
 
-    public void setKeyStoreMigrationState(Context context, String state) {
+    public void setKeyStoreMigrationState(Context context, String state)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(passphrase_migration_state, state);
         mEditor.apply();
     }
 
-    public void saveTouchIdEnable(Context context, boolean isEnable) {
+    public void saveTouchIdEnable(Context context, boolean isEnable)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putBoolean(TOUCH_ID_ENABLE, isEnable);
         mEditor.apply();
     }
 
-    public boolean isTouchIdEnable(Context context) {
+    public boolean isTouchIdEnable(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getBoolean(TOUCH_ID_ENABLE, false);
     }
 
-    public void savePassword(Context context, String password) {
+    public void savePassword(Context context, String password)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(SBER_PASSWORD, password);
         mEditor.apply();
     }
 
-    public String getPassword(Context context) {
+    public String getPassword(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(SBER_PASSWORD, "");
     }
 
-    public void saveCurrentAddress(Context context, String address) {
+    public void saveCurrentAddress(Context context, String address)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(CURRENT_ADDRESS, address);
         mEditor.apply();
     }
 
-    public String getCurrentAddress(Context context) {
+    public String getCurrentAddress(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(CURRENT_ADDRESS, null);
     }
 
-    public void setBanTime(Context context, Long banTime) {
+    public void setBanTime(Context context, Long banTime)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putLong(BAN_TIME, banTime);
         mEditor.apply();
     }
 
-    public Long getBanTime(Context context) {
+    public Long getBanTime(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getLong(BAN_TIME, 0);
     }
 
-    public void setFailedAttemptsCount(Context context, Integer failedAttemptsCount) {
+    public void setFailedAttemptsCount(Context context, Integer failedAttemptsCount)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putInt(FAILED_ATTEMPTS_COUNT, failedAttemptsCount);
         mEditor.apply();
     }
 
-    public Integer getFailedAttemptsCount(Context context) {
+    public Integer getFailedAttemptsCount(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getInt(FAILED_ATTEMPTS_COUNT, 0);
     }
 
-    public void saveSixDigitPassword(Context context, String password) {
+    public void saveSixDigitPassword(Context context, String password)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(SBER_SIX_DIGIT_PASSWORD, password);
         mEditor.apply();
     }
 
-    public String getSixDigitPassword(Context context) {
+    public String getSixDigitPassword(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(SBER_SIX_DIGIT_PASSWORD, "");
     }
 
-    public void saveTouchIdPassword(Context context, String password) {
+    public void saveTouchIdPassword(Context context, String password)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(TOUCH_ID_PASSWORD, password);
         mEditor.apply();
     }
 
-    public String getTouchIdPassword(Context context) {
+    public String getTouchIdPassword(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(TOUCH_ID_PASSWORD, "");
     }
 
-    public void setKeyGeneratedInstance(Context context, boolean isKeyGenerated) {
+    public void setKeyGeneratedInstance(Context context, boolean isKeyGenerated)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putBoolean(SBER_IS_KEY_GENERATED, isKeyGenerated);
         mEditor.apply();
     }
 
-    public boolean getKeyGeneratedInstance(Context context) {
+    public boolean getKeyGeneratedInstance(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getBoolean(SBER_IS_KEY_GENERATED, false);
     }
 
 
-
-    public String getSeed(Context context) {
+    public String getSeed(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(SBER_SEED, "");
     }
 
-    public void saveSeed(Context context, String seed) {
+    public void saveSeed(Context context, String seed)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(SBER_SEED, seed);
         mEditor.apply();
     }
 
-    public void clear(Context context) {
+    public void clear(Context context)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
-        String passphraseMigrationState = mSharedPreferences.getString(passphrase_migration_state,null);
+        String passphraseMigrationState = mSharedPreferences.getString(passphrase_migration_state, null);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.clear();
         mEditor.apply();
@@ -158,54 +180,63 @@ public class SBERSharedPreference {
         mEditor.apply();
     }
 
-    public void forceClear(Context context){
+    public void forceClear(Context context)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.clear();
         mEditor.apply();
     }
 
-    public void setMinGasPrice(Context context, Integer minGasLimit) {
+    public void setMinGasPrice(Context context, Integer minGasLimit)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putInt(MIN_GAS_PRICE, minGasLimit);
         mEditor.apply();
     }
 
-    public Integer getMinGasPrice(Context context) {
+    public Integer getMinGasPrice(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getInt(MIN_GAS_PRICE, 40);
     }
 
-    public void setBalanceString(Context context, String balance){
+    public void setBalanceString(Context context, String balance)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(BALANCE_STRING, balance);
         mEditor.apply();
     }
 
-    public String getBalanceString(Context context){
-        return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(BALANCE_STRING,"0");
+    public String getBalanceString(Context context)
+    {
+        return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(BALANCE_STRING, "0");
     }
 
-    public void setUnconfirmedBalanceString(Context context, String balance){
+    public void setUnconfirmedBalanceString(Context context, String balance)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(UNCONFIRMED_BALANCE_STRING, balance);
         mEditor.apply();
     }
 
-    public String getUnconfirmedBalanceString(Context context){
-        return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(UNCONFIRMED_BALANCE_STRING,"0");
+    public String getUnconfirmedBalanceString(Context context)
+    {
+        return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getString(UNCONFIRMED_BALANCE_STRING, "0");
     }
 
-    public void setLastUpdatedBalanceTime(Context context, Long lastUpdatedBalanceTime) {
+    public void setLastUpdatedBalanceTime(Context context, Long lastUpdatedBalanceTime)
+    {
         SharedPreferences mSharedPreferences = context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         mEditor.putLong(LAST_UPDATED_BALANCE_TIME, lastUpdatedBalanceTime);
         mEditor.apply();
     }
 
-    public Long getLastUpdatedBalanceTime(Context context) {
+    public Long getLastUpdatedBalanceTime(Context context)
+    {
         return context.getSharedPreferences(SBER_DATA_STORAGE, Context.MODE_PRIVATE).getLong(LAST_UPDATED_BALANCE_TIME, 0);
     }
 

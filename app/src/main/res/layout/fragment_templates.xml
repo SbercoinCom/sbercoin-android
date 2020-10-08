@@ -17,9 +17,9 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:contentInsetStart="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
+            app:contentInsetStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageButton
@@ -27,11 +27,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_ibtn_back"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp"
-                app:srcCompat="@drawable/ic_back_indicator"/>
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                app:srcCompat="@drawable/ic_back_indicator" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:id="@+id/tv_toolbar_send"
@@ -52,59 +52,59 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <org.sbercoin.wallet.utils.FontTextView
-        android:id="@+id/step"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/background"
-        android:text="@string/step_1_2"
-        android:textSize="12sp"
-        android:gravity="center"
-        app:typefaceAsset="@string/euclidFlexMedium"
-        android:padding="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-        <LinearLayout
+        <org.sbercoin.wallet.utils.FontTextView
+            android:id="@+id/step"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/step_1_2"
+            android:textColor="@color/background"
+            android:textSize="12sp"
+            app:typefaceAsset="@string/euclidFlexMedium" />
+
+        <LinearLayout
+            android:id="@+id/ll_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/step"
             android:layout_margin="16dp"
-            android:id="@+id/ll_footer">
+            android:orientation="horizontal">
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                app:typefaceAsset="@string/euclidFlexMedium"
-                android:gravity="left|center_vertical"
-                android:layout_weight="1"
                 android:layout_gravity="left"
-                android:text="Type"/>
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:text="Type"
+                android:textColor="@color/colorPrimary"
+                app:typefaceAsset="@string/euclidFlexMedium" />
 
             <org.sbercoin.wallet.utils.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                app:typefaceAsset="@string/euclidFlexMedium"
                 android:layout_gravity="end"
-                android:text="Publish Date"/>
+                android:text="Publish Date"
+                android:textColor="@color/colorPrimary"
+                app:typefaceAsset="@string/euclidFlexMedium" />
 
         </LinearLayout>
 
         <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:id="@+id/divider"
             android:layout_below="@+id/ll_footer"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary" />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/divider"
-        android:id="@+id/recycler_view"
-        android:splitMotionEvents="false"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/divider"
+            android:splitMotionEvents="false" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

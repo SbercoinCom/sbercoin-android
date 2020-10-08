@@ -10,7 +10,8 @@ import org.sbercoin.wallet.utils.FontTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContractConfirmViewHolder extends RecyclerView.ViewHolder {
+public class ContractConfirmViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(org.sbercoin.wallet.R.id.name)
     FontTextView name;
@@ -21,21 +22,25 @@ public class ContractConfirmViewHolder extends RecyclerView.ViewHolder {
     @BindView(org.sbercoin.wallet.R.id.root_layout)
     RelativeLayout rootLayout;
 
-    public ContractConfirmViewHolder(View itemView, final OnValueClick clickListener) {
+    public ContractConfirmViewHolder(View itemView, final OnValueClick clickListener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
         rootLayout.setClickable(true);
 
-        rootLayout.setOnClickListener(new View.OnClickListener() {
+        rootLayout.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 clickListener.onClick(getAdapterPosition());
             }
         });
     }
 
-    public void bind(ContractMethodParameter parameter) {
+    public void bind(ContractMethodParameter parameter)
+    {
         name.setText(parameter.getDisplayName());
         value.setText(parameter.getValue());
     }

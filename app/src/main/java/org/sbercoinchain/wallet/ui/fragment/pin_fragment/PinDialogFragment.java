@@ -18,13 +18,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.sbercoin.wallet.R;
+import org.sbercoin.wallet.datastorage.SBERSharedPreference;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
+import org.sbercoin.wallet.utils.CryptoUtils;
 import org.sbercoin.wallet.utils.CryptoUtilsCompat;
+import org.sbercoin.wallet.utils.FontTextView;
 import org.sbercoin.wallet.utils.PinEntryEditText;
 import org.sbercoin.wallet.utils.ThemeUtils;
-import org.sbercoin.wallet.datastorage.SBERSharedPreference;
-import org.sbercoin.wallet.utils.CryptoUtils;
-import org.sbercoin.wallet.utils.FontTextView;
 
 import java.util.Calendar;
 
@@ -33,40 +33,41 @@ import javax.crypto.Cipher;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PinDialogFragment extends DialogFragment {
-
-    @BindView(org.sbercoin.wallet.R.id.til_wallet_pin)
-    PinEntryEditText mWalletPin;
-
-    @BindView(org.sbercoin.wallet.R.id.tv_toolbar_title)
-    FontTextView mTextViewToolBarTitle;
-
-    @BindView(org.sbercoin.wallet.R.id.tooltip)
-    FontTextView tooltip;
+public class PinDialogFragment extends DialogFragment
+{
 
     private final String SBER_PIN_ALIAS = "sbercoin_alias";
-
+    private final Long mBanTime = 600000L;
+    @BindView(org.sbercoin.wallet.R.id.til_wallet_pin)
+    PinEntryEditText mWalletPin;
+    @BindView(org.sbercoin.wallet.R.id.tv_toolbar_title)
+    FontTextView mTextViewToolBarTitle;
+    @BindView(org.sbercoin.wallet.R.id.tooltip)
+    FontTextView tooltip;
     private PinCallBack mPinCallBack;
     private boolean mTouchIdFlag;
     private FingerprintHelper mFingerprintHelper;
-    private final Long mBanTime = 600000L;
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         View view = LayoutInflater.from(getActivity()).inflate(ThemeUtils.getCurrentTheme(getContext()).equals(ThemeUtils.THEME_DARK) ? org.sbercoin.wallet.R.layout.dialog_fragment_pin : org.sbercoin.wallet.R.layout.dialog_fragment_pin_light, null);
         ButterKnife.bind(this, view);
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(view);
         dialog.setCanceledOnTouchOutside(false);
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
+        {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
-        if (getSixDigitPassword().isEmpty()) {
+        if (getSixDigitPassword().isEmpty())
+        {
             mWalletPin.setFilters(new InputFilter[]{
                     new InputFilter.LengthFilter(4)
             });
-        } else {
+        } else
+        {
             mWalletPin.setFilters(new InputFilter[]{
                     new InputFilter.LengthFilter(6)
             });
@@ -74,60 +75,77 @@ public class PinDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    private void hideKeyBoard() {
+    private void hideKeyBoard()
+    {
         Activity activity = getActivity();
         View view = activity.getCurrentFocus();
-        if (view != null) {
+        if (view != null)
+        {
             hideKeyBoard(activity, view);
         }
     }
 
-    public void hideKeyBoard(Activity activity, View view) {
+    public void hideKeyBoard(Activity activity, View view)
+    {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
-    private String getSixDigitPassword() {
+    private String getSixDigitPassword()
+    {
         return SBERSharedPreference.getInstance().getSixDigitPassword(getContext());
     }
 
-    private String getPassword() {
+    private String getPassword()
+    {
         String sixDigitPassword = getSixDigitPassword();
-        if (!getSixDigitPassword().isEmpty()) {
+        if (!getSixDigitPassword().isEmpty())
+        {
             return sixDigitPassword;
-        } else {
+        } else
+        {
             return getFourDigitPassword();
         }
     }
 
-    private String getFourDigitPassword() {
+    private String getFourDigitPassword()
+    {
         return SBERSharedPreference.getInstance().getPassword(getContext());
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         mWalletPin.requestFocus();
-        if (mTouchIdFlag) {
-            ((MainActivity) getActivity()).checkSensorState(new MainActivity.SensorStateListener() {
+        if (mTouchIdFlag)
+        {
+            ((MainActivity) getActivity()).checkSensorState(new MainActivity.SensorStateListener()
+            {
                 @Override
-                public void onRequest(MainActivity.SensorState sensorState) {
-                    if (sensorState == MainActivity.SensorState.READY) {
+                public void onRequest(MainActivity.SensorState sensorState)
+                {
+                    if (sensorState == MainActivity.SensorState.READY)
+                    {
                         mTextViewToolBarTitle.setText(org.sbercoin.wallet.R.string.confirm_fingerprint_or_pin);
                         prepareSensor();
-                    } else {
+                    } else
+                    {
                         mTextViewToolBarTitle.setText(org.sbercoin.wallet.R.string.enter_pin);
                     }
                 }
             });
-        } else {
+        } else
+        {
             mTextViewToolBarTitle.setText(org.sbercoin.wallet.R.string.enter_pin);
         }
 
-        mWalletPin.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener() {
+        mWalletPin.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener()
+        {
             @Override
-            public void onPinEntered(CharSequence str) {
+            public void onPinEntered(CharSequence str)
+            {
                 confirm(str.toString());
             }
         });
@@ -137,17 +155,21 @@ public class PinDialogFragment extends DialogFragment {
         ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
-    private void setPin(String pin) {
+    private void setPin(String pin)
+    {
         mWalletPin.setText(pin);
     }
 
-    private void clearError() {
+    private void clearError()
+    {
         tooltip.setText("");
         tooltip.setVisibility(View.INVISIBLE);
     }
 
-    private void confirmError(String errorText) {
-        if (getDialog() != null) {
+    private void confirmError(String errorText)
+    {
+        if (getDialog() != null)
+        {
             mWalletPin.setText("");
             tooltip.setText(errorText);
             tooltip.setTextColor(ContextCompat.getColor(getContext(), org.sbercoin.wallet.R.color.accent_red_color));
@@ -155,65 +177,26 @@ public class PinDialogFragment extends DialogFragment {
         }
     }
 
-    private void prepareSensor() {
+    private void prepareSensor()
+    {
         FingerprintManagerCompat.CryptoObject cryptoObject = CryptoUtils.getCryptoObject();
-        if (cryptoObject != null) {
+        if (cryptoObject != null)
+        {
             mFingerprintHelper = new FingerprintHelper(getContext());
             mFingerprintHelper.startAuth(cryptoObject);
-        } else {
+        } else
+        {
             Toast.makeText(getContext(), "new fingerprint enrolled. enter pin again", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private class FingerprintHelper extends FingerprintManagerCompat.AuthenticationCallback {
-        private Context mContext;
-        private CancellationSignal mCancellationSignal;
-
-        FingerprintHelper(Context context) {
-            mContext = context;
-        }
-
-        void startAuth(FingerprintManagerCompat.CryptoObject cryptoObject) {
-            mCancellationSignal = new CancellationSignal();
-            FingerprintManagerCompat manager = FingerprintManagerCompat.from(mContext);
-            manager.authenticate(cryptoObject, 0, mCancellationSignal, this, null);
-        }
-
-        void cancel() {
-            if (mCancellationSignal != null) {
-                mCancellationSignal.cancel();
-            }
-        }
-
-        @Override
-        public void onAuthenticationError(int errMsgId, CharSequence errString) {
-            confirmError(errString.toString());
-        }
-
-        @Override
-        public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-            confirmError(helpString.toString());
-        }
-
-        @Override
-        public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
-            Cipher cipher = result.getCryptoObject().getCipher();
-            String encoded = SBERSharedPreference.getInstance().getTouchIdPassword(getContext());
-            String decoded = CryptoUtils.decode(encoded, cipher);
-            setPin(decoded);
-        }
-
-        @Override
-        public void onAuthenticationFailed() {
-            confirmError("try again");
-        }
-    }
-
-    private void confirm(String pin) {
+    private void confirm(String pin)
+    {
         Long banTime = SBERSharedPreference.getInstance().getBanTime(getContext());
         Long currentTime = Calendar.getInstance().getTimeInMillis();
         Long remainingTimeOfBan = banTime - currentTime;
-        if (remainingTimeOfBan > 0) {
+        if (remainingTimeOfBan > 0)
+        {
             int min = (int) Math.ceil(remainingTimeOfBan / 60000.);
             hideKeyBoard();
             dismiss();
@@ -224,32 +207,40 @@ public class PinDialogFragment extends DialogFragment {
         String pinHashGenuine = getPassword();
         boolean isCorrect = pinHashEntered.equals(pinHashGenuine);
         changeBanState(isCorrect);
-        if (isCorrect) {
+        if (isCorrect)
+        {
             clearError();
             mPinCallBack.onSuccess(pin);
             dismiss();
-        } else {
+        } else
+        {
             confirmError(getContext().getString(org.sbercoin.wallet.R.string.incorrect_pin));
         }
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
-        if (mFingerprintHelper != null) {
+        if (mFingerprintHelper != null)
+        {
             mFingerprintHelper.cancel();
         }
         dismiss();
     }
 
-    private void changeBanState(boolean isCorrect) {
+    private void changeBanState(boolean isCorrect)
+    {
         int failedAttemptsCount;
-        if (isCorrect) {
+        if (isCorrect)
+        {
             failedAttemptsCount = 0;
-        } else {
+        } else
+        {
             failedAttemptsCount = SBERSharedPreference.getInstance().getFailedAttemptsCount(getContext());
             failedAttemptsCount++;
-            if (failedAttemptsCount == 3) {
+            if (failedAttemptsCount == 3)
+            {
                 Long currentTime = Calendar.getInstance().getTimeInMillis();
                 Long banTime = currentTime + mBanTime;
                 SBERSharedPreference.getInstance().setBanTime(getContext(), banTime);
@@ -260,21 +251,78 @@ public class PinDialogFragment extends DialogFragment {
         SBERSharedPreference.getInstance().setFailedAttemptsCount(getContext(), failedAttemptsCount);
     }
 
-    public void addPinCallBack(PinCallBack callBack) {
+    public void addPinCallBack(PinCallBack callBack)
+    {
         mPinCallBack = callBack;
     }
 
-    void removePinCallBack() {
+    void removePinCallBack()
+    {
         mPinCallBack = null;
     }
 
-    public void setTouchIdFlag(boolean touchIdFlag) {
+    public void setTouchIdFlag(boolean touchIdFlag)
+    {
         mTouchIdFlag = touchIdFlag;
     }
 
-    public interface PinCallBack {
+    public interface PinCallBack
+    {
         void onSuccess(String pin);
 
         void onError(String error);
+    }
+
+    private class FingerprintHelper extends FingerprintManagerCompat.AuthenticationCallback
+    {
+        private Context mContext;
+        private CancellationSignal mCancellationSignal;
+
+        FingerprintHelper(Context context)
+        {
+            mContext = context;
+        }
+
+        void startAuth(FingerprintManagerCompat.CryptoObject cryptoObject)
+        {
+            mCancellationSignal = new CancellationSignal();
+            FingerprintManagerCompat manager = FingerprintManagerCompat.from(mContext);
+            manager.authenticate(cryptoObject, 0, mCancellationSignal, this, null);
+        }
+
+        void cancel()
+        {
+            if (mCancellationSignal != null)
+            {
+                mCancellationSignal.cancel();
+            }
+        }
+
+        @Override
+        public void onAuthenticationError(int errMsgId, CharSequence errString)
+        {
+            confirmError(errString.toString());
+        }
+
+        @Override
+        public void onAuthenticationHelp(int helpMsgId, CharSequence helpString)
+        {
+            confirmError(helpString.toString());
+        }
+
+        @Override
+        public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result)
+        {
+            Cipher cipher = result.getCryptoObject().getCipher();
+            String encoded = SBERSharedPreference.getInstance().getTouchIdPassword(getContext());
+            String decoded = CryptoUtils.decode(encoded, cipher);
+            setPin(decoded);
+        }
+
+        @Override
+        public void onAuthenticationFailed()
+        {
+            confirmError("try again");
+        }
     }
 }

@@ -29,53 +29,38 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-public abstract class QStoreByTypeFragment extends BaseFragment implements QStoreByTypeView, StoreItemClickListener {
+public abstract class QStoreByTypeFragment extends BaseFragment implements QStoreByTypeView, StoreItemClickListener
+{
 
-    private QStoreByTypePresenter presenter;
-
-    protected StoreSearchAdapter searchAdapter;
     private final static String TYPE = "type";
-
-    @OnClick(R.id.ibt_back)
-    public void onBackClick() {
-        getActivity().onBackPressed();
-    }
-
+    protected StoreSearchAdapter searchAdapter;
     @BindView(R.id.content_list)
     protected
     RecyclerView contentList;
-
     @BindView(R.id.search_type_menu)
     LinearLayout searchTypeMenu;
-
     @BindView(org.sbercoin.wallet.R.id.search_bar)
     SearchBar searchBar;
-
     @BindView(R.id.cb_by_name)
     FontCheckBox cbByName;
-
     @BindView(R.id.cb_by_tag)
     FontCheckBox cbByTag;
-
     @BindView(R.id.tv_toolbar_qstore)
     FontTextView mTextViewToolBar;
-
     @BindView(R.id.ibt_categories)
     ImageButton mImageButton;
+    private QStoreByTypePresenter presenter;
 
-    @OnClick(R.id.ibt_categories)
-    public void onCategoriesClick() {
-        openFragment(StoreCategoriesFragment.newInstance(getContext()));
-    }
-
-    public static BaseFragment newInstance(Context context) {
+    public static BaseFragment newInstance(Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, QStoreByTypeFragment.class);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static BaseFragment newInstance(String type, Context context) {
+    public static BaseFragment newInstance(String type, Context context)
+    {
         Bundle args = new Bundle();
         BaseFragment fragment = Factory.instantiateFragment(context, QStoreByTypeFragment.class);
         args.putString(TYPE, type);
@@ -83,37 +68,57 @@ public abstract class QStoreByTypeFragment extends BaseFragment implements QStor
         return fragment;
     }
 
+    @OnClick(R.id.ibt_back)
+    public void onBackClick()
+    {
+        getActivity().onBackPressed();
+    }
+
+    @OnClick(R.id.ibt_categories)
+    public void onCategoriesClick()
+    {
+        openFragment(StoreCategoriesFragment.newInstance(getContext()));
+    }
+
     @Override
-    public String getType() {
+    public String getType()
+    {
         return getArguments().getString(TYPE, "");
     }
 
     @Override
-    protected void createPresenter() {
+    protected void createPresenter()
+    {
         presenter = new QStoreByTypePresenterImpl(this, new QStoreByTypeInteractorImpl(getContext()));
     }
 
     @Override
-    protected QStoreByTypePresenter getPresenter() {
+    protected QStoreByTypePresenter getPresenter()
+    {
         return presenter;
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews()
+    {
         super.initializeViews();
         contentList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        cbByTag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cbByTag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
                 cbByName.setChecked(!isChecked);
                 presenter.searchItems(getSeacrhBarText(), cbByTag.isChecked());
             }
         });
 
-        cbByName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cbByName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
                 cbByTag.setChecked(!isChecked);
                 presenter.searchItems(getSeacrhBarText(), cbByTag.isChecked());
             }
@@ -122,27 +127,35 @@ public abstract class QStoreByTypeFragment extends BaseFragment implements QStor
         cbByTag.setChecked(true);
 
 
-        Observable.create(new Observable.OnSubscribe<String>() {
+        Observable.create(new Observable.OnSubscribe<String>()
+        {
             @Override
-            public void call(final Subscriber<? super String> subscriber) {
-                searchBar.setListener(new SearchBarListener() {
+            public void call(final Subscriber<? super String> subscriber)
+            {
+                searchBar.setListener(new SearchBarListener()
+                {
                     @Override
-                    public void onActivate() {
-                        if (searchTypeMenu != null) {
+                    public void onActivate()
+                    {
+                        if (searchTypeMenu != null)
+                        {
                             searchTypeMenu.setVisibility(View.VISIBLE);
                         }
                         contentList.setAdapter(searchAdapter);
                     }
 
                     @Override
-                    public void onDeactivate() {
-                        if (searchTypeMenu != null) {
+                    public void onDeactivate()
+                    {
+                        if (searchTypeMenu != null)
+                        {
                             searchTypeMenu.setVisibility(View.GONE);
                         }
                     }
 
                     @Override
-                    public void onRequestSearch(String filter) {
+                    public void onRequestSearch(String filter)
+                    {
                         subscriber.onNext(filter);
                     }
                 });
@@ -150,10 +163,13 @@ public abstract class QStoreByTypeFragment extends BaseFragment implements QStor
         })
                 .debounce(6000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Action1<String>()
+                {
                     @Override
-                    public void call(final String s) {
-                        if (cbByTag != null) {
+                    public void call(final String s)
+                    {
+                        if (cbByTag != null)
+                        {
                             presenter.searchItems(s, cbByTag.isChecked());
                         }
                     }
@@ -161,27 +177,32 @@ public abstract class QStoreByTypeFragment extends BaseFragment implements QStor
     }
 
     @Override
-    public void setUpTitle(String type) {
+    public void setUpTitle(String type)
+    {
         mTextViewToolBar.setText(type);
         mImageButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void setSearchBarText(String text) {
+    public void setSearchBarText(String text)
+    {
         searchBar.setText(text);
     }
 
     @Override
-    public String getSeacrhBarText() {
+    public String getSeacrhBarText()
+    {
         return searchBar.getText();
     }
 
     @Override
-    public void OnItemClick(QstoreItem item) {
+    public void OnItemClick(QstoreItem item)
+    {
         openFragmentForResult(StoreContractFragment.newInstance(getContext(), item.id));
     }
 
-    public void setSearchTag(String tag) {
+    public void setSearchTag(String tag)
+    {
         cbByName.setChecked(false);
         cbByTag.setChecked(true);
         setSearchBarText(tag);

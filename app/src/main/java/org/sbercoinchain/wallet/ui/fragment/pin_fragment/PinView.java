@@ -5,7 +5,8 @@ import android.support.annotation.StringRes;
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 
-public interface PinView extends BaseFragmentView {
+public interface PinView extends BaseFragmentView
+{
     void confirmError(String errorText);
 
     void confirmError(@StringRes int resId);

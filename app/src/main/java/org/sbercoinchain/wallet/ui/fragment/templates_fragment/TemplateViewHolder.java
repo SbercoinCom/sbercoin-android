@@ -11,7 +11,8 @@ import org.sbercoin.wallet.utils.FontTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TemplateViewHolder extends RecyclerView.ViewHolder {
+public class TemplateViewHolder extends RecyclerView.ViewHolder
+{
 
     @BindView(org.sbercoin.wallet.R.id.title)
     FontTextView title;
@@ -27,18 +28,22 @@ public class TemplateViewHolder extends RecyclerView.ViewHolder {
 
     private ContractTemplate mContractTemplate;
 
-    public TemplateViewHolder(View itemView, final TemplateSelectListener listener) {
+    public TemplateViewHolder(View itemView, final TemplateSelectListener listener)
+    {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        rootLayout.setOnClickListener(new View.OnClickListener() {
+        rootLayout.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 listener.onSelectContract(mContractTemplate);
             }
         });
     }
 
-    public void bind(ContractTemplate contractTemplate) {
+    public void bind(ContractTemplate contractTemplate)
+    {
         mContractTemplate = contractTemplate;
         title.setText(contractTemplate.getName());
         date.setText(DateCalculator.getShortDate(contractTemplate.getDate()));

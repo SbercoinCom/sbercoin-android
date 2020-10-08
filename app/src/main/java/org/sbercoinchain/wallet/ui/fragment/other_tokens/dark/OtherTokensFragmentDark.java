@@ -8,25 +8,31 @@ import org.sbercoin.wallet.ui.fragment.token_fragment.TokenFragment;
 
 import java.util.List;
 
-public class OtherTokensFragmentDark extends OtherTokensFragment {
+public class OtherTokensFragmentDark extends OtherTokensFragment
+{
 
     @Override
-    protected int getLayout() {
+    protected int getLayout()
+    {
         return R.layout.fragment_other_tokens;
     }
 
     @Override
-    public void setTokensData(List<Token> tokensData) {
+    public void setTokensData(List<Token> tokensData)
+    {
         tokensList.setAdapter(new TokensAdapterDark(tokensData, this, this));
     }
 
     @Override
-    public void onTokenClick(int adapterPosition) {
+    public void onTokenClick(int adapterPosition)
+    {
         Token token = (Token) ((TokensAdapterDark) tokensList.getAdapter()).get(adapterPosition);
-        if (token.getSupportFlag()) {
+        if (token.getSupportFlag())
+        {
             BaseFragment tokenFragment = TokenFragment.newInstance(getContext(), token);
             openFragment(tokenFragment);
-        } else {
+        } else
+        {
             setAlertDialog(getString(R.string.token_unsupported_reason), getString(R.string.ok), PopUpType.error);
         }
 

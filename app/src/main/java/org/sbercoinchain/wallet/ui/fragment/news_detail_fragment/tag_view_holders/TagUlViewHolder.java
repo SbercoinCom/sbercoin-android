@@ -11,24 +11,28 @@ import org.sbercoin.wallet.ui.fragment.news_detail_fragment.LiTagAdapter;
 
 import butterknife.BindView;
 
-public class TagUlViewHolder extends TagViewHolder {
+public class TagUlViewHolder extends TagViewHolder
+{
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @LayoutRes
     int mResId;
 
-    public TagUlViewHolder(View itemView) {
+    public TagUlViewHolder(View itemView)
+    {
         super(itemView);
     }
 
-    public TagUlViewHolder(View itemView, @LayoutRes int resId) {
+    public TagUlViewHolder(View itemView, @LayoutRes int resId)
+    {
         super(itemView);
         mResId = resId;
     }
 
     @Override
-    public void bindElement(Element element) {
+    public void bindElement(Element element)
+    {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
         LiTagAdapter liTagAdapter = new LiTagAdapter(element.children(), mResId);
         mRecyclerView.setAdapter(liTagAdapter);

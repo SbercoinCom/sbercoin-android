@@ -10,7 +10,8 @@ import org.sbercoin.wallet.model.contract.Token;
 import java.io.File;
 import java.util.List;
 
-public interface RestoreContractsInteractor {
+public interface RestoreContractsInteractor
+{
     Backup getBackupFromFile(File restoreFile) throws Exception;
 
     List<ContractTemplate> getContractTemplates();

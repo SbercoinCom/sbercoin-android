@@ -11,7 +11,8 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface ContractFunctionDefaultInteractor {
+public interface ContractFunctionDefaultInteractor
+{
     List<ContractMethod> getContractMethod(String contractTemplateUiid);
 
     BigDecimal getFeePerKb();
