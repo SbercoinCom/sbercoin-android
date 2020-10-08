@@ -1,16 +1,9 @@
 package org.sbercoin.wallet.ui.fragment.backup_wallet_fragment;
 
 import org.sbercoin.wallet.BuildConfig;
-import org.sbercoin.wallet.datastorage.KeyStorage;
-import org.sbercoin.wallet.datastorage.SBERSharedPreference;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseFragment;
-import org.sbercoin.wallet.ui.fragment.wallet_main_fragment.WalletMainFragment;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class BackUpWalletPresenterImpl extends BaseFragmentPresenterImpl implements BackUpWalletPresenter {
 

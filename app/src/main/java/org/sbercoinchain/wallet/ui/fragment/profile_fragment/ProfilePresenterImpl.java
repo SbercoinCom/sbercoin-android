@@ -6,8 +6,6 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
-
 public class ProfilePresenterImpl extends BaseFragmentPresenterImpl implements ProfilePresenter {
 
     private ProfileView mProfileView;

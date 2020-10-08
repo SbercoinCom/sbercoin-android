@@ -8,8 +8,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import io.realm.OrderedCollectionChangeSet;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public interface WalletView extends BaseFragmentView {
     void updateHistory(List<History> histories, @Nullable OrderedCollectionChangeSet changeSet, int visibleItemCount);

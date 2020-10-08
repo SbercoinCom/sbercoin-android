@@ -7,8 +7,6 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
 import java.math.BigDecimal;
 
-import io.realm.Realm;
-
 public class TransactionPresenterImpl extends BaseFragmentPresenterImpl implements TransactionPresenter {
 
     private TransactionView mTransactionView;

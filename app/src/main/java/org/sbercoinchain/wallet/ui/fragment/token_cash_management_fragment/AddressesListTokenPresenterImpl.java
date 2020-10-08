@@ -7,7 +7,6 @@ import org.sbercoin.wallet.model.gson.token_balance.Balance;
 import org.sbercoin.wallet.model.gson.token_balance.TokenBalance;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
-import org.bitcoinj.crypto.DeterministicKey;
 
 import java.util.ArrayList;
 import java.util.List;

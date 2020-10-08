@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 
 import com.google.zxing.Result;
 
-import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;
 
 import java.util.regex.Matcher;
@@ -120,7 +119,7 @@ public class QrCodeRecognitionFragment extends Fragment implements ZXingScannerV
             receiveAddr = receiveAddr.trim();
             ((SendFragment) getParentFragment()).onResponse(receiveAddr, Double.valueOf(amount), tokenAddr);
         } else {
-            pattern = Pattern.compile("^$|^[bB][a-km-zA-HJ-NP-Z1-9]{0,33}$");
+            pattern = Pattern.compile("^$|^[sS][a-km-zA-HJ-NP-Z1-9]{0,33}$");
             matcher = pattern.matcher(result.getText());
             if (matcher.matches()) {
                 ((SendFragment) getParentFragment()).onResponse(result.getText(), Double.valueOf(0.0), "");

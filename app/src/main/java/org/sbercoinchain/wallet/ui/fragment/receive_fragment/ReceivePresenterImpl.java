@@ -6,15 +6,15 @@ import java.math.BigDecimal;
 
 import rx.Subscription;
 
-public class ReceivePresenterImpl extends BaseFragmentPresenterImpl implements ReceivePresenter {
+public class ReceivePresenterImpl extends BaseFragmentPresenterImpl implements org.sbercoin.wallet.ui.fragment.receive_fragment.ReceivePresenter {
 
-    private ReceiveView mReceiveView;
-    private ReceiveInteractor mReceiveInteractor;
+    private org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveView mReceiveView;
+    private org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveInteractor mReceiveInteractor;
     private String mAmount = "0.0";
     private String mTokenAddress;
     private Subscription subscription;
 
-    public ReceivePresenterImpl(ReceiveView view, ReceiveInteractor interactor) {
+    public ReceivePresenterImpl(org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveView view, org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveInteractor interactor) {
         mReceiveView = view;
         mReceiveInteractor = interactor;
     }
@@ -40,11 +40,11 @@ public class ReceivePresenterImpl extends BaseFragmentPresenterImpl implements R
     }
 
     @Override
-    public ReceiveView getView() {
+    public org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveView getView() {
         return mReceiveView;
     }
 
-    private ReceiveInteractor getInteractor() {
+    private org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveInteractor getInteractor() {
         return mReceiveInteractor;
     }
 

@@ -11,15 +11,9 @@ import org.sbercoin.wallet.ui.fragment.transaction_fragment.TransactionInteracto
 import org.sbercoin.wallet.ui.fragment.transaction_fragment.TransactionPresenterImpl;
 import org.sbercoin.wallet.ui.fragment.transaction_fragment.TransactionView;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
 import io.realm.RealmList;
 
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;

@@ -8,9 +8,7 @@ import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;

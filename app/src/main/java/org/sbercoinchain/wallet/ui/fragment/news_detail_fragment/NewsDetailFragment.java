@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import org.jsoup.select.Elements;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;

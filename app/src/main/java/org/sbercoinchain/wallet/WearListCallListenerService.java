@@ -3,11 +3,9 @@ package org.sbercoin.wallet;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -20,11 +18,10 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 import com.google.gson.Gson;
 
-import org.sbercoin.wallet.datastorage.KeyStorage;
 import org.sbercoin.wallet.datastorage.SBERSharedPreference;
 import org.sbercoin.wallet.datastorage.TinyDB;
 import org.sbercoin.wallet.model.gson.history.History;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import io.realm.Realm;

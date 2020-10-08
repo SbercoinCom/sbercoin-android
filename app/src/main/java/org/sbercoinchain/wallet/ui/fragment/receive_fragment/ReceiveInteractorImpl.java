@@ -4,9 +4,7 @@ import android.content.Context;
 
 import org.sbercoin.wallet.datastorage.KeyStorage;
 
-import java.math.BigDecimal;
-
-class ReceiveInteractorImpl implements ReceiveInteractor {
+class ReceiveInteractorImpl implements org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveInteractor {
 
     private Context mContext;
 

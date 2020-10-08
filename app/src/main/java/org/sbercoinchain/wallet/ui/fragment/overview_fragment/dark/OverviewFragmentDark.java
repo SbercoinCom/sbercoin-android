@@ -1,8 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.overview_fragment.dark;
 
 
-import android.util.Pair;
-
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.overview_fragment.CopyableOverviewItem;
 import org.sbercoin.wallet.ui.fragment.overview_fragment.OverviewFragment;

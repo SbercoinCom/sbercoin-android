@@ -2,14 +2,6 @@ package org.sbercoin.wallet.datastorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-
-import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
-import org.sbercoin.wallet.utils.migration_manager.KeystoreMigrationResult;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class SBERSharedPreference {
     private static SBERSharedPreference sInstance = null;

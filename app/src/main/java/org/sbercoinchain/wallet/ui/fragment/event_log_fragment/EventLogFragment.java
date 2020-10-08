@@ -18,10 +18,8 @@ import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.gson.history.DisplayedData;
 import org.sbercoin.wallet.model.gson.history.Log;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
-import org.sbercoin.wallet.ui.fragment.addresses_detail_fragment.AddressesDetailFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

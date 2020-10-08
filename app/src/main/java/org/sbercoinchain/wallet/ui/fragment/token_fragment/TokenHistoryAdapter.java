@@ -2,10 +2,8 @@ package org.sbercoin.wallet.ui.fragment.token_fragment;
 
 import android.support.v7.widget.RecyclerView;
 
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.HistoryCountChangeListener;
-import org.sbercoin.wallet.ui.fragment.wallet_fragment.TransactionClickListener;
 
 import java.util.List;
 

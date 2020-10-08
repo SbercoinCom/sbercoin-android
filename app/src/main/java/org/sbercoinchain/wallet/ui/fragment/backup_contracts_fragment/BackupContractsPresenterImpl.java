@@ -1,7 +1,5 @@
 package org.sbercoin.wallet.ui.fragment.backup_contracts_fragment;
 
-import android.support.v4.content.FileProvider;
-
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;

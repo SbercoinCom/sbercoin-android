@@ -12,25 +12,24 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class ConfirmPassphrasePresenterImpl extends BaseFragmentPresenterImpl implements ConfirmPassphrasePresenter{
+public class ConfirmPassphrasePresenterImpl extends BaseFragmentPresenterImpl implements org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphrasePresenter {
 
-    ConfirmPassphraseView mConfirmPassphraseView;
-    ConfirmPassphraseInteractor mConfirmPassphraseInteractor;
+    org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView mConfirmPassphraseView;
+    org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor mConfirmPassphraseInteractor;
     boolean isDataLoaded = false;
 
     List<String> wordsList;
-
-    ConfirmPassphrasePresenterImpl(ConfirmPassphraseView confirmPassphraseView, ConfirmPassphraseInteractor confirmPassphraseInteractor){
+    ConfirmPassphrasePresenterImpl(org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView confirmPassphraseView, org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor confirmPassphraseInteractor){
         mConfirmPassphraseView = confirmPassphraseView;
         mConfirmPassphraseInteractor = confirmPassphraseInteractor;
     }
 
     @Override
-    public ConfirmPassphraseView getView() {
+    public org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseView getView() {
         return mConfirmPassphraseView;
     }
 
-    public ConfirmPassphraseInteractor getInteractor() {
+    public org.sbercoin.wallet.ui.fragment.confirm_passphrase_fragment.ConfirmPassphraseInteractor getInteractor() {
         return mConfirmPassphraseInteractor;
     }
 

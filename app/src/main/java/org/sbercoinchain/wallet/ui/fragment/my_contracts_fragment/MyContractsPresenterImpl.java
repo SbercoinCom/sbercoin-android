@@ -10,7 +10,6 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import java.util.Iterator;
 import java.util.List;
 
-import io.realm.annotations.PrimaryKey;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

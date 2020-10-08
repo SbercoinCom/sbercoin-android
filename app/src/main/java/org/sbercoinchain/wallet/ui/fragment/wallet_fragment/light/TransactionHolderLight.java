@@ -2,8 +2,6 @@ package org.sbercoin.wallet.ui.fragment.wallet_fragment.light;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

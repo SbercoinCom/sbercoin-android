@@ -1,8 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.token_fragment.dark;
 
-import android.support.annotation.BinderThread;
 import android.support.design.widget.AppBarLayout;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,7 +11,6 @@ import org.sbercoin.wallet.utils.ResizeWidthAnimation;
 import org.sbercoin.wallet.utils.StackCollapseLinearLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 

@@ -2,7 +2,6 @@ package org.sbercoin.wallet.ui.fragment.profile_fragment.light;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.profile_fragment.DividerItemDecoration;
-import org.sbercoin.wallet.ui.fragment.profile_fragment.PrefAdapter;
 import org.sbercoin.wallet.ui.fragment.profile_fragment.ProfileFragment;
 
 public class ProfileFragmentLight extends ProfileFragment {

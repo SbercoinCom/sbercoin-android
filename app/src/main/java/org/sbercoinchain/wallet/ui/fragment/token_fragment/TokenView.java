@@ -1,10 +1,7 @@
 package org.sbercoin.wallet.ui.fragment.token_fragment;
 
-import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
-import org.sbercoin.wallet.utils.ContractManagementHelper;
 
 import java.util.List;
 

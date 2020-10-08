@@ -1,7 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.news_detail_fragment;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.sbercoin.wallet.model.news.News;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 

@@ -1,7 +1,6 @@
 package org.sbercoin.wallet.adapter;
 
 
-import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import org.sbercoin.wallet.entity.HeaderData;
 import org.sbercoin.wallet.entity.History;
 import org.sbercoin.wallet.listener.HeaderClickListener;
 import org.sbercoin.wallet.listener.ItemClickListener;
-import org.sbercoin.wallet.storage.DataStorage;
 import org.sbercoin.wallet.viewholder.HeaderViewHolder;
 import org.sbercoin.wallet.viewholder.HistoryViewHolder;
 

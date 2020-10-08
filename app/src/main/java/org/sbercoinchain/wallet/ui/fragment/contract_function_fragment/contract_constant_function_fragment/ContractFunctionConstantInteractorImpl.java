@@ -2,7 +2,6 @@ package org.sbercoin.wallet.ui.fragment.contract_function_fragment.contract_cons
 
 import android.content.Context;
 
-import org.bitcoinj.script.Script;
 import org.sbercoin.wallet.dataprovider.rest_api.sbercoin.SBERService;
 import org.sbercoin.wallet.datastorage.FileStorageManager;
 import org.sbercoin.wallet.datastorage.SBERSettingSharedPreference;
@@ -12,9 +11,6 @@ import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.ContractMethod;
 import org.sbercoin.wallet.model.contract.ContractMethodParameter;
 import org.sbercoin.wallet.model.gson.CallSmartContractRequest;
-import org.sbercoin.wallet.model.gson.SendRawTransactionRequest;
-import org.sbercoin.wallet.model.gson.SendRawTransactionResponse;
-import org.sbercoin.wallet.model.gson.UnspentOutput;
 import org.sbercoin.wallet.model.gson.call_smart_contract_response.CallSmartContractResponse;
 import org.sbercoin.wallet.utils.ContractBuilder;
 

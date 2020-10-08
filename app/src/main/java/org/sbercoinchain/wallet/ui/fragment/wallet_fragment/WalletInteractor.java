@@ -6,8 +6,6 @@ import org.sbercoin.wallet.model.gson.history.TransactionReceipt;
 
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 import rx.Observable;
 
 public interface WalletInteractor {

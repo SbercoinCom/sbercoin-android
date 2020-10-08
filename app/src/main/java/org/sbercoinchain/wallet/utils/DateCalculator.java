@@ -1,10 +1,7 @@
 package org.sbercoin.wallet.utils;
 
-import android.app.Application;
 import android.os.Build;
 import android.os.LocaleList;
-
-import org.sbercoin.wallet.R;
 
 import java.text.DateFormat;
 import java.text.ParseException;

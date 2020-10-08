@@ -16,7 +16,6 @@ import org.sbercoin.wallet.dataprovider.services.update_service.listeners.TokenL
 import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.base.base_nav_fragment.BaseNavFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.other_tokens.OtherTokensFragment;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.WalletFragment;
 

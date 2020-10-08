@@ -1,13 +1,9 @@
 package org.sbercoin.wallet.ui.fragment.language_fragment;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.util.Pair;
 
 import org.sbercoin.wallet.datastorage.SBERSettingSharedPreference;
-import org.sbercoin.wallet.datastorage.SBERSharedPreference;
 import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
 
 import java.util.ArrayList;

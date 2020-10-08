@@ -1,7 +1,5 @@
 package org.sbercoin.wallet.ui.fragment.receive_fragment;
 
-import java.math.BigDecimal;
-
 public interface ReceiveInteractor {
     String getCurrentReceiveAddress();
 

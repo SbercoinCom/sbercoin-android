@@ -1,6 +1,5 @@
 package org.sbercoin.wallet.ui.fragment.smart_contracts_fragment.light;
 
-import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.profile_fragment.SettingObject;
 import org.sbercoin.wallet.ui.fragment.smart_contracts_fragment.SmartContractsFragment;
 

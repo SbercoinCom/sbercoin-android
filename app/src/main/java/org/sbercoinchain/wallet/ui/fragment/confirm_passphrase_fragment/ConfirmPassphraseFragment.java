@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
-import org.sbercoin.wallet.ui.fragment.wallet_main_fragment.WalletMainFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
 
 import java.util.ArrayList;

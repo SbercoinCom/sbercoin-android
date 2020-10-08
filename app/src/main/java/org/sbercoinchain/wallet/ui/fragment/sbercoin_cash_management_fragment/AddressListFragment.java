@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import org.jsoup.helper.StringUtil;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.AddressWithBalance;
 import org.sbercoin.wallet.ui.fragment.send_fragment.SendFragment;

@@ -2,7 +2,6 @@ package org.sbercoin.wallet.ui.fragment.addresses_detail_fragment;
 
 
 import org.sbercoin.wallet.model.gson.history.History;
-import org.sbercoin.wallet.model.gson.history.TransactionInfo;
 import org.sbercoin.wallet.model.gson.history.Vin;
 import org.sbercoin.wallet.model.gson.history.Vout;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;

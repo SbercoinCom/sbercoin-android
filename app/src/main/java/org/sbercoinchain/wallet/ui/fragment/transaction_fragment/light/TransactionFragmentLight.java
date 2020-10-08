@@ -8,8 +8,6 @@ import org.sbercoin.wallet.ui.base.base_nav_fragment.BaseNavFragment;
 import org.sbercoin.wallet.ui.base.base_nav_fragment.HiddenChangeListener;
 import org.sbercoin.wallet.ui.fragment.transaction_fragment.TransactionFragment;
 
-import java.util.List;
-
 import butterknife.BindView;
 
 public class TransactionFragmentLight extends TransactionFragment implements HiddenChangeListener {

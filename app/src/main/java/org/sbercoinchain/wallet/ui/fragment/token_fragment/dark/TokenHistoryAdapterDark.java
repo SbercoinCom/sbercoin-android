@@ -5,14 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 import org.sbercoin.wallet.ui.fragment.token_fragment.TokenHistoryAdapter;
 import org.sbercoin.wallet.ui.fragment.token_fragment.TokenHistoryClickListener;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.ProgressBarHolder;
-import org.sbercoin.wallet.ui.fragment.wallet_fragment.TransactionAdapter;
-import org.sbercoin.wallet.ui.fragment.wallet_fragment.TransactionClickListener;
-import org.sbercoin.wallet.ui.fragment.wallet_fragment.dark.TransactionHolderDark;
 
 import java.util.List;
 

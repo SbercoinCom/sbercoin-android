@@ -1,8 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.wallet_fragment.light;
 
 import android.support.design.widget.AppBarLayout;
-import android.text.SpannableString;
-import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,10 +15,8 @@ import org.sbercoin.wallet.ui.wave_visualizer.WaveHelper;
 import org.sbercoin.wallet.ui.wave_visualizer.WaveView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import io.realm.RealmResults;
 
 public class WalletFragmentLight extends WalletFragment {
 

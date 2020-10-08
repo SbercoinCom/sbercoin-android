@@ -8,8 +8,6 @@ import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.addresses_fragment.AddressHolder;
 import org.sbercoin.wallet.ui.fragment.addresses_fragment.AddressesAdapter;
 import org.sbercoin.wallet.ui.fragment.addresses_fragment.OnAddressClickListener;
-import org.sbercoin.wallet.utils.CurrentNetParams;
-import org.bitcoinj.crypto.DeterministicKey;
 
 import java.util.List;
 

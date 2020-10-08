@@ -1,9 +1,5 @@
 package org.sbercoin.wallet.model;
 
-import org.sbercoin.wallet.utils.CurrentNetParams;
-
-import org.bitcoinj.crypto.DeterministicKey;
-
 import java.math.BigDecimal;
 
 public class AddressWithTokenBalance {

@@ -7,7 +7,6 @@ import android.view.View;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.datastorage.SBERSettingSharedPreference;
-import org.sbercoin.wallet.datastorage.SBERSharedPreference;
 import org.sbercoin.wallet.ui.fragment.language_fragment.LanguageHolder;
 import org.sbercoin.wallet.ui.fragment.language_fragment.OnLanguageIntemClickListener;
 

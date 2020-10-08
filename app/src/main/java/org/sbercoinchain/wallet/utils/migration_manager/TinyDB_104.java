@@ -7,9 +7,6 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
-import org.sbercoin.wallet.model.ContractTemplate;
-import org.sbercoin.wallet.model.contract.Contract;
-import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.utils.DateCalculator;
 
 import java.util.ArrayList;

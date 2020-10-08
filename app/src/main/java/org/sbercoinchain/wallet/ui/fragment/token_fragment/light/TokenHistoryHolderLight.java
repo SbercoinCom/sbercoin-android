@@ -1,6 +1,5 @@
 package org.sbercoin.wallet.ui.fragment.token_fragment.light;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -11,10 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 import org.sbercoin.wallet.ui.fragment.token_fragment.TokenHistoryClickListener;
-import org.sbercoin.wallet.ui.fragment.wallet_fragment.TransactionClickListener;
 import org.sbercoin.wallet.utils.ClipboardUtils;
 import org.sbercoin.wallet.utils.DateCalculator;
 

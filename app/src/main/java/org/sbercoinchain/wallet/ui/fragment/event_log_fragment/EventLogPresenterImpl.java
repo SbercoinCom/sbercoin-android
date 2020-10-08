@@ -1,7 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.event_log_fragment;
 
 
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.history.TransactionReceipt;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 

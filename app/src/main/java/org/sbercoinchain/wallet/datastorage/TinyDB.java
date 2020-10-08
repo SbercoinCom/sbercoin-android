@@ -27,7 +27,6 @@ import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.model.ContractTemplate;
 import org.sbercoin.wallet.model.news.News;
-import org.sbercoin.wallet.utils.DateCalculator;
 
 public class TinyDB {
 

@@ -10,12 +10,9 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.model.AddressWithBalance;
 import org.sbercoin.wallet.model.AddressWithTokenBalance;
-import org.sbercoin.wallet.model.gson.UnspentOutput;
 import org.sbercoin.wallet.ui.fragment.token_cash_management_fragment.AddressesListFragmentToken;
 import org.sbercoin.wallet.ui.fragment.token_cash_management_fragment.TokenAddressesAdapter;
-import org.sbercoin.wallet.utils.CurrentNetParams;
 import org.sbercoin.wallet.utils.FontTextView;
 
 import java.math.BigDecimal;

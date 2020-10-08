@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
-import org.jsoup.Connection;
 import org.sbercoin.wallet.datastorage.SBERSharedPreference;
 
 import java.math.BigInteger;

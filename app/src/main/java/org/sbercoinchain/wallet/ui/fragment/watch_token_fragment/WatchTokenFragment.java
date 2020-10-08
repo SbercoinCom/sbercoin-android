@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 
 import org.sbercoin.wallet.dataprovider.services.update_service.UpdateService;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;

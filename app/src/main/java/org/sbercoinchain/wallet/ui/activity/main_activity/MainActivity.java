@@ -49,10 +49,8 @@ import org.sbercoin.wallet.dataprovider.receivers.network_state_receiver.Network
 import org.sbercoin.wallet.dataprovider.receivers.network_state_receiver.listeners.NetworkStateListener;
 import org.sbercoin.wallet.dataprovider.services.update_service.UpdateService;
 
-import org.sbercoin.wallet.datastorage.KeyStorage;
 import org.sbercoin.wallet.datastorage.SBERSettingSharedPreference;
 import org.sbercoin.wallet.datastorage.SBERSharedPreference;
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.ui.activity.splash_activity.SplashActivity;
 import org.sbercoin.wallet.ui.base.base_activity.BaseActivity;
 import org.sbercoin.wallet.ui.base.base_nav_fragment.BaseNavFragment;

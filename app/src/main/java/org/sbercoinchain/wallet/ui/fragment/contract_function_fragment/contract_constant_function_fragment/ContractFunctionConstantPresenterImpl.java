@@ -3,23 +3,15 @@ package org.sbercoin.wallet.ui.fragment.contract_function_fragment.contract_cons
 import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.ContractMethod;
 import org.sbercoin.wallet.model.contract.ContractMethodParameter;
-import org.sbercoin.wallet.model.gson.SendRawTransactionResponse;
-import org.sbercoin.wallet.model.gson.UnspentOutput;
 import org.sbercoin.wallet.model.gson.call_smart_contract_response.Item;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import org.sbercoin.wallet.utils.ContractManagementHelper;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class ContractFunctionConstantPresenterImpl extends BaseFragmentPresenterImpl implements ContractFunctionConstantPresenter {

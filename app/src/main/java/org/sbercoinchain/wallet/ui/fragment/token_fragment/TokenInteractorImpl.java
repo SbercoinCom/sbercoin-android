@@ -7,7 +7,6 @@ import org.sbercoin.wallet.datastorage.FileStorageManager;
 import org.sbercoin.wallet.datastorage.KeyStorage;
 import org.sbercoin.wallet.datastorage.TinyDB;
 import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.history.TransactionReceipt;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistoryResponse;

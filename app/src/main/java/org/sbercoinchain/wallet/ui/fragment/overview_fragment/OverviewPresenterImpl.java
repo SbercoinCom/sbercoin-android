@@ -1,8 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.overview_fragment;
 
 
-import android.util.Pair;
-
 import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.history.TransactionReceipt;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
@@ -10,8 +8,6 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
 
 public class OverviewPresenterImpl extends BaseFragmentPresenterImpl implements OverviewPresenter {
 

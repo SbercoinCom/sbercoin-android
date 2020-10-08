@@ -3,7 +3,6 @@ package org.sbercoin.wallet.ui.fragment.receive_fragment.light;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveFragment;

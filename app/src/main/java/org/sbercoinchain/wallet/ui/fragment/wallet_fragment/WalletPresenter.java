@@ -3,8 +3,6 @@ package org.sbercoin.wallet.ui.fragment.wallet_fragment;
 import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenter;
 
-import java.util.List;
-
 public interface WalletPresenter extends BaseFragmentPresenter {
 
     void onTransactionClick(String txHash);

@@ -7,8 +7,6 @@ import org.sbercoin.wallet.datastorage.TinyDB;
 import org.sbercoin.wallet.model.ContractTemplate;
 import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.ContractCreationStatus;
-import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.utils.ContractBuilder;
 import org.sbercoin.wallet.utils.DateCalculator;
 
 import java.lang.ref.WeakReference;

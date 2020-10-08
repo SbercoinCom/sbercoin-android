@@ -5,9 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.sbercoin.wallet.utils.DateCalculator;
 
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class Backup {
 

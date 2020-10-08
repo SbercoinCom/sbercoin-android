@@ -18,7 +18,6 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -56,8 +55,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -514,7 +511,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Pattern pattern = Pattern.compile("^$|^[bB][a-km-zA-HJ-NP-Z1-9]{0,33}$");
+                Pattern pattern = Pattern.compile("^$|^[sS][a-km-zA-HJ-NP-Z1-9]{0,33}$");
                 Matcher matcher = pattern.matcher(editable);
                 if (!matcher.matches()) {
                     int length = editable.length();

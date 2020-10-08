@@ -26,7 +26,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sbercoin.wallet.SBERApplication;
 import org.sbercoin.wallet.dataprovider.firebase.FirebaseSharedPreferences;
 import org.sbercoin.wallet.dataprovider.firebase.listeners.FireBaseTokenRefreshListener;
 import org.sbercoin.wallet.dataprovider.rest_api.sbercoin.SBERService;
@@ -228,8 +227,8 @@ public class UpdateService extends Service implements GoogleApiClient.Connection
                     JSONObject data = (JSONObject) args[0];
 
                     try {
-                        unconfirmedBalance = (new BigDecimal(data.getString("unconfirmedBalance"))).divide(new BigDecimal("100000000"), MathContext.DECIMAL128);
-                        balance = (new BigDecimal(data.getString("balance"))).divide(new BigDecimal("100000000"), MathContext.DECIMAL128);
+                        unconfirmedBalance = (new BigDecimal(data.getString("unconfirmedBalance"))).divide(new BigDecimal("10000000"), MathContext.DECIMAL128);
+                        balance = (new BigDecimal(data.getString("balance"))).divide(new BigDecimal("10000000"), MathContext.DECIMAL128);
                         mLastUpdatedBalanceTime = DateCalculator.getCurrentDate();
                         sbercoinSharedPreference.setBalanceString(getApplicationContext(), balance.toString());
                         sbercoinSharedPreference.setUnconfirmedBalanceString(getApplicationContext(), unconfirmedBalance.toString());

@@ -2,7 +2,6 @@ package org.sbercoin.wallet.ui.fragment.addresses_fragment.light;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.addresses_fragment.AddressesFragment;
-import org.bitcoinj.crypto.DeterministicKey;
 
 import java.util.List;
 

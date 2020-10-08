@@ -1,9 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.watch_token_fragment;
 
-import android.support.annotation.MainThread;
-
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.model.ContractTemplate;
 import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.gson.ContractParams;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
@@ -11,7 +8,6 @@ import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 
 import java.util.List;
 
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

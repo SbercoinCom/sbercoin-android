@@ -1,7 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.pin_fragment.light;
 
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.ui.activity.main_activity.MainActivity;
 import org.sbercoin.wallet.ui.fragment.pin_fragment.PinFragment;
 import org.sbercoin.wallet.ui.wave_visualizer.WaveHelper;
 import org.sbercoin.wallet.ui.wave_visualizer.WaveView;

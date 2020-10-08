@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.sbercoin.wallet.ui.fragment.backup_wallet_fragment.BackUpWalletFragment;
-import org.sbercoin.wallet.ui.fragment.wallet_main_fragment.WalletMainFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 

@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
 
 public class Vout extends RealmObject implements TransactionInfo {
 

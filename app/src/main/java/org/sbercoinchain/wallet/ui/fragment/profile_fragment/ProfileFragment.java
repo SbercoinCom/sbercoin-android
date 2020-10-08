@@ -18,10 +18,8 @@ import org.sbercoin.wallet.ui.fragment.pin_fragment.PinFragment;
 import org.sbercoin.wallet.ui.fragment.smart_contracts_fragment.SmartContractsFragment;
 import org.sbercoin.wallet.ui.fragment.start_page_fragment.StartPageFragment;
 import org.sbercoin.wallet.ui.fragment.subscribe_tokens_fragment.SubscribeTokensFragment;
-import org.sbercoin.wallet.ui.fragment.wallet_main_fragment.WalletMainFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
-import org.sbercoin.wallet.utils.ThemeUtils;
 
 import butterknife.BindView;
 import io.realm.Realm;

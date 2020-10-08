@@ -2,7 +2,6 @@ package org.sbercoin.wallet.ui.fragment.addresses_fragment;
 
 import android.content.Context;
 
-import org.bitcoinj.crypto.DeterministicKey;
 import org.sbercoin.wallet.datastorage.KeyStorage;
 
 import java.util.List;

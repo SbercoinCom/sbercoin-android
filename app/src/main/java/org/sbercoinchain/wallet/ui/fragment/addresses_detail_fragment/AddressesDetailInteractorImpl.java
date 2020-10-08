@@ -6,7 +6,6 @@ import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import io.realm.Realm;
 

@@ -3,8 +3,6 @@ package org.sbercoin.wallet.ui.fragment.contract_function_fragment.contract_cons
 import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.ContractMethod;
 import org.sbercoin.wallet.model.contract.ContractMethodParameter;
-import org.sbercoin.wallet.model.gson.SendRawTransactionResponse;
-import org.sbercoin.wallet.model.gson.UnspentOutput;
 
 import java.math.BigDecimal;
 import java.util.List;

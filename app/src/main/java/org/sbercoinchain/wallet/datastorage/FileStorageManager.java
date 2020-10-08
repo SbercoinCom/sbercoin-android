@@ -12,7 +12,6 @@ import org.sbercoin.wallet.BuildConfig;
 import org.sbercoin.wallet.model.ContractTemplate;
 import org.sbercoin.wallet.model.backup.TemplateJSON;
 import org.sbercoin.wallet.model.contract.ContractMethod;
-import org.sbercoin.wallet.utils.DateCalculator;
 
 import org.json.JSONArray;
 import org.json.JSONException;

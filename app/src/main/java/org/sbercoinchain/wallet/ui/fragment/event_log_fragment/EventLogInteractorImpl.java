@@ -6,7 +6,6 @@ import android.content.Context;
 import org.sbercoin.wallet.model.gson.history.History;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import io.realm.Realm;
 

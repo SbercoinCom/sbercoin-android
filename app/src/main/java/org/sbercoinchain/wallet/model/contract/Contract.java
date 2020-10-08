@@ -3,7 +3,6 @@ package org.sbercoin.wallet.model.contract;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class Contract implements Serializable {
 

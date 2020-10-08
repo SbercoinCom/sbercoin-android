@@ -12,7 +12,6 @@ import org.sbercoin.wallet.utils.ClipboardUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnLongClick;
 
 public class AddressHolder extends RecyclerView.ViewHolder {
     @BindView(org.sbercoin.wallet.R.id.tv_single_string)

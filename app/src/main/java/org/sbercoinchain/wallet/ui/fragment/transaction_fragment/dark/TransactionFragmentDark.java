@@ -5,10 +5,7 @@ import android.view.View;
 
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.ui.fragment.transaction_fragment.TransactionFragment;
-import org.sbercoin.wallet.ui.fragment.addresses_detail_fragment.AddressesDetailFragment;
 import org.sbercoin.wallet.utils.FontTextView;
-
-import java.util.List;
 
 import butterknife.BindView;
 

@@ -2,8 +2,6 @@ package org.sbercoin.wallet.ui.fragment.news_detail_fragment;
 
 import android.content.Context;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.sbercoin.wallet.datastorage.NewsStorage;
 import org.sbercoin.wallet.model.news.News;
 

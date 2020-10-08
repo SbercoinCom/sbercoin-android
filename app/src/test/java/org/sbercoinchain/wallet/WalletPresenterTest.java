@@ -9,7 +9,6 @@ import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.history.HistoryResponse;
 import org.sbercoin.wallet.model.gson.history.Vin;
 import org.sbercoin.wallet.model.gson.history.Vout;
-import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.WalletInteractor;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.WalletPresenterImpl;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.WalletView;
@@ -26,9 +25,7 @@ import rx.plugins.RxJavaPlugins;
 import rx.plugins.RxJavaSchedulersHook;
 import rx.schedulers.Schedulers;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

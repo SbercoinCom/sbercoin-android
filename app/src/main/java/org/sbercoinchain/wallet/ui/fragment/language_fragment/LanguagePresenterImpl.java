@@ -1,7 +1,5 @@
 package org.sbercoin.wallet.ui.fragment.language_fragment;
 
-import android.content.Intent;
-
 import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentPresenterImpl;
 import org.sbercoin.wallet.ui.fragment.language_fragment.LanguagePresenter;

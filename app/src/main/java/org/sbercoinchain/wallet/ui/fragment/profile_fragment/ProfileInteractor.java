@@ -2,8 +2,6 @@ package org.sbercoin.wallet.ui.fragment.profile_fragment;
 
 import org.sbercoin.wallet.datastorage.listeners.LanguageChangeListener;
 
-import io.realm.Realm;
-
 public interface ProfileInteractor {
     void clearWallet();
 

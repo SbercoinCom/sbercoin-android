@@ -1,12 +1,11 @@
 package org.sbercoin.wallet.ui.fragment.wallet_fragment.dark;
 
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.ui.fragment.wallet_fragment.WalletFragment;

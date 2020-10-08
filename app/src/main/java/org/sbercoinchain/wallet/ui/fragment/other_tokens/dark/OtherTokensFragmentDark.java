@@ -1,7 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.other_tokens.dark;
 
 import org.sbercoin.wallet.R;
-import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.Token;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.other_tokens.OtherTokensFragment;

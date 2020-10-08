@@ -1,6 +1,5 @@
 package org.sbercoin.wallet.ui.fragment.token_cash_management_fragment;
 
-import org.bitcoinj.crypto.DeterministicKey;
 import org.sbercoin.wallet.model.AddressWithTokenBalance;
 import org.sbercoin.wallet.model.gson.token_balance.TokenBalance;
 

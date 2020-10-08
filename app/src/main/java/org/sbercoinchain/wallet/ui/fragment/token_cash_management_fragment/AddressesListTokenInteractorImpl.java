@@ -3,7 +3,6 @@ package org.sbercoin.wallet.ui.fragment.token_cash_management_fragment;
 import android.content.Context;
 import android.text.TextUtils;
 
-import org.bitcoinj.crypto.DeterministicKey;
 import org.sbercoin.wallet.datastorage.KeyStorage;
 import org.sbercoin.wallet.model.AddressWithTokenBalance;
 import org.sbercoin.wallet.model.gson.token_balance.TokenBalance;

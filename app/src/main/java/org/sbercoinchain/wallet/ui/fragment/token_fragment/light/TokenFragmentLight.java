@@ -10,13 +10,11 @@ import android.widget.TextView;
 import org.sbercoin.wallet.R;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 import org.sbercoin.wallet.ui.fragment.token_fragment.TokenFragment;
-import org.sbercoin.wallet.ui.fragment.token_fragment.dark.TokenHistoryAdapterDark;
 import org.sbercoin.wallet.ui.wave_visualizer.WaveHelper;
 import org.sbercoin.wallet.ui.wave_visualizer.WaveView;
 import org.sbercoin.wallet.utils.ContractBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 

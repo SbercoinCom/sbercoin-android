@@ -20,7 +20,6 @@ import org.sbercoin.wallet.dataprovider.receivers.network_state_receiver.Network
 import org.sbercoin.wallet.dataprovider.receivers.network_state_receiver.listeners.NetworkStateListener;
 import org.sbercoin.wallet.model.contract.Contract;
 import org.sbercoin.wallet.model.contract.Token;
-import org.sbercoin.wallet.model.gson.history.History;
 import org.sbercoin.wallet.model.gson.token_history.TokenHistory;
 import org.sbercoin.wallet.ui.fragment.receive_fragment.ReceiveFragment;
 import org.sbercoin.wallet.ui.fragment.token_cash_management_fragment.AddressesListFragmentToken;
@@ -29,7 +28,6 @@ import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragment;
 import org.sbercoin.wallet.ui.fragment.token_fragment.dialogs.ShareDialogFragment;
 import org.sbercoin.wallet.utils.ClipboardUtils;
-import org.sbercoin.wallet.utils.ContractManagementHelper;
 import org.sbercoin.wallet.utils.FontTextView;
 
 import java.util.List;

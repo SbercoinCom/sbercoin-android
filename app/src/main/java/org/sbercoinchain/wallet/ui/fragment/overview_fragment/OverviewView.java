@@ -1,8 +1,6 @@
 package org.sbercoin.wallet.ui.fragment.overview_fragment;
 
 
-import android.util.Pair;
-
 import org.sbercoin.wallet.ui.base.base_fragment.BaseFragmentView;
 import org.sbercoin.wallet.ui.fragment.transaction_fragment.HistoryType;
 

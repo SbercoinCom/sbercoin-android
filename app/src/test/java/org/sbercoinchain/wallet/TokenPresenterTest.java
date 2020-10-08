@@ -18,7 +18,6 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Scheduler;
-import rx.Subscriber;
 import rx.android.plugins.RxAndroidPlugins;
 import rx.android.plugins.RxAndroidSchedulersHook;
 import rx.plugins.RxJavaPlugins;
@@ -26,7 +25,6 @@ import rx.plugins.RxJavaSchedulersHook;
 import rx.schedulers.Schedulers;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
