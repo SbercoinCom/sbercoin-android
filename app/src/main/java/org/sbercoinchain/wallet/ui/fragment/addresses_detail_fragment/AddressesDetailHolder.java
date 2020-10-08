@@ -34,7 +34,7 @@ public class AddressesDetailHolder extends RecyclerView.ViewHolder
             @Override
             public void onClick(View view)
             {
-                String explorerURL = "https://sbercoinchain.info/address/" + mTextViewAddress.getText().toString();
+                String explorerURL = "https://explorer.sbercoin.com/address/" + mTextViewAddress.getText().toString();
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(explorerURL));
                 itemView.getContext().startActivity(browserIntent);
             }

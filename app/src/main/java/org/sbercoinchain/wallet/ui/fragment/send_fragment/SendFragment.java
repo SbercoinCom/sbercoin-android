@@ -475,8 +475,8 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
             textViewChangeValue = true;
             double value = (mMinFee + (mSeekBar.getProgress() * step)) / 10000000.;
             seekBarChangeValue = true;
-            mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
-        }
+            mTextInputEditTextFee.setText(new DecimalFormat("#.#######").format(value));
+            }
         getPresenter().send();
     }
 
@@ -680,7 +680,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
                 }
                 double value = (mMinFee + (progress * step)) / 10000000.;
 
-                DecimalFormat df = new DecimalFormat("#.########");
+                DecimalFormat df = new DecimalFormat("#.#######");
                 df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
                 seekBarChangeValue = true;
                 mTextInputEditTextFee.setText(df.format(value));
@@ -793,7 +793,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
                         textViewChangeValue = true;
                         double value = (mMinFee + (mSeekBar.getProgress() * step)) / 10000000.;
                         seekBarChangeValue = true;
-                        mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
+                        mTextInputEditTextFee.setText(new DecimalFormat("#.#######").format(value));
                     }
                 }
             }
@@ -1005,7 +1005,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
     public void updateFee(double minFee, double maxFee)
     {
 
-        DecimalFormat df = new DecimalFormat("#.########");
+        DecimalFormat df = new DecimalFormat("#.#######");
         df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         seekBarChangeValue = true;
 
@@ -1015,7 +1015,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
         mMaxFee = Double.valueOf(maxFee * 10000000).intValue();
         mSeekBar.setMax((mMaxFee - mMinFee) / step);
         mSeekBar.setProgress(10000000 - mMinFee);
-    }
+        }
 
     public void onResponse(String pubAddress, Double amount, String tokenAddress)
     {
@@ -1131,9 +1131,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
         if (TextUtils.isEmpty(availableAddress))
         {
             dismissProgressDialog();
-            setAlertDialog(org.sbercoin.wallet.R.string.error,
-                    org.sbercoin.wallet.R.string.you_have_insufficient_funds_for_this_transaction,
-                    "Ok", BaseFragment.PopUpType.error);
+            setAlertDialog(org.sbercoin.wallet.R.string.error, org.sbercoin.wallet.R.string.you_have_insufficient_funds_for_this_transaction, "Ok", BaseFragment.PopUpType.error);
             return false;
         } else
         {

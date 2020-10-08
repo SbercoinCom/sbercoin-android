@@ -650,10 +650,6 @@ public class ContractBuilder
         }
         if (overFlow.doubleValue() < totalAmount.doubleValue())
         {
-            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
-            System.out.println("overFlow val" + overFlow.doubleValue());
-            System.out.println("totalAMOUNT Val" + totalAmount.doubleValue());
-            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
             throw new RuntimeException("You have insufficient funds for this transaction");
         }
         BigDecimal delivery = overFlow.subtract(totalAmount);
@@ -721,10 +717,6 @@ public class ContractBuilder
         }
         if (overFlow.doubleValue() < totalFee.doubleValue())
         {
-            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
-            System.out.println("overFlow val" + overFlow.doubleValue());
-            System.out.println("totalFee Val" + totalFee.doubleValue());
-            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
             throw new RuntimeException("You have insufficient funds for this transaction");
         }
         BigDecimal delivery = overFlow.subtract(totalFee);

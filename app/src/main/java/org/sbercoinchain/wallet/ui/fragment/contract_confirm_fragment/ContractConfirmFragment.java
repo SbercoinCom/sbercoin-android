@@ -208,7 +208,7 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
                 }
                 double value = (mMinFee + (progress * stepFee)) / 10000000.;
                 seekBarChangeValue = true;
-                mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
+                mTextInputEditTextFee.setText(new DecimalFormat("#.#######").format(value));
             }
 
             @Override
@@ -297,7 +297,7 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
                         textViewChangeValue = true;
                         double value = (mMinFee + (mSeekBarFee.getProgress() * stepFee)) / 10000000.;
                         seekBarChangeValue = true;
-                        mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
+                        mTextInputEditTextFee.setText(new DecimalFormat("#.#######").format(value));
                     }
                 }
             }
@@ -325,8 +325,8 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     @Override
     public void updateFee(double minFee, double maxFee)
     {
-        mFontTextViewMaxFee.setText(new DecimalFormat("#.########").format(maxFee));
-        mFontTextViewMinFee.setText(new DecimalFormat("#.########").format(minFee));
+        mFontTextViewMaxFee.setText(new DecimalFormat("#.#######").format(maxFee));
+        mFontTextViewMinFee.setText(new DecimalFormat("#.#######").format(minFee));
         mMinFee = Double.valueOf(minFee * 10000000).intValue();
         mMaxFee = Double.valueOf(maxFee * 10000000).intValue();
         mSeekBarFee.setMax((mMaxFee - mMinFee) / stepFee);
