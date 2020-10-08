@@ -193,10 +193,10 @@ public class SendPresenterImpl extends BaseFragmentPresenterImpl implements Send
     {
         BigDecimal bigAmount = new BigDecimal(amount);
         BigDecimal pattern = new BigDecimal("2").pow(256);
-        return bigAmount.compareTo(pattern) <= 0 && bigAmount.compareTo(pattern) >= 0.0000001;
+        return bigAmount.compareTo(pattern) <= 0;
     }
 
-    @Override
+@Override
     public void onPinSuccess(String passphrase)
     {
         Currency currency = getView().getCurrency();
