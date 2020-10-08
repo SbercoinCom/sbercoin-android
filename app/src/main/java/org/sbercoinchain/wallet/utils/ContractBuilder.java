@@ -375,11 +375,11 @@ public class ContractBuilder {
         Transaction transaction = new Transaction(CurrentNetParams.getNetParams());
 
         BigDecimal fee = new BigDecimal(feeString);
-        BigDecimal gasFee = (new BigDecimal(gasLimit)).multiply(new BigDecimal(gasPrice)).divide(new BigDecimal(100000000), MathContext.DECIMAL128);
+        BigDecimal gasFee = (new BigDecimal(gasLimit)).multiply(new BigDecimal(gasPrice)).divide(new BigDecimal(10000000), MathContext.DECIMAL128);
         BigDecimal totalAmount = fee.add(gasFee);
         BigDecimal amountFromOutput = new BigDecimal("0.0");
         BigDecimal overFlow = new BigDecimal("0.0");
-        BigDecimal bitcoin = new BigDecimal(100000000);
+        BigDecimal bitcoin = new BigDecimal(10000000);
 
         if(sendToContractString.isEmpty()) {
             transaction.addOutput(Coin.ZERO, script);
@@ -396,6 +396,10 @@ public class ContractBuilder {
             }
         }
         if (overFlow.doubleValue() < totalAmount.doubleValue()) {
+            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
+            System.out.println("overFlow val" + overFlow.doubleValue());
+            System.out.println("totalAMOUNT Val" + totalAmount.doubleValue());
+            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
             throw new RuntimeException("You have insufficient funds for this transaction");
         }
         BigDecimal delivery = overFlow.subtract(totalAmount);
@@ -440,7 +444,7 @@ public class ContractBuilder {
         Transaction transaction = new Transaction(CurrentNetParams.getNetParams());
         transaction.addOutput(Coin.ZERO, script);
         BigDecimal fee = new BigDecimal(feeString);
-        BigDecimal gasFee = (new BigDecimal(gasLimit)).multiply(new BigDecimal(gasPrice)).divide(new BigDecimal(100000000), MathContext.DECIMAL128);
+        BigDecimal gasFee = (new BigDecimal(gasLimit)).multiply(new BigDecimal(gasPrice)).divide(new BigDecimal(10000000), MathContext.DECIMAL128);
         BigDecimal totalFee = fee.add(gasFee);
         BigDecimal amountFromOutput = new BigDecimal("0.0");
         BigDecimal overFlow = new BigDecimal("0.0");
@@ -451,10 +455,14 @@ public class ContractBuilder {
             }
         }
         if (overFlow.doubleValue() < totalFee.doubleValue()) {
+            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
+            System.out.println("overFlow val" + overFlow.doubleValue());
+            System.out.println("totalFee Val" + totalFee.doubleValue());
+            System.out.println("WREEEEEEEEEEEEEEEEEEEEEE");
             throw new RuntimeException("You have insufficient funds for this transaction");
         }
         BigDecimal delivery = overFlow.subtract(totalFee);
-        BigDecimal bitcoin = new BigDecimal(100000000);
+        BigDecimal bitcoin = new BigDecimal(10000000);
         Address myAddress;
         try {
             myAddress = Address.fromBase58(CurrentNetParams.getNetParams(), unspentOutputs.get(0).getAddress());

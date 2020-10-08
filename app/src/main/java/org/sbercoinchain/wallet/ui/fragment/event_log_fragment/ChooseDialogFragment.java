@@ -25,6 +25,7 @@ import org.sbercoin.wallet.utils.ThemeUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -145,11 +146,7 @@ public class ChooseDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 String newData = "";
-                try {
-                    newData = new String(Hex.decode(data), "ASCII");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                newData = new String(Hex.decode(data), StandardCharsets.US_ASCII);
                 ((EventLogFragment) getTargetFragment()).onViewTypeChoose(new DisplayedData("Text", data, newData));
                 getDialog().dismiss();
             }

@@ -373,7 +373,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView {
     public void onSendClick() {
         if (mSeekBar != null) {
             textViewChangeValue = true;
-            double value = (mMinFee + (mSeekBar.getProgress() * step)) / 100000000.;
+            double value = (mMinFee + (mSeekBar.getProgress() * step)) / 10000000.;
             seekBarChangeValue = true;
             mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
         }
@@ -580,7 +580,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView {
                     textViewChangeValue = false;
                     return;
                 }
-                double value = (mMinFee + (progress * step)) / 100000000.;
+                double value = (mMinFee + (progress * step)) / 10000000.;
 
                 DecimalFormat df = new DecimalFormat("#.########");
                 df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
@@ -645,7 +645,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView {
                 }
                 if (!s.toString().isEmpty()) {
                     s = validateFloatDot(s);
-                    Double fee = Double.valueOf(s.toString().replace(",", ".")) * 100000000;
+                    Double fee = Double.valueOf(s.toString().replace(",", ".")) * 10000000;
                     textViewChangeValue = true;
                     int progress;
                     if (fee < mMinFee) {
@@ -670,7 +670,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView {
                 if (!hasFocus) {
                     if (mSeekBar != null) {
                         textViewChangeValue = true;
-                        double value = (mMinFee + (mSeekBar.getProgress() * step)) / 100000000.;
+                        double value = (mMinFee + (mSeekBar.getProgress() * step)) / 10000000.;
                         seekBarChangeValue = true;
                         mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
                     }
@@ -855,8 +855,8 @@ public abstract class SendFragment extends BaseNavFragment implements SendView {
 
         mFontTextViewMaxFee.setText(df.format(maxFee));
         mFontTextViewMinFee.setText(df.format(minFee));
-        mMinFee = Double.valueOf(minFee * 100000000).intValue();
-        mMaxFee = Double.valueOf(maxFee * 100000000).intValue();
+        mMinFee = Double.valueOf(minFee * 10000000).intValue();
+        mMaxFee = Double.valueOf(maxFee * 10000000).intValue();
         mSeekBar.setMax((mMaxFee - mMinFee) / step);
         mSeekBar.setProgress(10000000 - mMinFee);
     }

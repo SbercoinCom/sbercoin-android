@@ -155,7 +155,7 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
                     return;
                 }
                 if (!s.toString().isEmpty()) {
-                    Double fee = Double.valueOf(s.toString()) * 100000000;
+                    Double fee = Double.valueOf(s.toString()) * 10000000;
                     textViewChangeValue = true;
                     int progress;
                     if (fee < mMinFee) {
@@ -181,7 +181,7 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
                     textViewChangeValue = false;
                     return;
                 }
-                double value = (mMinFee + (progress * stepFee)) / 100000000.;
+                double value = (mMinFee + (progress * stepFee)) / 10000000.;
                 seekBarChangeValue = true;
                 mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
             }
@@ -252,7 +252,7 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
                 if (!hasFocus) {
                     if (mSeekBarFee != null) {
                         textViewChangeValue = true;
-                        double value = (mMinFee + (mSeekBarFee.getProgress() * stepFee)) / 100000000.;
+                        double value = (mMinFee + (mSeekBarFee.getProgress() * stepFee)) / 10000000.;
                         seekBarChangeValue = true;
                         mTextInputEditTextFee.setText(new DecimalFormat("#.########").format(value));
                     }
@@ -279,8 +279,8 @@ public abstract class ContractConfirmFragment extends BaseFragment implements Co
     public void updateFee(double minFee, double maxFee) {
         mFontTextViewMaxFee.setText(new DecimalFormat("#.########").format(maxFee));
         mFontTextViewMinFee.setText(new DecimalFormat("#.########").format(minFee));
-        mMinFee = Double.valueOf(minFee * 100000000).intValue();
-        mMaxFee = Double.valueOf(maxFee * 100000000).intValue();
+        mMinFee = Double.valueOf(minFee * 10000000).intValue();
+        mMaxFee = Double.valueOf(maxFee * 10000000).intValue();
         mSeekBarFee.setMax((mMaxFee - mMinFee) / stepFee);
         mSeekBarFee.setProgress(10000000 - mMinFee);
     }

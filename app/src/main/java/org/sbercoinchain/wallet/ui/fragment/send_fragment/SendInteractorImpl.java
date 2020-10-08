@@ -135,7 +135,7 @@ public class SendInteractorImpl implements SendInteractor {
             public void onSuccess(List<UnspentOutput> unspentOutputs) {
                 Transaction transaction = new Transaction(CurrentNetParams.getNetParams());
                 Address addressToSend;
-                BigDecimal bitcoin = new BigDecimal(100000000);
+                BigDecimal bitcoin = new BigDecimal(10000000);
                 try {
                     addressToSend = Address.fromBase58(CurrentNetParams.getNetParams(), address);
                 } catch (AddressFormatException a) {
