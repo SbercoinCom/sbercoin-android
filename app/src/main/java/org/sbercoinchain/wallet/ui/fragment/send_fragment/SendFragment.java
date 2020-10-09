@@ -473,7 +473,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
         if (mSeekBar != null)
         {
             textViewChangeValue = true;
-            double value = (0.00003 + (mSeekBar.getProgress() * step)) / 10000000.;
+            double value = (mMinFee + (mSeekBar.getProgress() * step)) / 10000000.;
             seekBarChangeValue = true;
             mTextInputEditTextFee.setText(new DecimalFormat("#.#######").format(value));
             }
