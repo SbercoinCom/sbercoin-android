@@ -104,11 +104,11 @@ public abstract class OverviewFragment extends BaseFragment implements OverviewV
                     switch (mOverviewItem.getTitle())
                     {
                         case "TxHash":
-                            explorerURL = "https://sbercoinchain.info/tx/" + mOverviewItem.getValue();
+                            explorerURL = "https://explorer.sbercoin.com//tx/" + mOverviewItem.getValue();
                             break;
                         case "BlockHash":
                         case "Block Height":
-                            explorerURL = "https://sbercoinchain.info/block/" + mOverviewItem.getValue();
+                            explorerURL = "https://explorer.sbercoin.com/block/" + mOverviewItem.getValue();
                             break;
                         default:
                             break;
