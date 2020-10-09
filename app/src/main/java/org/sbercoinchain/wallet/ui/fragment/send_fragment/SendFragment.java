@@ -105,10 +105,10 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
     TextView mTextViewToolBar;
     @BindView(org.sbercoin.wallet.R.id.rl_send)
     RelativeLayout mRelativeLayoutBase;
-    @BindView(R.id.tv_max_fee)
-    FontTextView mFontTextViewMaxFee;
-    @BindView(R.id.tv_min_fee)
-    FontTextView mFontTextViewMinFee;
+//    @BindView(R.id.tv_max_fee)
+//    FontTextView mFontTextViewMaxFee;
+//    @BindView(R.id.tv_min_fee)
+//    FontTextView mFontTextViewMinFee;
     @BindView(org.sbercoin.wallet.R.id.bt_qr_code)
     ImageButton mButtonQrCode;
     @BindView(org.sbercoin.wallet.R.id.toolbar)
@@ -473,7 +473,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
         if (mSeekBar != null)
         {
             textViewChangeValue = true;
-            double value = (mMinFee + (mSeekBar.getProgress() * step)) / 10000000.;
+            double value = (0.00003 + (mSeekBar.getProgress() * step)) / 10000000.;
             seekBarChangeValue = true;
             mTextInputEditTextFee.setText(new DecimalFormat("#.#######").format(value));
             }
@@ -1009,10 +1009,10 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
         df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         seekBarChangeValue = true;
 
-        mFontTextViewMaxFee.setText(df.format(maxFee));
-        mFontTextViewMinFee.setText(df.format(minFee));
-        mMinFee = Double.valueOf(minFee * 10000000).intValue();
-        mMaxFee = Double.valueOf(maxFee * 10000000).intValue();
+//        mFontTextViewMaxFee.setText(df.format(maxFee));
+//        mFontTextViewMinFee.setText(df.format(minFee));
+        mMinFee = Double.valueOf(0.00003 * 10000000).intValue();
+        mMaxFee = Double.valueOf(0.001 * 10000000).intValue();
         mSeekBar.setMax((mMaxFee - mMinFee) / step);
         mSeekBar.setProgress(10000000 - mMinFee);
         }

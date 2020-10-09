@@ -393,7 +393,8 @@ public abstract class ContractFunctionDefaultFragment extends BaseFragment imple
     {
         mFontTextViewMaxFee.setText(new DecimalFormat("#.#######").format(maxFee));
         mFontTextViewMinFee.setText(new DecimalFormat("#.#######").format(minFee));
-        mMinFee = Double.valueOf(minFee * 10000000).intValue();
+//        mMinFee = Double.valueOf(minFee * 10000000).intValue();
+        mMinFee = Double.valueOf(0.00003 * 10000000).intValue();
         mMaxFee = Double.valueOf(maxFee * 10000000).intValue();
         mSeekBarFee.setMax((mMaxFee - mMinFee) / stepFee);
         mSeekBarFee.setProgress(10000000 - mMinFee);
