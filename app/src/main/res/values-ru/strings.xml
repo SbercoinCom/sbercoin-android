@@ -233,7 +233,7 @@
     <string name="topics">Topics</string>
     <string name="getting_info">Getting transaction receipt</string>
     <string name="received_contract">Контракт \nПолучен</string>
-    <string name="sent_contract">Контракт \nОтправлен</string>
+    <string name="sent_contract">Отправлено</string>
     <string name="data">Данные</string>
     <string name="hex">Hex</string>
     <string name="number">Число</string>
