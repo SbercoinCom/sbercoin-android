@@ -20,6 +20,8 @@ import org.sbercoin.wallet.ui.fragment.overview_fragment.OverviewFragment;
 import org.sbercoin.wallet.ui.fragment_factory.Factory;
 import org.sbercoin.wallet.utils.FontTextView;
 
+import java.math.BigDecimal;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
@@ -167,7 +169,11 @@ public abstract class TransactionFragment extends BaseFragment implements Transa
         {
             mTextViewValue.setText(value);
             mTextViewSymbol.setText(symbol);
-            mTextViewFee.setText(fee);
+
+            BigDecimal num = new BigDecimal(fee);
+            String numWithNoExponents = num.toPlainString();
+
+            mTextViewFee.setText(numWithNoExponents);
             mTextViewReceivedTime.setText(receivedTime);
             FragmentPagerAdapter transactionPagerAdapter;
             if (isContractCall)
