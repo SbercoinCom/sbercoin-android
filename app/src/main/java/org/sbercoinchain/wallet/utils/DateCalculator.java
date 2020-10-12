@@ -97,33 +97,26 @@ public class DateCalculator
         long currentTime = (new Date()).getTime();
         long delay = currentTime - timeInMills;
         String dateString;
-        if (delay < 60000)
+    
+        Calendar calendarTodayBegin = Calendar.getInstance();
+        calendarTodayBegin.set(Calendar.HOUR_OF_DAY, 0);
+        calendarTodayBegin.set(Calendar.MINUTE, 0);
+        calendarTodayBegin.set(Calendar.SECOND, 0);
+        Date dateTransaction = new Date(timeInMills);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateTransaction);
+        if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 0)
         {
-            dateString = "few seconds ago";
-        } else if (delay < 3600000)
+            SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.UK);
+            dateString = timeFormatter.format(dateTransaction);
+        } else if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 86400000)
         {
-            dateString = delay / 60000 + " min ago";
+            dateString = "yesterday";
         } else
         {
-            Calendar calendarTodayBegin = Calendar.getInstance();
-            calendarTodayBegin.set(Calendar.HOUR_OF_DAY, 0);
-            calendarTodayBegin.set(Calendar.MINUTE, 0);
-            calendarTodayBegin.set(Calendar.SECOND, 0);
-            Date dateTransaction = new Date(timeInMills);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(dateTransaction);
-            if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 0)
-            {
-                SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.UK);
-                dateString = timeFormatter.format(dateTransaction);
-            } else if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 86400000)
-            {
-                dateString = "yesterday";
-            } else
-            {
-                dateString = String.format(Locale.UK, "%s/%d/%d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
-            }
+            dateString = String.format(Locale.UK, "%s/%d/%d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
         }
+
         return dateString;
     }
 
