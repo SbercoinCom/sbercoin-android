@@ -34,14 +34,14 @@ public class DateCalculator
             calendar.setTime(dateTransaction);
             if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 0)
             {
-                SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a", Locale.US);
+                SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.UK);
                 dateString = timeFormatter.format(dateTransaction);
             } else if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 86400000)
             {
                 dateString = "yesterday";
             } else
             {
-                dateString = String.format(Locale.US, "%s, %d", calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US), calendar.get(Calendar.DAY_OF_MONTH));
+                dateString = String.format(Locale.UK, "%s, %d", calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.UK), calendar.get(Calendar.DAY_OF_MONTH));
             }
         }
         return dateString;

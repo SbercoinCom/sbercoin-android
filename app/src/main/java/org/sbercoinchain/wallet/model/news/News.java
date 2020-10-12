@@ -48,7 +48,7 @@ public class News
     {
         if (formattedData.isEmpty())
         {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.UK);
             long date;
             try
             {
@@ -65,13 +65,13 @@ public class News
 
     public String getFullFormattedPubDate()
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.UK);
         long date;
         try
         {
             date = sdf.parse(pubDate).getTime();
             date += TimeZone.getDefault().getOffset((new Date()).getTime());
-            SimpleDateFormat displayFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy \nhh:mm aaa", Locale.ENGLISH);
+            SimpleDateFormat displayFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy \nHH:mm", Locale.UK);
             fullFormattedData = displayFormat.format(new Date(date)).toUpperCase();
         } catch (Exception e)
         {

@@ -21,7 +21,7 @@ public class DateCalculator
 
     public static String getShortDate(String dateInFormat)
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.UK);
         long date = 0;
         try
         {
@@ -53,11 +53,11 @@ public class DateCalculator
             calendar.setTime(dateTransaction);
             if ((date - calendarNow.getTimeInMillis()) > 0)
             {
-                SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a", Locale.US);
+                SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.UK);
                 dateString = timeFormatter.format(dateTransaction);
             } else
             {
-                dateString = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US) + ", " + calendar.get(Calendar.DATE);
+                dateString = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.UK) + ", " + calendar.get(Calendar.DATE);
             }
         }
         return dateString;
@@ -65,7 +65,7 @@ public class DateCalculator
 
     public static Long getLongDate(String dateInFormat)
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.UK);
         long date = 0;
         try
         {
@@ -79,7 +79,7 @@ public class DateCalculator
 
     public static Long getLongDateInTimeZone(String dateInFormat)
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.UK);
         long date = 0;
         try
         {
@@ -114,14 +114,14 @@ public class DateCalculator
             calendar.setTime(dateTransaction);
             if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 0)
             {
-                SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a", Locale.US);
+                SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.UK);
                 dateString = timeFormatter.format(dateTransaction);
             } else if ((calendarTodayBegin.getTimeInMillis() - timeInMills) < 86400000)
             {
                 dateString = "yesterday";
             } else
             {
-                dateString = String.format(Locale.US, "%s/%d/%d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
+                dateString = String.format(Locale.UK, "%s/%d/%d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
             }
         }
         return dateString;
@@ -136,7 +136,7 @@ public class DateCalculator
 
         Locale currentLocale = Locale.getDefault();
 
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss", Locale.UK);
         dateString = String.format(currentLocale, "%d/%s/%s %s", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR), timeFormatter.format(dateTransaction));
 
         return dateString;
@@ -155,19 +155,19 @@ public class DateCalculator
 
     public static String getDateInFormat(Date date)
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
         return formatter.format(date);
     }
 
     public static String getDateInFormat(Long date)
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
         return formatter.format(new Date(date));
     }
 
     public static String getDateInUtc(Long date)
     {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.US);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.UK);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat.format(new Date(date));
     }

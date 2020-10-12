@@ -616,9 +616,9 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
             @Override
             public void onButton2Click()
             {
-                mTextInputEditTextAddress.setTextLocale(Locale.ENGLISH);
+                mTextInputEditTextAddress.setTextLocale(Locale.UK);
                 mTextInputEditTextAddress.setText("");
-                mTextInputEditTextAmount.setTextLocale(Locale.ENGLISH);
+                mTextInputEditTextAmount.setTextLocale(Locale.UK);
                 mTextInputEditTextAmount.setText("");
 
 
@@ -663,9 +663,9 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
         {
             sendFrom = true;
         }
-        mTextInputEditTextAmount.setTextLocale(Locale.ENGLISH);
+        mTextInputEditTextAmount.setTextLocale(Locale.UK);
         mTextInputEditTextAmount.setText(amount);
-        mTextInputEditTextAddress.setTextLocale(Locale.ENGLISH);
+        mTextInputEditTextAddress.setTextLocale(Locale.UK);
         mTextInputEditTextAddress.setText(address);
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
@@ -681,7 +681,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
                 double value = (mMinFee + (progress * step)) / 10000000.;
 
                 DecimalFormat df = new DecimalFormat("#.#######");
-                df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+                df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.UK));
                 seekBarChangeValue = true;
                 mTextInputEditTextFee.setText(df.format(value));
             }
@@ -1006,7 +1006,7 @@ public abstract class SendFragment extends BaseNavFragment implements SendView
     {
 
         DecimalFormat df = new DecimalFormat("#.#######");
-        df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.UK));
         seekBarChangeValue = true;
 
 //        mFontTextViewMaxFee.setText(df.format(maxFee));
